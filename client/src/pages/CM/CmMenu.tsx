@@ -28,6 +28,7 @@ const SlideBar = styled.div`
 
 const Slide = styled.div`
   min-width: 100vw;
+  min-height: 500px;
 `;
 
 const H1 = styled.h1`
@@ -41,18 +42,17 @@ export const CmMenu = (): JSX.Element => {
   const sideBarRef: FixLater = useRef(null);
 
   const handleTouchStart = (e: FixLater) => {
-    console.log(e);
     setTouchStart(e.touches[0].clientX);
   };
 
   const handleTouchEnd = (e: FixLater, length: number) => {
+    setTouchEnd(e.changedTouches[0].clientX);
     if (touchStart > touchEnd && sliderIndex < length) {
       setSliderIndex((prev) => prev + 1);
     }
     if (touchStart < touchEnd && sliderIndex > 0) {
       setSliderIndex((prev) => prev - 1);
     }
-    setTouchEnd(e.changedTouches[0].clientX);
   };
 
   useEffect(() => {
@@ -64,7 +64,7 @@ export const CmMenu = (): JSX.Element => {
       });
     setTouchStart(0);
     setTouchStart(0);
-  }, [touchEnd]);
+  }, [sliderIndex]);
 
   return (
     <Wrapper>
