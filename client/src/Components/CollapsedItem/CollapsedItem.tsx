@@ -7,6 +7,7 @@ type Props = {
   children?: JSX.Element | JSX.Element[];
   width?: string;
   height?: string;
+  sized?: boolean;
 };
 
 type Position = {
@@ -61,7 +62,7 @@ const Content = styled.div<ContentProps>`
 `;
 
 export const CollapsedItem = (props: Props): JSX.Element => {
-  const { title, children, width, height } = props;
+  const { title, children, width, height, sized = false } = props;
   const [isOpen, setIsOpen] = useState(false);
   const [openAnimation, setOpenAnimation] = useState<Keyframes | null>(null);
   const [closePosition, setClosePosition] = useState<Position | null>(null);
@@ -81,6 +82,7 @@ export const CollapsedItem = (props: Props): JSX.Element => {
         elemRect.y,
         elemRect.width,
         elemRect.height,
+        sized,
       );
       setOpenAnimation(animation);
     } else {
@@ -91,6 +93,7 @@ export const CollapsedItem = (props: Props): JSX.Element => {
           closePosition.y,
           closePosition.width,
           closePosition.height,
+          sized,
         );
         setOpenAnimation(animation);
       }
@@ -104,9 +107,10 @@ export const CollapsedItem = (props: Props): JSX.Element => {
       isOpen={isOpen}
       width={width}
       height={height}
-      onClick={handleOpen}
     >
-      <Title isOpen={isOpen}>{title}</Title>
+      <Title onClick={handleOpen} isOpen={isOpen}>
+        {title}
+      </Title>
       <Content isOpen={isOpen}>{isOpen && children}</Content>
     </Wrapper>
   );
@@ -118,7 +122,19 @@ const createAnimation = (
   y: number,
   w: number,
   h: number,
+  sized: boolean,
 ) => {
+  if (sized) {
+    return keyframes`
+      ${isOpen ? '0' : '100'}% {
+            height: ${isOpen ? h : '100'}%
+        }
+        ${!isOpen ? '0' : '100'}% {
+            height: ${isOpen ? h : '100'}%
+        }
+    `;
+  }
+
   return keyframes`
         ${isOpen ? '0' : '100'}% {
             position: absolute;

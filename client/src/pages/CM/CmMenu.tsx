@@ -5,6 +5,7 @@ import { CollapsedItem } from '../../Components/CollapsedItem';
 import { menus } from './menus';
 import { useEffect, useRef, useState } from 'react';
 import { FixLater } from '../../types';
+import { Option } from './Option';
 
 const bounceShow = keyframes`${bounceInUp}`;
 
@@ -27,12 +28,25 @@ const SlideBar = styled.div`
 `;
 
 const Slide = styled.div`
-  min-width: 100vw;
+  display: flex;
+  flex-direction: column;
+  padding: 5vw;
+  min-width: 90vw;
   min-height: 500px;
 `;
 
 const H1 = styled.h1`
   text-align: center;
+  color: var(--color-stroke);
+  font-size: 18pt;
+`;
+
+const H3 = styled.h1`
+  color: gray;
+  opacity: 0.8;
+  text-align: center;
+  font-size: 13pt;
+  margin: 10px;
 `;
 
 export const CmMenu = (): JSX.Element => {
@@ -46,24 +60,22 @@ export const CmMenu = (): JSX.Element => {
   };
 
   const handleTouchEnd = (e: FixLater, length: number) => {
+    const end = e.changedTouches[0].clientX;
     setTouchEnd(e.changedTouches[0].clientX);
-    if (touchStart > touchEnd && sliderIndex < length) {
+    if (touchStart > end && sliderIndex < length && touchStart - end > 50) {
       setSliderIndex((prev) => prev + 1);
     }
-    if (touchStart < touchEnd && sliderIndex > 0) {
+    if (touchStart < touchEnd && sliderIndex > 0 && end - touchStart > 50) {
       setSliderIndex((prev) => prev - 1);
     }
   };
 
   useEffect(() => {
-    console.log(sliderIndex);
     sideBarRef.current &&
       sideBarRef.current.scrollTo({
         left: sliderIndex * document.body.clientWidth,
         behavior: 'smooth',
       });
-    setTouchStart(0);
-    setTouchStart(0);
   }, [sliderIndex]);
 
   return (
@@ -78,6 +90,15 @@ export const CmMenu = (): JSX.Element => {
             {menu.items.map((item) => (
               <Slide key={item.id}>
                 <H1>{item.displayName}</H1>
+                <H3>{item.price}грн.</H3>
+                {item.includes &&
+                  item.includes.map((inc) => (
+                    <Option
+                      key={inc.id}
+                      title={inc.title}
+                      description={inc.description}
+                    />
+                  ))}
               </Slide>
             ))}
           </SlideBar>
