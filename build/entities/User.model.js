@@ -9,23 +9,31 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Word = void 0;
+exports.User = void 0;
 const typeorm_1 = require("typeorm");
-let Word = class Word {
+let User = class User {
 };
 __decorate([
-    typeorm_1.PrimaryGeneratedColumn('uuid'),
+    (0, typeorm_1.PrimaryGeneratedColumn)('uuid'),
     __metadata("design:type", String)
-], Word.prototype, "id", void 0);
+], User.prototype, "id", void 0);
 __decorate([
-    typeorm_1.Column('varchar'),
+    (0, typeorm_1.Column)('varchar'),
     __metadata("design:type", String)
-], Word.prototype, "eng", void 0);
+], User.prototype, "name", void 0);
 __decorate([
-    typeorm_1.Column('varchar'),
+    (0, typeorm_1.Column)('varchar'),
     __metadata("design:type", String)
-], Word.prototype, "ru", void 0);
-Word = __decorate([
-    typeorm_1.Entity()
-], Word);
-exports.Word = Word;
+], User.prototype, "lastName", void 0);
+__decorate([
+    (0, typeorm_1.Column)('varchar'),
+    __metadata("design:type", String)
+], User.prototype, "email", void 0);
+__decorate([
+    (0, typeorm_1.Column)('varchar'),
+    __metadata("design:type", String)
+], User.prototype, "password", void 0);
+User = __decorate([
+    (0, typeorm_1.Entity)()
+], User);
+exports.User = User;

@@ -5,19 +5,17 @@ const typeorm_1 = require("typeorm");
 const User_model_1 = require("./entities/User.model");
 const connectToDb = async () => {
     try {
-        await typeorm_1.createConnection({
+        await (0, typeorm_1.createConnection)({
             type: 'postgres',
             port: +process.env['DB_PORT'],
             username: process.env['DB_USERNAME'] + '',
             database: process.env['DB_USERNAME'] + '',
             password: process.env['DB_PASSWORD'] + '',
             host: process.env['DB_HOSTNAME'] + '',
-            entities: [
-                User_model_1.Word
-            ],
+            entities: [User_model_1.User],
             synchronize: true,
             logging: false,
-            keepConnectionAlive: true
+            keepConnectionAlive: true,
         });
     }
     catch (err) {
@@ -27,7 +25,7 @@ const connectToDb = async () => {
 exports.connectToDb = connectToDb;
 const TryDbConnect = async (cb) => {
     try {
-        await exports.connectToDb();
+        await (0, exports.connectToDb)();
         cb();
     }
     catch (e) {

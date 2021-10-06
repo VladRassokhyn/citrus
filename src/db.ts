@@ -1,7 +1,6 @@
 import { createConnection, ConnectionOptions } from 'typeorm';
 import { User } from './entities/User.model';
 
-
 export const connectToDb = async () => {
   try {
     await createConnection({
@@ -11,14 +10,12 @@ export const connectToDb = async () => {
       database: process.env['DB_USERNAME'] + '',
       password: process.env['DB_PASSWORD'] + '',
       host: process.env['DB_HOSTNAME'] + '',
-      entities: [
-        User
-      ],
+      entities: [User],
       synchronize: true,
       logging: false,
-      keepConnectionAlive: true
+      keepConnectionAlive: true,
     } as ConnectionOptions);
-  } catch (err) {
+  } catch (err: any) {
     console.log(err.message);
   }
 };
