@@ -23,7 +23,7 @@ const SlideBar = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: no-wrap;
-  overflow-x: scroll;
+  overflow-x: hidden;
 `;
 
 const Slide = styled.div`
@@ -41,6 +41,7 @@ export const CmMenu = (): JSX.Element => {
   const sideBarRef: FixLater = useRef(null);
 
   const handleTouchStart = (e: FixLater) => {
+    console.log(e);
     setTouchStart(e.touches[0].clientX);
   };
 
