@@ -1,17 +1,12 @@
-//import { useState, useEffect } from 'react';
-import styled, { Keyframes, keyframes } from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { bounceInUp } from 'react-animations';
 import { CollapsedItem } from '../../Components/CollapsedItem';
 import { menus } from './menus';
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { FixLater } from '../../types';
+import { useCallback, useState } from 'react';
 import { Option } from './Option';
+import { Slider } from '../../Components/Slider/Slider';
 
 const bounceShow = keyframes`${bounceInUp}`;
-
-type SlideBarProps = {
-  animation: Keyframes | null;
-};
 
 const Wrapper = styled.div`
   padding: 20px;
@@ -21,14 +16,6 @@ const Wrapper = styled.div`
   animation: 1s ${bounceShow};
   align-items: center;
   justify-content: center;
-`;
-
-const SlideBar = styled.div<SlideBarProps>`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: no-wrap;
-  overflow-x: hidden;
-  animation: ${(props) => props.animation} 0.3s forwards;
 `;
 
 const Slide = styled.div`
@@ -63,60 +50,17 @@ const Button = styled.button`
 `;
 
 export const CmMenu = (): JSX.Element => {
-  const [touchStart, setTouchStart] = useState(0);
-  const [touchEnd, setTouchEnd] = useState(0);
-  const [sliderIndex, setSliderIndex] = useState(0);
   const [isOpenAll, setIsOpenAll] = useState(false);
-  const [swipeAnimation, setSwapAnimation] = useState<Keyframes | null>(null);
-  const [swipeDir, setSwipeDir] = useState(0);
-  const sideBarRef: FixLater = useRef(null);
 
   const handleOpenAll = useCallback(() => {
     setIsOpenAll((prev) => !prev);
   }, []);
 
-  const handleTouchStart = useCallback(
-    (e: FixLater) => {
-      setTouchStart(e.touches[0].clientX);
-    },
-    [touchStart],
-  );
-
-  const handleTouchEnd = (e: FixLater, length: number) => {
-    const end = e.changedTouches[0].clientX;
-    setTouchEnd(e.changedTouches[0].clientX);
-    if (touchStart > end && sliderIndex < length && touchStart - end > 50) {
-      setSliderIndex((prev) => prev + 1);
-      setSwipeDir(1);
-    }
-    if (touchStart < touchEnd && sliderIndex > 0 && end - touchStart > 50) {
-      setSliderIndex((prev) => prev - 1);
-      setSwipeDir(0);
-    }
-  };
-
-  useEffect(() => {
-    if (touchEnd !== 0) {
-      if (swipeDir === 1) {
-        const animation = createAnimation(sliderIndex - 1, sliderIndex);
-        setSwapAnimation(animation);
-      } else {
-        const animation = createAnimation(sliderIndex + 1, sliderIndex);
-        setSwapAnimation(animation);
-      }
-    }
-  }, [touchEnd]);
-
   return (
     <Wrapper>
       {menus.map((menu) => (
         <CollapsedItem key={menu.id} title={menu.title}>
-          <SlideBar
-            animation={swipeAnimation}
-            ref={sideBarRef}
-            onTouchStart={handleTouchStart}
-            onTouchEnd={(e) => handleTouchEnd(e, menu.items.length - 1)}
-          >
+          <Slider>
             {menu.items.map((item) => (
               <Slide key={item.id}>
                 <H1>{item.displayName}</H1>
@@ -133,17 +77,9 @@ export const CmMenu = (): JSX.Element => {
                   ))}
               </Slide>
             ))}
-          </SlideBar>
+          </Slider>
         </CollapsedItem>
       ))}
     </Wrapper>
   );
-};
-
-const createAnimation = (prevIndex: number, index: number) => {
-  console.log(index, index * document.body.clientWidth);
-  return keyframes`
-    0% {margin-left: -${prevIndex * document.body.clientWidth}px;}
-    100% {margin-left: -${index * document.body.clientWidth}px;}
-    `;
 };
