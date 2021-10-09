@@ -1201,3 +1201,299 @@ export const menus: Menus[] = [
     ],
   },
 ];
+
+type LicPo = {
+  id: string;
+  title: string;
+  link: string | null;
+  types: LicPoType[];
+}[];
+
+type LicPoType = {
+  id: string;
+  title: string;
+  link?: string;
+  price: number;
+  period: string;
+};
+
+export const licPO: LicPo = [
+  {
+    id: uuid(),
+    title: 'CleanMyMac',
+    types: [
+      {
+        id: uuid(),
+        title: 'CleanMyMac',
+        price: 999,
+        period: '1 год',
+      },
+    ],
+    link:
+      'https://drive.google.com/file/d/1TqmKpnFc5YRHtZVJXLIgokW54URvhRZ0/view',
+  },
+  {
+    id: uuid(),
+    title: 'Parallels Desktop',
+    types: [
+      {
+        id: uuid(),
+        title: 'Parallels',
+        price: 1999,
+        period: '1 год',
+      },
+    ],
+    link:
+      'https://docs.google.com/presentation/d/1-fKTqBd-9JxQNvDb4BQsT-IRy-ln5LBQKnAKGRuQAx4/edit#slide=id.p8',
+  },
+  {
+    id: uuid(),
+    title: 'AdLock',
+    types: [
+      {
+        id: uuid(),
+        title: 'Mobile',
+        price: 149,
+        period: '1 год',
+      },
+      {
+        id: uuid(),
+        title: 'Windows/MacOS',
+        price: 199,
+        period: '1 год',
+      },
+    ],
+    link:
+      'https://drive.google.com/file/d/1RcKE0LD9rWNgHi5rjBTH6fNna4royoB4/view',
+  },
+  {
+    id: uuid(),
+    title: 'AWAX',
+    types: [
+      {
+        id: uuid(),
+        title: 'Mobile',
+        price: 159,
+        period: '1 год',
+      },
+      {
+        id: uuid(),
+        title: 'Windows/MacOS',
+        price: 159,
+        period: '1 год',
+      },
+      {
+        id: uuid(),
+        title: 'LifeTime',
+        price: 349,
+        period: 'lifetime',
+      },
+    ],
+    link:
+      'https://drive.google.com/file/d/1oOEm0NJqaq62j3pXZBY0GqLmQSlq1dXQ/view?usp=sharing',
+  },
+  {
+    id: uuid(),
+    title: 'Avast',
+    types: [
+      {
+        id: uuid(),
+        title: 'Mobile',
+        price: 149,
+        period: '1 год',
+        link:
+          'https://drive.google.com/file/d/1Mx4852ouZrdM520hVpS0Bgxk8vZ-BBCw/view',
+      },
+      {
+        id: uuid(),
+        title: 'Windows',
+        price: 199,
+        period: '1 год',
+        link:
+          'https://drive.google.com/file/d/1Mx4852ouZrdM520hVpS0Bgxk8vZ-BBCw/view',
+      },
+    ],
+    link: null,
+  },
+
+  {
+    id: uuid(),
+    title: 'ESET',
+    types: [
+      {
+        id: uuid(),
+        title: 'Mobile',
+        price: 244,
+        period: '1 год',
+        link:
+          'https://drive.google.com/file/d/1zetiwCvTdqz5b-6NNJB0W5eY9LjUGwM0/view?usp=sharing',
+      },
+      {
+        id: uuid(),
+        title: 'NODE32',
+        price: 399,
+        period: '1 год',
+        link:
+          'https://drive.google.com/file/d/1uomRzv5vZeNBZ9GkJsk_eConRT6QQkVN/view?usp=sharing',
+      },
+      {
+        id: uuid(),
+        title: 'Internet Security',
+        price: 499,
+        period: '1 год',
+        link:
+          'https://drive.google.com/file/d/1gOc137Hgjm53WgjEnKuvpwiqpJkMlQIx/view?usp=sharing',
+      },
+      {
+        id: uuid(),
+        title: 'Parental Control',
+        price: 479,
+        period: '1 год',
+        link:
+          'https://drive.google.com/file/d/1SyqQj6d7rtnA1mHzmPEZVOtnphk9bEEa/view?usp=sharing',
+      },
+    ],
+    link: null,
+  },
+  {
+    id: uuid(),
+    title: 'Microsoft Office',
+    types: [
+      {
+        id: uuid(),
+        title: 'Home & Strudent',
+        price: 3299,
+        period: 'lifetime',
+        link:
+          'https://docs.google.com/document/d/17NTIu_4H1lx88s_GuxpO5WsHCPpnvHE77rWy5RJk7kA/edit',
+      },
+      {
+        id: uuid(),
+        title: '365',
+        price: 1599,
+        period: '1 год',
+        link:
+          'https://docs.google.com/document/d/15FwoQimnPCe-_fgzun7i1JGOLiIwlFRPKkwJhSRhrVk/edit',
+      },
+    ],
+    link: null,
+  },
+
+  {
+    id: uuid(),
+    title: 'Microsoft Windows 10',
+    types: [
+      {
+        id: uuid(),
+        title: 'Home',
+        price: 4399,
+        period: 'lifetime',
+      },
+      {
+        id: uuid(),
+        title: 'Pro',
+        price: 6799,
+        period: 'lifetime',
+      },
+      {
+        id: uuid(),
+        title: 'Home Коробка',
+        price: 3599,
+        period: 'lifetime',
+      },
+      {
+        id: uuid(),
+        title: 'Pro Коробка',
+        price: 4499,
+        period: 'lifetime',
+      },
+    ],
+    link:
+      'https://docs.google.com/document/d/1Nt7O0xbZdcQRw8wSmhEE_ocC86C6BTAVPVNgJG2mPPo/edit',
+  },
+  {
+    id: uuid(),
+    title: 'SweetTV',
+    types: [
+      {
+        id: uuid(),
+        title: 'Тариф L',
+        price: 591,
+        period: '3 мес',
+      },
+    ],
+    link:
+      'https://drive.google.com/file/d/19j0rRjCMfo1ET2pzuSxhcz_rkMiNuW-O/view',
+  },
+
+  {
+    id: uuid(),
+    title: 'OllTV',
+    types: [
+      {
+        id: uuid(),
+        title: 'Тариф All inclusive',
+        price: 311,
+        period: '3 мес',
+      },
+      {
+        id: uuid(),
+        title: 'Тариф All inclusive extra sport',
+        price: 569,
+        period: '3 мес',
+      },
+      {
+        id: uuid(),
+        title: 'Тариф All inclusive extra sport',
+        price: 1999,
+        period: '12 мес',
+      },
+    ],
+    link:
+      'https://drive.google.com/file/d/1fyO-1hlDleZxLWoOI4O6Ox_fR9uxQ62n/view',
+  },
+  {
+    id: uuid(),
+    title: 'Megogo',
+    types: [
+      {
+        id: uuid(),
+        title: 'Легкая',
+        price: 297,
+        period: '3 мес',
+      },
+      {
+        id: uuid(),
+        title: 'Легкая',
+        price: 1188,
+        period: '12 мес',
+      },
+      {
+        id: uuid(),
+        title: 'Оптимальная',
+        price: 199,
+        period: '1 мес',
+      },
+      {
+        id: uuid(),
+        title: 'Оптимальная',
+        price: 2388,
+        period: '12 мес',
+      },
+      {
+        id: uuid(),
+        title: 'Максимальная',
+        price: 299,
+        period: '1 мес',
+      },
+      {
+        id: uuid(),
+        title: 'Максимальная',
+        price: 3588,
+        period: '12 мес',
+      },
+    ],
+    link:
+      'https://drive.google.com/file/d/1fyO-1hlDleZxLWoOI4O6Ox_fR9uxQ62n/view',
+  },
+];
