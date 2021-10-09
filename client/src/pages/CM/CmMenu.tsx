@@ -2,9 +2,10 @@ import styled, { keyframes } from 'styled-components';
 import { bounceInUp } from 'react-animations';
 import { CollapsedItem } from '../../Components/CollapsedItem';
 import { menus } from './menus';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Option } from './Option';
 import { Slider } from '../../Components/Slider/Slider';
+import { Space } from './Space/Space';
 
 const bounceShow = keyframes`${bounceInUp}`;
 
@@ -68,17 +69,8 @@ const Hint = styled.h1`
 
 export const CmMenu = (): JSX.Element => {
   const [isOpenAll, setIsOpenAll] = useState(true);
-  const [isHint, setIsHint] = useState(false);
-
   const handleOpenAll = useCallback(() => {
     setIsOpenAll((prev) => !prev);
-  }, []);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsHint(true);
-    }, 5000);
-    return () => clearTimeout(timer);
   }, []);
 
   return (
@@ -114,6 +106,9 @@ export const CmMenu = (): JSX.Element => {
           </Slider>
         </CollapsedItem>
       ))}
+      <CollapsedItem title={'Space'}>
+        <Space />
+      </CollapsedItem>
     </Wrapper>
   );
 };
