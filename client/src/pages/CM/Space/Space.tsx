@@ -1,10 +1,11 @@
 import styled from 'styled-components';
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ second?: boolean }>`
   width: 100vw;
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: ${(props) => props.second && '#f1f1f1'};
 `;
 
 const Sides = styled.div`
@@ -19,7 +20,7 @@ const Side = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 10px;
+  margin: 20px 0;
   border-top: 1px solid gray;
 `;
 
@@ -65,7 +66,7 @@ export const Space = (): JSX.Element => {
           </Side>
         </Sides>
       </Wrapper>
-      <Wrapper>
+      <Wrapper second>
         <H1>Space 15%</H1>
         <H2>ЦМ - 60% ЦЗ - 40% </H2>
         <H3>Цена услуги: 15% от стоимости устройства</H3>

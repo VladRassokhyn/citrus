@@ -58,15 +58,6 @@ const Button = styled.button`
   border-radius: 5px;
 `;
 
-const Hint = styled.h1`
-  position: absolute;
-  top: 60px;
-  right: 15px;
-  font-size: 8pt;
-  color: grey;
-  opacity: 0.5;
-`;
-
 export const CmMenu = (): JSX.Element => {
   const [isOpenAll, setIsOpenAll] = useState(true);
   const handleOpenAll = useCallback(() => {
