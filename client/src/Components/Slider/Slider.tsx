@@ -54,7 +54,10 @@ export const Slider = ({ children }: Props): JSX.Element => {
   };
 
   useEffect(() => {
-    if (touchEnd !== 0) {
+    if (
+      touchEnd !== 0 &&
+      (touchEnd - touchStart > 50 || touchStart - touchEnd > 50)
+    ) {
       if (swipeDir === 1) {
         const animation = createAnimation(sliderIndex - 1, sliderIndex);
         setSwapAnimation(animation);

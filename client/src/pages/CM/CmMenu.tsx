@@ -3,10 +3,9 @@ import { bounceInUp } from 'react-animations';
 import { CollapsedItem } from '../../Components/CollapsedItem';
 import { licPO, menus } from './menus';
 import { useCallback, useState } from 'react';
-import { Option } from './Option';
+import { Accordion } from '../../Components/Accordion/Accordion';
 import { Slider } from '../../Components/Slider/Slider';
 import { Space } from './Space/Space';
-import link from '../../static/link.svg';
 
 const bounceShow = keyframes`${bounceInUp}`;
 
@@ -71,6 +70,11 @@ const H5 = styled.h1`
   font-size: 10pt;
 `;
 
+const H6 = styled.h1`
+  color: gray;
+  font-size: 10pt;
+`;
+
 const LicType = styled.div`
   margin: 10px 0;
   display: flex;
@@ -107,14 +111,15 @@ export const CmMenu = (): JSX.Element => {
                     {item.price && <H2>{item.price}грн.</H2>}
                     {item.includes &&
                       item.includes.map((inc, index) => (
-                        <Option
+                        <Accordion
                           key={inc.id}
                           price={inc.price}
                           title={inc.title}
-                          description={inc.description}
                           isOpenAll={isOpenAll}
                           index={index + 1}
-                        />
+                        >
+                          <H6>{inc.description}</H6>
+                        </Accordion>
                       ))}
                   </Slide>
                 ))}
@@ -134,7 +139,7 @@ export const CmMenu = (): JSX.Element => {
             презентацию
           </h4>
           {licPO.map((vendor) => (
-            <>
+            <div key={vendor.id}>
               {vendor.link ? (
                 <A href={vendor.link}>
                   <H4>{vendor.title}</H4>
@@ -143,7 +148,7 @@ export const CmMenu = (): JSX.Element => {
                 <H4>{vendor.title}</H4>
               )}
               {vendor.types.map((type) => (
-                <LicType>
+                <LicType key={type.id}>
                   {type.link ? (
                     <A href={type.link}>
                       <H5>{type.title + ' ' + type.period}</H5>
@@ -154,7 +159,7 @@ export const CmMenu = (): JSX.Element => {
                   <H5>{type.price}</H5>
                 </LicType>
               ))}
-            </>
+            </div>
           ))}
         </LicPoWrapper>
       </CollapsedItem>

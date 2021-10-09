@@ -4,10 +4,10 @@ import { zoomIn, zoomOut } from 'react-animations';
 
 type Props = {
   title: string;
-  description: string;
-  isOpenAll: boolean;
-  index: number;
-  price: number | undefined;
+  isOpenAll?: boolean;
+  index?: number;
+  price?: number | undefined;
+  children: JSX.Element | JSX.Element[];
 };
 
 type ContentProps = {
@@ -42,13 +42,8 @@ const H1 = styled.h1<{ withPrice: boolean }>`
   margin: 10px 0;
 `;
 
-const H2 = styled.h1`
-  color: gray;
-  font-size: 10pt;
-`;
-
-export const Option = (props: Props): JSX.Element => {
-  const { title, description, isOpenAll, index, price } = props;
+export const Accordion = (props: Props): JSX.Element => {
+  const { title, isOpenAll, index, price, children } = props;
   const [isOpen, setIsOpen] = useState(isOpenAll);
   const [isClosing, setIsClosing] = useState(false);
 
@@ -78,13 +73,13 @@ export const Option = (props: Props): JSX.Element => {
     <Wrapper animation={!isOpen || isClosing ? heightClose : heightOn}>
       <Title>
         <H1 withPrice={price ? true : false} onClick={handleClick}>
-          {index + '. ' + title}
+          {index ? index + '. ' + title : title}
         </H1>
         {price && <h4>{price}</h4>}
       </Title>
       {isOpen && (
         <Content animation={isClosing ? closeAnimation : openAnimation}>
-          <H2>{description}</H2>
+          {children}
         </Content>
       )}
     </Wrapper>
