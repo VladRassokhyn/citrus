@@ -2,7 +2,7 @@ import styled, { keyframes } from 'styled-components';
 import { bounceInUp } from 'react-animations';
 import { CollapsedItem } from '../../Components/CollapsedItem';
 import { menus } from './menus';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Option } from './Option';
 import { Slider } from '../../Components/Slider/Slider';
 
@@ -57,11 +57,28 @@ const Button = styled.button`
   border-radius: 5px;
 `;
 
+const Hint = styled.h1`
+  position: absolute;
+  top: 60px;
+  right: 15px;
+  font-size: 8pt;
+  color: grey;
+  opacity: 0.5;
+`;
+
 export const CmMenu = (): JSX.Element => {
   const [isOpenAll, setIsOpenAll] = useState(true);
+  const [isHint, setIsHint] = useState(false);
 
   const handleOpenAll = useCallback(() => {
     setIsOpenAll((prev) => !prev);
+  }, []);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsHint(true);
+    }, 5000);
+    return () => clearTimeout(timer);
   }, []);
 
   return (

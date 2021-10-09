@@ -41,7 +41,7 @@ export const menus: Menus[] = [
           {
             id: uuid(),
             name: 'silverCardAndroid',
-            displayName: 'Sivler Card',
+            displayName: 'Silver Card',
             price: 800,
             includes: [
               {
@@ -199,7 +199,7 @@ export const menus: Menus[] = [
           {
             id: uuid(),
             name: 'silverCardiOS',
-            displayName: 'Sivler Card',
+            displayName: 'Silver Card',
             price: 800,
             includes: [
               {
@@ -295,12 +295,6 @@ export const menus: Menus[] = [
               },
               {
                 id: uuid(),
-                title: 'Антивирус',
-                description:
-                  'Лицензионный антивирус Avast Mobile Security 12мес',
-              },
-              {
-                id: uuid(),
                 title: 'Megogo IPTV',
                 description: 'Подписка на Megogo Смартфон 1мес',
               },
@@ -348,7 +342,7 @@ export const menus: Menus[] = [
           {
             id: uuid(),
             name: 'silverCardMacOS',
-            displayName: 'Sivler Card',
+            displayName: 'Silver Card',
             price: 2000,
             includes: [
               {
@@ -495,7 +489,7 @@ export const menus: Menus[] = [
           {
             id: uuid(),
             name: 'silverCardWindows',
-            displayName: 'Sivler Card',
+            displayName: 'Silver Card',
             price: 2000,
             includes: [
               {
@@ -561,7 +555,7 @@ export const menus: Menus[] = [
               {
                 id: uuid(),
                 title: 'Антивирус',
-                description: 'Лицензионный антивирус AdLock 12мес.',
+                description: 'Лицензионный антивирус Avast Mobile 12мес.',
               },
             ],
           },
