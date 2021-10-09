@@ -5,6 +5,7 @@ import { zoomIn, zoomOut } from 'react-animations';
 type Props = {
   title: string;
   description: string;
+  isOpenAll: boolean;
 };
 
 type ContentProps = {
@@ -13,9 +14,13 @@ type ContentProps = {
 
 const openAnimation = keyframes`${zoomIn}`;
 const closeAnimation = keyframes`${zoomOut}`;
+const heightOn = keyframes`0%{height: 30px} 100% {height: 100%}`;
+const heightClose = keyframes`0%{height: 110px} 100% {height: 30px}`;
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<ContentProps>`
+  height: 30px;
   width: 100%;
+  animation: ${(props) => props.animation} 0.3s forwards;
 `;
 
 const Content = styled.div<ContentProps>`
@@ -30,14 +35,13 @@ const H1 = styled.h1`
 `;
 
 const H2 = styled.h1`
-  max-height: 200px;
   color: gray;
   font-size: 10pt;
 `;
 
 export const Option = (props: Props): JSX.Element => {
-  const { title, description } = props;
-  const [isOpen, setIsOpen] = useState(false);
+  const { title, description, isOpenAll } = props;
+  const [isOpen, setIsOpen] = useState(isOpenAll);
   const [isClosing, setIsClosing] = useState(false);
 
   const handleClick = () => {
@@ -49,17 +53,21 @@ export const Option = (props: Props): JSX.Element => {
   };
 
   useEffect(() => {
+    setIsOpen(isOpenAll);
+  }, [isOpenAll]);
+
+  useEffect(() => {
     const timer = setTimeout(() => {
       if (isClosing) {
         setIsOpen(false);
         setIsClosing(false);
       }
-    }, 100);
+    }, 200);
     return () => clearTimeout(timer);
   }, [isClosing]);
 
   return (
-    <Wrapper>
+    <Wrapper animation={!isOpen || isClosing ? heightClose : heightOn}>
       <H1 onClick={handleClick}>{title}</H1>
       {isOpen && (
         <Content animation={isClosing ? closeAnimation : openAnimation}>
