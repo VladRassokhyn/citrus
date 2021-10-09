@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import styled, { keyframes, Keyframes } from 'styled-components';
 import { FixLater } from '../../types';
-import { v4 as uuid } from 'uuid';
 
 type Props = {
   children: JSX.Element[];
@@ -20,7 +19,6 @@ const SlideBar = styled.div<SlideBarProps>`
 `;
 
 const createAnimation = (prevIndex: number, index: number) => {
-  console.log(index, index * document.body.clientWidth);
   return keyframes`
     0% {margin-left: -${prevIndex * document.body.clientWidth}px;}
     100% {margin-left: -${index * document.body.clientWidth}px;}

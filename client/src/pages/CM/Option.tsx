@@ -6,6 +6,8 @@ type Props = {
   title: string;
   description: string;
   isOpenAll: boolean;
+  index: number;
+  price: number | undefined;
 };
 
 type ContentProps = {
@@ -28,9 +30,15 @@ const Content = styled.div<ContentProps>`
   animation: ${(props) => props.animation} 0.3s forwards;
 `;
 
-const H1 = styled.h1`
+const Title = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const H1 = styled.h1<{ withPrice: boolean }>`
   color: black;
-  font-size: 14pt;
+  font-size: ${(props) => (props.withPrice ? '8pt' : '12pt')};
   margin: 10px 0;
 `;
 
@@ -40,7 +48,7 @@ const H2 = styled.h1`
 `;
 
 export const Option = (props: Props): JSX.Element => {
-  const { title, description, isOpenAll } = props;
+  const { title, description, isOpenAll, index, price } = props;
   const [isOpen, setIsOpen] = useState(isOpenAll);
   const [isClosing, setIsClosing] = useState(false);
 
@@ -68,7 +76,12 @@ export const Option = (props: Props): JSX.Element => {
 
   return (
     <Wrapper animation={!isOpen || isClosing ? heightClose : heightOn}>
-      <H1 onClick={handleClick}>{title}</H1>
+      <Title>
+        <H1 withPrice={price ? true : false} onClick={handleClick}>
+          {index + '. ' + title}
+        </H1>
+        {price && <h4>{price}</h4>}
+      </Title>
       {isOpen && (
         <Content animation={isClosing ? closeAnimation : openAnimation}>
           <H2>{description}</H2>

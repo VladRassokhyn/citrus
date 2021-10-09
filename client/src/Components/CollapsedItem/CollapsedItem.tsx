@@ -49,7 +49,7 @@ const Title = styled.h1<TitleProps>`
   justify-content: center;
   font-size: 16pt;
   width: 100%;
-  height: 50px;
+  min-height: 50px;
   background-color: ${(props) =>
     props.isOpen ? 'var(--color-button)' : 'white'};
   color: ${(props) => (props.isOpen ? 'white' : 'var(--color-stroke)')};

@@ -23,16 +23,16 @@ const Slide = styled.div`
   flex-direction: column;
   padding: 5vw;
   min-width: 90vw;
-  min-height: 500px;
 `;
 
 const H1 = styled.h1`
+  margin: 10px;
   text-align: center;
-  color: var(--color-stroke);
+  color: var(--color-paragraph);
   font-size: 18pt;
 `;
 
-const H3 = styled.h1`
+const H2 = styled.h1`
   color: gray;
   opacity: 0.8;
   text-align: center;
@@ -40,8 +40,16 @@ const H3 = styled.h1`
   margin: 10px;
 `;
 
+const H3 = styled.h1`
+  margin: 10px;
+  text-align: center;
+  color: var(--color-stroke);
+  font-size: 22pt;
+`;
+
 const Button = styled.button`
-  width: 100%;
+  width: 90%;
+  margin: 0 5%;
   padding: 10px 0;
   background-color: var(--color-button);
   color: white;
@@ -50,7 +58,7 @@ const Button = styled.button`
 `;
 
 export const CmMenu = (): JSX.Element => {
-  const [isOpenAll, setIsOpenAll] = useState(false);
+  const [isOpenAll, setIsOpenAll] = useState(true);
 
   const handleOpenAll = useCallback(() => {
     setIsOpenAll((prev) => !prev);
@@ -61,21 +69,30 @@ export const CmMenu = (): JSX.Element => {
       {menus.map((menu) => (
         <CollapsedItem key={menu.id} title={menu.title}>
           <Slider>
-            {menu.items.map((item) => (
-              <Slide key={item.id}>
-                <H1>{item.displayName}</H1>
-                <H3>{item.price}грн.</H3>
-                <Button onClick={handleOpenAll}>Показать все</Button>
-                {item.includes &&
-                  item.includes.map((inc) => (
-                    <Option
-                      key={inc.id}
-                      title={inc.title}
-                      description={inc.description}
-                      isOpenAll={isOpenAll}
-                    />
-                  ))}
-              </Slide>
+            {menu.os.map((os) => (
+              <div key={os.id}>
+                <H3>{os.displayName}</H3>
+                <Button onClick={handleOpenAll}>
+                  Показать/Скрыть описание
+                </Button>
+                {os.items.map((item) => (
+                  <Slide key={item.id}>
+                    <H1>{item.displayName}</H1>
+                    {item.price && <H2>{item.price}грн.</H2>}
+                    {item.includes &&
+                      item.includes.map((inc, index) => (
+                        <Option
+                          key={inc.id}
+                          price={inc.price}
+                          title={inc.title}
+                          description={inc.description}
+                          isOpenAll={isOpenAll}
+                          index={index + 1}
+                        />
+                      ))}
+                  </Slide>
+                ))}
+              </div>
             ))}
           </Slider>
         </CollapsedItem>
