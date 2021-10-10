@@ -10,7 +10,7 @@ const getAllSalesmans = async () => {
     }
     catch (err) {
         console.error('get all salesmans error');
-        return null;
+        return err;
     }
 };
 exports.getAllSalesmans = getAllSalesmans;

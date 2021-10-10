@@ -7,7 +7,7 @@ const getAllSalesmans = async () => {
     return await repo.find();
   } catch (err) {
     console.error('get all salesmans error');
-    return null;
+    return err;
   }
 };
 

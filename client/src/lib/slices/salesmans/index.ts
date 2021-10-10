@@ -1,4 +1,4 @@
-import { selectAllSalesmans } from './selectors';
-import { salesmansReducer } from './salesmansSlice';
+import { selectAllSalesmans } from './salesmans.selectors';
+import { salesmansReducer } from './salesmans.slice';
 
 export { selectAllSalesmans, salesmansReducer };
