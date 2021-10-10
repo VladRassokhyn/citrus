@@ -7,3 +7,6 @@ export const selectAllSalesmans = (state: RootState): Salesman[] =>
 
 export const selectSalesmansStatus = (state: RootState): LoadingStatuses =>
   state.salesmans.status;
+
+export const selectSalesmansCRUSstatus = (state: RootState): LoadingStatuses =>
+  state.salesmans.CRUDstatus;

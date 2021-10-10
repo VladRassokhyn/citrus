@@ -4,6 +4,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState: SalesmanState = {
   items: [],
   status: LoadingStatuses.IDLE,
+  CRUDstatus: LoadingStatuses.IDLE,
   error: null,
 };
 
@@ -22,9 +23,21 @@ const salesmansSlice = createSlice({
       state.status = LoadingStatuses.ERROR;
       state.error = action.payload;
     },
+    postNewSalesman(state, action) {
+      state.CRUDstatus = LoadingStatuses.LOADING;
+    },
+    newSalesmanPosted(state) {
+      state.CRUDstatus = LoadingStatuses.SUCCESS;
+    },
   },
 });
 
-export const { getSalesmans, setSalesmans, setError } = salesmansSlice.actions;
+export const {
+  getSalesmans,
+  setSalesmans,
+  setError,
+  postNewSalesman,
+  newSalesmanPosted,
+} = salesmansSlice.actions;
 
 export const salesmansReducer = salesmansSlice.reducer;

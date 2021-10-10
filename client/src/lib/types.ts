@@ -10,11 +10,12 @@ export enum LoadingStatuses {
 export type SalesmanState = {
   items: Salesman[];
   status: LoadingStatuses;
+  CRUDstatus: LoadingStatuses;
   error: any;
 };
 
 export type Salesman = {
   id: string;
   name: string;
-  lastName: string;
+  lastname: string;
 };

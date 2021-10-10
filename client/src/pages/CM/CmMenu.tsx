@@ -113,6 +113,7 @@ export const CmMenu = (): JSX.Element => {
                       item.includes.map((inc, index) => (
                         <Accordion
                           key={inc.id}
+                          marginContent
                           price={inc.price}
                           title={inc.title}
                           isOpenAll={isOpenAll}
