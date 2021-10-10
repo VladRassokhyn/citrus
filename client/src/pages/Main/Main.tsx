@@ -1,5 +1,6 @@
 import cmImage from '../../static/cmImage.webp';
 import analitic from '../../static/analytic.png';
+import employee from '../../static/employee.png';
 import styled, { keyframes } from 'styled-components';
 import { bounceIn, bounceOutDown } from 'react-animations';
 import { useEffect, useState } from 'react';
@@ -66,6 +67,10 @@ export const Main = (): JSX.Element => {
       <MenuItem isClosing={isClosing} onClick={() => handleClose('analytics')}>
         <Img src={analitic} alt="cm image" />
         <H1>Аналитика</H1>
+      </MenuItem>
+      <MenuItem isClosing={isClosing} onClick={() => handleClose('salesmans')}>
+        <Img src={employee} alt="cm image" />
+        <H1>Продавцы</H1>
       </MenuItem>
     </Wrapper>
   );

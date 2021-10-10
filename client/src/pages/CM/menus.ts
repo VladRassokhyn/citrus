@@ -261,6 +261,16 @@ export const menus: Menus[] = [
                 title: 'Блокировщик рекламы',
                 description: 'Лицензионный антибанер AdLock 12мес.',
               },
+              {
+                id: uuid(),
+                title: 'Родительский контроль',
+                description: 'Лицензия Kroha 12мес.',
+              },
+              {
+                id: uuid(),
+                title: 'IPTV',
+                description: 'Подписка на SweetTV 3мес',
+              },
             ],
           },
           {

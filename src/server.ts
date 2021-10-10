@@ -3,6 +3,7 @@ import { config as envConfig } from 'dotenv';
 import path from 'path';
 import { TryDbConnect } from './db';
 import cors from 'cors';
+import { salesmanRouter } from './routers';
 
 envConfig();
 
@@ -19,6 +20,8 @@ app.use('/', (req: Request, res: Response, next: NextFunction) => {
   }
   next();
 });
+
+app.use('/api/salesmans', salesmanRouter);
 
 (async () => {
   await TryDbConnect(() =>

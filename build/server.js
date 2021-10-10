@@ -9,6 +9,7 @@ const dotenv_1 = require("dotenv");
 const path_1 = __importDefault(require("path"));
 const db_1 = require("./db");
 const cors_1 = __importDefault(require("cors"));
+const routers_1 = require("./routers");
 (0, dotenv_1.config)();
 exports.app = (0, express_1.default)();
 exports.app.use((0, cors_1.default)());
@@ -21,6 +22,7 @@ exports.app.use('/', (req, res, next) => {
     }
     next();
 });
+exports.app.use('/api/salesmans', routers_1.salesmanRouter);
 (async () => {
     await (0, db_1.TryDbConnect)(() => exports.app.listen(process.env['PORT'], () => console.log('running')));
 })();

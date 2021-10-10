@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import styled, { keyframes, Keyframes } from 'styled-components';
-import { FixLater } from '../../types';
+import { FixLater } from '../../lib/types';
 
 type Props = {
   children: JSX.Element[];

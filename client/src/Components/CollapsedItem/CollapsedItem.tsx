@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import styled, { Keyframes, keyframes } from 'styled-components';
-import { FixLater } from '../../types';
+import { FixLater } from '../../lib/types';
 
 type Props = {
   title: string;

@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TryDbConnect = exports.connectToDb = void 0;
 const typeorm_1 = require("typeorm");
-const User_model_1 = require("./entities/User.model");
+const entities_1 = require("./entities");
 const connectToDb = async () => {
     try {
         await (0, typeorm_1.createConnection)({
@@ -12,7 +12,7 @@ const connectToDb = async () => {
             database: process.env['DB_USERNAME'] + '',
             password: process.env['DB_PASSWORD'] + '',
             host: process.env['DB_HOSTNAME'] + '',
-            entities: [User_model_1.User],
+            entities: [entities_1.User, entities_1.Salesman],
             synchronize: true,
             logging: false,
             keepConnectionAlive: true,
