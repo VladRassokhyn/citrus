@@ -1,11 +1,4 @@
-export type FixLater = any;
-
-export enum LoadingStatuses {
-  IDLE = 'IDLE',
-  LOADING = 'LOADING',
-  SUCCESS = 'SUCCESS',
-  ERROR = 'ERROR',
-}
+import { LoadingStatuses } from '../../globalTypes';
 
 export type SalesmanState = {
   items: Salesman[];
@@ -18,4 +11,5 @@ export type Salesman = {
   id: string;
   name: string;
   lastname: string;
+  checklists: string[];
 };

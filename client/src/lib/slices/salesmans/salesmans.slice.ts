@@ -1,5 +1,6 @@
-import { LoadingStatuses, SalesmanState } from '../../types';
+import { SalesmanState } from './salesmans.types';
 import { createSlice } from '@reduxjs/toolkit';
+import { LoadingStatuses } from '../../globalTypes';
 
 const initialState: SalesmanState = {
   items: [],

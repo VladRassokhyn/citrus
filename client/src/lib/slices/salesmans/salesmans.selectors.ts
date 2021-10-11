@@ -1,6 +1,6 @@
-import { LoadingStatuses } from './../../types';
+import { LoadingStatuses } from '../../globalTypes';
 import { RootState } from '../../store';
-import { Salesman } from '../../types';
+import { Salesman } from './salesmans.types';
 
 export const selectAllSalesmans = (state: RootState): Salesman[] =>
   state.salesmans.items;

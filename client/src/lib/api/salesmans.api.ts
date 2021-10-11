@@ -1,5 +1,4 @@
-import { postNewSalesman } from '../slices/salesmans/salesmans.slice';
-import { Salesman } from '../types';
+import { Salesman } from '../slices/salesmans/salesmans.types';
 import { axiosInstance } from './axiosInstance';
 
 export const salesmansApi = {

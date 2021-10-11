@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
-import { FixLater, LoadingStatuses } from '../../lib/types';
+import { FixLater, LoadingStatuses } from '../../lib/globalTypes';
 import { postNewSalesman } from '../../lib/slices/salesmans/salesmans.slice';
 import { useEffect, useState } from 'react';
 import { useTypedSelector } from '../../lib/hooks';

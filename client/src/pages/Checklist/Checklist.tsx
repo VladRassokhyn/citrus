@@ -1,24 +1,21 @@
-import { useEffect } from 'react';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
+import { Accordion } from '../../Components/Accordion';
+import { NewChecklistForm } from './NewChecklistForm';
+import { useEffect } from 'react';
+import { getSalesmans } from '../../lib/slices/salesmans';
 import { useTypedSelector } from '../../lib/hooks';
-import { selectAllSalesmans } from '../../lib/slices/salesmans';
-import { getSalesmans } from '../../lib/slices/salesmans/salesmans.slice';
 import { selectSalesmansStatus } from '../../lib/slices/salesmans/salesmans.selectors';
 import { LoadingStatuses } from '../../lib/globalTypes';
 import { Preloader } from '../../Components/Preloader';
-import { Accordion } from '../../Components/Accordion';
-import { NewSalesmanForm } from './NewSalesmanForm';
 
 const Wrapper = styled.div`
-  display: flex;
   padding: 20px 5vw;
+  display: flex;
   flex-direction: column;
-  gap: 30px;
 `;
 
-export const Salesmans = (): JSX.Element => {
-  const salesmans = useTypedSelector(selectAllSalesmans);
+export const Checklist = (): JSX.Element => {
   const salesmansStatus = useTypedSelector(selectSalesmansStatus);
   const dispatch = useDispatch();
 
@@ -26,26 +23,19 @@ export const Salesmans = (): JSX.Element => {
     dispatch(getSalesmans());
   }, []);
 
-  if (salesmansStatus === LoadingStatuses.LOADING || !salesmans) {
+  if (salesmansStatus === LoadingStatuses.LOADING) {
     return <Preloader />;
   }
 
   return (
     <Wrapper>
       <Accordion
-        title={'Добавить продавца'}
+        title={'Создать чеклист'}
         titleColor={'white'}
         titleBgColor={'var(--color-button)'}
       >
-        <NewSalesmanForm />
+        <NewChecklistForm />
       </Accordion>
-      <div>
-        {salesmans.map((salesman, index) => (
-          <h4 key={salesman.id}>
-            {index + 1 + '. ' + salesman.lastname + ' ' + salesman.name}
-          </h4>
-        ))}
-      </div>
     </Wrapper>
   );
 };

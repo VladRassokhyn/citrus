@@ -1,4 +1,4 @@
-import { FixLater } from './../../types';
+import { FixLater } from '../../globalTypes';
 import { salesmansApi } from './../../api/salesmans.api';
 import { takeEvery, call, put, delay } from 'redux-saga/effects';
 import {
