@@ -14,7 +14,12 @@ import {
   newChecklistAdded,
 } from '../../lib/slices/checklist/checklist.slice';
 
-const Wrapper = styled.div``;
+const Form = styled.form`
+  margin: 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+`;
 
 const OSWrapper = styled.div`
   width: 100%;
@@ -128,17 +133,15 @@ export const NewChecklistForm = (): JSX.Element => {
   };
 
   return (
-    <Wrapper>
-      <form onSubmit={handleSubmit(handleFormSubmit)}>
-        <Select name={'salesman'} options={salesmanOptions} />
-        <Select
-          onChange={handleThemeChange}
-          name={'theme'}
-          options={themeOptions}
-        />
-        {theme}
-        <Button type="submit">Сохранить</Button>
-      </form>
-    </Wrapper>
+    <Form onSubmit={handleSubmit(handleFormSubmit)}>
+      <Select name={'salesman'} options={salesmanOptions} />
+      <Select
+        onChange={handleThemeChange}
+        name={'theme'}
+        options={themeOptions}
+      />
+      {theme}
+      <Button type="submit">Сохранить</Button>
+    </Form>
   );
 };

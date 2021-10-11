@@ -11,17 +11,25 @@ type Props = {
 
 type WrapperProps = {
   fullSize?: boolean;
+  value?: boolean;
 };
 
-const H1 = styled.h1`
+const H1 = styled.h1<WrapperProps>`
+  height: 20px;
+  width: 100%;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  color: ${(props) => props.value && 'white'};
   font-size: 10pt;
+  transition: linear 0.3s;
 `;
 
 const Wrapper = styled.div<WrapperProps>`
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 5px;
+  background-color: ${(props) => props.value && 'var(--color-button)'};
   width: ${(props) => props.fullSize && '100%'};
   height: 30px;
 `;
@@ -29,7 +37,6 @@ const Wrapper = styled.div<WrapperProps>`
 const Input = styled.input`
   width: 20px;
   height: 20px;
-  padding: 5px;
 `;
 
 export const Checkbox = (props: Props): JSX.Element => {
@@ -38,14 +45,16 @@ export const Checkbox = (props: Props): JSX.Element => {
     handleChange();
   };
   return (
-    <Wrapper fullSize={fullSize}>
+    <Wrapper fullSize={fullSize} value={value}>
       <Input
         {...register}
         type="checkbox"
         checked={value}
         onChange={handleChange}
       />
-      <H1 onClick={handleClick}>{label}</H1>
+      <H1 value={value} onClick={handleClick}>
+        {label}
+      </H1>
     </Wrapper>
   );
 };
