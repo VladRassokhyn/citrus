@@ -9,6 +9,7 @@ import { LoadingStatuses } from '../../lib/globalTypes';
 import { Preloader } from '../../Components/Preloader';
 import { Accordion } from '../../Components/Accordion';
 import { NewSalesmanForm } from './NewSalesmanForm';
+import { SalermasSubMenu } from './SalermanSubMenu';
 
 const Wrapper = styled.div`
   display: flex;
@@ -30,6 +31,14 @@ export const Salesmans = (): JSX.Element => {
     return <Preloader />;
   }
 
+  const handleEditSalesman = () => {
+    console.log('edit');
+  };
+
+  const handleDeleteSalesman = () => {
+    console.log('delete');
+  };
+
   return (
     <Wrapper>
       <Accordion
@@ -41,9 +50,16 @@ export const Salesmans = (): JSX.Element => {
       </Accordion>
       <div>
         {salesmans.map((salesman, index) => (
-          <h4 key={salesman.id}>
-            {index + 1 + '. ' + salesman.lastname + ' ' + salesman.name}
-          </h4>
+          <Accordion
+            titleBgColor={'#f1f1f1'}
+            key={salesman.id}
+            title={index + 1 + '. ' + salesman.lastname + ' ' + salesman.name}
+          >
+            <SalermasSubMenu
+              editFn={handleEditSalesman}
+              deleteFn={handleDeleteSalesman}
+            />
+          </Accordion>
         ))}
       </div>
     </Wrapper>

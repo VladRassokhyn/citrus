@@ -60,7 +60,12 @@ export const NewSalesmanForm = (): JSX.Element => {
   const { register, handleSubmit } = useForm();
 
   const handleSave = (e: FixLater) => {
-    dispatch(postNewSalesman(e));
+    dispatch(
+      postNewSalesman({
+        dto: { name: e.name, lastname: e.lastname },
+        adminPassword: e.adminPassword,
+      }),
+    );
   };
 
   useEffect(() => {

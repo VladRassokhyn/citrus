@@ -9,6 +9,7 @@ export const salesmansApi = {
     dto: Salesman;
     adminPassword: string;
   }): Promise<{ data: Salesman }> {
+    console.log(payload);
     return await axiosInstance.post('/salesmans', payload);
   },
 };

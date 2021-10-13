@@ -6,6 +6,8 @@ type Props = {
   register?: FixLater;
   label?: string;
   password?: boolean;
+  value?: string;
+  onChange?: () => void;
 };
 
 const Field = styled.div`
@@ -31,11 +33,17 @@ const H1 = styled.h1`
 `;
 
 export const InputField = (props: Props): JSX.Element => {
-  const { disabled, register, label, password } = props;
+  const { disabled, register, label, password, value, onChange } = props;
   return (
     <Field>
       <H1>{label}</H1>
-      <Input disabled={disabled} {...register} type={password && 'password'} />
+      <Input
+        disabled={disabled}
+        {...register}
+        type={password && 'password'}
+        value={value && value}
+        onChange={onChange}
+      />
     </Field>
   );
 };

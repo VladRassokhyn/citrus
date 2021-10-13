@@ -29,7 +29,7 @@ router.route('/').post(async (req, res) => {
         }
     }
     else {
-        res.statusCode === 403;
+        res.statusCode = 403;
         res.json({ message: 'Incorrect admin password' });
     }
 });
@@ -45,7 +45,7 @@ router.route('/').put(async (req, res) => {
         }
     }
     else {
-        res.statusCode === 403;
+        res.statusCode = 403;
         res.json({ message: 'Incorrect admin password' });
     }
 });
@@ -61,7 +61,7 @@ router.route('/').delete(async (req, res) => {
         }
     }
     else {
-        res.statusCode === 403;
+        res.statusCode = 403;
         res.json({ message: 'Incorrect admin password' });
     }
 });
