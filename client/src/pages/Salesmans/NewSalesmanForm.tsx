@@ -2,11 +2,21 @@ import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { FixLater, LoadingStatuses } from '../../lib/globalTypes';
-import { postNewSalesman } from '../../lib/slices/salesmans/salesmans.slice';
+import {
+  postNewSalesman,
+  updateSalesman,
+} from '../../lib/slices/salesmans/salesmans.slice';
 import { useEffect, useState } from 'react';
 import { useTypedSelector } from '../../lib/hooks';
 import { selectSalesmansCRUSstatus } from '../../lib/slices/salesmans/salesmans.selectors';
 import { InputField } from '../../Components/InputField';
+
+type Props = {
+  initialName?: string;
+  initialLastName?: string;
+  salesmanId?: string;
+  isUpdate?: boolean;
+};
 
 type StyleProps = {
   disabled: boolean;
@@ -53,19 +63,35 @@ const Button = styled.button<StyleProps>`
   font-size: 14pt;
 `;
 
-export const NewSalesmanForm = (): JSX.Element => {
+export const NewSalesmanForm = (props: Props): JSX.Element => {
+  const { initialName, initialLastName, salesmanId, isUpdate } = props;
   const dispatch = useDispatch();
   const CRUDstatus = useTypedSelector(selectSalesmansCRUSstatus);
   const [disabled, setDisabled] = useState(false);
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit } = useForm({
+    defaultValues: {
+      name: initialName,
+      lastname: initialLastName,
+      adminPassword: '',
+    },
+  });
 
   const handleSave = (e: FixLater) => {
-    dispatch(
-      postNewSalesman({
-        dto: { name: e.name, lastname: e.lastname },
-        adminPassword: e.adminPassword,
-      }),
-    );
+    if (isUpdate) {
+      dispatch(
+        updateSalesman({
+          dto: { name: e.name, lastname: e.lastname, id: salesmanId },
+          adminPassword: e.adminPassword,
+        }),
+      );
+    } else {
+      dispatch(
+        postNewSalesman({
+          dto: { name: e.name, lastname: e.lastname },
+          adminPassword: e.adminPassword,
+        }),
+      );
+    }
   };
 
   useEffect(() => {

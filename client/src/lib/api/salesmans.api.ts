@@ -19,4 +19,10 @@ export const salesmansApi = {
   }): Promise<{ data: FixLater }> {
     return await axiosInstance.delete('/salesmans', { data });
   },
+  async updateSalesman(payload: {
+    dto: Salesman;
+    adminPassword: string;
+  }): Promise<{ data: Salesman }> {
+    return await axiosInstance.put('/salesmans', payload);
+  },
 };

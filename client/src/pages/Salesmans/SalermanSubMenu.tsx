@@ -13,9 +13,11 @@ import {
   deleteSalesman,
   statusesResets,
 } from '../../lib/slices/salesmans/salesmans.slice';
+import { NewSalesmanForm } from './NewSalesmanForm';
+import { Salesman } from '../../lib/slices/salesmans/salesmans.types';
 
 type Props = {
-  salesmanId: string;
+  salesman: Salesman;
 };
 
 type ButtonProps = {
@@ -58,15 +60,16 @@ const Button = styled.button<ButtonProps>`
 `;
 
 export const SalermasSubMenu = (props: Props): JSX.Element => {
-  const { salesmanId } = props;
+  const { salesman } = props;
   const CRUDstatus = useTypedSelector(selectSalesmansCRUSstatus);
   const [adminPassword, setAdminPassword] = useState('');
   const dispatch = useDispatch();
   const [isPasswordForm, setIsPasswordForm] = useState(false);
+  const [isEditForm, setIsEditForm] = useState(false);
 
   const disabled = CRUDstatus === LoadingStatuses.LOADING;
   const forbidden = CRUDstatus === LoadingStatuses.ERROR;
-  console.log(forbidden);
+
   useEffect(() => {
     const timer = setTimeout(() => {
       if (forbidden) {
@@ -81,7 +84,7 @@ export const SalermasSubMenu = (props: Props): JSX.Element => {
   };
 
   const handleTryEditSalesman = () => {
-    console.log('edit');
+    setIsEditForm(true);
   };
 
   const handleTryDeleteSalesman = () => {
@@ -89,7 +92,7 @@ export const SalermasSubMenu = (props: Props): JSX.Element => {
   };
 
   const handleDelete = () => {
-    dispatch(deleteSalesman({ salesmanId, adminPassword }));
+    dispatch(deleteSalesman({ salesmanId: salesman.id, adminPassword }));
   };
 
   const handleCloseModal = () => {
@@ -119,10 +122,21 @@ export const SalermasSubMenu = (props: Props): JSX.Element => {
           )}
         </Modal>
       )}
-      <H1>Действия:</H1>
-      <Img src={edit} alt={'edit'} onClick={handleTryEditSalesman} />
-      <Img src={viewList} alt={'view'} />
-      <Img src={trash} alt={'delete'} onClick={handleTryDeleteSalesman} />
+      {isEditForm ? (
+        <NewSalesmanForm
+          initialLastName={salesman.lastname}
+          initialName={salesman.name}
+          salesmanId={salesman.id}
+          isUpdate
+        />
+      ) : (
+        <>
+          <H1>Действия:</H1>
+          <Img src={edit} alt={'edit'} onClick={handleTryEditSalesman} />
+          <Img src={viewList} alt={'view'} />
+          <Img src={trash} alt={'delete'} onClick={handleTryDeleteSalesman} />
+        </>
+      )}
     </Wrapper>
   );
 };

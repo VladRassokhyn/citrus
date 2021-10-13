@@ -15,13 +15,16 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../client/build')));
 
-app.use('/', (req: Request, res: Response, next: NextFunction) => {
-  if (req.url === '/') {
-    res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
-    return;
-  }
-  next();
-});
+app.use(
+  ['/', '/salesmans', '/cm', '/analytics', '/checklist'],
+  (req: Request, res: Response, next: NextFunction) => {
+    if (req.url === '/') {
+      res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
+      return;
+    }
+    next();
+  },
+);
 
 app.use('/api/salesmans', salesmanRouter);
 

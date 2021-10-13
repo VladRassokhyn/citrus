@@ -32,6 +32,12 @@ const salesmansSlice = createSlice({
     salesmanDeleted(state) {
       state.CRUDstatus = LoadingStatuses.SUCCESS;
     },
+    updateSalesman(state, action) {
+      state.CRUDstatus = LoadingStatuses.LOADING;
+    },
+    salesmanUpdated(state) {
+      state.CRUDstatus = LoadingStatuses.SUCCESS;
+    },
     statusesResets(state) {
       state.CRUDstatus = LoadingStatuses.IDLE;
       state.status = LoadingStatuses.IDLE;
@@ -55,6 +61,8 @@ export const {
   statusesResets,
   setCRUDError,
   salesmanDeleted,
+  updateSalesman,
+  salesmanUpdated,
 } = salesmansSlice.actions;
 
 export const salesmansReducer = salesmansSlice.reducer;

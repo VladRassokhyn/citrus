@@ -55,7 +55,7 @@ export const Salesmans = (): JSX.Element => {
             key={salesman.id}
             title={index + 1 + '. ' + salesman.lastname + ' ' + salesman.name}
           >
-            <SalermasSubMenu salesmanId={salesman.id} />
+            <SalermasSubMenu salesman={salesman} />
           </Accordion>
         ))}
       </div>

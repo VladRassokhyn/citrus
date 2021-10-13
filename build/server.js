@@ -17,7 +17,7 @@ exports.app.use((0, cors_1.default)());
 exports.app.use((0, cookie_parser_1.default)());
 exports.app.use(express_1.default.json());
 exports.app.use(express_1.default.static(path_1.default.join(__dirname, '../client/build')));
-exports.app.use('/', (req, res, next) => {
+exports.app.use(['/', '/salesmans', '/cm', '/analytics', '/checklist'], (req, res, next) => {
     if (req.url === '/') {
         res.sendFile(path_1.default.join(__dirname, '../client/build', 'index.html'));
         return;

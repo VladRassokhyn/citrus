@@ -10,6 +10,8 @@ import {
   newSalesmanPosted,
   deleteSalesman,
   salesmanDeleted,
+  salesmanUpdated,
+  updateSalesman,
 } from './salesmans.slice';
 import { SagaIterator } from '@redux-saga/types';
 
@@ -43,8 +45,19 @@ function* deleteSalesmanWorker(action: FixLater): SagaIterator {
   }
 }
 
+function* updateSalesmanWorker(action: FixLater): SagaIterator {
+  try {
+    yield call(salesmansApi.updateSalesman, action.payload);
+    yield put({ type: salesmanUpdated.type });
+    yield put({ type: getSalesmans.type });
+  } catch (error) {
+    yield put({ type: setCRUDError.type });
+  }
+}
+
 export function* salesmansWatcher(): SagaIterator {
   yield takeEvery(getSalesmans.type, getSalesmansWorker);
   yield takeEvery(postNewSalesman.type, postSalesmanWorker);
   yield takeEvery(deleteSalesman.type, deleteSalesmanWorker);
+  yield takeEvery(updateSalesman.type, updateSalesmanWorker);
 }
