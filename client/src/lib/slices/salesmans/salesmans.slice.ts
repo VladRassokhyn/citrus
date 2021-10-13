@@ -54,6 +54,7 @@ export const {
   deleteSalesman,
   statusesResets,
   setCRUDError,
+  salesmanDeleted,
 } = salesmansSlice.actions;
 
 export const salesmansReducer = salesmansSlice.reducer;
