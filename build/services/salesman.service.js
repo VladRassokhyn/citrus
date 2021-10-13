@@ -1,8 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.addSalesman = exports.getAllSalesmans = void 0;
+exports.updateSalesman = exports.removeSalesman = exports.addSalesman = exports.getAllSalesmans = void 0;
 const reposytorys_1 = require("../reposytorys");
 const getAllSalesmans = () => reposytorys_1.salesmanRepo.getAllSalesmans();
 exports.getAllSalesmans = getAllSalesmans;
 const addSalesman = (dto) => reposytorys_1.salesmanRepo.addSalesman(dto);
 exports.addSalesman = addSalesman;
+const removeSalesman = (salesmanId) => reposytorys_1.salesmanRepo.removeSalesman(salesmanId);
+exports.removeSalesman = removeSalesman;
+const updateSalesman = (dto) => reposytorys_1.salesmanRepo.updateSalesman(dto);
+exports.updateSalesman = updateSalesman;

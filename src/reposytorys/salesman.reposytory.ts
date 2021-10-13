@@ -17,4 +17,23 @@ const addSalesman = async (dto: Salesman) => {
   return await repo.save(newSalesman);
 };
 
-export { getAllSalesmans, addSalesman };
+const updateSalesman = async (dto: Salesman) => {
+  try {
+    const repo = getRepository(Salesman);
+    return await repo.update(dto.id, dto);
+  } catch (err) {
+    return err;
+  }
+};
+
+const removeSalesman = async (salesmanId: string) => {
+  try {
+    const repo = getRepository(Salesman);
+    const salesman = await repo.find({ id: salesmanId });
+    return repo.delete(salesman[0]!);
+  } catch (err) {
+    return err;
+  }
+};
+
+export { getAllSalesmans, addSalesman, removeSalesman, updateSalesman };

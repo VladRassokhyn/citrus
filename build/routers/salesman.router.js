@@ -18,7 +18,30 @@ router.route('/').get(async (req, res) => {
     }
 });
 router.route('/').post(async (req, res) => {
-    const salesmans = await services_1.salesmanService.addSalesman({ ...req.body });
-    res.json(salesmans);
+    try {
+        const salesmans = await services_1.salesmanService.addSalesman({ ...req.body });
+        res.json(salesmans);
+    }
+    catch (err) {
+        res.json(err);
+    }
+});
+router.route('/').put(async (req, res) => {
+    try {
+        const salesman = await services_1.salesmanService.updateSalesman(req.body);
+        res.json(salesman);
+    }
+    catch (err) {
+        return err;
+    }
+});
+router.route('/').delete(async (req, res) => {
+    try {
+        const id = await services_1.salesmanService.removeSalesman(req.body.salesmanId);
+        res.json({ id, message: 'Deleted' });
+    }
+    catch (err) {
+        res.json(err);
+    }
 });
 exports.salesmanRouter = router;

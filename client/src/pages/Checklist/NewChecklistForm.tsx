@@ -60,7 +60,6 @@ const Button = styled.button`
 export const NewChecklistForm = (): JSX.Element => {
   const dispatch = useDispatch();
   const [themeName, setThemeName] = useState('');
-  const [salesmanId, setSalesmanId] = useState<string | null>(null);
   const salesmans = useTypedSelector(selectAllSalesmans);
   const newChecklist = useTypedSelector(selectNewChecklist);
   const { register, handleSubmit } = useForm();
