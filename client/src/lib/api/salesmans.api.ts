@@ -5,7 +5,10 @@ export const salesmansApi = {
   async getSalesmans(): Promise<{ data: Salesman[] }> {
     return await axiosInstance.get('/salesmans');
   },
-  async postNewSalesman(dto: Salesman): Promise<{ data: Salesman }> {
-    return await axiosInstance.post('/salesmans', dto);
+  async postNewSalesman(payload: {
+    dto: Salesman;
+    adminPassword: string;
+  }): Promise<{ data: Salesman }> {
+    return await axiosInstance.post('/salesmans', payload);
   },
 };

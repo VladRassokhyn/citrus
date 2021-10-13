@@ -6,6 +6,7 @@ import { postNewSalesman } from '../../lib/slices/salesmans/salesmans.slice';
 import { useEffect, useState } from 'react';
 import { useTypedSelector } from '../../lib/hooks';
 import { selectSalesmansCRUSstatus } from '../../lib/slices/salesmans/salesmans.selectors';
+import { InputField } from '../../Components/InputField';
 
 type StyleProps = {
   disabled: boolean;
@@ -73,14 +74,22 @@ export const NewSalesmanForm = (): JSX.Element => {
 
   return (
     <Wrapper onSubmit={handleSubmit(handleSave)}>
-      <Field>
-        <H1>Имя</H1>
-        <Input disabled={disabled} {...register('name')} />
-      </Field>
-      <Field>
-        <H1>Фамилия</H1>
-        <Input disabled={disabled} {...register('lastname')} />
-      </Field>
+      <InputField
+        register={{ ...register('name') }}
+        label={'Имя'}
+        disabled={disabled}
+      />
+      <InputField
+        register={{ ...register('lastname') }}
+        label={'Фамилия'}
+        disabled={disabled}
+      />
+      <InputField
+        password
+        register={{ ...register('adminPassword') }}
+        label={'Пароль Администратора'}
+        disabled={disabled}
+      />
       <Button disabled={disabled} type={'submit'}>
         {disabled ? 'Загрузка...' : 'Сохранить'}
       </Button>

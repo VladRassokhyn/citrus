@@ -14,29 +14,47 @@ router.route('/').get(async (req, res) => {
 });
 
 router.route('/').post(async (req, res) => {
-  try {
-    const salesmans = await salesmanService.addSalesman({ ...req.body });
-    res.json(salesmans);
-  } catch (err) {
-    res.json(err);
+  const adminPassword = req.body.adminPassword;
+  if (adminPassword === '12321') {
+    try {
+      const salesmans = await salesmanService.addSalesman(req.body.dto);
+      res.json(salesmans);
+    } catch (err) {
+      res.json(err);
+    }
+  } else {
+    res.statusCode === 403;
+    res.json({ message: 'Incorrect admin password' });
   }
 });
 
 router.route('/').put(async (req, res) => {
-  try {
-    const salesman = await salesmanService.updateSalesman(req.body);
-    res.json(salesman);
-  } catch (err) {
-    return err;
+  const adminPassword = req.body.adminPassword;
+  if (adminPassword === '12321') {
+    try {
+      const salesman = await salesmanService.updateSalesman(req.body.dto);
+      res.json(salesman);
+    } catch (err) {
+      return err;
+    }
+  } else {
+    res.statusCode === 403;
+    res.json({ message: 'Incorrect admin password' });
   }
 });
 
 router.route('/').delete(async (req, res) => {
-  try {
-    const id = await salesmanService.removeSalesman(req.body.salesmanId);
-    res.json({ id, message: 'Deleted' });
-  } catch (err) {
-    res.json(err);
+  const adminPassword = req.body.adminPassword;
+  if (adminPassword === '12321') {
+    try {
+      const id = await salesmanService.removeSalesman(req.body.salesmanId);
+      res.json({ id, message: 'Deleted' });
+    } catch (err) {
+      res.json(err);
+    }
+  } else {
+    res.statusCode === 403;
+    res.json({ message: 'Incorrect admin password' });
   }
 });
 

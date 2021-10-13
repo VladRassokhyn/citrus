@@ -3,6 +3,7 @@ import { config as envConfig } from 'dotenv';
 import path from 'path';
 import { TryDbConnect } from './db';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 import { salesmanRouter } from './routers';
 
 envConfig();
@@ -10,6 +11,7 @@ envConfig();
 export const app = express();
 
 app.use(cors());
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../client/build')));
 
