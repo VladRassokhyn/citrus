@@ -20,15 +20,27 @@ const salesmansSlice = createSlice({
       state.items = action.payload;
       state.status = LoadingStatuses.SUCCESS;
     },
-    setError(state, action) {
-      state.status = LoadingStatuses.ERROR;
-      state.error = action.payload;
-    },
     postNewSalesman(state, action) {
       state.CRUDstatus = LoadingStatuses.LOADING;
     },
     newSalesmanPosted(state) {
       state.CRUDstatus = LoadingStatuses.SUCCESS;
+    },
+    deleteSalesman(state, action) {
+      state.CRUDstatus = LoadingStatuses.LOADING;
+    },
+    salesmanDeleted(state) {
+      state.CRUDstatus = LoadingStatuses.SUCCESS;
+    },
+    statusesResets(state) {
+      state.CRUDstatus = LoadingStatuses.IDLE;
+      state.status = LoadingStatuses.IDLE;
+    },
+    setError(state) {
+      state.status = LoadingStatuses.ERROR;
+    },
+    setCRUDError(state) {
+      state.CRUDstatus = LoadingStatuses.ERROR;
     },
   },
 });
@@ -39,6 +51,9 @@ export const {
   setError,
   postNewSalesman,
   newSalesmanPosted,
+  deleteSalesman,
+  statusesResets,
+  setCRUDError,
 } = salesmansSlice.actions;
 
 export const salesmansReducer = salesmansSlice.reducer;

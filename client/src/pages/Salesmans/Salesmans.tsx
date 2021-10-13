@@ -1,15 +1,23 @@
-import { useEffect } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { useTypedSelector } from '../../lib/hooks';
 import { selectAllSalesmans } from '../../lib/slices/salesmans';
-import { getSalesmans } from '../../lib/slices/salesmans/salesmans.slice';
-import { selectSalesmansStatus } from '../../lib/slices/salesmans/salesmans.selectors';
+import {
+  deleteSalesman,
+  getSalesmans,
+} from '../../lib/slices/salesmans/salesmans.slice';
+import {
+  selectSalesmansCRUSstatus,
+  selectSalesmansStatus,
+} from '../../lib/slices/salesmans/salesmans.selectors';
 import { LoadingStatuses } from '../../lib/globalTypes';
 import { Preloader } from '../../Components/Preloader';
 import { Accordion } from '../../Components/Accordion';
 import { NewSalesmanForm } from './NewSalesmanForm';
 import { SalermasSubMenu } from './SalermanSubMenu';
+import { InputField } from '../../Components/InputField';
+import { Modal } from '../../Components/Modal';
 
 const Wrapper = styled.div`
   display: flex;
@@ -31,14 +39,6 @@ export const Salesmans = (): JSX.Element => {
     return <Preloader />;
   }
 
-  const handleEditSalesman = () => {
-    console.log('edit');
-  };
-
-  const handleDeleteSalesman = () => {
-    console.log('delete');
-  };
-
   return (
     <Wrapper>
       <Accordion
@@ -55,10 +55,7 @@ export const Salesmans = (): JSX.Element => {
             key={salesman.id}
             title={index + 1 + '. ' + salesman.lastname + ' ' + salesman.name}
           >
-            <SalermasSubMenu
-              editFn={handleEditSalesman}
-              deleteFn={handleDeleteSalesman}
-            />
+            <SalermasSubMenu salesmanId={salesman.id} />
           </Accordion>
         ))}
       </div>

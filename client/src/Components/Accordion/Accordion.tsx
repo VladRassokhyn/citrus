@@ -7,7 +7,7 @@ type Props = {
   isOpenAll?: boolean;
   index?: number;
   price?: number | undefined;
-  children: JSX.Element | JSX.Element[];
+  children: JSX.Element | JSX.Element[] | string;
   titleBgColor?: string;
   titleColor?: string;
   marginContent?: boolean;

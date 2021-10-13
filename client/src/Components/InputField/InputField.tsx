@@ -1,3 +1,4 @@
+import { ChangeEvent } from 'react';
 import styled from 'styled-components';
 import { FixLater } from '../../lib/globalTypes';
 
@@ -7,13 +8,19 @@ type Props = {
   label?: string;
   password?: boolean;
   value?: string;
-  onChange?: () => void;
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+  vertical?: boolean;
 };
 
-const Field = styled.div`
+type FieldProps = {
+  vertical?: boolean;
+};
+
+const Field = styled.div<FieldProps>`
   width: 100%;
   display: flex;
-  flex-direction: row;
+  flex-direction: ${(props) => (props.vertical ? 'column' : 'row')};
+  ${(props) => props.vertical && 'gap: 20px;'}
   justify-content: space-between;
   align-items: center;
 `;
@@ -33,9 +40,17 @@ const H1 = styled.h1`
 `;
 
 export const InputField = (props: Props): JSX.Element => {
-  const { disabled, register, label, password, value, onChange } = props;
+  const {
+    disabled,
+    register,
+    label,
+    password,
+    value,
+    onChange,
+    vertical,
+  } = props;
   return (
-    <Field>
+    <Field vertical={vertical}>
       <H1>{label}</H1>
       <Input
         disabled={disabled}
