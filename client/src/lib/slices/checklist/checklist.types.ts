@@ -2,10 +2,10 @@ export type ChecklistInitialState = {
   checklists: Checklist[];
   newChecklist: Checklist | null;
 };
-export type ChecklistCategorie = {
+export type ChecklistTheme = {
   id: string;
   title: string;
-  subCategories?: {
+  subThemes?: {
     id: string;
     title: string;
     fields: {
@@ -19,5 +19,6 @@ export type ChecklistCategorie = {
 export type Checklist = {
   id?: string;
   name: string;
-  categories: ChecklistCategorie[];
+  salesmanId: string;
+  themes: ChecklistTheme[];
 };
