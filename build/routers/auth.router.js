@@ -27,7 +27,10 @@ router.route('/login').post(async (req, res) => {
         return;
     }
     const token = jsonwebtoken_1.default.sign({ userId: user.id, username: user.username }, process.env['jwtSecret'], { expiresIn: '1h' });
-    res.send(token);
+    res.send({
+        token,
+        user: { id: user.id, username: user.username, role: user.role },
+    });
 });
 router
     .route('/change-password')

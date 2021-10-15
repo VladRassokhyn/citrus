@@ -5,8 +5,8 @@ import { takeEvery, call, put } from 'redux-saga/effects';
 import { getAuth, setAuth } from './auth.slice';
 
 function* authWorker(action: FixLater): SagaIterator {
-  const token = yield call(authApi.login, action.payload);
-  yield put({ type: setAuth.type, payload: token });
+  const { data } = yield call(authApi.login, action.payload);
+  yield put({ type: setAuth.type, payload: data });
 }
 
 export function* authWather() {

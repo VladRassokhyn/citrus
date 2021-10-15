@@ -6,38 +6,28 @@ import { validate } from 'class-validator';
 
 const router = express.Router();
 
-router
-  .route('/')
-  .get(
-    [checkJwt, checkRole(['ADMIN'])],
-    async (req: Request, res: Response) => {
-      const userRepository = getRepository(User);
-      const users = await userRepository.find({
-        select: ['id', 'username', 'role'],
-      });
+router.route('/').get(async (req: Request, res: Response) => {
+  const userRepository = getRepository(User);
+  const users = await userRepository.find({
+    select: ['id', 'username', 'role'],
+  });
 
-      res.send(users);
-    },
-  );
+  res.send(users);
+});
 
-router
-  .route('/:id')
-  .get(
-    [checkJwt, checkRole(['ADMIN'])],
-    async (req: Request, res: Response) => {
-      const id = req.params['id'];
+router.route('/:id').get(async (req: Request, res: Response) => {
+  const id = req.params['id'];
 
-      const userRepository = getRepository(User);
-      try {
-        const user = await userRepository.findOneOrFail(id, {
-          select: ['id', 'username', 'role'],
-        });
-        res.send(user);
-      } catch (error) {
-        res.status(404).send('User not found');
-      }
-    },
-  );
+  const userRepository = getRepository(User);
+  try {
+    const user = await userRepository.findOneOrFail(id, {
+      select: ['id', 'username', 'role'],
+    });
+    res.send(user);
+  } catch (error) {
+    res.status(404).send('User not found');
+  }
+});
 
 router
   .route('/')

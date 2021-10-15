@@ -5,6 +5,6 @@ export const authApi = {
     username: string;
     password: string;
   }): Promise<{ data: string }> {
-    return axiosInstance.post('/auth', dto);
+    return axiosInstance.post('/auth/login', dto);
   },
 };

@@ -32,7 +32,10 @@ router.route('/login').post(async (req: Request, res: Response) => {
     { expiresIn: '1h' },
   );
 
-  res.send(token);
+  res.send({
+    token,
+    user: { id: user.id, username: user.username, role: user.role },
+  });
 });
 
 router

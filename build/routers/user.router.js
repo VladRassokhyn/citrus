@@ -10,18 +10,14 @@ const typeorm_1 = require("typeorm");
 const entities_1 = require("../entities");
 const class_validator_1 = require("class-validator");
 const router = express_1.default.Router();
-router
-    .route('/')
-    .get([meddleware_1.checkJwt, (0, meddleware_1.checkRole)(['ADMIN'])], async (req, res) => {
+router.route('/').get(async (req, res) => {
     const userRepository = (0, typeorm_1.getRepository)(entities_1.User);
     const users = await userRepository.find({
         select: ['id', 'username', 'role'],
     });
     res.send(users);
 });
-router
-    .route('/:id')
-    .get([meddleware_1.checkJwt, (0, meddleware_1.checkRole)(['ADMIN'])], async (req, res) => {
+router.route('/:id').get(async (req, res) => {
     const id = req.params['id'];
     const userRepository = (0, typeorm_1.getRepository)(entities_1.User);
     try {

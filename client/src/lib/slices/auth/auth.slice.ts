@@ -16,7 +16,6 @@ export const authSlice = createSlice({
       state.status = LoadingStatuses.LOADING;
     },
     setAuth(state, action) {
-      console.log(action.payload);
       localStorage.setItem('token', action.payload);
       state.status = LoadingStatuses.SUCCESS;
     },
