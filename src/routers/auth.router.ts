@@ -9,11 +9,13 @@ const router = express.Router();
 
 router.route('/').get(async (req: Request, res: Response) => {
   const token = <string>req.headers['auth'];
+
   try {
     const jwtPayload = <any>jwt.verify(token, process.env['jwtSecret']!);
     res.status(200).send({ userId: jwtPayload.userId });
   } catch (err) {
-    res.status(401).send();
+    res.status(401).send(err);
+    console.log(err);
     return;
   }
 });
@@ -40,7 +42,7 @@ router.route('/login').post(async (req: Request, res: Response) => {
   const token = jwt.sign(
     { userId: user.id, username: user.username },
     process.env['jwtSecret']!,
-    { expiresIn: '1h' },
+    { expiresIn: '24h' },
   );
 
   res.send({

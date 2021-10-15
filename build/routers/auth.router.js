@@ -18,7 +18,8 @@ router.route('/').get(async (req, res) => {
         res.status(200).send({ userId: jwtPayload.userId });
     }
     catch (err) {
-        res.status(401).send();
+        res.status(401).send(err);
+        console.log(err);
         return;
     }
 });
@@ -37,7 +38,7 @@ router.route('/login').post(async (req, res) => {
         res.status(401).send();
         return;
     }
-    const token = jsonwebtoken_1.default.sign({ userId: user.id, username: user.username }, process.env['jwtSecret'], { expiresIn: '1h' });
+    const token = jsonwebtoken_1.default.sign({ userId: user.id, username: user.username }, process.env['jwtSecret'], { expiresIn: '24h' });
     res.send({
         token,
         user: { id: user.id, username: user.username, role: user.role },
