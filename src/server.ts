@@ -3,8 +3,9 @@ import { config as envConfig } from 'dotenv';
 import path from 'path';
 import { TryDbConnect } from './db';
 import cors from 'cors';
+import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
-import { salesmanRouter } from './routers';
+import { salesmanRouter, userRouter, authRouter } from './routers';
 
 envConfig();
 
@@ -12,6 +13,7 @@ export const app = express();
 
 app.use(cors());
 app.use(cookieParser());
+app.use(helmet());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../client/build')));
 
@@ -25,6 +27,8 @@ app.use('/', (req: Request, res: Response, next: NextFunction) => {
   next();
 });
 
+app.use('/api/auth', authRouter);
+app.use('/api/users', userRouter);
 app.use('/api/salesmans', salesmanRouter);
 
 (async () => {
