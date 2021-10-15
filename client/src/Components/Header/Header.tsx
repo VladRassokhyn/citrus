@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
@@ -8,5 +9,6 @@ const Wrapper = styled.div`
 `;
 
 export const Header = (): JSX.Element => {
-  return <Wrapper></Wrapper>;
+  const auth = false;
+  return <Wrapper>{auth ? 'user' : <Link to={'/login'}>Login</Link>}</Wrapper>;
 };

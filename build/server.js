@@ -25,7 +25,9 @@ exports.app.use('/', (req, res, next) => {
     }
     next();
 });
+exports.app.use('/api/auth', routers_1.authRouter);
+exports.app.use('/api/users', routers_1.userRouter);
 exports.app.use('/api/salesmans', routers_1.salesmanRouter);
 (async () => {
-    await (0, db_1.TryDbConnect)(() => exports.app.listen(process.env['PORT'], () => console.log('running')));
+    await (0, db_1.TryDbConnect)(() => exports.app.listen(process.env['PORT'], () => console.log('running' + process.env['PORT'])));
 })();

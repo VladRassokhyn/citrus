@@ -1,6 +1,7 @@
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import createSagaMiddleware from 'redux-saga';
 import { rootSaga } from './sagas';
+import { authReducer } from './slices/auth';
 import { checklistReducer } from './slices/checklist';
 import { salesmansReducer } from './slices/salesmans';
 
@@ -11,6 +12,7 @@ export const store = configureStore({
   reducer: {
     salesmans: salesmansReducer,
     checklist: checklistReducer,
+    auth: authReducer,
   },
   middleware,
 });

@@ -13,7 +13,6 @@ export const app = express();
 
 app.use(cors());
 app.use(cookieParser());
-app.use(helmet());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../client/build')));
 
@@ -33,6 +32,8 @@ app.use('/api/salesmans', salesmanRouter);
 
 (async () => {
   await TryDbConnect(() =>
-    app.listen(process.env['PORT'], () => console.log('running')),
+    app.listen(process.env['PORT'], () =>
+      console.log('running' + process.env['PORT']),
+    ),
   );
 })();

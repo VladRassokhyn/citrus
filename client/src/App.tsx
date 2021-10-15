@@ -4,6 +4,7 @@ import { Header } from './Components/Header';
 import { Analitic } from './pages/Analitic/Analitics';
 import { Checklist } from './pages/Checklist/Checklist';
 import { CmMenu } from './pages/CM/CmMenu';
+import { Login } from './pages/Login/Login';
 import { Main } from './pages/Main/Main';
 import { Salesmans } from './pages/Salesmans/Salesmans';
 
@@ -16,6 +17,7 @@ export const App = (): JSX.Element => {
       <Route exact path={'/analytics'} render={() => <Analitic />} />
       <Route exact path={'/salesmans'} render={() => <Salesmans />} />
       <Route exact path={'/checklist'} render={() => <Checklist />} />
+      <Route exact path={'/login'} render={() => <Login />} />
     </>
   );
 };
