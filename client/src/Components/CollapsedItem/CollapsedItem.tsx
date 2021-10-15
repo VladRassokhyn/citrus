@@ -138,7 +138,7 @@ const createAnimation = (
   return keyframes`
         ${isOpen ? '0' : '100'}% {
             position: absolute;
-            top: 0;
+            top: 50px;
             left: 0;
             width: 100vw;
             height: 100vh;
