@@ -16,7 +16,14 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../client/build')));
 
-const rootUrls = ['/', '/salesmans', '/cm', '/analytics', '/checklist'];
+const rootUrls = [
+  '/',
+  '/salesmans',
+  '/cm',
+  '/analytics',
+  '/checklist',
+  '/login',
+];
 
 app.use('/', (req: Request, res: Response, next: NextFunction) => {
   if (rootUrls.includes(req.url)) {
