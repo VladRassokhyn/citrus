@@ -1,7 +1,8 @@
 import { LoadingStatuses } from './../../globalTypes';
 
 export type AuthInitial = {
-  status: LoadingStatuses;
+  loginStatus: LoadingStatuses;
+  authStatus: LoadingStatuses;
   error: any;
   authUser: {
     username: string;

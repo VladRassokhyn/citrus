@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { InputField } from '../../Components/InputField';
 import { FixLater } from '../../lib/globalTypes';
-import { getAuth } from '../../lib/slices/auth/auth.slice';
+import { tryLogin } from '../../lib/slices/auth/auth.slice';
 
 const Wrapper = styled.div``;
 
@@ -15,7 +15,7 @@ export const Login = (): JSX.Element => {
 
   const handleLogin = (e: FixLater) => {
     console.log(e);
-    dispatch(getAuth(e));
+    dispatch(tryLogin(e));
   };
 
   console.log(localStorage.getItem('token'));

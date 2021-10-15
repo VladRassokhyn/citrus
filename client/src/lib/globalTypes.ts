@@ -6,3 +6,5 @@ export enum LoadingStatuses {
   SUCCESS = 'SUCCESS',
   ERROR = 'ERROR',
 }
+
+export type User = { id: string; username: string; role: string };

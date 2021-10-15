@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { Route } from 'react-router';
 import { Header } from './Components/Header';
 import { useTypedSelector } from './lib/hooks';
 import { selectAuthUser } from './lib/slices/auth';
+import { getAuth } from './lib/slices/auth/auth.slice';
 import { Analitic } from './pages/Analitic/Analitics';
 import { Checklist } from './pages/Checklist/Checklist';
 import { CmMenu } from './pages/CM/CmMenu';
@@ -11,9 +13,13 @@ import { Main } from './pages/Main/Main';
 import { Salesmans } from './pages/Salesmans/Salesmans';
 
 export const App = (): JSX.Element => {
-
   const authUser = useTypedSelector(selectAuthUser);
-  
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getAuth());
+  }, []);
+
   return (
     <>
       <Header authUser={authUser} />
