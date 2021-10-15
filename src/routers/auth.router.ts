@@ -7,6 +7,17 @@ import { validate } from 'class-validator';
 
 const router = express.Router();
 
+router.route('/').get(async (req: Request, res: Response) => {
+  const token = <string>req.headers['auth'];
+  try {
+    const jwtPayload = <any>jwt.verify(token, process.env['jwtSecret']!);
+    res.status(200).send({ userId: jwtPayload.userId });
+  } catch (err) {
+    res.status(401).send();
+    return;
+  }
+});
+
 router.route('/login').post(async (req: Request, res: Response) => {
   let { username, password } = req.body;
   if (!(username && password)) {

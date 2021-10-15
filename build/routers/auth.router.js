@@ -11,6 +11,17 @@ const entities_1 = require("../entities");
 const meddleware_1 = require("../meddleware");
 const class_validator_1 = require("class-validator");
 const router = express_1.default.Router();
+router.route('/').get(async (req, res) => {
+    const token = req.headers['auth'];
+    try {
+        const jwtPayload = jsonwebtoken_1.default.verify(token, process.env['jwtSecret']);
+        res.status(200).send({ userId: jwtPayload.userId });
+    }
+    catch (err) {
+        res.status(401).send();
+        return;
+    }
+});
 router.route('/login').post(async (req, res) => {
     let { username, password } = req.body;
     if (!(username && password)) {
