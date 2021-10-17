@@ -1,3 +1,4 @@
+import React from 'react';
 import './preloader.css';
 
 export const Preloader = (): JSX.Element => {

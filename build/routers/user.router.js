@@ -32,7 +32,9 @@ router.route('/:id').get(async (req, res) => {
 });
 router
     .route('/')
-    .post([meddleware_1.checkJwt, (0, meddleware_1.checkRole)(['ADMIN'])], async (req, res) => {
+    .post(
+//[checkJwt, checkRole(['ADMIN'])],
+async (req, res) => {
     const { username, password, role } = req.body;
     const user = new entities_1.User();
     user.username = username;

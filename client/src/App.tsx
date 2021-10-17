@@ -2,8 +2,10 @@ import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Route } from 'react-router';
 import { Header } from './Components/Header';
+import { Preloader } from './Components/Preloader';
+import { LoadingStatuses } from './lib/globalTypes';
 import { useTypedSelector } from './lib/hooks';
-import { selectAuthUser } from './lib/slices/auth';
+import { selectAuthStatuses, selectAuthUser } from './lib/slices/auth';
 import { getAuth } from './lib/slices/auth/auth.slice';
 import { Analitic } from './pages/Analitic/Analitics';
 import { Checklist } from './pages/Checklist/Checklist';
@@ -14,11 +16,19 @@ import { Salesmans } from './pages/Salesmans/Salesmans';
 
 export const App = (): JSX.Element => {
   const authUser = useTypedSelector(selectAuthUser);
+  const { authStatus } = useTypedSelector(selectAuthStatuses);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getAuth());
   }, []);
+
+  if (
+    authStatus === LoadingStatuses.LOADING ||
+    authStatus == LoadingStatuses.IDLE
+  ) {
+    return <Preloader />;
+  }
 
   return (
     <>

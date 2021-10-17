@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState } from 'react';
 import styled, { Keyframes, keyframes } from 'styled-components';
 import { FixLater } from '../../lib/globalTypes';

@@ -1,4 +1,4 @@
 import { authReducer } from './auth.slice';
-import { selectAuthUser } from './auth.selectors';
+import { selectAuthUser, selectAuthStatuses } from './auth.selectors';
 
-export { authReducer, selectAuthUser };
+export { authReducer, selectAuthUser, selectAuthStatuses };

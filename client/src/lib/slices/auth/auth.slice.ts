@@ -27,7 +27,7 @@ export const authSlice = createSlice({
       state.authStatus = LoadingStatuses.SUCCESS;
     },
     setAuthUser(state, action) {
-      state.authUser = action.payload.user;
+      state.authUser = action.payload;
     },
     setLoginError(state, action) {
       state.authStatus = LoadingStatuses.ERROR;

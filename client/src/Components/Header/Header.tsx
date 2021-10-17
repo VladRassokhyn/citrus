@@ -1,3 +1,4 @@
+import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -14,6 +15,9 @@ const Wrapper = styled.div`
   height: 40px;
   padding: 5px 5%;
   background-color: #3f4e5d;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 `;
 
 const H1 = styled.h1`
@@ -28,7 +32,9 @@ export const Header = (props: Props): JSX.Element => {
       {authUser ? (
         <H1>{authUser.username}</H1>
       ) : (
-        <Link to={'/login'}>Login</Link>
+        <Link to={'/login'}>
+          <H1>Login</H1>
+        </Link>
       )}
     </Wrapper>
   );

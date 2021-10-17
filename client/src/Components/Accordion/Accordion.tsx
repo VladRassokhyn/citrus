@@ -1,3 +1,4 @@
+import React from 'react';
 import { useEffect, useState } from 'react';
 import styled, { Keyframes, keyframes } from 'styled-components';
 import { zoomIn, zoomOut } from 'react-animations';

@@ -32,7 +32,7 @@ router.route('/:id').get(async (req: Request, res: Response) => {
 router
   .route('/')
   .post(
-    [checkJwt, checkRole(['ADMIN'])],
+    //[checkJwt, checkRole(['ADMIN'])],
     async (req: Request, res: Response) => {
       const { username, password, role } = req.body;
       const user = new User();

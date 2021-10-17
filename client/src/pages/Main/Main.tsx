@@ -1,3 +1,4 @@
+import React from 'react';
 import cmImage from '../../static/cmImage.webp';
 import analitic from '../../static/analytic.png';
 import employee from '../../static/employee.png';

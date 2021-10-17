@@ -19,20 +19,26 @@ function* loginWorker(action: FixLater): SagaIterator {
 }
 
 function* authWorker(): SagaIterator {
-  const { id } = yield call(authApi.getAuth);
+  try {
+    const res = yield call(authApi.getAuth);
+    console.log(res);
 
-  if (!id) {
+    if (res.status === 401) {
+      yield put({ type: setAuthError.type });
+      console.log('wrong user data');
+    } else {
+    }
+
+    const user = yield call(userApi.getUserById, res.data.userId);
+
+    if (!user) {
+      yield put({ type: setAuthError.type });
+    } else {
+      yield put({ type: setAuthUser.type, payload: user.data });
+      yield put({ type: setAuth.type });
+    }
+  } catch (err) {
     yield put({ type: setAuthError.type });
-  } else {
-    yield put({ type: setAuth.type });
-  }
-
-  const user = yield call(userApi.getUserById, id);
-
-  if (!user) {
-    yield put({ type: setAuthError.type });
-  } else {
-    yield put({ type: setAuthUser.type, payload: user });
   }
 }
 
