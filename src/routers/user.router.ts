@@ -32,10 +32,12 @@ router.route('/:id').get(async (req: Request, res: Response) => {
 router.route('/').post(
   //[checkJwt, checkRole(['ADMIN'])],
   async (req: Request, res: Response) => {
-    const { username, password, role } = req.body;
+    const { username, password, role, name, lastName } = req.body;
     const user = new User();
     user.username = username;
     user.password = password;
+    user.name = name;
+    user.lastName = lastName;
     user.role = role;
 
     const errors = await validate(user);

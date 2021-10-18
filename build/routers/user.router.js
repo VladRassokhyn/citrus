@@ -33,10 +33,12 @@ router.route('/:id').get(async (req, res) => {
 router.route('/').post(
 //[checkJwt, checkRole(['ADMIN'])],
 async (req, res) => {
-    const { username, password, role } = req.body;
+    const { username, password, role, name, lastName } = req.body;
     const user = new entities_1.User();
     user.username = username;
     user.password = password;
+    user.name = name;
+    user.lastName = lastName;
     user.role = role;
     const errors = await (0, class_validator_1.validate)(user);
     if (errors.length > 0) {
