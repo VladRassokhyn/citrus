@@ -30,9 +30,7 @@ router.route('/:id').get(async (req, res) => {
         res.status(404).send('User not found');
     }
 });
-router
-    .route('/')
-    .post(
+router.route('/').post(
 //[checkJwt, checkRole(['ADMIN'])],
 async (req, res) => {
     const { username, password, role } = req.body;
@@ -51,7 +49,7 @@ async (req, res) => {
         await userRepository.save(user);
     }
     catch (e) {
-        res.status(409).send('username already in use');
+        res.status(409).send(e);
         return;
     }
     res.status(201).send('User created');
