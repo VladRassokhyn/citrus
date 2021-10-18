@@ -42,7 +42,13 @@ router.route('/login').post(async (req: Request, res: Response) => {
 
     res.send({
       token,
-      user: { id: user.id, username: user.username, role: user.role },
+      user: {
+        id: user.id,
+        username: user.username,
+        role: user.role,
+        name: user.name,
+        lastName: user.lastName,
+      },
     });
   } catch (err) {
     res.status(401).send(err);

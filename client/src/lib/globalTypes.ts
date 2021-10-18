@@ -7,4 +7,10 @@ export enum LoadingStatuses {
   ERROR = 'ERROR',
 }
 
-export type User = { id: string; username: string; role: string };
+export type User = {
+  username: string;
+  name: string;
+  lastName: string;
+  role: string;
+  id: number;
+};

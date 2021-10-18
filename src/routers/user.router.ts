@@ -9,7 +9,7 @@ const router = express.Router();
 router.route('/').get(async (req: Request, res: Response) => {
   const userRepository = getRepository(User);
   const users = await userRepository.find({
-    select: ['id', 'username', 'role'],
+    select: ['id', 'username', 'role', 'name', 'lastName'],
   });
 
   res.send(users);
@@ -21,8 +21,9 @@ router.route('/:id').get(async (req: Request, res: Response) => {
   const userRepository = getRepository(User);
   try {
     const user = await userRepository.findOneOrFail(id, {
-      select: ['id', 'username', 'role'],
+      select: ['id', 'name', 'lastName', 'username', 'role'],
     });
+    console.log(user);
     res.send(user);
   } catch (error) {
     res.status(404).send('User not found');
@@ -60,42 +61,37 @@ router.route('/').post(
   },
 );
 
-router
-  .route('/:id')
-  .put(
-    [checkJwt, checkRole(['ADMIN'])],
-    async (req: Request, res: Response) => {
-      const id = req.params['id'];
+router.route('/:id').put([checkJwt], async (req: Request, res: Response) => {
+  const id = req.params['id'];
 
-      const { username, role } = req.body;
+  const { username, role } = req.body;
 
-      const userRepository = getRepository(User);
-      let user;
-      try {
-        user = await userRepository.findOneOrFail(id);
-      } catch (error) {
-        res.status(404).send('User not found');
-        return;
-      }
+  const userRepository = getRepository(User);
+  let user;
+  try {
+    user = await userRepository.findOneOrFail(id);
+  } catch (error) {
+    res.status(404).send('User not found');
+    return;
+  }
 
-      user.username = username;
-      user.role = role;
-      const errors = await validate(user);
-      if (errors.length > 0) {
-        res.status(400).send(errors);
-        return;
-      }
+  user.username = username;
+  user.role = role;
+  const errors = await validate(user);
+  if (errors.length > 0) {
+    res.status(400).send(errors);
+    return;
+  }
 
-      try {
-        await userRepository.save(user);
-      } catch (e) {
-        res.status(409).send('username already in use');
-        return;
-      }
+  try {
+    await userRepository.save(user);
+  } catch (e) {
+    res.status(409).send('username already in use');
+    return;
+  }
 
-      res.status(204).send();
-    },
-  );
+  res.status(204).send();
+});
 
 router
   .route('/:id')

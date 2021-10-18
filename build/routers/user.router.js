@@ -13,7 +13,7 @@ const router = express_1.default.Router();
 router.route('/').get(async (req, res) => {
     const userRepository = (0, typeorm_1.getRepository)(entities_1.User);
     const users = await userRepository.find({
-        select: ['id', 'username', 'role'],
+        select: ['id', 'username', 'role', 'name', 'lastName'],
     });
     res.send(users);
 });
@@ -22,8 +22,9 @@ router.route('/:id').get(async (req, res) => {
     const userRepository = (0, typeorm_1.getRepository)(entities_1.User);
     try {
         const user = await userRepository.findOneOrFail(id, {
-            select: ['id', 'username', 'role'],
+            select: ['id', 'name', 'lastName', 'username', 'role'],
         });
+        console.log(user);
         res.send(user);
     }
     catch (error) {
@@ -56,9 +57,7 @@ async (req, res) => {
     }
     res.status(201).send('User created');
 });
-router
-    .route('/:id')
-    .put([meddleware_1.checkJwt, (0, meddleware_1.checkRole)(['ADMIN'])], async (req, res) => {
+router.route('/:id').put([meddleware_1.checkJwt], async (req, res) => {
     const id = req.params['id'];
     const { username, role } = req.body;
     const userRepository = (0, typeorm_1.getRepository)(entities_1.User);

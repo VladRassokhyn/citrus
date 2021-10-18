@@ -38,7 +38,13 @@ router.route('/login').post(async (req, res) => {
         const token = jsonwebtoken_1.default.sign({ userId: user.id, username: user.username }, process.env['jwtSecret'], { expiresIn: '24h' });
         res.send({
             token,
-            user: { id: user.id, username: user.username, role: user.role },
+            user: {
+                id: user.id,
+                username: user.username,
+                role: user.role,
+                name: user.name,
+                lastName: user.lastName,
+            },
         });
     }
     catch (err) {
