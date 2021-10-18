@@ -25,30 +25,28 @@ router.route('/login').post(async (req: Request, res: Response) => {
   if (!(username && password)) {
     res.status(400).send();
   }
+  try {
+    const userRepository = getRepository(User);
+    const user = await userRepository.findOneOrFail({ where: { username } });
 
-  const userRepository = getRepository(User);
-  const user = await userRepository.findOneOrFail({ where: { username } });
+    if (!user.checkIfUnencryptedPasswordIsValid(password)) {
+      res.status(401).send();
+      return;
+    }
 
-  if (!user) {
-    res.status(401).send();
-    return;
+    const token = jwt.sign(
+      { userId: user.id, username: user.username },
+      process.env['jwtSecret']!,
+      { expiresIn: '24h' },
+    );
+
+    res.send({
+      token,
+      user: { id: user.id, username: user.username, role: user.role },
+    });
+  } catch (err) {
+    res.status(401).send(err);
   }
-
-  if (!user.checkIfUnencryptedPasswordIsValid(password)) {
-    res.status(401).send();
-    return;
-  }
-
-  const token = jwt.sign(
-    { userId: user.id, username: user.username },
-    process.env['jwtSecret']!,
-    { expiresIn: '24h' },
-  );
-
-  res.send({
-    token,
-    user: { id: user.id, username: user.username, role: user.role },
-  });
 });
 
 router

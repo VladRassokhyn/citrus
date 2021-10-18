@@ -28,21 +28,22 @@ router.route('/login').post(async (req, res) => {
     if (!(username && password)) {
         res.status(400).send();
     }
-    const userRepository = (0, typeorm_1.getRepository)(entities_1.User);
-    const user = await userRepository.findOneOrFail({ where: { username } });
-    if (!user) {
-        res.status(401).send();
-        return;
+    try {
+        const userRepository = (0, typeorm_1.getRepository)(entities_1.User);
+        const user = await userRepository.findOneOrFail({ where: { username } });
+        if (!user.checkIfUnencryptedPasswordIsValid(password)) {
+            res.status(401).send();
+            return;
+        }
+        const token = jsonwebtoken_1.default.sign({ userId: user.id, username: user.username }, process.env['jwtSecret'], { expiresIn: '24h' });
+        res.send({
+            token,
+            user: { id: user.id, username: user.username, role: user.role },
+        });
     }
-    if (!user.checkIfUnencryptedPasswordIsValid(password)) {
-        res.status(401).send();
-        return;
+    catch (err) {
+        res.status(401).send(err);
     }
-    const token = jsonwebtoken_1.default.sign({ userId: user.id, username: user.username }, process.env['jwtSecret'], { expiresIn: '24h' });
-    res.send({
-        token,
-        user: { id: user.id, username: user.username, role: user.role },
-    });
 });
 router
     .route('/change-password')

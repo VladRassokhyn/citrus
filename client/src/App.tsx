@@ -5,7 +5,7 @@ import { Header } from './Components/Header';
 import { Preloader } from './Components/Preloader';
 import { LoadingStatuses } from './lib/globalTypes';
 import { useTypedSelector } from './lib/hooks';
-import { selectAuthStatuses, selectAuthUser } from './lib/slices/auth';
+import { selectAuthStatuses } from './lib/slices/auth';
 import { getAuth } from './lib/slices/auth/auth.slice';
 import { Analitic } from './pages/Analitic/Analitics';
 import { Checklist } from './pages/Checklist/Checklist';
@@ -15,7 +15,6 @@ import { Main } from './pages/Main/Main';
 import { Salesmans } from './pages/Salesmans/Salesmans';
 
 export const App = (): JSX.Element => {
-  const authUser = useTypedSelector(selectAuthUser);
   const { authStatus } = useTypedSelector(selectAuthStatuses);
   const dispatch = useDispatch();
 
@@ -32,7 +31,7 @@ export const App = (): JSX.Element => {
 
   return (
     <>
-      <Header authUser={authUser} />
+      <Header />
       <Route exact path={'/'} render={() => <Main />} />
       <Route exact path={'/cm'} render={() => <CmMenu />} />
       <Route exact path={'/analytics'} render={() => <Analitic />} />

@@ -1,14 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-
-type Props = {
-  authUser: {
-    id: number;
-    username: string;
-    role: string;
-  } | null;
-};
+import { useTypedSelector } from '../../lib/hooks';
+import { selectAuthUser } from '../../lib/slices/auth';
 
 const Wrapper = styled.div`
   width: 90%;
@@ -25,8 +19,8 @@ const H1 = styled.h1`
   color: white;
 `;
 
-export const Header = (props: Props): JSX.Element => {
-  const { authUser } = props;
+export const Header = (): JSX.Element => {
+  const authUser = useTypedSelector(selectAuthUser);
   return (
     <Wrapper>
       {authUser ? (

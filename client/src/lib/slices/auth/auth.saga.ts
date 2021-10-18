@@ -14,8 +14,12 @@ import {
 } from './auth.slice';
 
 function* loginWorker(action: FixLater): SagaIterator {
-  const { data } = yield call(authApi.login, action.payload);
-  yield put({ type: setLogin.type, payload: data });
+  try {
+    const { data } = yield call(authApi.login, action.payload);
+    yield put({ type: setLogin.type, payload: data });
+  } catch {
+    yield put({ type: setLoginError.type });
+  }
 }
 
 function* authWorker(): SagaIterator {
@@ -27,15 +31,14 @@ function* authWorker(): SagaIterator {
       yield put({ type: setAuthError.type });
       console.log('wrong user data');
     } else {
-    }
+      const user = yield call(userApi.getUserById, res.data.userId);
 
-    const user = yield call(userApi.getUserById, res.data.userId);
-
-    if (!user) {
-      yield put({ type: setAuthError.type });
-    } else {
-      yield put({ type: setAuthUser.type, payload: user.data });
-      yield put({ type: setAuth.type });
+      if (!user) {
+        yield put({ type: setAuthError.type });
+      } else {
+        yield put({ type: setAuthUser.type, payload: user.data });
+        yield put({ type: setAuth.type });
+      }
     }
   } catch (err) {
     yield put({ type: setAuthError.type });

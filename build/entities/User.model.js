@@ -56,12 +56,10 @@ __decorate([
 ], User.prototype, "password", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
-    (0, class_validator_1.Length)(4, 100),
     __metadata("design:type", String)
 ], User.prototype, "name", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
-    (0, class_validator_1.Length)(4, 100),
     __metadata("design:type", String)
 ], User.prototype, "lastName", void 0);
 __decorate([
