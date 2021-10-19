@@ -35,6 +35,7 @@ const NavBtnLeft = styled.button`
   width: 7vw;
   height: 170px;
   border: 1px solid #f0f0f0;
+  border-radius: 5px;
 `;
 
 const NavBtnRight = styled.button`
@@ -44,6 +45,7 @@ const NavBtnRight = styled.button`
   width: 7vw;
   height: 170px;
   border: 1px solid #f0f0f0;
+  border-radius: 5px;
 `;
 
 const Img = styled.img`
