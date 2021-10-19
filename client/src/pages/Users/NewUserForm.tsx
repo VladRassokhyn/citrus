@@ -13,6 +13,7 @@ import { useTypedSelector } from '../../lib/hooks';
 import { InputField } from '../../Components/InputField';
 
 type Props = {
+  userId?: number;
   initialRole?: UserRoles;
   initialUsername?: string;
   initialName?: string;
@@ -52,6 +53,7 @@ const roleSelectorOptions = [
 
 export const NewUserForm = (props: Props): JSX.Element => {
   const {
+    userId,
     initialRole,
     initialUsername,
     initialName,
@@ -73,7 +75,7 @@ export const NewUserForm = (props: Props): JSX.Element => {
 
   const handleSave = (e: FixLater) => {
     if (isUpdate) {
-      dispatch(updateUser({ ...e, role: e.role.value }));
+      dispatch(updateUser({ id: userId, dto: { ...e, role: e.role.value } }));
     } else {
       dispatch(postNewUser({ ...e, role: e.role.value }));
     }

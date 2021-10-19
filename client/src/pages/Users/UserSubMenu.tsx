@@ -95,6 +95,7 @@ export const UserSubMenu = (props: Props): JSX.Element => {
       )}
       {isEditForm ? (
         <NewUserForm
+          userId={user.id}
           initialLastName={user.lastName}
           initialName={user.name}
           salesmanId={user.id}
