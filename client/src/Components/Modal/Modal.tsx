@@ -18,7 +18,7 @@ const Wrapper = styled.div`
   justify-content: center;
   background-color: black;
   opacity: 0.6;
-  z-index: 100;
+  z-index: 999;
 `;
 
 const Content = styled.div`
@@ -30,7 +30,7 @@ const Content = styled.div`
   min-height: 100px;
   background-color: white;
   opacity: 1;
-  z-index: 200;
+  z-index: 1000;
   border-radius: 5px;
   display: flex;
   flex-direction: column;

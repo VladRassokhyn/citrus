@@ -9,6 +9,7 @@ export const Analitic = (): JSX.Element => {
     const timer = setTimeout(() => {
       setSHow(true);
     }, 2000);
+    return () => clearTimeout(timer);
   }, []);
 
   if (show) {

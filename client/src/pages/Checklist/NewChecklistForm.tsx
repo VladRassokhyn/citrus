@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Select from 'react-select';
 import { useDispatch } from 'react-redux';
 import { useTypedSelector } from '../../lib/hooks';
-import { selectAllSalesmans } from '../../lib/slices/salesmans';
+import { selectAllUsers } from '../../lib/slices/users';
 import { menus } from '../CM/menus';
 import { useForm } from 'react-hook-form';
 import { useMemo, useState } from 'react';
@@ -56,20 +56,19 @@ const Button = styled.button`
 export const NewChecklistForm = (): JSX.Element => {
   const dispatch = useDispatch();
   const [themeName, setThemeName] = useState('');
-  const [salesmanId, setSalesmanId] = useState<string | null>(null);
-  const salesmans = useTypedSelector(selectAllSalesmans);
+  const users = useTypedSelector(selectAllUsers);
   const newChecklist = useTypedSelector(selectNewChecklist);
   const { register, handleSubmit } = useForm();
 
   const salesmanOptions = useMemo(
     () =>
-      salesmans.map((salesman) => {
+      users.map((user) => {
         return {
-          value: salesman.id,
-          label: `${salesman.lastname} ${salesman.name}`,
+          value: user.id,
+          label: `${user.lastName} ${user.name}`,
         };
       }),
-    [salesmans],
+    [users],
   );
 
   const themeOptions = useMemo(
@@ -120,7 +119,7 @@ export const NewChecklistForm = (): JSX.Element => {
       </OSWrapper>
     ));
 
-  const handleFormSubmit = (e: any) => {
+  const handleFormSubmit = (e: FixLater) => {
     const checklist = {
       name: themeName,
       fields: e,

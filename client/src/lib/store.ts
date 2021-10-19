@@ -3,14 +3,15 @@ import createSagaMiddleware from 'redux-saga';
 import { rootSaga } from './sagas';
 import { authReducer } from './slices/auth';
 import { checklistReducer } from './slices/checklist';
-import { salesmansReducer } from './slices/salesmans';
+import { usersReducer, oneUserReducer } from './slices/users';
 
 const sagaMiddleware = createSagaMiddleware();
 const middleware = [...getDefaultMiddleware({ thunk: false }), sagaMiddleware];
 
 export const store = configureStore({
   reducer: {
-    salesmans: salesmansReducer,
+    users: usersReducer,
+    oneUser: oneUserReducer,
     checklist: checklistReducer,
     auth: authReducer,
   },

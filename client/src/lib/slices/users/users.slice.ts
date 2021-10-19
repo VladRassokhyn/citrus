@@ -1,41 +1,41 @@
-import { SalesmanState } from './salesmans.types';
+import { UsersState } from './users.types';
 import { createSlice } from '@reduxjs/toolkit';
 import { LoadingStatuses } from '../../globalTypes';
 
-const initialState: SalesmanState = {
+const initialState: UsersState = {
   items: [],
   status: LoadingStatuses.IDLE,
   CRUDstatus: LoadingStatuses.IDLE,
   error: null,
 };
 
-const salesmansSlice = createSlice({
+const usersSlice = createSlice({
   name: 'salesmans',
   initialState,
   reducers: {
-    getSalesmans(state) {
+    getUsers(state) {
       state.status = LoadingStatuses.LOADING;
     },
-    setSalesmans(state, action) {
+    setUsers(state, action) {
       state.items = action.payload;
       state.status = LoadingStatuses.SUCCESS;
     },
-    postNewSalesman(state, action) {
+    postNewUser(state, action) {
       state.CRUDstatus = LoadingStatuses.LOADING;
     },
-    newSalesmanPosted(state) {
+    newUserPosted(state) {
       state.CRUDstatus = LoadingStatuses.SUCCESS;
     },
-    deleteSalesman(state, action) {
+    deleteUser(state, action) {
       state.CRUDstatus = LoadingStatuses.LOADING;
     },
-    salesmanDeleted(state) {
+    userDeleted(state) {
       state.CRUDstatus = LoadingStatuses.SUCCESS;
     },
-    updateSalesman(state, action) {
+    updateUser(state, action) {
       state.CRUDstatus = LoadingStatuses.LOADING;
     },
-    salesmanUpdated(state) {
+    userUpdated(state) {
       state.CRUDstatus = LoadingStatuses.SUCCESS;
     },
     statusesResets(state) {
@@ -52,17 +52,17 @@ const salesmansSlice = createSlice({
 });
 
 export const {
-  getSalesmans,
-  setSalesmans,
-  setError,
-  postNewSalesman,
-  newSalesmanPosted,
-  deleteSalesman,
+  getUsers,
+  setUsers,
+  postNewUser,
+  newUserPosted,
+  deleteUser,
+  userDeleted,
+  updateUser,
+  userUpdated,
   statusesResets,
+  setError,
   setCRUDError,
-  salesmanDeleted,
-  updateSalesman,
-  salesmanUpdated,
-} = salesmansSlice.actions;
+} = usersSlice.actions;
 
-export const salesmansReducer = salesmansSlice.reducer;
+export const usersReducer = usersSlice.reducer;

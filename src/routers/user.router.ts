@@ -30,36 +30,38 @@ router.route('/:id').get(async (req: Request, res: Response) => {
   }
 });
 
-router.route('/').post(
-  //[checkJwt, checkRole(['ADMIN'])],
-  async (req: Request, res: Response) => {
-    const { username, password, role, name, lastName } = req.body;
-    const user = new User();
-    user.username = username;
-    user.password = password;
-    user.name = name;
-    user.lastName = lastName;
-    user.role = role;
+router
+  .route('/')
+  .post(
+    [checkJwt, checkRole(['ADMIN'])],
+    async (req: Request, res: Response) => {
+      const { username, password, role, name, lastName } = req.body;
+      const user = new User();
+      user.username = username;
+      user.password = password;
+      user.name = name;
+      user.lastName = lastName;
+      user.role = role;
 
-    const errors = await validate(user);
-    if (errors.length > 0) {
-      res.status(400).send(errors);
-      return;
-    }
+      const errors = await validate(user);
+      if (errors.length > 0) {
+        res.status(400).send(errors);
+        return;
+      }
 
-    user.hashPassword();
+      user.hashPassword();
 
-    const userRepository = getRepository(User);
-    try {
-      await userRepository.save(user);
-    } catch (e) {
-      res.status(409).send(e);
-      return;
-    }
+      const userRepository = getRepository(User);
+      try {
+        await userRepository.save(user);
+      } catch (e) {
+        res.status(409).send(e);
+        return;
+      }
 
-    res.status(201).send('User created');
-  },
-);
+      res.status(201).send('User created');
+    },
+  );
 
 router.route('/:id').put([checkJwt], async (req: Request, res: Response) => {
   const id = req.params['id'];

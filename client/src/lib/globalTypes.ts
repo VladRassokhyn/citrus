@@ -7,10 +7,15 @@ export enum LoadingStatuses {
   ERROR = 'ERROR',
 }
 
+export enum UserRoles {
+  ADMIN = 'ADMIN',
+  SALESMAN = 'SALESMAN',
+}
+
 export type User = {
   username: string;
   name: string;
   lastName: string;
-  role: string;
+  role: UserRoles;
   id: number;
 };

@@ -1,0 +1,46 @@
+import {
+  selectAllUsers,
+  selectUsersCRUSstatus,
+  selectUsersStatus,
+  selectUserById,
+  selectOneUser,
+  selectOneUserStatus,
+} from './users.selectors';
+import {
+  usersReducer,
+  getUsers,
+  setUsers,
+  postNewUser,
+  newUserPosted,
+  deleteUser,
+  userDeleted,
+  updateUser,
+  userUpdated,
+  statusesResets,
+  setError,
+  setCRUDError,
+} from './users.slice';
+import { oneUserReducer, getOneUser } from './oneUser.slice';
+
+export {
+  selectAllUsers,
+  selectUsersCRUSstatus,
+  selectUsersStatus,
+  selectUserById,
+  selectOneUser,
+  selectOneUserStatus,
+  usersReducer,
+  oneUserReducer,
+  getOneUser,
+  getUsers,
+  setUsers,
+  postNewUser,
+  newUserPosted,
+  deleteUser,
+  userDeleted,
+  updateUser,
+  userUpdated,
+  statusesResets,
+  setError,
+  setCRUDError,
+};

@@ -5,14 +5,14 @@ import { Header } from './Components/Header';
 import { Preloader } from './Components/Preloader';
 import { LoadingStatuses } from './lib/globalTypes';
 import { useTypedSelector } from './lib/hooks';
-import { selectAuthStatuses } from './lib/slices/auth';
-import { getAuth } from './lib/slices/auth/auth.slice';
-import { Analitic } from './pages/Analitic/Analitics';
-import { Checklist } from './pages/Checklist/Checklist';
-import { CmMenu } from './pages/CM/CmMenu';
-import { Login } from './pages/Login/Login';
-import { Main } from './pages/Main/Main';
-import { Salesmans } from './pages/Salesmans/Salesmans';
+import { selectAuthStatuses, getAuth } from './lib/slices/auth';
+import { Analitic } from './pages/Analitics';
+import { Checklist } from './pages/Checklist';
+import { CmMenu } from './pages/CM';
+import { Login } from './pages/Login';
+import { Main } from './pages/Main';
+import { Users } from './pages/Users';
+import { User } from './pages/Users/User';
 
 export const App = (): JSX.Element => {
   const { authStatus } = useTypedSelector(selectAuthStatuses);
@@ -35,9 +35,10 @@ export const App = (): JSX.Element => {
       <Route exact path={'/'} render={() => <Main />} />
       <Route exact path={'/cm'} render={() => <CmMenu />} />
       <Route exact path={'/analytics'} render={() => <Analitic />} />
-      <Route exact path={'/salesmans'} render={() => <Salesmans />} />
+      <Route exact path={'/users'} render={() => <Users />} />
       <Route exact path={'/checklist'} render={() => <Checklist />} />
       <Route exact path={'/login'} render={() => <Login />} />
+      <Route exact path={'/users/:userId'} render={() => <User />} />
     </>
   );
 };

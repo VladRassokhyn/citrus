@@ -1,4 +1,4 @@
-import { userApi } from './../../api/user.api';
+import { usersApi } from './../../api/users.api';
 import { authApi } from './../../api/auth.api';
 import { SagaIterator } from '@redux-saga/types';
 import { FixLater } from './../../globalTypes';
@@ -11,13 +11,14 @@ import {
   getAuth,
   setAuth,
   setAuthUser,
-} from './auth.slice';
+} from '../auth';
 
 function* loginWorker(action: FixLater): SagaIterator {
   try {
     const { data } = yield call(authApi.login, action.payload);
-    yield put({ type: setLogin.type, payload: data });
-  } catch {
+    yield put({ type: setLogin.type, payload: data.token });
+    yield put({ type: setAuthUser.type, payload: data.user });
+  } catch (err) {
     yield put({ type: setLoginError.type });
   }
 }
@@ -25,13 +26,11 @@ function* loginWorker(action: FixLater): SagaIterator {
 function* authWorker(): SagaIterator {
   try {
     const res = yield call(authApi.getAuth);
-    console.log(res);
 
     if (res.status === 401) {
       yield put({ type: setAuthError.type });
-      console.log('wrong user data');
     } else {
-      const user = yield call(userApi.getUserById, res.data.userId);
+      const user = yield call(usersApi.getUserById, res.data.userId);
 
       if (!user) {
         yield put({ type: setAuthError.type });

@@ -70,7 +70,7 @@ export const Main = (): JSX.Element => {
         <Img src={analitic} alt="anslyics image" />
         <H1>Аналитика</H1>
       </MenuItem>
-      <MenuItem isClosing={isClosing} onClick={() => handleClose('salesmans')}>
+      <MenuItem isClosing={isClosing} onClick={() => handleClose('users')}>
         <Img src={employee} alt="salesmans image" />
         <H1>Продавцы</H1>
       </MenuItem>

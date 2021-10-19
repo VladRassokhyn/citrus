@@ -31,9 +31,9 @@ router.route('/:id').get(async (req, res) => {
         res.status(404).send('User not found');
     }
 });
-router.route('/').post(
-//[checkJwt, checkRole(['ADMIN'])],
-async (req, res) => {
+router
+    .route('/')
+    .post([meddleware_1.checkJwt, (0, meddleware_1.checkRole)(['ADMIN'])], async (req, res) => {
     const { username, password, role, name, lastName } = req.body;
     const user = new entities_1.User();
     user.username = username;

@@ -17,7 +17,7 @@ export const authSlice = createSlice({
       state.loginStatus = LoadingStatuses.LOADING;
     },
     setLogin(state, action) {
-      localStorage.setItem('token', action.payload.token);
+      localStorage.setItem('token', action.payload);
       state.loginStatus = LoadingStatuses.SUCCESS;
     },
     getAuth(state) {
@@ -28,6 +28,11 @@ export const authSlice = createSlice({
     },
     setAuthUser(state, action) {
       state.authUser = action.payload;
+    },
+    logout(state) {
+      localStorage.setItem('token', '');
+      state.authUser = null;
+      state.error = null;
     },
     setLoginError(state, action) {
       state.authStatus = LoadingStatuses.ERROR;
@@ -46,6 +51,7 @@ export const {
   getAuth,
   setAuth,
   setAuthUser,
+  logout,
 } = authSlice.actions;
 
 export const authReducer = authSlice.reducer;
