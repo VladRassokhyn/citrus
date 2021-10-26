@@ -6,7 +6,7 @@ import { checkJwt, checkRole } from '../meddleware';
 const router = express.Router();
 
 router.route('/').get(async (req, res) => {
-  const passedOnly = req.body.passedOnly;
+  const passedOnly = req.query['passedOnly'];
   try {
     const checklistRepo = getRepository(Checklist);
     const categoryRepo = getRepository(Category);
@@ -15,7 +15,7 @@ router.route('/').get(async (req, res) => {
     const categories = await categoryRepo.find({ relations: ['fields'] });
 
     checklists = checklists.filter(
-      (checklist) => checklist.passed === passedOnly,
+      (checklist) => checklist.passed === !!passedOnly,
     );
 
     let toRes: Checklist[] = [];

@@ -10,13 +10,13 @@ const express_1 = __importDefault(require("express"));
 const meddleware_1 = require("../meddleware");
 const router = express_1.default.Router();
 router.route('/').get(async (req, res) => {
-    const passedOnly = req.body.passedOnly;
+    const passedOnly = req.query['passedOnly'];
     try {
         const checklistRepo = (0, typeorm_1.getRepository)(Checklist_model_1.Checklist);
         const categoryRepo = (0, typeorm_1.getRepository)(Checklist_model_1.Category);
         let checklists = await checklistRepo.find({ relations: ['categories'] });
         const categories = await categoryRepo.find({ relations: ['fields'] });
-        checklists = checklists.filter((checklist) => checklist.passed === passedOnly);
+        checklists = checklists.filter((checklist) => checklist.passed === !!passedOnly);
         let toRes = [];
         checklists.forEach((checklist) => {
             const checklistToRes = {
