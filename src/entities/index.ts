@@ -1,4 +1,4 @@
-import { Salesman } from './Salesman.model';
 import { User } from './User.model';
+import { Checklist, Category, Field } from './Checklist.model';
 
-export { Salesman, User };
+export { User, Checklist, Category, Field };

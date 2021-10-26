@@ -1,5 +1,5 @@
 import { createConnection, ConnectionOptions } from 'typeorm';
-import { User, Salesman } from './entities';
+import { User, Checklist, Category, Field } from './entities';
 
 export const connectToDb = async () => {
   try {
@@ -10,7 +10,7 @@ export const connectToDb = async () => {
       database: process.env['DB_USERNAME'] + '',
       password: process.env['DB_PASSWORD'] + '',
       host: process.env['DB_HOSTNAME'] + '',
-      entities: [User, Salesman],
+      entities: [User, Checklist, Category, Field],
       synchronize: true,
       logging: false,
       keepConnectionAlive: true,

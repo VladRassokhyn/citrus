@@ -3,9 +3,9 @@ import { config as envConfig } from 'dotenv';
 import path from 'path';
 import { TryDbConnect } from './db';
 import cors from 'cors';
-import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
-import { salesmanRouter, userRouter, authRouter } from './routers';
+import { userRouter, authRouter } from './routers';
+import { checklistRouter } from './routers/checklist.router';
 
 envConfig();
 
@@ -16,14 +16,7 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../client/build')));
 
-const rootUrls = [
-  '/',
-  '/salesmans',
-  '/cm',
-  '/analytics',
-  '/checklist',
-  '/login',
-];
+const rootUrls = ['/', '/users', '/cm', '/analytics', '/checklist', '/login'];
 
 app.use('/', (req: Request, res: Response, next: NextFunction) => {
   if (rootUrls.includes(req.url)) {
@@ -35,7 +28,7 @@ app.use('/', (req: Request, res: Response, next: NextFunction) => {
 
 app.use('/api/auth', authRouter);
 app.use('/api/users', userRouter);
-app.use('/api/salesmans', salesmanRouter);
+app.use('/api/checklist', checklistRouter);
 
 (async () => {
   await TryDbConnect(() =>

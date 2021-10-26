@@ -10,6 +10,7 @@ export enum LoadingStatuses {
 export enum UserRoles {
   ADMIN = 'ADMIN',
   SALESMAN = 'SALESMAN',
+  MANAGER = 'MANAGER',
 }
 
 export type User = {

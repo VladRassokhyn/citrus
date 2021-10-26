@@ -1,24 +1,26 @@
-export type ChecklistInitialState = {
-  checklists: Checklist[];
-  newChecklist: Checklist | null;
-};
-export type ChecklistTheme = {
-  id: string;
+import { LoadingStatuses } from './../../globalTypes';
+export type Checklist = {
   title: string;
-  subThemes?: {
-    id: string;
-    title: string;
-    fields: {
-      id: string;
-      title: string;
-      checkbox: boolean;
-    }[];
-  }[];
+  passed: boolean;
+  id: number;
+  categories: Category[];
 };
 
-export type Checklist = {
-  id?: string;
-  name: string;
-  salesmanId: string;
-  themes: ChecklistTheme[];
+export type Category = {
+  id: number;
+  title: string;
+  fields: Field[];
+};
+
+export type Field = {
+  id: number;
+  title: string;
+  checked: boolean;
+};
+
+export type ChecklistState = {
+  status: LoadingStatuses;
+  checklists: Checklist[] | null;
+  singleChecklist: Checklist | null;
+  singleChecklistStatus: LoadingStatuses;
 };

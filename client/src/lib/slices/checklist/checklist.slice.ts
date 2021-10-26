@@ -1,64 +1,44 @@
-import { menus } from './../../../pages/CM/menus';
 import { createSlice } from '@reduxjs/toolkit';
-import { ChecklistInitialState } from './checklist.types';
+import { LoadingStatuses } from '../../globalTypes';
+import { ChecklistState } from './checklist.types';
 
-const initialState: ChecklistInitialState = {
-  checklists: [],
-  newChecklist: null,
+const initialState: ChecklistState = {
+  checklists: null,
+  status: LoadingStatuses.IDLE,
+  singleChecklist: null,
+  singleChecklistStatus: LoadingStatuses.IDLE,
 };
 
 const checklistSlice = createSlice({
   name: 'checklist',
   initialState,
   reducers: {
-    newChecklistAdded(state, action) {
-      const menu = menus.find((menu) => menu.id === action.payload);
-      if (menu) {
-        const themes = menu.os.map((os) => {
-          return {
-            id: os.id,
-            title: os.displayName,
-            subThemes: os.items.map((item) => {
-              return {
-                id: item.id,
-                title: item.displayName,
-                fields: item.includes!.map((inc) => {
-                  return {
-                    id: inc.id,
-                    title: inc.title,
-                    checkbox: false,
-                  };
-                }),
-              };
-            }),
-          };
-        });
-        state.newChecklist = {
-          name: menu.title,
-          salesmanId: action.payload,
-          themes: themes,
-        };
-      }
+    getChecklists(state) {
+      state.status = LoadingStatuses.LOADING;
     },
-    fieldCheckboxChanged(state, action) {
-      const field = state
-        .newChecklist!.themes.find(
-          (theme) => theme.id === action.payload.themeId,
-        )
-        ?.subThemes?.find(
-          (subTheme) => subTheme.id === action.payload.subThemeId,
-        )
-        ?.fields.find((field) => field.id === action.payload.fieldId);
-      if (field) {
-        field.checkbox = !field.checkbox;
-      }
+    setChecklists(state, action) {
+      state.checklists = action.payload;
+      state.status = LoadingStatuses.SUCCESS;
+    },
+    getSingleChecklist(state) {
+      state.singleChecklistStatus = LoadingStatuses.LOADING;
+    },
+    setSingleChecklistStatus(state, action) {
+      state.singleChecklist = action.payload;
+      state.singleChecklistStatus = LoadingStatuses.SUCCESS;
+    },
+    setError(state) {
+      state.status = LoadingStatuses.ERROR;
     },
   },
 });
 
 export const {
-  newChecklistAdded,
-  fieldCheckboxChanged,
+  getChecklists,
+  setChecklists,
+  getSingleChecklist,
+  setSingleChecklistStatus,
+  setError,
 } = checklistSlice.actions;
 
 export const checklistReducer = checklistSlice.reducer;

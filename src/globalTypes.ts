@@ -1,13 +1,10 @@
 export type ChecklistDTO = {
-  checklistTitle: string;
+  title: string;
   categories: {
-    categoryTitle: string;
-    subCategories: {
-      subCategoryTitle: string;
-      fields: {
-        fieldTitle: string;
-        checked: boolean;
-      }[];
+    title: string;
+    fields: {
+      title: string;
+      checked: boolean;
     }[];
   }[];
 };
