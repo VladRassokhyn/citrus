@@ -16,7 +16,9 @@ router.route('/').get(async (req, res) => {
         const categoryRepo = (0, typeorm_1.getRepository)(Checklist_model_1.Category);
         let checklists = await checklistRepo.find({ relations: ['categories'] });
         const categories = await categoryRepo.find({ relations: ['fields'] });
-        checklists = checklists.filter((checklist) => checklist.passed === !!passedOnly);
+        if (passedOnly === 'true') {
+            checklists = checklists.filter((checklist) => checklist.passed);
+        }
         let toRes = [];
         checklists.forEach((checklist) => {
             const checklistToRes = {

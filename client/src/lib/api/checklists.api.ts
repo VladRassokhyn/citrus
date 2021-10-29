@@ -3,9 +3,9 @@ import { axiosInstance } from './axiosInstance';
 
 export const checklistsApi = {
   async getChecklists(): Promise<Checklist[]> {
-    return await axiosInstance.get('/checklist?passedOnly=false');
+    return await axiosInstance.get('/checklist?passedOnly=true');
   },
   async postNewChecklist(payload: Checklist): Promise<{ data: Checklist }> {
-    return await axiosInstance.post('/checklists', payload);
+    return await axiosInstance.post('/checklist', payload);
   },
 };

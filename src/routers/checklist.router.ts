@@ -14,9 +14,9 @@ router.route('/').get(async (req, res) => {
     let checklists = await checklistRepo.find({ relations: ['categories'] });
     const categories = await categoryRepo.find({ relations: ['fields'] });
 
-    checklists = checklists.filter(
-      (checklist) => checklist.passed === !!passedOnly,
-    );
+    if (passedOnly === 'true') {
+      checklists = checklists.filter((checklist) => checklist.passed);
+    }
 
     let toRes: Checklist[] = [];
 
