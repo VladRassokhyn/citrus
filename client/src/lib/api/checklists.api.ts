@@ -8,4 +8,7 @@ export const checklistsApi = {
   async postNewChecklist(payload: Checklist): Promise<{ data: Checklist }> {
     return await axiosInstance.post('/checklist', payload);
   },
+  async getChecklistById(id: string): Promise<Checklist> {
+    return await axiosInstance.get(`/checklist/${id}`);
+  },
 };

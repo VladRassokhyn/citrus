@@ -1,9 +1,12 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { InputField } from '../../../Components/InputField';
-import { useTypedSelector } from '../../../lib/hooks';
-import { postNewChecklist } from '../../../lib/slices/checklist';
+import { InputField } from '../../Components/InputField';
+import { useTypedSelector } from '../../lib/hooks';
+import {
+  postNewChecklist,
+  selectPostChecklistStatus,
+} from '../../lib/slices/checklist';
 import {
   categoryAdded,
   categoryRemoved,
@@ -12,9 +15,10 @@ import {
   fieldAdded,
   fieldRemoved,
   fieldTitleChanged,
-  selectNewChecklist,
-} from '../../../lib/slices/newChecklist';
-import trash from '../../../static/trash.svg';
+  selectSingleChecklist,
+} from '../../lib/slices/checklist';
+import trash from '../../static/trash.svg';
+import { LoadingStatuses } from '../../lib/globalTypes';
 
 const Wrapper = styled.div`
   padding: 15px 5%;
@@ -69,6 +73,7 @@ const Field = styled.div`
   display: flex;
   flex-direction: row;
   gap: 10px;
+  align-items: center;
 `;
 
 const CategoryWrapper = styled.div`
@@ -77,12 +82,27 @@ const CategoryWrapper = styled.div`
   align-items: center;
 `;
 
+const Img = styled.img`
+  width: 17px;
+  height: 100%;
+`;
+
 export const NewChecklistForm = (): JSX.Element => {
-  const checklist = useTypedSelector(selectNewChecklist);
+  const checklist = useTypedSelector(selectSingleChecklist);
+  const postStatus = useTypedSelector(selectPostChecklistStatus);
+  const [disabled, setDisabled] = useState(false);
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    if (postStatus === LoadingStatuses.LOADING) {
+      setDisabled(true);
+    }
+    if (postStatus === LoadingStatuses.SUCCESS) {
+      setDisabled(false);
+    }
+  }, [postStatus]);
+
   const handleSubmit = () => {
-    console.log(checklist);
     dispatch(postNewChecklist(checklist));
   };
 
@@ -126,6 +146,7 @@ export const NewChecklistForm = (): JSX.Element => {
   return (
     <Wrapper>
       <InputField
+        disabled={disabled}
         label={'Тема'}
         vertical
         value={checklist.title}
@@ -136,11 +157,12 @@ export const NewChecklistForm = (): JSX.Element => {
         <CategoryWrapper key={categoryIndex}>
           <Field>
             <InputField
+              disabled={disabled}
               label={'Категория'}
               value={category.title}
               onChange={(e) => handleCategoryTitleChange(e, categoryIndex)}
             />
-            <img src={trash} onClick={() => removeCategory(categoryIndex)} />
+            <Img src={trash} onClick={() => removeCategory(categoryIndex)} />
           </Field>
           <H1>Поля Категории</H1>
 
@@ -148,27 +170,35 @@ export const NewChecklistForm = (): JSX.Element => {
             <FieldsBlock key={`${categoryIndex}-${fieldIndex}`}>
               <Field>
                 <InputField
+                  disabled={disabled}
                   label={fieldIndex + 1 + ''}
                   value={field.title}
                   onChange={(e) =>
                     handleFieldTitleChange(e, categoryIndex, fieldIndex)
                   }
                 />
-                <img
+                <Img
                   src={trash}
                   onClick={() => removeField(categoryIndex, fieldIndex)}
                 />
               </Field>
             </FieldsBlock>
           ))}
-          <AddBtn onClick={() => appendField(categoryIndex)}>
+          <AddBtn
+            disabled={disabled}
+            onClick={() => appendField(categoryIndex)}
+          >
             Добавить Поле
           </AddBtn>
           <HR />
         </CategoryWrapper>
       ))}
-      <AddBtn onClick={appendCategory}>Добавить Категорию</AddBtn>
-      <Button onClick={handleSubmit}>Сохранить чек-лист</Button>
+      <AddBtn disabled={disabled} onClick={appendCategory}>
+        Добавить Категорию
+      </AddBtn>
+      <Button disabled={disabled} onClick={handleSubmit}>
+        Сохранить чек-лист
+      </Button>
     </Wrapper>
   );
 };

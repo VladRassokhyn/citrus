@@ -3,18 +3,18 @@ import { LoadingStatuses } from './../../globalTypes';
 export type Checklist = {
   title: string;
   passed: boolean;
-  id: number;
+  id?: number;
   categories: Category[];
 };
 
 export type Category = {
-  id: number;
+  id?: number;
   title: string;
   fields: Field[];
 };
 
 export type Field = {
-  id: number;
+  id?: number;
   title: string;
   checked: boolean;
 };
@@ -23,6 +23,6 @@ export type ChecklistState = {
   status: LoadingStatuses;
   postChecklistStatus: LoadingStatuses;
   checklists: Checklist[] | null;
-  singleChecklist: Checklist | null;
+  singleChecklist: Checklist;
   singleChecklistStatus: LoadingStatuses;
 };

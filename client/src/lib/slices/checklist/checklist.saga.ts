@@ -2,7 +2,13 @@ import { checklistsApi } from './../../api/checklists.api';
 import { FixLater } from './../../globalTypes';
 import { takeEvery, call, put } from 'redux-saga/effects';
 import { SagaIterator } from '@redux-saga/types';
-import { getChecklists, setChecklists, setError } from './checklist.slice';
+import {
+  getChecklists,
+  getSingleChecklist,
+  setChecklists,
+  setError,
+  setSingleChecklist,
+} from './checklist.slice';
 import { postNewChecklist } from '.';
 
 function* getChecklistsWorker(): SagaIterator {
@@ -14,9 +20,19 @@ function* getChecklistsWorker(): SagaIterator {
   }
 }
 
+function* getCHecklistByIdWorker(action: FixLater): SagaIterator {
+  try {
+    const { data } = yield call(checklistsApi.getChecklistById, action.payload);
+    yield put({ type: setSingleChecklist.type, payload: data });
+  } catch (err) {
+    yield put({ type: setError.type });
+  }
+}
+
 function* postChecklistWorker(action: FixLater): SagaIterator {
   try {
     yield call(checklistsApi.postNewChecklist, action.payload);
+    yield put({ type: getChecklists.type });
   } catch (err) {
     yield put({ type: setError.type });
   }
@@ -25,4 +41,5 @@ function* postChecklistWorker(action: FixLater): SagaIterator {
 export function* checklistWatcher(): SagaIterator {
   yield takeEvery(getChecklists.type, getChecklistsWorker);
   yield takeEvery(postNewChecklist.type, postChecklistWorker);
+  yield takeEvery(getSingleChecklist.type, getCHecklistByIdWorker);
 }

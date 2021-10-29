@@ -61,14 +61,14 @@ router
 
         const checklist = await checklistRepo.save(newChecklist);
 
-        dto.categories.forEach(async (category) => {
+        await dto.categories.forEach(async (category) => {
           const newCategory = new Category();
           newCategory.title = category.title;
           newCategory.checklist = checklist;
           newCategory.fields = category.fields;
           const cat = await categoryRepo.save(newCategory);
 
-          category.fields.forEach(async (field) => {
+          await category.fields.forEach(async (field) => {
             const newField = new Field();
             newField.title = field.title;
             newField.checked = field.checked;
