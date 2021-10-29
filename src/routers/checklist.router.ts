@@ -24,9 +24,7 @@ router.route('/').get(async (req, res) => {
 
     checklists.forEach((checklist) => {
       const checklistToRes: Checklist = {
-        title: checklist.title,
-        id: checklist.id,
-        passed: checklist.passed,
+        ...checklist,
         categories: [],
       };
 
@@ -58,6 +56,11 @@ router
         const newChecklist = new Checklist();
         newChecklist.title = dto.title;
         newChecklist.passed = dto.passed;
+        newChecklist.mark = dto.mark;
+        newChecklist.maxMark = dto.maxMark;
+        newChecklist.managerId = dto.managerId;
+        newChecklist.creatorId = dto.creatorId;
+        newChecklist.passerId = dto.passerId;
 
         const checklist = await checklistRepo.save(newChecklist);
 
@@ -101,9 +104,7 @@ router.route('/:id').get(async (req, res) => {
     const categories = await categoryRepo.find({ relations: ['fields'] });
 
     const checklistToRes: Checklist = {
-      title: checklist.title,
-      id: checklist.id,
-      passed: checklist.passed,
+      ...checklist,
       categories: [],
     };
     categories.forEach((category) => {

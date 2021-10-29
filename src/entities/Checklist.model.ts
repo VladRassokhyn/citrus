@@ -1,3 +1,4 @@
+import { User } from './User.model';
 import {
   Column,
   Entity,
@@ -5,6 +6,8 @@ import {
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
+  CreateDateColumn,
 } from 'typeorm';
 
 @Entity()
@@ -17,6 +20,27 @@ export class Checklist {
 
   @Column()
   passed: boolean;
+
+  @Column()
+  creatorId: number;
+
+  @Column()
+  passerId: number;
+
+  @Column()
+  managerId: number;
+
+  @Column()
+  mark: number;
+
+  @Column()
+  maxMark: number;
+
+  @CreateDateColumn()
+  created_at: Date;
+
+  @UpdateDateColumn()
+  updated_at: Date;
 
   @OneToMany(() => Category, (category) => category.checklist)
   @JoinTable()

@@ -26,6 +26,34 @@ __decorate([
     __metadata("design:type", Boolean)
 ], Checklist.prototype, "passed", void 0);
 __decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", Number)
+], Checklist.prototype, "creatorId", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", Number)
+], Checklist.prototype, "passerId", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", Number)
+], Checklist.prototype, "managerId", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", Number)
+], Checklist.prototype, "mark", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", Number)
+], Checklist.prototype, "maxMark", void 0);
+__decorate([
+    (0, typeorm_1.CreateDateColumn)(),
+    __metadata("design:type", Date)
+], Checklist.prototype, "created_at", void 0);
+__decorate([
+    (0, typeorm_1.UpdateDateColumn)(),
+    __metadata("design:type", Date)
+], Checklist.prototype, "updated_at", void 0);
+__decorate([
     (0, typeorm_1.OneToMany)(() => Category, (category) => category.checklist),
     (0, typeorm_1.JoinTable)(),
     __metadata("design:type", Array)
