@@ -19,6 +19,9 @@ router.route('/').get(async (req, res) => {
         if (passedOnly === 'true') {
             checklists = checklists.filter((checklist) => checklist.passed);
         }
+        else {
+            checklists = checklists.filter((checklist) => !checklist.passed);
+        }
         let toRes = [];
         checklists.forEach((checklist) => {
             const checklistToRes = {
