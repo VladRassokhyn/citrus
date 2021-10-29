@@ -52,22 +52,24 @@ router
         const categoryRepo = (0, typeorm_1.getRepository)(Checklist_model_1.Category);
         const fieldRepo = (0, typeorm_1.getRepository)(Checklist_model_1.Field);
         const newChecklist = new Checklist_model_1.Checklist();
-        newChecklist.title = req.body.title;
-        newChecklist.passed = req.body.passed;
+        newChecklist.title = dto.title;
+        newChecklist.passed = dto.passed;
         const checklist = await checklistRepo.save(newChecklist);
-        await dto.categories.forEach(async (category) => {
+        dto.categories.forEach(async (category) => {
             const newCategory = new Checklist_model_1.Category();
             newCategory.title = category.title;
             newCategory.checklist = checklist;
             newCategory.fields = category.fields;
-            const cat = await categoryRepo.save(newCategory);
-            await category.fields.forEach(async (field) => {
+            const savedCat = await categoryRepo.save(newCategory);
+            let fields = [];
+            category.fields.forEach((field) => {
                 const newField = new Checklist_model_1.Field();
                 newField.title = field.title;
                 newField.checked = field.checked;
-                newField.category = cat;
-                await fieldRepo.save(newField);
+                newField.category = savedCat;
+                fields.push(newField);
             });
+            await fieldRepo.save(fields);
         });
         res.send();
     }

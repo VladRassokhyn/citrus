@@ -56,25 +56,29 @@ router
         const fieldRepo = getRepository(Field);
 
         const newChecklist = new Checklist();
-        newChecklist.title = req.body.title;
-        newChecklist.passed = req.body.passed;
+        newChecklist.title = dto.title;
+        newChecklist.passed = dto.passed;
 
         const checklist = await checklistRepo.save(newChecklist);
 
-        await dto.categories.forEach(async (category) => {
+        dto.categories.forEach(async (category) => {
           const newCategory = new Category();
           newCategory.title = category.title;
           newCategory.checklist = checklist;
           newCategory.fields = category.fields;
-          const cat = await categoryRepo.save(newCategory);
+          const savedCat = await categoryRepo.save(newCategory);
 
-          await category.fields.forEach(async (field) => {
+          let fields: Field[] = [];
+
+          category.fields.forEach((field) => {
             const newField = new Field();
             newField.title = field.title;
             newField.checked = field.checked;
-            newField.category = cat;
-            await fieldRepo.save(newField);
+            newField.category = savedCat;
+            fields.push(newField);
           });
+
+          await fieldRepo.save(fields);
         });
 
         res.send();
