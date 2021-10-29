@@ -20,6 +20,7 @@ type FieldProps = {
 const Field = styled.div<FieldProps>`
   width: 100%;
   display: flex;
+  gap: 10px;
   flex-direction: ${(props) => (props.vertical ? 'column' : 'row')};
   ${(props) => props.vertical && 'gap: 20px;'}
   justify-content: space-between;
@@ -27,7 +28,7 @@ const Field = styled.div<FieldProps>`
 `;
 
 const Input = styled.input`
-  width: 70%;
+  width: 100%;
   border: 1px solid #d1d1d1;
   border-radius: 5px;
   padding: 3px;

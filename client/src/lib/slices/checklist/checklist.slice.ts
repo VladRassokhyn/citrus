@@ -1,5 +1,5 @@
+import { LoadingStatuses } from './../../globalTypes';
 import { createSlice } from '@reduxjs/toolkit';
-import { LoadingStatuses } from '../../globalTypes';
 import { ChecklistState } from './checklist.types';
 
 const initialState: ChecklistState = {
@@ -7,6 +7,7 @@ const initialState: ChecklistState = {
   status: LoadingStatuses.IDLE,
   singleChecklist: null,
   singleChecklistStatus: LoadingStatuses.IDLE,
+  postChecklistStatus: LoadingStatuses.IDLE,
 };
 
 const checklistSlice = createSlice({
@@ -27,6 +28,12 @@ const checklistSlice = createSlice({
       state.singleChecklist = action.payload;
       state.singleChecklistStatus = LoadingStatuses.SUCCESS;
     },
+    postNewChecklist(state, action) {
+      state.postChecklistStatus = LoadingStatuses.LOADING;
+    },
+    newChecklistPosted(state) {
+      state.postChecklistStatus = LoadingStatuses.SUCCESS;
+    },
     setError(state) {
       state.status = LoadingStatuses.ERROR;
     },
@@ -39,6 +46,8 @@ export const {
   getSingleChecklist,
   setSingleChecklistStatus,
   setError,
+  postNewChecklist,
+  newChecklistPosted,
 } = checklistSlice.actions;
 
 export const checklistReducer = checklistSlice.reducer;

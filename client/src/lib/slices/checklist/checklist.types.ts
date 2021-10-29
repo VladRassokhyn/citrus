@@ -1,4 +1,5 @@
 import { LoadingStatuses } from './../../globalTypes';
+
 export type Checklist = {
   title: string;
   passed: boolean;
@@ -20,6 +21,7 @@ export type Field = {
 
 export type ChecklistState = {
   status: LoadingStatuses;
+  postChecklistStatus: LoadingStatuses;
   checklists: Checklist[] | null;
   singleChecklist: Checklist | null;
   singleChecklistStatus: LoadingStatuses;
