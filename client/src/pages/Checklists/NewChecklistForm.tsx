@@ -19,6 +19,7 @@ import {
 } from '../../lib/slices/checklist';
 import trash from '../../static/trash.svg';
 import { LoadingStatuses } from '../../lib/globalTypes';
+import { selectAuthUser } from '../../lib/slices/auth';
 
 const Wrapper = styled.div`
   padding: 15px 5%;
@@ -90,6 +91,7 @@ const Img = styled.img`
 export const NewChecklistForm = (): JSX.Element => {
   const checklist = useTypedSelector(selectSingleChecklist);
   const postStatus = useTypedSelector(selectPostChecklistStatus);
+  const authUser = useTypedSelector(selectAuthUser);
   const [disabled, setDisabled] = useState(false);
   const dispatch = useDispatch();
 
@@ -103,7 +105,7 @@ export const NewChecklistForm = (): JSX.Element => {
   }, [postStatus]);
 
   const handleSubmit = () => {
-    dispatch(postNewChecklist(checklist));
+    dispatch(postNewChecklist({ ...checklist, creatorId: authUser?.id }));
   };
 
   const appendCategory = () => {

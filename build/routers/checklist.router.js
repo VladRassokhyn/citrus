@@ -7,10 +7,10 @@ exports.checklistRouter = void 0;
 const Checklist_model_1 = require("./../entities/Checklist.model");
 const typeorm_1 = require("typeorm");
 const express_1 = __importDefault(require("express"));
-const meddleware_1 = require("../meddleware");
 const router = express_1.default.Router();
 router.route('/').get(async (req, res) => {
     const passedOnly = req.query['passedOnly'];
+    const passerId = req.query['passerId'];
     try {
         const checklistRepo = (0, typeorm_1.getRepository)(Checklist_model_1.Checklist);
         const categoryRepo = (0, typeorm_1.getRepository)(Checklist_model_1.Category);
@@ -21,6 +21,9 @@ router.route('/').get(async (req, res) => {
         }
         else {
             checklists = checklists.filter((checklist) => !checklist.passed);
+        }
+        if (passerId) {
+            checklists = checklists.filter((checklist) => checklist.passerId === Number(passerId));
         }
         let toRes = [];
         checklists.forEach((checklist) => {
@@ -41,9 +44,9 @@ router.route('/').get(async (req, res) => {
         res.status(500).send(err);
     }
 });
-router
-    .route('/')
-    .post([meddleware_1.checkJwt, (0, meddleware_1.checkRole)(['ADMIN', 'MANAGER'])], async (req, res) => {
+router.route('/').post(
+//[checkJwt, checkRole(['ADMIN', 'MANAGER'])],
+async (req, res) => {
     try {
         const dto = req.body;
         const checklistRepo = (0, typeorm_1.getRepository)(Checklist_model_1.Checklist);

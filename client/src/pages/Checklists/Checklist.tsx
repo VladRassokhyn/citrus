@@ -8,8 +8,11 @@ import { Preloader } from '../../Components/Preloader';
 import { FixLater, LoadingStatuses, UserRoles } from '../../lib/globalTypes';
 import { useTypedSelector } from '../../lib/hooks';
 import {
+  Category,
+  clearNewChecklist,
   fieldCheckedChanged,
   getSingleChecklist,
+  postNewChecklist,
   selectSingleChecklist,
   selectSingleChecklistStatus,
 } from '../../lib/slices/checklist/';
@@ -69,10 +72,21 @@ const H3 = styled.h1`
   color: var(--color-stroke);
 `;
 
+const Button = styled.button`
+  width: 90%;
+  margin: 30px 0;
+  height: 30px;
+  background-color: var(--color-button);
+  border: 1px solid #d1d1d1;
+  color: white;
+  font-size: 14pt;
+`;
+
 export const Checklist = (): JSX.Element => {
   const { checklistId } = useParams<{ checklistId: string }>();
   const [salesmanId, setSalesmanId] = useState<number | null>(null);
-  const [namagerId, setManagerId] = useState<number | null>(null);
+  const [managerId, setManagerId] = useState<number | null>(null);
+  const [showChecklist, setShowChecklist] = useState(false);
   const users = useTypedSelector(selectAllUsers);
   const usersStatus = useTypedSelector(selectUsersStatus);
   const checklist = useTypedSelector(selectSingleChecklist);
@@ -82,7 +96,20 @@ export const Checklist = (): JSX.Element => {
   useEffect(() => {
     dispatch(getSingleChecklist(checklistId));
     dispatch(getUsers());
+
+    return () => {
+      dispatch(clearNewChecklist());
+    };
   }, []);
+
+  useEffect(() => {
+    if (salesmanId && managerId) {
+      setShowChecklist(true);
+    }
+    () => {
+      setShowChecklist(false);
+    };
+  }, [salesmanId, managerId]);
 
   const salesmansOptions = useMemo(
     () =>
@@ -109,13 +136,31 @@ export const Checklist = (): JSX.Element => {
     [users],
   );
 
-  const handleCheckedChange = (fieldIndex: number, categoryIndex: number) => {
-    dispatch(fieldCheckedChanged({ fieldIndex, categoryIndex }));
-  };
-
   const handleSubmit = (e: FixLater) => {
     e.preventDefault();
-    console.log(e);
+    const categories = checklist.categories.map((cat) => ({
+      title: cat.title,
+      fields: cat.fields.map((field) => ({
+        title: field.title,
+        checked: field.checked,
+      })),
+    }));
+    const { mark, maxMark } = getChecklistMarks(categories);
+    const newChecklist = {
+      ...checklist,
+      passed: true,
+      passerId: salesmanId,
+      managerId,
+      mark,
+      maxMark,
+      categories,
+    };
+    console.log(newChecklist);
+    dispatch(postNewChecklist(newChecklist));
+  };
+
+  const handleCheckedChange = (fieldIndex: number, categoryIndex: number) => {
+    dispatch(fieldCheckedChanged({ fieldIndex, categoryIndex }));
   };
 
   const handleChangeSalesman = (e: FixLater) => {
@@ -153,26 +198,44 @@ export const Checklist = (): JSX.Element => {
           />
         </HeadField>
       </Head>
-      <H1>{checklist.title}</H1>
-      {checklist.categories.map((category, categoryIndex) => (
-        <CategoryContsiner key={category.id}>
-          <H2>{category.title}</H2>
-          <FieldsContainer>
-            {category.fields.map((field, fieldIndex) => (
-              <Checkbox
-                key={field.id}
-                value={field.checked}
-                fullSize
-                handleChange={() =>
-                  handleCheckedChange(fieldIndex, categoryIndex)
-                }
-                label={field.title}
-              />
-            ))}
-          </FieldsContainer>
-        </CategoryContsiner>
-      ))}
-      <button type="submit">save</button>
+      {showChecklist && (
+        <>
+          <H1>{checklist.title}</H1>
+          {checklist.categories.map((category, categoryIndex) => (
+            <CategoryContsiner key={category.id}>
+              <H2>{category.title}</H2>
+              <FieldsContainer>
+                {category.fields.map((field, fieldIndex) => (
+                  <Checkbox
+                    key={field.id}
+                    value={field.checked}
+                    fullSize
+                    handleChange={() =>
+                      handleCheckedChange(fieldIndex, categoryIndex)
+                    }
+                    label={field.title}
+                  />
+                ))}
+              </FieldsContainer>
+            </CategoryContsiner>
+          ))}
+          <Button type="submit">Отправить</Button>
+        </>
+      )}
     </Wrapper>
   );
+};
+
+const getChecklistMarks = (categories: Category[]) => {
+  let mark = 0;
+  let maxMark = 0;
+  categories.forEach((cat) => {
+    cat.fields.forEach((field) => {
+      if (field.checked) {
+        mark += 1;
+      }
+      maxMark += 1;
+    });
+  });
+  return { mark, maxMark };
 };

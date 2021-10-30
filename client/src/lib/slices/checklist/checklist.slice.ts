@@ -1,25 +1,32 @@
 import { LoadingStatuses } from './../../globalTypes';
 import { createSlice } from '@reduxjs/toolkit';
-import { ChecklistState } from './checklist.types';
+import { Checklist, ChecklistState } from './checklist.types';
+
+const newChecklist: Checklist = {
+  title: '',
+  passed: false,
+  managerId: 0,
+  passerId: 0,
+  mark: 0,
+  maxMark: 0,
+  creatorId: 0,
+  categories: [
+    {
+      title: '',
+      fields: [
+        {
+          title: '',
+          checked: false,
+        },
+      ],
+    },
+  ],
+};
 
 const initialState: ChecklistState = {
   checklists: null,
   status: LoadingStatuses.IDLE,
-  singleChecklist: {
-    title: '',
-    passed: false,
-    categories: [
-      {
-        title: '',
-        fields: [
-          {
-            title: '',
-            checked: false,
-          },
-        ],
-      },
-    ],
-  },
+  singleChecklist: newChecklist,
   singleChecklistStatus: LoadingStatuses.IDLE,
   postChecklistStatus: LoadingStatuses.IDLE,
 };
@@ -55,6 +62,7 @@ const checklistSlice = createSlice({
       state.singleChecklist.title = action.payload;
     },
     categoryAdded(state) {
+      state.singleChecklist.maxMark += 1;
       state.singleChecklist.categories.push({
         title: '',
         fields: [{ title: '', checked: false }],
@@ -62,6 +70,7 @@ const checklistSlice = createSlice({
     },
     categoryRemoved(state, action) {
       const index = action.payload;
+      state.singleChecklist.maxMark -= 1;
       state.singleChecklist.categories.splice(index, 1);
     },
     categoryTitleChanged(state, action) {
@@ -71,6 +80,7 @@ const checklistSlice = createSlice({
     },
     fieldAdded(state, action) {
       const categoryIndex = action.payload;
+      state.singleChecklist.maxMark += 1;
       state.singleChecklist.categories[categoryIndex].fields.push({
         title: '',
         checked: false,
@@ -79,6 +89,7 @@ const checklistSlice = createSlice({
     fieldRemoved(state, action) {
       const categoryIndex = action.payload.categoryIndex;
       const fieldIndex = action.payload.fieldIndex;
+      state.singleChecklist.maxMark -= 1;
       state.singleChecklist.categories[categoryIndex].fields.splice(
         fieldIndex,
         1,
@@ -99,10 +110,15 @@ const checklistSlice = createSlice({
         state.singleChecklist.categories[categoryIndex].fields[fieldIndex];
       field.checked = !field.checked;
     },
+    clearNewChecklist(state) {
+      state.singleChecklist = newChecklist;
+      state.postChecklistStatus = LoadingStatuses.IDLE;
+    },
   },
 });
 
 export const {
+  clearNewChecklist,
   getChecklists,
   setChecklists,
   getSingleChecklist,

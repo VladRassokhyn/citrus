@@ -12,6 +12,7 @@ import {
   fieldTitleChanged,
   checklistTitleChanged,
   fieldCheckedChanged,
+  clearNewChecklist,
 } from './checklist.slice';
 import { Checklist, Category } from './checklist.types';
 import {
@@ -32,6 +33,7 @@ export {
   getChecklists,
   postNewChecklist,
   getSingleChecklist,
+  clearNewChecklist,
   fieldCheckedChanged,
   newChecklistPosted,
   selectPostChecklistStatus,

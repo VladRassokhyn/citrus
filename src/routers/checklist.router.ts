@@ -7,6 +7,7 @@ const router = express.Router();
 
 router.route('/').get(async (req, res) => {
   const passedOnly = req.query['passedOnly'];
+  const passerId = req.query['passerId'];
   try {
     const checklistRepo = getRepository(Checklist);
     const categoryRepo = getRepository(Category);
@@ -18,6 +19,12 @@ router.route('/').get(async (req, res) => {
       checklists = checklists.filter((checklist) => checklist.passed);
     } else {
       checklists = checklists.filter((checklist) => !checklist.passed);
+    }
+
+    if (passerId) {
+      checklists = checklists.filter(
+        (checklist) => checklist.passerId === Number(passerId),
+      );
     }
 
     let toRes: Checklist[] = [];
@@ -42,55 +49,53 @@ router.route('/').get(async (req, res) => {
   }
 });
 
-router
-  .route('/')
-  .post(
-    [checkJwt, checkRole(['ADMIN', 'MANAGER'])],
-    async (req: Request, res: Response) => {
-      try {
-        const dto: Checklist = req.body;
-        const checklistRepo = getRepository(Checklist);
-        const categoryRepo = getRepository(Category);
-        const fieldRepo = getRepository(Field);
+router.route('/').post(
+  //[checkJwt, checkRole(['ADMIN', 'MANAGER'])],
+  async (req: Request, res: Response) => {
+    try {
+      const dto: Checklist = req.body;
+      const checklistRepo = getRepository(Checklist);
+      const categoryRepo = getRepository(Category);
+      const fieldRepo = getRepository(Field);
 
-        const newChecklist = new Checklist();
-        newChecklist.title = dto.title;
-        newChecklist.passed = dto.passed;
-        newChecklist.mark = dto.mark;
-        newChecklist.maxMark = dto.maxMark;
-        newChecklist.managerId = dto.managerId;
-        newChecklist.creatorId = dto.creatorId;
-        newChecklist.passerId = dto.passerId;
+      const newChecklist = new Checklist();
+      newChecklist.title = dto.title;
+      newChecklist.passed = dto.passed;
+      newChecklist.mark = dto.mark;
+      newChecklist.maxMark = dto.maxMark;
+      newChecklist.managerId = dto.managerId;
+      newChecklist.creatorId = dto.creatorId;
+      newChecklist.passerId = dto.passerId;
 
-        const checklist = await checklistRepo.save(newChecklist);
+      const checklist = await checklistRepo.save(newChecklist);
 
-        dto.categories.forEach(async (category) => {
-          const newCategory = new Category();
-          newCategory.title = category.title;
-          newCategory.checklist = checklist;
-          newCategory.fields = category.fields;
-          const savedCat = await categoryRepo.save(newCategory);
+      dto.categories.forEach(async (category) => {
+        const newCategory = new Category();
+        newCategory.title = category.title;
+        newCategory.checklist = checklist;
+        newCategory.fields = category.fields;
+        const savedCat = await categoryRepo.save(newCategory);
 
-          let fields: Field[] = [];
+        let fields: Field[] = [];
 
-          category.fields.forEach((field) => {
-            const newField = new Field();
-            newField.title = field.title;
-            newField.checked = field.checked;
-            newField.category = savedCat;
-            fields.push(newField);
-          });
-
-          await fieldRepo.save(fields);
+        category.fields.forEach((field) => {
+          const newField = new Field();
+          newField.title = field.title;
+          newField.checked = field.checked;
+          newField.category = savedCat;
+          fields.push(newField);
         });
 
-        res.send();
-      } catch (err) {
-        console.log(err);
-        res.status(500).send(err);
-      }
-    },
-  );
+        await fieldRepo.save(fields);
+      });
+
+      res.send();
+    } catch (err) {
+      console.log(err);
+      res.status(500).send(err);
+    }
+  },
+);
 
 router.route('/:id').get(async (req, res) => {
   const id = +req.params['id']!;
