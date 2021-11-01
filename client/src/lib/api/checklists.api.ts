@@ -12,6 +12,6 @@ export const checklistsApi = {
     return await axiosInstance.get(`/checklist/${id}`);
   },
   async deleteChecklist(id: number) {
-    return await axiosInstance.get(`/checklist/${id}`);
+    return await axiosInstance.delete(`/checklist/${id}`);
   },
 };
