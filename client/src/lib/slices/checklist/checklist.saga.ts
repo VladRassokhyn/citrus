@@ -5,6 +5,7 @@ import { SagaIterator } from '@redux-saga/types';
 import {
   getChecklists,
   getSingleChecklist,
+  newChecklistPosted,
   setChecklists,
   setError,
   setSingleChecklist,
@@ -32,6 +33,7 @@ function* getCHecklistByIdWorker(action: FixLater): SagaIterator {
 function* postChecklistWorker(action: FixLater): SagaIterator {
   try {
     yield call(checklistsApi.postNewChecklist, action.payload);
+    yield put({ type: newChecklistPosted.type });
     yield put({ type: getChecklists.type });
   } catch (err) {
     yield put({ type: setError.type });

@@ -5,6 +5,8 @@ import { OneUserState } from './users.types';
 const initialState: OneUserState = {
   user: null,
   status: LoadingStatuses.IDLE,
+  passedChecklistsStatus: LoadingStatuses.IDLE,
+  passedChecklists: null,
 };
 
 export const oneUserSlice = createSlice({
@@ -18,12 +20,25 @@ export const oneUserSlice = createSlice({
       state.status = LoadingStatuses.SUCCESS;
       state.user = action.payload;
     },
+    getUserChecklists(state, action) {
+      state.passedChecklistsStatus = LoadingStatuses.LOADING;
+    },
+    setUserChecklists(state, action) {
+      state.passedChecklists = action.payload;
+      state.passedChecklistsStatus = LoadingStatuses.SUCCESS;
+    },
     setOneUserError(state) {
       state.status = LoadingStatuses.ERROR;
     },
   },
 });
 
-export const { getOneUser, setOneUser, setOneUserError } = oneUserSlice.actions;
+export const {
+  getOneUser,
+  setOneUser,
+  setOneUserError,
+  getUserChecklists,
+  setUserChecklists,
+} = oneUserSlice.actions;
 
 export const oneUserReducer = oneUserSlice.reducer;

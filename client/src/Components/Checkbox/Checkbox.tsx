@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { FixLater } from '../../lib/globalTypes';
 
 type Props = {
-  handleChange: () => void;
+  handleChange?: () => void;
   value: boolean;
   label?: string;
   fullSize?: boolean;
@@ -43,7 +43,7 @@ const Input = styled.input`
 export const Checkbox = (props: Props): JSX.Element => {
   const { handleChange, value, label, fullSize, register } = props;
   const handleClick = () => {
-    handleChange();
+    handleChange && handleChange();
   };
   return (
     <Wrapper fullSize={fullSize} value={value}>

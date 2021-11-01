@@ -1,5 +1,5 @@
-import { usersApi } from './../../api/users.api';
 import { FixLater } from '../../globalTypes';
+import { usersApi } from '../../api/users.api';
 import { takeEvery, call, put, delay } from 'redux-saga/effects';
 import {
   getUsers,
@@ -15,11 +15,12 @@ import {
 } from './users.slice';
 import { SagaIterator } from '@redux-saga/types';
 import { getOneUser, setOneUser, setOneUserError } from './oneUser.slice';
+import { getUserChecklists, setUserChecklists } from '.';
 
 function* getUsersWorker(): SagaIterator {
   try {
     const { data } = yield call(usersApi.getUsers);
-    yield delay(1000);
+    yield delay(500);
     yield put({ type: setUsers.type, payload: data });
   } catch (error) {
     yield put({ type: setError.type });
@@ -65,10 +66,20 @@ function* getUserByIdWorker(action: FixLater): SagaIterator {
   }
 }
 
+function* getUsersChecklistsWorker(action: FixLater): SagaIterator {
+  try {
+    const res = yield call(usersApi.getUserChecklists, action.payload);
+    yield put({ type: setUserChecklists.type, payload: res.data });
+  } catch (err) {
+    yield put({ type: setOneUserError.type });
+  }
+}
+
 export function* usersWatcher(): SagaIterator {
   yield takeEvery(getUsers.type, getUsersWorker);
   yield takeEvery(postNewUser.type, postUsersWorker);
   yield takeEvery(deleteUser.type, deleteUserWorker);
   yield takeEvery(updateUser.type, updateUserWorker);
   yield takeEvery(getOneUser.type, getUserByIdWorker);
+  yield takeEvery(getUserChecklists, getUsersChecklistsWorker);
 }

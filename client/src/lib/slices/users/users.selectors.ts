@@ -16,3 +16,9 @@ export const selectOneUserStatus = (state: RootState) => state.oneUser.status;
 export const selectUserById = (id: string) => (
   state: RootState,
 ): User | undefined => state.users.items.find((user) => user.id === Number(id));
+
+export const selectUserChecklists = (state: RootState) =>
+  state.oneUser.passedChecklists;
+
+export const selectUserChecklistsStatus = (state: RootState) =>
+  state.oneUser.passedChecklistsStatus;

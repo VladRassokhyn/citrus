@@ -5,6 +5,8 @@ import {
   selectUserById,
   selectOneUser,
   selectOneUserStatus,
+  selectUserChecklists,
+  selectUserChecklistsStatus,
 } from './users.selectors';
 import {
   usersReducer,
@@ -20,7 +22,12 @@ import {
   setError,
   setCRUDError,
 } from './users.slice';
-import { oneUserReducer, getOneUser } from './oneUser.slice';
+import {
+  oneUserReducer,
+  getOneUser,
+  getUserChecklists,
+  setUserChecklists,
+} from './oneUser.slice';
 
 export {
   selectAllUsers,
@@ -31,11 +38,15 @@ export {
   selectOneUserStatus,
   usersReducer,
   oneUserReducer,
+  getUserChecklists,
+  setUserChecklists,
   getOneUser,
   getUsers,
   setUsers,
   postNewUser,
+  selectUserChecklistsStatus,
   newUserPosted,
+  selectUserChecklists,
   deleteUser,
   userDeleted,
   updateUser,

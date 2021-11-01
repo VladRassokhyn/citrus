@@ -1,4 +1,5 @@
 import { FixLater, User } from '../globalTypes';
+import { getUserChecklists } from '../slices/users/oneUser.slice';
 import { axiosInstance } from './axiosInstance';
 
 export const usersApi = {
@@ -22,5 +23,10 @@ export const usersApi = {
   },
   async getUserById(id: number | string) {
     return await axiosInstance.get(`/users/${id}`);
+  },
+  async getUserChecklists(userId: number) {
+    return await axiosInstance.get(
+      `/checklist?passerId=${userId}&passedOnly=true`,
+    );
   },
 };

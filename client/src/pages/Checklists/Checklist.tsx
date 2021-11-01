@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useParams } from 'react-router';
+import { Redirect, useHistory, useParams } from 'react-router';
 import styled from 'styled-components';
 import Select from 'react-select';
 import { Checkbox } from '../../Components/Checkbox';
@@ -13,6 +13,7 @@ import {
   fieldCheckedChanged,
   getSingleChecklist,
   postNewChecklist,
+  selectPostChecklistStatus,
   selectSingleChecklist,
   selectSingleChecklistStatus,
 } from '../../lib/slices/checklist/';
@@ -91,7 +92,16 @@ export const Checklist = (): JSX.Element => {
   const usersStatus = useTypedSelector(selectUsersStatus);
   const checklist = useTypedSelector(selectSingleChecklist);
   const checklistStatus = useTypedSelector(selectSingleChecklistStatus);
+  const postChecklistStatus = useTypedSelector(selectPostChecklistStatus);
+  const history = useHistory();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    console.log(postChecklistStatus);
+    if (postChecklistStatus === LoadingStatuses.SUCCESS) {
+      history.push('/checklist');
+    }
+  }, [postChecklistStatus]);
 
   useEffect(() => {
     dispatch(getSingleChecklist(checklistId));
@@ -155,7 +165,6 @@ export const Checklist = (): JSX.Element => {
       maxMark,
       categories,
     };
-    console.log(newChecklist);
     dispatch(postNewChecklist(newChecklist));
   };
 

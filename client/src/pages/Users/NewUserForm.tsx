@@ -93,17 +93,22 @@ export const NewUserForm = (props: Props): JSX.Element => {
 
   return (
     <Wrapper onSubmit={handleSubmit(handleSave)}>
-      <InputField
-        register={{ ...register('username') }}
-        label={'Логин'}
-        disabled={disabled}
-      />
-      <InputField
-        password
-        register={{ ...register('password') }}
-        label={'Пароль'}
-        disabled={disabled}
-      />
+      {!isUpdate && (
+        <>
+          <InputField
+            register={{ ...register('username') }}
+            label={'Логин'}
+            disabled={disabled}
+          />
+          <InputField
+            password
+            register={{ ...register('password') }}
+            label={'Пароль'}
+            disabled={disabled}
+          />
+        </>
+      )}
+
       <InputField
         register={{ ...register('name') }}
         label={'Имя'}
@@ -114,13 +119,16 @@ export const NewUserForm = (props: Props): JSX.Element => {
         label={'Фамилия'}
         disabled={disabled}
       />
-      <Controller
-        control={control}
-        name="role"
-        render={({ field: { onChange } }) => (
-          <Selector onChange={onChange} options={roleSelectorOptions} />
-        )}
-      />
+
+      {!isUpdate && (
+        <Controller
+          control={control}
+          name="role"
+          render={({ field: { onChange } }) => (
+            <Selector onChange={onChange} options={roleSelectorOptions} />
+          )}
+        />
+      )}
       <Button disabled={disabled} type={'submit'}>
         {disabled ? 'Загрузка...' : 'Сохранить'}
       </Button>
