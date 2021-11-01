@@ -52,7 +52,6 @@ const Button = styled.button<StyleProps>`
 
 const roleSelectorOptions = [
   { label: UserRoles.SALESMAN, value: UserRoles.SALESMAN },
-  { label: UserRoles.ADMIN, value: UserRoles.ADMIN },
   { label: UserRoles.MANAGER, value: UserRoles.MANAGER },
 ];
 
