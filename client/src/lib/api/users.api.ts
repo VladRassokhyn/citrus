@@ -3,8 +3,8 @@ import { getUserChecklists } from '../slices/users/oneUser.slice';
 import { axiosInstance } from './axiosInstance';
 
 export const usersApi = {
-  async getUsers(): Promise<{ data: User[] }> {
-    return await axiosInstance.get('/users');
+  async getUsers(tt: string): Promise<{ data: User[] }> {
+    return await axiosInstance.get(`/users?tt=${tt}`);
   },
   async postNewUser(dto: User): Promise<{ data: User }> {
     return await axiosInstance.post('/users', dto);

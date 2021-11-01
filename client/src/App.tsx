@@ -3,9 +3,9 @@ import { useDispatch } from 'react-redux';
 import { Route } from 'react-router';
 import { Header } from './Components/Header';
 import { Preloader } from './Components/Preloader';
-import { LoadingStatuses } from './lib/globalTypes';
+import { LoadingStatuses, UserRoles } from './lib/globalTypes';
 import { useTypedSelector } from './lib/hooks';
-import { selectAuthStatuses, getAuth } from './lib/slices/auth';
+import { selectAuthStatuses, getAuth, selectAuthUser } from './lib/slices/auth';
 import { Analitic } from './pages/Analitics';
 import { Checklist, Checklists } from './pages/Checklists';
 import { CmMenu } from './pages/CM';
@@ -35,6 +35,7 @@ export const App = (): JSX.Element => {
       <Route exact path={'/cm'} render={() => <CmMenu />} />
       <Route exact path={'/analytics'} render={() => <Analitic />} />
       <Route exact path={'/users'} render={() => <Users />} />
+      <Route exact path={'/users/:userId'} render={() => <User />} />
       <Route exact path={'/checklist'} render={() => <Checklists />} />
       <Route
         exact
@@ -42,7 +43,6 @@ export const App = (): JSX.Element => {
         render={() => <Checklist />}
       />
       <Route exact path={'/login'} render={() => <Login />} />
-      <Route exact path={'/users/:userId'} render={() => <User />} />
     </>
   );
 };

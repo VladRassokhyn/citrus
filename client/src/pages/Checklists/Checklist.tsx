@@ -22,6 +22,7 @@ import {
   selectAllUsers,
   selectUsersStatus,
 } from '../../lib/slices/users';
+import { selectAuthUser } from '../../lib/slices/auth';
 
 const Wrapper = styled.form`
   display: flex;
@@ -88,6 +89,7 @@ export const Checklist = (): JSX.Element => {
   const [salesmanId, setSalesmanId] = useState<number | null>(null);
   const [managerId, setManagerId] = useState<number | null>(null);
   const [showChecklist, setShowChecklist] = useState(false);
+  const authUser = useTypedSelector(selectAuthUser);
   const users = useTypedSelector(selectAllUsers);
   const usersStatus = useTypedSelector(selectUsersStatus);
   const checklist = useTypedSelector(selectSingleChecklist);
@@ -105,7 +107,7 @@ export const Checklist = (): JSX.Element => {
 
   useEffect(() => {
     dispatch(getSingleChecklist(checklistId));
-    dispatch(getUsers());
+    authUser && dispatch(getUsers(authUser.tt));
 
     return () => {
       dispatch(clearNewChecklist());

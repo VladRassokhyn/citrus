@@ -17,9 +17,9 @@ import { SagaIterator } from '@redux-saga/types';
 import { getOneUser, setOneUser, setOneUserError } from './oneUser.slice';
 import { getUserChecklists, setUserChecklists } from '.';
 
-function* getUsersWorker(): SagaIterator {
+function* getUsersWorker(action: FixLater): SagaIterator {
   try {
-    const { data } = yield call(usersApi.getUsers);
+    const { data } = yield call(usersApi.getUsers, action.payload);
     yield delay(500);
     yield put({ type: setUsers.type, payload: data });
   } catch (error) {

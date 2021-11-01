@@ -7,6 +7,9 @@ import styled, { keyframes } from 'styled-components';
 import { bounceIn, bounceOutDown } from 'react-animations';
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
+import { useTypedSelector } from '../../lib/hooks';
+import { selectAuthUser } from '../../lib/slices/auth';
+import { UserRoles } from '../../lib/globalTypes';
 
 type ClosingProps = {
   isClosing: boolean;
@@ -48,6 +51,10 @@ export const Main = (): JSX.Element => {
   const [destination, setDestination] = useState('');
   const history = useHistory();
 
+  const authUser = useTypedSelector(selectAuthUser);
+  const isManagerOrAdmin =
+    authUser?.role === UserRoles.MANAGER || authUser?.role === UserRoles.ADMIN;
+
   const handleClose = (dest: string) => {
     setIsClosing(true);
     setDestination(dest);
@@ -70,14 +77,21 @@ export const Main = (): JSX.Element => {
         <Img src={analitic} alt="anslyics image" />
         <H1>Аналитика</H1>
       </MenuItem>
-      <MenuItem isClosing={isClosing} onClick={() => handleClose('users')}>
-        <Img src={employee} alt="salesmans image" />
-        <H1>Продавцы</H1>
-      </MenuItem>
-      <MenuItem isClosing={isClosing} onClick={() => handleClose('checklist')}>
-        <Img src={checklist} alt="chacklist image" />
-        <H1>Чеклист</H1>
-      </MenuItem>
+      {isManagerOrAdmin && (
+        <>
+          <MenuItem isClosing={isClosing} onClick={() => handleClose('users')}>
+            <Img src={employee} alt="salesmans image" />
+            <H1>Продавцы</H1>
+          </MenuItem>
+          <MenuItem
+            isClosing={isClosing}
+            onClick={() => handleClose('checklist')}
+          >
+            <Img src={checklist} alt="chacklist image" />
+            <H1>Чеклист</H1>
+          </MenuItem>
+        </>
+      )}
     </Wrapper>
   );
 };

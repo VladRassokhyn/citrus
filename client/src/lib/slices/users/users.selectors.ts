@@ -1,4 +1,4 @@
-import { LoadingStatuses, User } from '../../globalTypes';
+import { LoadingStatuses, User, UserRoles } from '../../globalTypes';
 import { RootState } from '../../store';
 
 export const selectAllUsers = (state: RootState): User[] => state.users.items;
@@ -22,3 +22,6 @@ export const selectUserChecklists = (state: RootState) =>
 
 export const selectUserChecklistsStatus = (state: RootState) =>
   state.oneUser.passedChecklistsStatus;
+
+export const selectSalesmans = (state: RootState) =>
+  state.users.items.filter((user) => user.role === UserRoles.SALESMAN);

@@ -71,6 +71,10 @@ __decorate([
 ], User.prototype, "role", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
+    __metadata("design:type", String)
+], User.prototype, "tt", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
     (0, typeorm_1.CreateDateColumn)(),
     __metadata("design:type", Date)
 ], User.prototype, "createdAt", void 0);

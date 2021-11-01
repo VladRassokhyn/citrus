@@ -3,7 +3,12 @@ import styled from 'styled-components';
 import Selector from 'react-select';
 import { useDispatch } from 'react-redux';
 import { Controller, useForm } from 'react-hook-form';
-import { FixLater, LoadingStatuses, UserRoles } from '../../lib/globalTypes';
+import {
+  FixLater,
+  LoadingStatuses,
+  UserRoles,
+  TT,
+} from '../../lib/globalTypes';
 import {
   postNewUser,
   updateUser,
@@ -30,7 +35,6 @@ const Wrapper = styled.form`
   width: 90%;
   display: flex;
   flex-direction: column;
-  align-items: center;
   min-height: 100px;
   padding: 20px 10px;
   gap: 20px;
@@ -52,6 +56,21 @@ const roleSelectorOptions = [
   { label: UserRoles.MANAGER, value: UserRoles.MANAGER },
 ];
 
+const TTselectorOptions = [
+  { label: TT.BLOCK, value: TT.BLOCK },
+  { label: TT.KR29, value: TT.KR29 },
+  { label: TT.KR52, value: TT.KR52 },
+  { label: TT.BV23, value: TT.BV23 },
+  { label: TT.DRIM, value: TT.DRIM },
+  { label: TT.LAVINA, value: TT.LAVINA },
+  { label: TT.GLOBUS, value: TT.GLOBUS },
+  { label: TT.GORODOK, value: TT.GORODOK },
+  { label: TT.OCEAN, value: TT.OCEAN },
+  { label: TT.PIRAMIDA, value: TT.PIRAMIDA },
+  { label: TT.RIVER, value: TT.RIVER },
+  { label: TT.SKY, value: TT.SKY },
+];
+
 export const NewUserForm = (props: Props): JSX.Element => {
   const {
     userId,
@@ -68,6 +87,7 @@ export const NewUserForm = (props: Props): JSX.Element => {
     defaultValues: {
       username: initialUsername,
       password: '',
+      tt: '',
       name: initialName,
       lastName: initialLastName,
       role: initialRole,
@@ -119,13 +139,30 @@ export const NewUserForm = (props: Props): JSX.Element => {
         label={'Фамилия'}
         disabled={disabled}
       />
+      {!isUpdate && (
+        <Controller
+          control={control}
+          name="tt"
+          render={({ field: { onChange } }) => (
+            <Selector
+              onChange={onChange}
+              placeholder={'ТТ'}
+              options={TTselectorOptions}
+            />
+          )}
+        />
+      )}
 
       {!isUpdate && (
         <Controller
           control={control}
           name="role"
           render={({ field: { onChange } }) => (
-            <Selector onChange={onChange} options={roleSelectorOptions} />
+            <Selector
+              placeholder={'Роль'}
+              onChange={onChange}
+              options={roleSelectorOptions}
+            />
           )}
         />
       )}

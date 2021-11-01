@@ -13,6 +13,7 @@ import {
   getChecklists,
 } from '../../lib/slices/checklist';
 import { ChecklistSubMenu } from './ChecklistSubMenu';
+import { selectAuthUser } from '../../lib/slices/auth';
 
 const Wrapper = styled.div`
   padding: 20px 5vw;
@@ -39,12 +40,13 @@ export const Checklists = (): JSX.Element => {
   const dispatch = useDispatch();
   const checklists = useTypedSelector(selectAllChecklists);
   const checklistStatus = useTypedSelector(selectChecklistsStatus);
+  const authUser = useTypedSelector(selectAuthUser);
 
   const isChecklistsLoading = checklistStatus === LoadingStatuses.LOADING;
   const isUsersLoading = usersStatus === LoadingStatuses.LOADING;
 
   useEffect(() => {
-    dispatch(getUsers());
+    authUser && dispatch(getUsers(authUser.tt));
     dispatch(getChecklists());
   }, []);
 

@@ -14,6 +14,7 @@ import { Accordion } from '../../Components/Accordion';
 import { NewUserForm } from './NewUserForm';
 import { UserSubMenu } from './UserSubMenu';
 import { selectAuthUser } from '../../lib/slices/auth';
+import { selectSalesmans } from '../../lib/slices/users/users.selectors';
 
 const Wrapper = styled.div`
   display: flex;
@@ -23,7 +24,7 @@ const Wrapper = styled.div`
 `;
 
 export const Users = (): JSX.Element => {
-  const users = useTypedSelector(selectAllUsers);
+  const users = useTypedSelector(selectSalesmans);
   const salesmansStatus = useTypedSelector(selectUsersStatus);
   const authUser = useTypedSelector(selectAuthUser);
   const dispatch = useDispatch();
@@ -31,7 +32,7 @@ export const Users = (): JSX.Element => {
   const isAdmin = authUser && authUser.role === UserRoles.ADMIN;
 
   useEffect(() => {
-    dispatch(getUsers());
+    authUser && dispatch(getUsers(authUser.tt));
   }, []);
 
   if (salesmansStatus === LoadingStatuses.LOADING || !users) {
