@@ -10,7 +10,7 @@ router.route('/').get([checkJwt], async (req: Request, res: Response) => {
   const tt = req.query['tt'];
   const isAdmin =
     res.locals['jwtPayload'].userId === 1 ||
-    res.locals['jwtPayload'].userId === 2;
+    res.locals['jwtPayload'].userId === 5;
   console.log(res.locals['jwtPayload']);
   const userRepository = getRepository(User);
   const users = await userRepository.find({
@@ -39,37 +39,39 @@ router.route('/:id').get(async (req: Request, res: Response) => {
   }
 });
 
-router.route('/').post(
-  //[checkJwt, checkRole(['ADMIN'])],
-  async (req: Request, res: Response) => {
-    const { username, password, role, name, lastName, tt } = req.body;
-    const user = new User();
-    user.username = username;
-    user.password = password;
-    user.name = name;
-    user.tt = tt;
-    user.lastName = lastName;
-    user.role = role;
+router
+  .route('/')
+  .post(
+    [checkJwt, checkRole(['ADMIN', 'MANAGER'])],
+    async (req: Request, res: Response) => {
+      const { username, password, role, name, lastName, tt } = req.body;
+      const user = new User();
+      user.username = username;
+      user.password = password;
+      user.name = name;
+      user.tt = tt;
+      user.lastName = lastName;
+      user.role = role;
 
-    const errors = await validate(user);
-    if (errors.length > 0) {
-      res.status(400).send(errors);
-      return;
-    }
+      const errors = await validate(user);
+      if (errors.length > 0) {
+        res.status(400).send(errors);
+        return;
+      }
 
-    user.hashPassword();
+      user.hashPassword();
 
-    const userRepository = getRepository(User);
-    try {
-      await userRepository.save(user);
-    } catch (e) {
-      res.status(409).send(e);
-      return;
-    }
+      const userRepository = getRepository(User);
+      try {
+        await userRepository.save(user);
+      } catch (e) {
+        res.status(409).send(e);
+        return;
+      }
 
-    res.status(201).send('User created');
-  },
-);
+      res.status(201).send('User created');
+    },
+  );
 
 router.route('/:id').put([checkJwt], async (req: Request, res: Response) => {
   const id = req.params['id'];
@@ -106,7 +108,7 @@ router.route('/:id').put([checkJwt], async (req: Request, res: Response) => {
 router
   .route('/:id')
   .delete(
-    [checkJwt, checkRole(['ADMIN'])],
+    [checkJwt, checkRole(['ADMIN', 'MANAGER'])],
     async (req: Request, res: Response) => {
       const id = req.params['id']!;
 

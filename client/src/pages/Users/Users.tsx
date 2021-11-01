@@ -29,7 +29,9 @@ export const Users = (): JSX.Element => {
   const authUser = useTypedSelector(selectAuthUser);
   const dispatch = useDispatch();
 
-  const isAdmin = authUser && authUser.role === UserRoles.ADMIN;
+  const isAdminOrManager =
+    authUser &&
+    (authUser.role === UserRoles.ADMIN || authUser.role === UserRoles.MANAGER);
 
   useEffect(() => {
     authUser && dispatch(getUsers(authUser.tt));
@@ -41,7 +43,7 @@ export const Users = (): JSX.Element => {
 
   return (
     <Wrapper>
-      {isAdmin && (
+      {isAdminOrManager && (
         <Accordion
           title={'Добавить пользователя'}
           titleColor={'white'}
