@@ -30,4 +30,5 @@ export type ChecklistState = {
   checklists: Checklist[] | null;
   singleChecklist: Checklist;
   singleChecklistStatus: LoadingStatuses;
+  deleteStatus: LoadingStatuses;
 };

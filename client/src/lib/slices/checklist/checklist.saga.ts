@@ -9,6 +9,8 @@ import {
   setChecklists,
   setError,
   setSingleChecklist,
+  checklistDeleted,
+  deleteChecklist,
 } from './checklist.slice';
 import { postNewChecklist } from '.';
 
@@ -40,8 +42,18 @@ function* postChecklistWorker(action: FixLater): SagaIterator {
   }
 }
 
+function* deleteChecklistWorker(action: FixLater): SagaIterator {
+  try {
+    yield call(checklistsApi.deleteChecklist, action.payload);
+    yield put({ type: checklistDeleted.type });
+  } catch (err) {
+    yield put({ type: setError.type });
+  }
+}
+
 export function* checklistWatcher(): SagaIterator {
   yield takeEvery(getChecklists.type, getChecklistsWorker);
   yield takeEvery(postNewChecklist.type, postChecklistWorker);
   yield takeEvery(getSingleChecklist.type, getCHecklistByIdWorker);
+  yield takeEvery(deleteChecklist.type, deleteChecklistWorker);
 }

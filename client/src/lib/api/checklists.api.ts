@@ -11,4 +11,7 @@ export const checklistsApi = {
   async getChecklistById(id: string): Promise<Checklist> {
     return await axiosInstance.get(`/checklist/${id}`);
   },
+  async deleteChecklist(id: number) {
+    return await axiosInstance.get(`/checklist/${id}`);
+  },
 };

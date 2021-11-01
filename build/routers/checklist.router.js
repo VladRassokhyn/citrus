@@ -7,6 +7,7 @@ exports.checklistRouter = void 0;
 const Checklist_model_1 = require("./../entities/Checklist.model");
 const typeorm_1 = require("typeorm");
 const express_1 = __importDefault(require("express"));
+const meddleware_1 = require("../meddleware");
 const router = express_1.default.Router();
 router.route('/').get(async (req, res) => {
     const passedOnly = req.query['passedOnly'];
@@ -44,9 +45,9 @@ router.route('/').get(async (req, res) => {
         res.status(500).send(err);
     }
 });
-router.route('/').post(
-//[checkJwt, checkRole(['ADMIN', 'MANAGER'])],
-async (req, res) => {
+router
+    .route('/')
+    .post([meddleware_1.checkJwt, (0, meddleware_1.checkRole)(['ADMIN', 'MANAGER'])], async (req, res) => {
     try {
         const dto = req.body;
         const checklistRepo = (0, typeorm_1.getRepository)(Checklist_model_1.Checklist);
@@ -105,5 +106,19 @@ router.route('/:id').get(async (req, res) => {
     catch (err) {
         res.status(404).send('checklist not found');
     }
+});
+router
+    .route('/:id')
+    .delete([meddleware_1.checkJwt, (0, meddleware_1.checkRole)(['ADMIN', 'MANAGER'])], async (req, res) => {
+    const id = +req.params['id'];
+    const repo = (0, typeorm_1.getRepository)(Checklist_model_1.Checklist);
+    try {
+        const checklist = repo.findOneOrFail({ id });
+    }
+    catch (err) {
+        res.status(404).send('checklist not found');
+    }
+    await repo.delete(id);
+    res.send(200).send('deleted');
 });
 exports.checklistRouter = router;

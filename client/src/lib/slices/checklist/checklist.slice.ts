@@ -29,6 +29,7 @@ const initialState: ChecklistState = {
   singleChecklist: newChecklist,
   singleChecklistStatus: LoadingStatuses.IDLE,
   postChecklistStatus: LoadingStatuses.IDLE,
+  deleteStatus: LoadingStatuses.IDLE,
 };
 
 const checklistSlice = createSlice({
@@ -54,6 +55,12 @@ const checklistSlice = createSlice({
     },
     newChecklistPosted(state) {
       state.postChecklistStatus = LoadingStatuses.SUCCESS;
+    },
+    deleteChecklist(state, action) {
+      state.deleteStatus = LoadingStatuses.LOADING;
+    },
+    checklistDeleted(state) {
+      state.deleteStatus = LoadingStatuses.SUCCESS;
     },
     setError(state) {
       state.status = LoadingStatuses.ERROR;
@@ -121,6 +128,8 @@ export const {
   clearNewChecklist,
   getChecklists,
   setChecklists,
+  deleteChecklist,
+  checklistDeleted,
   getSingleChecklist,
   setSingleChecklist,
   setError,

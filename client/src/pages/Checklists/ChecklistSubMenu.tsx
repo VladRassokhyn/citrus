@@ -4,6 +4,8 @@ import { Checklist } from '../../lib/slices/checklist';
 import viewList from '../../static/viewList.svg';
 import trash from '../../static/trash.svg';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { deleteChecklist } from '../../lib/slices/checklist/checklist.slice';
 
 type Props = {
   checklist: Checklist;
@@ -35,9 +37,10 @@ const H1 = styled.h1`
 
 export const ChecklistSubMenu = (props: Props): JSX.Element => {
   const { checklist } = props;
+  const dispatch = useDispatch();
 
   const handleDelete = () => {
-    console.log('delete');
+    dispatch(deleteChecklist(checklist.id));
   };
 
   return (
