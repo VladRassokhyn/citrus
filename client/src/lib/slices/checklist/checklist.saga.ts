@@ -46,6 +46,7 @@ function* deleteChecklistWorker(action: FixLater): SagaIterator {
   try {
     yield call(checklistsApi.deleteChecklist, action.payload);
     yield put({ type: checklistDeleted.type });
+    yield put({ type: getChecklists.type });
   } catch (err) {
     yield put({ type: setError.type });
   }

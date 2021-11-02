@@ -1,10 +1,14 @@
 import React from 'react';
-import styled from 'styled-components';
+import ReactDOM from 'react-dom';
+import styled, { keyframes } from 'styled-components';
+import { bounceInUp } from 'react-animations';
 
 type Props = {
   children: JSX.Element | JSX.Element[];
   onClose: () => void;
 };
+
+const bounceAnimation = keyframes`${bounceInUp}`;
 
 const Wrapper = styled.div`
   position: absolute;
@@ -36,14 +40,17 @@ const Content = styled.div`
   flex-direction: column;
   gap: 20px;
   align-items: center;
+  animation: ${bounceAnimation} 0.5s forwards;
 `;
 
 export const Modal = (props: Props): JSX.Element => {
   const { children, onClose } = props;
-  return (
+  const modalRoot = document.getElementById('modal');
+  return ReactDOM.createPortal(
     <>
       <Wrapper onClick={onClose}></Wrapper>
       <Content>{children}</Content>
-    </>
+    </>,
+    modalRoot!,
   );
 };

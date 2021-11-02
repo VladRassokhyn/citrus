@@ -12,6 +12,7 @@ import { useState } from 'react';
 import { NewUserForm } from './NewUserForm';
 import { Link } from 'react-router-dom';
 import { selectAuthUser } from '../../lib/slices/auth';
+import { Confirm } from '../../Components/Confirm';
 
 type Props = {
   user: User;
@@ -108,7 +109,9 @@ export const UserSubMenu = (props: Props): JSX.Element => {
           <Link to={`/users/${user.id}`}>
             <Img src={viewList} alt={'view'} />
           </Link>
-          <Img src={trash} alt={'delete'} onClick={handleDelete} />
+          <Confirm confirmFn={handleDelete} title={'Удалить пользователя ?'}>
+            <Img src={trash} alt={'delete'} />
+          </Confirm>
         </>
       )}
     </Wrapper>

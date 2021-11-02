@@ -4,10 +4,6 @@ import styled from 'styled-components';
 import { InputField } from '../../Components/InputField';
 import { useTypedSelector } from '../../lib/hooks';
 import {
-  postNewChecklist,
-  selectPostChecklistStatus,
-} from '../../lib/slices/checklist';
-import {
   categoryAdded,
   categoryRemoved,
   categoryTitleChanged,
@@ -16,10 +12,14 @@ import {
   fieldRemoved,
   fieldTitleChanged,
   selectSingleChecklist,
+  clearNewChecklist,
+  postNewChecklist,
+  selectPostChecklistStatus,
 } from '../../lib/slices/checklist';
 import trash from '../../static/trash.svg';
 import { LoadingStatuses } from '../../lib/globalTypes';
 import { selectAuthUser } from '../../lib/slices/auth';
+import { Confirm } from '../../Components/Confirm';
 
 const Wrapper = styled.div`
   padding: 15px 5%;
@@ -38,9 +38,11 @@ const HR = styled.hr`
 const Button = styled.button`
   width: 100%;
   margin-top: 15px;
-  height: 30px;
+  height: 35px;
   background-color: var(--color-button);
-  border: 1px solid #d1d1d1;
+  border-radius: 5px;
+  border: 0;
+  padding: 5px;
   color: white;
   font-size: 14pt;
 `;
@@ -88,6 +90,12 @@ const Img = styled.img`
   height: 100%;
 `;
 
+const BottomBtns = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+`;
+
 export const NewChecklistForm = (): JSX.Element => {
   const checklist = useTypedSelector(selectSingleChecklist);
   const postStatus = useTypedSelector(selectPostChecklistStatus);
@@ -102,6 +110,9 @@ export const NewChecklistForm = (): JSX.Element => {
     if (postStatus === LoadingStatuses.SUCCESS) {
       setDisabled(false);
     }
+    return () => {
+      dispatch(clearNewChecklist());
+    };
   }, [postStatus]);
 
   const handleSubmit = () => {
@@ -123,6 +134,8 @@ export const NewChecklistForm = (): JSX.Element => {
   const removeField = (categoryIndex: number, fieldIndex: number) => {
     dispatch(fieldRemoved({ categoryIndex, fieldIndex }));
   };
+
+  const resetForm = () => dispatch(clearNewChecklist());
 
   const handleCategoryTitleChange = (
     e: ChangeEvent<HTMLInputElement>,
@@ -198,9 +211,14 @@ export const NewChecklistForm = (): JSX.Element => {
       <AddBtn disabled={disabled} onClick={appendCategory}>
         Добавить Категорию
       </AddBtn>
-      <Button disabled={disabled} onClick={handleSubmit}>
-        Сохранить чек-лист
-      </Button>
+      <BottomBtns>
+        <Confirm confirmFn={handleSubmit} title={'Сохранить форму ?'}>
+          <Button disabled={disabled}>Сохранить</Button>
+        </Confirm>
+        <Confirm confirmFn={resetForm} title={'Очистить все поля формы ?'}>
+          <Button disabled={disabled}>Очистить все</Button>
+        </Confirm>
+      </BottomBtns>
     </Wrapper>
   );
 };

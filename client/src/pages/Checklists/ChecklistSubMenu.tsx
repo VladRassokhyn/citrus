@@ -6,6 +6,7 @@ import trash from '../../static/trash.svg';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { deleteChecklist } from '../../lib/slices/checklist/checklist.slice';
+import { Confirm } from '../../Components/Confirm';
 
 type Props = {
   checklist: Checklist;
@@ -49,7 +50,9 @@ export const ChecklistSubMenu = (props: Props): JSX.Element => {
       <Link to={`/checklist/${checklist.id}`}>
         <Img style={{ marginTop: '15px' }} src={viewList} alt={'view'} />
       </Link>
-      <Img src={trash} alt={'delete'} onClick={handleDelete} />
+      <Confirm confirmFn={handleDelete} title={'Удалить чек-лист ?'}>
+        <Img src={trash} alt={'delete'} />
+      </Confirm>
     </Wrapper>
   );
 };
