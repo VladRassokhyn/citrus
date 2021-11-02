@@ -131,17 +131,42 @@ router
   .delete(
     [checkJwt, checkRole(['ADMIN', 'MANAGER'])],
     async (req: Request, res: Response) => {
-      const id = +req.params['id']!;
-      const repo = getRepository(Checklist);
+      const checklistId = +req.params['id']!;
+      const checklistRepo = getRepository(Checklist);
+      const categoryRepo = getRepository(Category);
+      const fieldRepo = getRepository(Field);
 
       try {
-        const checklist = repo.findOneOrFail({ id });
-      } catch (err) {
-        res.status(404).send('checklist not found');
-      }
+        let fieldIds: number[] = [];
+        let catIds: number[] = [];
 
-      await repo.delete(id);
-      res.send(200).send('deleted');
+        const checklist = await checklistRepo.findOneOrFail(
+          { id: checklistId },
+          { relations: ['categories'] },
+        );
+
+        const categoties = await categoryRepo.find({ relations: ['fields'] });
+
+        checklist.categories.forEach((cat) => {
+          catIds.push(cat.id);
+        });
+
+        categoties.forEach((cat) => {
+          if (catIds.includes(cat.id)) {
+            cat.fields.forEach((field) => {
+              fieldIds.push(field.id);
+            });
+          }
+        });
+
+        await fieldRepo.delete(fieldIds);
+        await categoryRepo.delete(catIds);
+        await checklistRepo.delete(checklist.id);
+
+        res.status(200).send('deleted');
+      } catch (err) {
+        console.log(err);
+      }
     },
   );
 

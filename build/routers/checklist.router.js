@@ -110,15 +110,32 @@ router.route('/:id').get(async (req, res) => {
 router
     .route('/:id')
     .delete([meddleware_1.checkJwt, (0, meddleware_1.checkRole)(['ADMIN', 'MANAGER'])], async (req, res) => {
-    const id = +req.params['id'];
-    const repo = (0, typeorm_1.getRepository)(Checklist_model_1.Checklist);
+    const checklistId = +req.params['id'];
+    const checklistRepo = (0, typeorm_1.getRepository)(Checklist_model_1.Checklist);
+    const categoryRepo = (0, typeorm_1.getRepository)(Checklist_model_1.Category);
+    const fieldRepo = (0, typeorm_1.getRepository)(Checklist_model_1.Field);
     try {
-        const checklist = repo.findOneOrFail({ id });
+        let fieldIds = [];
+        let catIds = [];
+        const checklist = await checklistRepo.findOneOrFail({ id: checklistId }, { relations: ['categories'] });
+        const categoties = await categoryRepo.find({ relations: ['fields'] });
+        checklist.categories.forEach((cat) => {
+            catIds.push(cat.id);
+        });
+        categoties.forEach((cat) => {
+            if (catIds.includes(cat.id)) {
+                cat.fields.forEach((field) => {
+                    fieldIds.push(field.id);
+                });
+            }
+        });
+        await fieldRepo.delete(fieldIds);
+        await categoryRepo.delete(catIds);
+        await checklistRepo.delete(checklist.id);
+        res.status(200).send('deleted');
     }
     catch (err) {
-        res.status(404).send('checklist not found');
+        console.log(err);
     }
-    await repo.delete(id);
-    res.send(200).send('deleted');
 });
 exports.checklistRouter = router;

@@ -33,7 +33,7 @@ const Wrapper = styled.div`
 const H1 = styled.h1<H1Props>`
   margin-top: 10px;
   margin-left: 70%;
-  font-size: 12pt;
+  font-size: 10pt;
   color: white;
   animation: ${(props) => (props.goLeft ? goLeftAnimation : goRightAnimation)}
     0.3s forwards;
