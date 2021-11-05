@@ -55,7 +55,9 @@ export class Category {
   @Column()
   title: string;
 
-  @ManyToOne(() => Checklist, (checklist) => checklist.categories)
+  @ManyToOne(() => Checklist, (checklist) => checklist.categories, {
+    onDelete: 'CASCADE',
+  })
   checklist: Checklist;
 
   @OneToMany(() => Field, (field) => field.category)
@@ -74,6 +76,8 @@ export class Field {
   @Column()
   checked: boolean;
 
-  @ManyToOne(() => Category, (category) => category.fields)
+  @ManyToOne(() => Category, (category) => category.fields, {
+    onDelete: 'CASCADE',
+  })
   category: Category;
 }

@@ -10,8 +10,7 @@ const path_1 = __importDefault(require("path"));
 const db_1 = require("./db");
 const cors_1 = __importDefault(require("cors"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
-const routers_1 = require("./routers");
-const checklist_router_1 = require("./routers/checklist.router");
+const resources_1 = require("./resources");
 (0, dotenv_1.config)();
 exports.app = (0, express_1.default)();
 exports.app.use((0, cors_1.default)());
@@ -26,9 +25,9 @@ exports.app.use('/', (req, res, next) => {
     }
     next();
 });
-exports.app.use('/api/auth', routers_1.authRouter);
-exports.app.use('/api/users', routers_1.userRouter);
-exports.app.use('/api/checklist', checklist_router_1.checklistRouter);
+exports.app.use('/api/auth', resources_1.authRouter);
+exports.app.use('/api/users', resources_1.userRouter);
+exports.app.use('/api/checklist', resources_1.checklistRouter);
 (async () => {
     await (0, db_1.TryDbConnect)(() => exports.app.listen(process.env['PORT'], () => console.log('running' + process.env['PORT'])));
 })();

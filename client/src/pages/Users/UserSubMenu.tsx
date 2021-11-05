@@ -95,13 +95,7 @@ export const UserSubMenu = (props: Props): JSX.Element => {
         </Modal>
       )}
       {isEditForm ? (
-        <NewUserForm
-          userId={user.id}
-          initialLastName={user.lastName}
-          initialName={user.name}
-          salesmanId={user.id}
-          isUpdate
-        />
+        <NewUserForm user={user} />
       ) : (
         <>
           <H1>Действия:</H1>

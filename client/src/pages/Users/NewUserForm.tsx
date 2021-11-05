@@ -8,6 +8,7 @@ import {
   LoadingStatuses,
   UserRoles,
   TT,
+  User,
 } from '../../lib/globalTypes';
 import {
   postNewUser,
@@ -18,13 +19,7 @@ import { useTypedSelector } from '../../lib/hooks';
 import { InputField } from '../../Components/InputField';
 
 type Props = {
-  userId?: number;
-  initialRole?: UserRoles;
-  initialUsername?: string;
-  initialName?: string;
-  initialLastName?: string;
-  salesmanId?: number;
-  isUpdate?: boolean;
+  user?: User;
 };
 
 type StyleProps = {
@@ -71,31 +66,17 @@ const TTselectorOptions = [
 ];
 
 export const NewUserForm = (props: Props): JSX.Element => {
-  const {
-    userId,
-    initialRole,
-    initialUsername,
-    initialName,
-    initialLastName,
-    isUpdate,
-  } = props;
+  const { user } = props;
   const dispatch = useDispatch();
   const CRUDstatus = useTypedSelector(selectUsersCRUSstatus);
   const [disabled, setDisabled] = useState(false);
   const { register, handleSubmit, control } = useForm({
-    defaultValues: {
-      username: initialUsername,
-      password: '',
-      tt: '',
-      name: initialName,
-      lastName: initialLastName,
-      role: initialRole,
-    },
+    defaultValues: { ...user, password: '' },
   });
 
   const handleSave = (e: FixLater) => {
-    if (isUpdate) {
-      dispatch(updateUser({ id: userId, dto: { ...e, role: e.role.value } }));
+    if (user) {
+      dispatch(updateUser({ id: user.id, dto: e }));
     } else {
       dispatch(postNewUser({ ...e, role: e.role.value }));
     }
@@ -112,7 +93,7 @@ export const NewUserForm = (props: Props): JSX.Element => {
 
   return (
     <Wrapper onSubmit={handleSubmit(handleSave)}>
-      {!isUpdate && (
+      {!user && (
         <>
           <InputField
             register={{ ...register('username') }}
@@ -138,7 +119,7 @@ export const NewUserForm = (props: Props): JSX.Element => {
         label={'Фамилия'}
         disabled={disabled}
       />
-      {!isUpdate && (
+      {!user && (
         <Controller
           control={control}
           name="tt"
@@ -152,7 +133,7 @@ export const NewUserForm = (props: Props): JSX.Element => {
         />
       )}
 
-      {!isUpdate && (
+      {!user && (
         <Controller
           control={control}
           name="role"

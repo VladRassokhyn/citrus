@@ -4,8 +4,7 @@ import path from 'path';
 import { TryDbConnect } from './db';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import { userRouter, authRouter } from './routers';
-import { checklistRouter } from './routers/checklist.router';
+import { userRouter, authRouter, checklistRouter } from './resources';
 
 envConfig();
 

@@ -67,6 +67,7 @@ export const Accordion = (props: Props): JSX.Element => {
     titleColor,
     marginContent,
   } = props;
+
   const [isOpen, setIsOpen] = useState(isOpenAll);
   const [isClosing, setIsClosing] = useState(false);
 

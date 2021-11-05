@@ -1,8 +1,8 @@
 import jwt from 'jsonwebtoken';
 import express, { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
-import { User } from '../entities';
-import { checkJwt } from '../meddleware';
+import { User } from '../../entities';
+import { checkJwt } from '../../meddleware';
 import { validate } from 'class-validator';
 
 const router = express.Router();

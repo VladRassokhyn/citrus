@@ -73,7 +73,9 @@ __decorate([
     __metadata("design:type", String)
 ], Category.prototype, "title", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => Checklist, (checklist) => checklist.categories),
+    (0, typeorm_1.ManyToOne)(() => Checklist, (checklist) => checklist.categories, {
+        onDelete: 'CASCADE',
+    }),
     __metadata("design:type", Checklist)
 ], Category.prototype, "checklist", void 0);
 __decorate([
@@ -100,7 +102,9 @@ __decorate([
     __metadata("design:type", Boolean)
 ], Field.prototype, "checked", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => Category, (category) => category.fields),
+    (0, typeorm_1.ManyToOne)(() => Category, (category) => category.fields, {
+        onDelete: 'CASCADE',
+    }),
     __metadata("design:type", Category)
 ], Field.prototype, "category", void 0);
 Field = __decorate([
