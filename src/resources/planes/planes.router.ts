@@ -22,12 +22,7 @@ router.route('/').post(async (req, res) => {
 
   const planesRepo = getRepository(Planes);
 
-  const plane = new Planes();
-  plane.cm = dto.cm;
-  plane.ca = dto.ca;
-  plane.cz = dto.cz;
-  plane.to_cm = dto.to_cm;
-  plane.to_cz = dto.to_cz;
+  const plane = planesRepo.create(dto);
 
   try {
     await planesRepo.save(plane);

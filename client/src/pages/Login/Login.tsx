@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import { InputField } from '../../Components/InputField';
 import { FixLater } from '../../lib/globalTypes';
 import { useTypedSelector } from '../../lib/hooks';
-import { selectAuthUser } from '../../lib/slices/auth';
+import { authSelectors } from '../../lib/slices/auth';
 import { tryLogin } from '../../lib/slices/auth/auth.slice';
 
 const Wrapper = styled.form`
@@ -28,7 +28,7 @@ const Button = styled.button`
 
 export const Login = (): JSX.Element => {
   const { handleSubmit, register } = useForm();
-  const authUser = useTypedSelector(selectAuthUser);
+  const authUser = useTypedSelector(authSelectors.selectAuthUser);
   const dispatch = useDispatch();
 
   if (authUser) {

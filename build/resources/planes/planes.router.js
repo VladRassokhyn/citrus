@@ -19,12 +19,7 @@ router.route('/').get(async (req, res) => {
 router.route('/').post(async (req, res) => {
     const dto = req.body;
     const planesRepo = (0, typeorm_1.getRepository)(entities_1.Planes);
-    const plane = new entities_1.Planes();
-    plane.cm = dto.cm;
-    plane.ca = dto.ca;
-    plane.cz = dto.cz;
-    plane.to_cm = dto.to_cm;
-    plane.to_cz = dto.to_cz;
+    const plane = planesRepo.create(dto);
     try {
         await planesRepo.save(plane);
         res.status(201).send('created');

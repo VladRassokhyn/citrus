@@ -25,20 +25,18 @@ import {
 import { checklistWatcher } from './checklist.saga';
 
 export type { Checklist, Category };
-export {
-  checklistWatcher,
+export const checklistSelectors = {
   selectAllChecklists,
   selectChecklistsStatus,
-  checklistReducer,
-  getChecklists,
-  postNewChecklist,
-  getSingleChecklist,
-  clearNewChecklist,
-  fieldCheckedChanged,
-  newChecklistPosted,
   selectPostChecklistStatus,
   selectSingleChecklist,
   selectSingleChecklistStatus,
+};
+export const checklistActions = {
+  getChecklists,
+  postNewChecklist,
+  newChecklistPosted,
+  getSingleChecklist,
   categoryAdded,
   categoryRemoved,
   categoryTitleChanged,
@@ -46,4 +44,8 @@ export {
   fieldRemoved,
   fieldTitleChanged,
   checklistTitleChanged,
+  fieldCheckedChanged,
+  clearNewChecklist,
 };
+
+export { checklistWatcher, checklistReducer };

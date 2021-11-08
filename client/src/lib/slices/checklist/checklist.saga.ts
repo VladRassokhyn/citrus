@@ -11,8 +11,8 @@ import {
   setSingleChecklist,
   checklistDeleted,
   deleteChecklist,
+  postNewChecklist,
 } from './checklist.slice';
-import { postNewChecklist } from '.';
 
 function* getChecklistsWorker(): SagaIterator {
   try {

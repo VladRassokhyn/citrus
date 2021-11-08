@@ -25,4 +25,7 @@ export class Planes {
 
   @Column()
   to_cz: number;
+
+  @Column()
+  to_ca: number
 }

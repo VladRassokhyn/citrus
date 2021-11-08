@@ -3,17 +3,13 @@ import { useEffect } from 'react';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { useTypedSelector } from '../../lib/hooks';
-import {
-  getUsers,
-  selectAllUsers,
-  selectUsersStatus,
-} from '../../lib/slices/users';
+import { userActions, userSelectors } from '../../lib/slices/users';
 import { LoadingStatuses, UserRoles } from '../../lib/globalTypes';
 import { Preloader } from '../../Components/Preloader';
 import { Accordion } from '../../Components/Accordion';
 import { NewUserForm } from './NewUserForm';
 import { UserSubMenu } from './UserSubMenu';
-import { selectAuthUser } from '../../lib/slices/auth';
+import { authSelectors } from '../../lib/slices/auth';
 import { selectSalesmans } from '../../lib/slices/users/users.selectors';
 
 const Wrapper = styled.div`
@@ -25,8 +21,8 @@ const Wrapper = styled.div`
 
 export const Users = (): JSX.Element => {
   const users = useTypedSelector(selectSalesmans);
-  const salesmansStatus = useTypedSelector(selectUsersStatus);
-  const authUser = useTypedSelector(selectAuthUser);
+  const salesmansStatus = useTypedSelector(userSelectors.selectUsersStatus);
+  const authUser = useTypedSelector(authSelectors.selectAuthUser);
   const dispatch = useDispatch();
 
   const isAdminOrManager =
@@ -34,7 +30,7 @@ export const Users = (): JSX.Element => {
     (authUser.role === UserRoles.ADMIN || authUser.role === UserRoles.MANAGER);
 
   useEffect(() => {
-    authUser && dispatch(getUsers(authUser.tt));
+    authUser && dispatch(userActions.getUsers(authUser.tt));
   }, []);
 
   if (salesmansStatus === LoadingStatuses.LOADING || !users) {

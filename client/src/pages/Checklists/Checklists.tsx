@@ -3,17 +3,16 @@ import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { Accordion } from '../../Components/Accordion';
 import { NewChecklistForm } from './NewChecklistForm';
-import { getUsers, selectUsersStatus } from '../../lib/slices/users';
+import { userActions, userSelectors } from '../../lib/slices/users';
 import { useTypedSelector } from '../../lib/hooks';
 import { LoadingStatuses } from '../../lib/globalTypes';
 import { Preloader } from '../../Components/Preloader';
 import {
-  selectAllChecklists,
-  selectChecklistsStatus,
-  getChecklists,
+  checklistSelectors,
+  checklistActions,
 } from '../../lib/slices/checklist';
 import { ChecklistSubMenu } from './ChecklistSubMenu';
-import { selectAuthUser } from '../../lib/slices/auth';
+import { authSelectors } from '../../lib/slices/auth';
 
 const Wrapper = styled.div`
   padding: 20px 5vw;
@@ -36,18 +35,20 @@ const H1 = styled.h1`
 `;
 
 export const Checklists = (): JSX.Element => {
-  const usersStatus = useTypedSelector(selectUsersStatus);
+  const usersStatus = useTypedSelector(userSelectors.selectUsersStatus);
   const dispatch = useDispatch();
-  const checklists = useTypedSelector(selectAllChecklists);
-  const checklistStatus = useTypedSelector(selectChecklistsStatus);
-  const authUser = useTypedSelector(selectAuthUser);
+  const checklists = useTypedSelector(checklistSelectors.selectAllChecklists);
+  const checklistStatus = useTypedSelector(
+    checklistSelectors.selectChecklistsStatus,
+  );
+  const authUser = useTypedSelector(authSelectors.selectAuthUser);
 
   const isChecklistsLoading = checklistStatus === LoadingStatuses.LOADING;
   const isUsersLoading = usersStatus === LoadingStatuses.LOADING;
 
   useEffect(() => {
-    authUser && dispatch(getUsers(authUser.tt));
-    dispatch(getChecklists());
+    authUser && dispatch(userActions.getUsers(authUser.tt));
+    dispatch(checklistActions.getChecklists());
   }, []);
 
   if (isUsersLoading || isChecklistsLoading) {

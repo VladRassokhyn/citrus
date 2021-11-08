@@ -4,21 +4,12 @@ import styled from 'styled-components';
 import { InputField } from '../../Components/InputField';
 import { useTypedSelector } from '../../lib/hooks';
 import {
-  categoryAdded,
-  categoryRemoved,
-  categoryTitleChanged,
-  checklistTitleChanged,
-  fieldAdded,
-  fieldRemoved,
-  fieldTitleChanged,
-  selectSingleChecklist,
-  clearNewChecklist,
-  postNewChecklist,
-  selectPostChecklistStatus,
+  checklistActions,
+  checklistSelectors,
 } from '../../lib/slices/checklist';
 import trash from '../../static/trash.svg';
 import { LoadingStatuses } from '../../lib/globalTypes';
-import { selectAuthUser } from '../../lib/slices/auth';
+import { authSelectors } from '../../lib/slices/auth';
 import { Confirm } from '../../Components/Confirm';
 
 const Wrapper = styled.div`
@@ -97,9 +88,11 @@ const BottomBtns = styled.div`
 `;
 
 export const NewChecklistForm = (): JSX.Element => {
-  const checklist = useTypedSelector(selectSingleChecklist);
-  const postStatus = useTypedSelector(selectPostChecklistStatus);
-  const authUser = useTypedSelector(selectAuthUser);
+  const checklist = useTypedSelector(checklistSelectors.selectSingleChecklist);
+  const postStatus = useTypedSelector(
+    checklistSelectors.selectPostChecklistStatus,
+  );
+  const authUser = useTypedSelector(authSelectors.selectAuthUser);
   const [disabled, setDisabled] = useState(false);
   const dispatch = useDispatch();
 
@@ -111,37 +104,44 @@ export const NewChecklistForm = (): JSX.Element => {
       setDisabled(false);
     }
     return () => {
-      dispatch(clearNewChecklist());
+      dispatch(checklistActions.clearNewChecklist());
     };
   }, [postStatus]);
 
   const handleSubmit = () => {
-    dispatch(postNewChecklist({ ...checklist, creatorId: authUser?.id }));
+    dispatch(
+      checklistActions.postNewChecklist({
+        ...checklist,
+        creatorId: authUser?.id,
+      }),
+    );
   };
 
   const appendCategory = () => {
-    dispatch(categoryAdded());
+    dispatch(checklistActions.categoryAdded());
   };
 
   const removeCategory = (index: number) => {
-    dispatch(categoryRemoved(index));
+    dispatch(checklistActions.categoryRemoved(index));
   };
 
   const appendField = (categoryIndex: number) => {
-    dispatch(fieldAdded(categoryIndex));
+    dispatch(checklistActions.fieldAdded(categoryIndex));
   };
 
   const removeField = (categoryIndex: number, fieldIndex: number) => {
-    dispatch(fieldRemoved({ categoryIndex, fieldIndex }));
+    dispatch(checklistActions.fieldRemoved({ categoryIndex, fieldIndex }));
   };
 
-  const resetForm = () => dispatch(clearNewChecklist());
+  const resetForm = () => dispatch(checklistActions.clearNewChecklist());
 
   const handleCategoryTitleChange = (
     e: ChangeEvent<HTMLInputElement>,
     index: number,
   ) => {
-    dispatch(categoryTitleChanged({ title: e.target.value, index }));
+    dispatch(
+      checklistActions.categoryTitleChanged({ title: e.target.value, index }),
+    );
   };
 
   const handleFieldTitleChange = (
@@ -150,7 +150,7 @@ export const NewChecklistForm = (): JSX.Element => {
     fieldIndex: number,
   ) => {
     dispatch(
-      fieldTitleChanged({
+      checklistActions.fieldTitleChanged({
         title: e.target.value,
         categoryIndex,
         fieldIndex,
@@ -165,7 +165,9 @@ export const NewChecklistForm = (): JSX.Element => {
         label={'Тема'}
         vertical
         value={checklist.title}
-        onChange={(e) => dispatch(checklistTitleChanged(e.target.value))}
+        onChange={(e) =>
+          dispatch(checklistActions.checklistTitleChanged(e.target.value))
+        }
       />
       <HR />
       {checklist.categories.map((category, categoryIndex) => (

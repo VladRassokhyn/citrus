@@ -15,7 +15,7 @@ import {
 } from './users.slice';
 import { SagaIterator } from '@redux-saga/types';
 import { getOneUser, setOneUser, setOneUserError } from './oneUser.slice';
-import { getUserChecklists, setUserChecklists } from '.';
+import { getUserChecklists, setUserChecklists } from './oneUser.slice';
 
 function* getUsersWorker(action: FixLater): SagaIterator {
   try {

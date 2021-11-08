@@ -8,7 +8,7 @@ import { bounceIn, bounceOutDown } from 'react-animations';
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import { useTypedSelector } from '../../lib/hooks';
-import { selectAuthUser } from '../../lib/slices/auth';
+import { authSelectors } from '../../lib/slices/auth';
 import { UserRoles } from '../../lib/globalTypes';
 
 type ClosingProps = {
@@ -51,7 +51,7 @@ export const Main = (): JSX.Element => {
   const [destination, setDestination] = useState('');
   const history = useHistory();
 
-  const authUser = useTypedSelector(selectAuthUser);
+  const authUser = useTypedSelector(authSelectors.selectAuthUser);
   const isManagerOrAdmin =
     authUser?.role === UserRoles.MANAGER || authUser?.role === UserRoles.ADMIN;
 

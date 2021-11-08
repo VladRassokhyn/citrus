@@ -7,14 +7,7 @@ import { Checkbox } from '../../../Components/Checkbox';
 import { Preloader } from '../../../Components/Preloader';
 import { LoadingStatuses } from '../../../lib/globalTypes';
 import { useTypedSelector } from '../../../lib/hooks';
-import {
-  selectOneUser,
-  selectOneUserStatus,
-  getOneUser,
-  getUserChecklists,
-  selectUserChecklists,
-  selectUserChecklistsStatus,
-} from '../../../lib/slices/users';
+import { userActions, userSelectors } from '../../../lib/slices/users';
 
 const Wrapper = styled.div`
   display: flex;
@@ -58,15 +51,17 @@ const H2 = styled.h1`
 
 export const User = (): JSX.Element | null => {
   const { userId } = useParams<{ userId: string }>();
-  const user = useTypedSelector(selectOneUser);
-  const userStatus = useTypedSelector(selectOneUserStatus);
-  const userChecklists = useTypedSelector(selectUserChecklists);
-  const userChecklistStatus = useTypedSelector(selectUserChecklistsStatus);
+  const user = useTypedSelector(userSelectors.selectOneUser);
+  const userStatus = useTypedSelector(userSelectors.selectOneUserStatus);
+  const userChecklists = useTypedSelector(userSelectors.selectUserChecklists);
+  const userChecklistStatus = useTypedSelector(
+    userSelectors.selectUserChecklistsStatus,
+  );
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getOneUser(userId));
-    dispatch(getUserChecklists(userId));
+    dispatch(userActions.getOneUser(userId));
+    dispatch(userActions.getUserChecklists(userId));
   }, []);
 
   if (

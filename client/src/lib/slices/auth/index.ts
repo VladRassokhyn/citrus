@@ -11,10 +11,9 @@ import {
 } from './auth.slice';
 import { selectAuthUser, selectAuthStatuses } from './auth.selectors';
 
+export const authSelectors = { selectAuthUser, selectAuthStatuses };
 export {
   authReducer,
-  selectAuthUser,
-  selectAuthStatuses,
   tryLogin,
   setLogin,
   setAuthError,

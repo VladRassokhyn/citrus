@@ -6,12 +6,12 @@ import viewList from '../../static/viewList.svg';
 import { useDispatch } from 'react-redux';
 import { Modal } from '../../Components/Modal';
 import { useTypedSelector } from '../../lib/hooks';
-import { deleteUser } from '../../lib/slices/users';
+import { userActions } from '../../lib/slices/users';
 import { User, UserRoles } from '../../lib/globalTypes';
 import { useState } from 'react';
 import { NewUserForm } from './NewUserForm';
 import { Link } from 'react-router-dom';
-import { selectAuthUser } from '../../lib/slices/auth';
+import { authSelectors } from '../../lib/slices/auth';
 import { Confirm } from '../../Components/Confirm';
 
 type Props = {
@@ -62,7 +62,7 @@ export const UserSubMenu = (props: Props): JSX.Element => {
   const dispatch = useDispatch();
   const [accesError, setAccesError] = useState(false);
   const [isEditForm, setIsEditForm] = useState(false);
-  const authUser = useTypedSelector(selectAuthUser);
+  const authUser = useTypedSelector(authSelectors.selectAuthUser);
 
   const isUserAuth = authUser && authUser.id === user.id;
   const isAdminAuth = authUser && authUser.role === UserRoles.ADMIN;
@@ -77,7 +77,7 @@ export const UserSubMenu = (props: Props): JSX.Element => {
 
   const handleDelete = () => {
     if (isAdminAuth) {
-      dispatch(deleteUser(user.id));
+      dispatch(userActions.deleteUser(user.id));
     } else {
       setAccesError(true);
     }

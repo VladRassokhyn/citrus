@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 import { useTypedSelector } from '../../lib/hooks';
-import { logout, selectAuthUser } from '../../lib/slices/auth';
+import { logout, authSelectors } from '../../lib/slices/auth';
 import { slideInRight } from 'react-animations';
 import { useDispatch } from 'react-redux';
 import home from '../../static/home.svg';
@@ -62,7 +62,7 @@ const Img = styled.img`
 `;
 
 export const Header = (): JSX.Element => {
-  const authUser = useTypedSelector(selectAuthUser);
+  const authUser = useTypedSelector(authSelectors.selectAuthUser);
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch();
   const history = useHistory();

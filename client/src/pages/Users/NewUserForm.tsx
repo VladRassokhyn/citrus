@@ -10,11 +10,7 @@ import {
   TT,
   User,
 } from '../../lib/globalTypes';
-import {
-  postNewUser,
-  updateUser,
-  selectUsersCRUSstatus,
-} from '../../lib/slices/users';
+import { userActions, userSelectors } from '../../lib/slices/users';
 import { useTypedSelector } from '../../lib/hooks';
 import { InputField } from '../../Components/InputField';
 
@@ -68,7 +64,7 @@ const TTselectorOptions = [
 export const NewUserForm = (props: Props): JSX.Element => {
   const { user } = props;
   const dispatch = useDispatch();
-  const CRUDstatus = useTypedSelector(selectUsersCRUSstatus);
+  const CRUDstatus = useTypedSelector(userSelectors.selectUsersCRUSstatus);
   const [disabled, setDisabled] = useState(false);
   const { register, handleSubmit, control } = useForm({
     defaultValues: { ...user, password: '' },
@@ -76,9 +72,9 @@ export const NewUserForm = (props: Props): JSX.Element => {
 
   const handleSave = (e: FixLater) => {
     if (user) {
-      dispatch(updateUser({ id: user.id, dto: e }));
+      dispatch(userActions.updateUser({ id: user.id, dto: e }));
     } else {
-      dispatch(postNewUser({ ...e, role: e.role.value }));
+      dispatch(userActions.postNewUser({ ...e, role: e.role.value }));
     }
   };
 

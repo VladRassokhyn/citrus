@@ -29,24 +29,22 @@ import {
   setUserChecklists,
 } from './oneUser.slice';
 
-export {
+export const userSelectors = {
   selectAllUsers,
   selectUsersCRUSstatus,
   selectUsersStatus,
   selectUserById,
   selectOneUser,
   selectOneUserStatus,
-  usersReducer,
-  oneUserReducer,
-  getUserChecklists,
-  setUserChecklists,
-  getOneUser,
+  selectUserChecklists,
+  selectUserChecklistsStatus,
+};
+
+export const userActions = {
   getUsers,
   setUsers,
   postNewUser,
-  selectUserChecklistsStatus,
   newUserPosted,
-  selectUserChecklists,
   deleteUser,
   userDeleted,
   updateUser,
@@ -54,4 +52,9 @@ export {
   statusesResets,
   setError,
   setCRUDError,
+  getOneUser,
+  getUserChecklists,
+  setUserChecklists,
 };
+
+export { usersReducer, oneUserReducer };

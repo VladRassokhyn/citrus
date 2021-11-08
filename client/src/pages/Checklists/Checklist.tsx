@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Redirect, useHistory, useParams } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import styled from 'styled-components';
 import Select from 'react-select';
 import { Checkbox } from '../../Components/Checkbox';
@@ -9,20 +9,11 @@ import { FixLater, LoadingStatuses, UserRoles } from '../../lib/globalTypes';
 import { useTypedSelector } from '../../lib/hooks';
 import {
   Category,
-  clearNewChecklist,
-  fieldCheckedChanged,
-  getSingleChecklist,
-  postNewChecklist,
-  selectPostChecklistStatus,
-  selectSingleChecklist,
-  selectSingleChecklistStatus,
+  checklistActions,
+  checklistSelectors,
 } from '../../lib/slices/checklist/';
-import {
-  getUsers,
-  selectAllUsers,
-  selectUsersStatus,
-} from '../../lib/slices/users';
-import { selectAuthUser } from '../../lib/slices/auth';
+import { userActions, userSelectors } from '../../lib/slices/users';
+import { authSelectors } from '../../lib/slices/auth';
 
 const Wrapper = styled.form`
   display: flex;
@@ -89,12 +80,16 @@ export const Checklist = (): JSX.Element => {
   const [salesmanId, setSalesmanId] = useState<number | null>(null);
   const [managerId, setManagerId] = useState<number | null>(null);
   const [showChecklist, setShowChecklist] = useState(false);
-  const authUser = useTypedSelector(selectAuthUser);
-  const users = useTypedSelector(selectAllUsers);
-  const usersStatus = useTypedSelector(selectUsersStatus);
-  const checklist = useTypedSelector(selectSingleChecklist);
-  const checklistStatus = useTypedSelector(selectSingleChecklistStatus);
-  const postChecklistStatus = useTypedSelector(selectPostChecklistStatus);
+  const authUser = useTypedSelector(authSelectors.selectAuthUser);
+  const users = useTypedSelector(userSelectors.selectAllUsers);
+  const usersStatus = useTypedSelector(userSelectors.selectUsersStatus);
+  const checklist = useTypedSelector(checklistSelectors.selectSingleChecklist);
+  const checklistStatus = useTypedSelector(
+    checklistSelectors.selectSingleChecklistStatus,
+  );
+  const postChecklistStatus = useTypedSelector(
+    checklistSelectors.selectPostChecklistStatus,
+  );
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -106,11 +101,11 @@ export const Checklist = (): JSX.Element => {
   }, [postChecklistStatus]);
 
   useEffect(() => {
-    dispatch(getSingleChecklist(checklistId));
-    authUser && dispatch(getUsers(authUser.tt));
+    dispatch(checklistActions.getSingleChecklist(checklistId));
+    authUser && dispatch(userActions.getUsers(authUser.tt));
 
     return () => {
-      dispatch(clearNewChecklist());
+      dispatch(checklistActions.clearNewChecklist());
     };
   }, []);
 
@@ -167,11 +162,13 @@ export const Checklist = (): JSX.Element => {
       maxMark,
       categories,
     };
-    dispatch(postNewChecklist(newChecklist));
+    dispatch(checklistActions.postNewChecklist(newChecklist));
   };
 
   const handleCheckedChange = (fieldIndex: number, categoryIndex: number) => {
-    dispatch(fieldCheckedChanged({ fieldIndex, categoryIndex }));
+    dispatch(
+      checklistActions.fieldCheckedChanged({ fieldIndex, categoryIndex }),
+    );
   };
 
   const handleChangeSalesman = (e: FixLater) => {
