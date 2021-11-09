@@ -18,6 +18,9 @@ const Wrapper = styled.div`
   padding: 20px 5vw;
   display: flex;
   flex-direction: column;
+  @media (min-width: 560px) {
+    padding: 20px 25vw;
+  }
 `;
 
 const ChecklistsList = styled.div`

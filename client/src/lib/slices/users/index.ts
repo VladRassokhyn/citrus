@@ -28,6 +28,7 @@ import {
   getUserChecklists,
   setUserChecklists,
 } from './oneUser.slice';
+import { usersWatcher } from './users.saga';
 
 export const userSelectors = {
   selectAllUsers,
@@ -57,4 +58,4 @@ export const userActions = {
   setUserChecklists,
 };
 
-export { usersReducer, oneUserReducer };
+export { usersReducer, oneUserReducer, usersWatcher };

@@ -19,12 +19,15 @@ const Wrapper = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
+  @media (min-width: 560px) {
+    padding: 0 25vw;
+  }
 `;
 
 const Head = styled.div`
   display: flex;
+  width: 90%;
   flex-direction: column;
-  width: 90vw;
   padding: 0 5vw 30px 5vw;
   background-color: #f1f1f1;
   border-radius: 5px;
@@ -44,6 +47,9 @@ const CategoryContsiner = styled.div`
 const FieldsContainer = styled.div`
   width: 90vw;
   padding: 5vw;
+  @media (min-width: 560px) {
+    width: 560px;
+  }
 `;
 
 const H1 = styled.h1`

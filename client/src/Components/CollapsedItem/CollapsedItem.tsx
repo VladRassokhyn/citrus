@@ -55,6 +55,9 @@ const Title = styled.h1<TitleProps>`
     props.isOpen ? 'var(--color-button)' : 'white'};
   color: ${(props) => (props.isOpen ? 'white' : 'var(--color-stroke)')};
   transition: linear 0.3s;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const Content = styled.div<ContentProps>`

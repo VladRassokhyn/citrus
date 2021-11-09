@@ -17,6 +17,9 @@ const Wrapper = styled.div`
   padding: 20px 5vw;
   flex-direction: column;
   gap: 30px;
+  @media (min-width: 560px) {
+    padding: 20px 25vw;
+  }
 `;
 
 export const Users = (): JSX.Element => {

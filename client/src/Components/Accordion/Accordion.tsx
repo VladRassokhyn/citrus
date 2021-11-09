@@ -47,6 +47,9 @@ const Title = styled.div<TitleProps>`
   align-items: center;
   justify-content: space-between;
   background-color: ${(props) => props.bgColor};
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const H1 = styled.h1<TitleProps>`

@@ -1,20 +1,13 @@
 import React from 'react';
-import { useEffect, useState } from 'react';
-import { Preloader } from '../../Components/Preloader';
+import styled from 'styled-components';
+import { PlanesPanel } from './PlanesPanel';
+
+const Wrapper = styled.div``;
 
 export const Analitic = (): JSX.Element => {
-  const [show, setSHow] = useState(false);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setSHow(true);
-    }, 2000);
-    return () => clearTimeout(timer);
-  }, []);
-
-  if (show) {
-    return <h2>Самозванец</h2>;
-  } else {
-    return <Preloader />;
-  }
+  return (
+    <Wrapper>
+      <PlanesPanel />
+    </Wrapper>
+  );
 };

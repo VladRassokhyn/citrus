@@ -12,7 +12,6 @@ const bounceShow = keyframes`${bounceInUp}`;
 
 const Wrapper = styled.div`
   padding: 20px;
-  min-height: 600px;
   display: flex;
   flex-direction: column;
   animation: 1s ${bounceShow};
@@ -25,6 +24,10 @@ const Slide = styled.div`
   flex-direction: column;
   padding: 5vw;
   min-width: 90vw;
+  @media (min-width: 560px) {
+    padding: 0 25vw;
+    min-width: 50vw;
+  }
 `;
 
 const H1 = styled.h1`
@@ -57,6 +60,10 @@ const Button = styled.button`
   color: white;
   border: 0;
   border-radius: 5px;
+  @media (min-width: 560px) {
+    width: 50%;
+    margin-left: 25%;
+  }
 `;
 
 const LicPoWrapper = styled.div`

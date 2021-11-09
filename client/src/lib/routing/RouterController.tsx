@@ -7,7 +7,7 @@ export const RouterController = () => {
   const authUser = useTypedSelector(authSelectors.selectAuthUser);
 
   const getRouteAction = (route: RouteItem) => {
-    if (route.privat) {
+    if (route.private) {
       if (authUser) {
         return <route.component />;
       } else {

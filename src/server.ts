@@ -4,7 +4,12 @@ import path from 'path';
 import { TryDbConnect } from './db';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import { userRouter, authRouter, checklistRouter } from './resources';
+import {
+  userRouter,
+  authRouter,
+  checklistRouter,
+  planesRouter,
+} from './resources';
 
 envConfig();
 
@@ -28,6 +33,7 @@ app.use('/', (req: Request, res: Response, next: NextFunction) => {
 app.use('/api/auth', authRouter);
 app.use('/api/users', userRouter);
 app.use('/api/checklist', checklistRouter);
+app.use('/api/planes', planesRouter);
 
 (async () => {
   await TryDbConnect(() =>

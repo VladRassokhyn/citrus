@@ -34,6 +34,9 @@ const MenuItem = styled.div<ClosingProps>`
   justify-content: center;
   animation: 1s ${(props) => (props.isClosing ? bounceClose : bounceShow)};
   gap: 10px;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const Img = styled.img`

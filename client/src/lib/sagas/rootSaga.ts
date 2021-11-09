@@ -1,8 +1,14 @@
 import { all } from 'redux-saga/effects';
-import { authWather } from '../slices/auth/auth.saga';
+import { authWather } from '../slices/auth/';
 import { checklistWatcher } from '../slices/checklist';
-import { usersWatcher } from '../slices/users/users.saga';
+import { planewWatcher } from '../slices/planes';
+import { usersWatcher } from '../slices/users/';
 
 export function* rootSaga() {
-  yield all([usersWatcher(), authWather(), checklistWatcher()]);
+  yield all([
+    usersWatcher(),
+    authWather(),
+    checklistWatcher(),
+    planewWatcher(),
+  ]);
 }

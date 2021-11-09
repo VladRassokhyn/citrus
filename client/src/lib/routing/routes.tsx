@@ -10,7 +10,7 @@ export type RouteItem = {
   path: string;
   component: () => JSX.Element | null;
   exact?: boolean;
-  privat: boolean;
+  private: boolean;
   roles: UserRoles[] | null;
 };
 
@@ -19,55 +19,55 @@ export const routes: RouteItem[] = [
     path: '/',
     component: Main,
     exact: true,
-    privat: false,
+    private: false,
     roles: null,
   },
   {
     path: '/cm',
     component: CmMenu,
     exact: true,
-    privat: false,
+    private: false,
     roles: null,
   },
   {
     path: '/analytics',
     component: Analitic,
     exact: true,
-    privat: true,
+    private: true,
     roles: null,
   },
   {
     path: '/users',
     component: Users,
-    privat: true,
+    private: true,
     roles: null,
   },
   {
     path: '/users/:userId',
     component: User,
     exact: true,
-    privat: true,
+    private: true,
     roles: null,
   },
   {
     path: '/checklist',
     component: Checklists,
     exact: true,
-    privat: true,
+    private: true,
     roles: null,
   },
   {
     path: '/checklist/:checklistId',
     component: Checklist,
     exact: true,
-    privat: true,
+    private: true,
     roles: null,
   },
   {
     path: '/login',
     component: Login,
     exact: true,
-    privat: false,
+    private: false,
     roles: null,
   },
 ];
