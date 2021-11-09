@@ -35,20 +35,12 @@ __decorate([
 ], Planes.prototype, "ca", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
-    __metadata("design:type", Number)
-], Planes.prototype, "to", void 0);
-__decorate([
-    (0, typeorm_1.Column)(),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], Planes.prototype, "to_cm", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], Planes.prototype, "to_cz", void 0);
-__decorate([
-    (0, typeorm_1.Column)(),
-    __metadata("design:type", Number)
-], Planes.prototype, "to_ca", void 0);
 Planes = __decorate([
     (0, typeorm_1.Entity)()
 ], Planes);

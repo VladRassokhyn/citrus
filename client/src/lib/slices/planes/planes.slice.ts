@@ -11,7 +11,7 @@ const planesSlice = createSlice({
   name: 'planes',
   initialState,
   reducers: {
-    getPlanes(state) {
+    getPlanes(state, action) {
       state.status = LoadingStatuses.LOADING;
     },
     setPlanes(state, action) {

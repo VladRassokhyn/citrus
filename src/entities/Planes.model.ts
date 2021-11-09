@@ -18,14 +18,8 @@ export class Planes {
   ca: number;
 
   @Column()
-  to: number;
+  to_cm: string;
 
   @Column()
-  to_cm: number;
-
-  @Column()
-  to_cz: number;
-
-  @Column()
-  to_ca: number
+  to_cz: string;
 }
