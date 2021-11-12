@@ -46,7 +46,7 @@ router.route('/:id').get(async (req, res) => {
 });
 router
     .route('/:id')
-    .delete([meddleware_1.checkJwt, (0, meddleware_1.checkRole)(['ADMIN', 'MANAGER'])], async (req, res) => {
+    .delete([meddleware_1.checkJwt, (0, meddleware_1.checkRole)(['ADMIN'])], async (req, res) => {
     const deletorId = res.locals['jwtPayload'].userId;
     const checklistId = Number(req.params['id']);
     try {

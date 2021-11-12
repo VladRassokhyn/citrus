@@ -52,7 +52,7 @@ router.route('/:id').get(async (req, res) => {
 router
   .route('/:id')
   .delete(
-    [checkJwt, checkRole(['ADMIN', 'MANAGER'])],
+    [checkJwt, checkRole(['ADMIN'])],
     async (req: Request, res: Response) => {
       const deletorId = res.locals['jwtPayload'].userId;
       const checklistId = Number(req.params['id']);
