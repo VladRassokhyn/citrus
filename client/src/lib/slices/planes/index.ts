@@ -1,7 +1,15 @@
-import { planesReducer, getPlanes } from './planes.slice';
+import { planesReducer, getPlanes, updatePlanes } from './planes.slice';
 import { planewWatcher } from './planes.saga';
-import { selectPlanes, selectStatus } from './planes.selectors';
+import {
+  selectPlanes,
+  selectStatus,
+  selectUpdateStatus,
+} from './planes.selectors';
 
-export const planesSelectors = { selectPlanes, selectStatus };
-export const planesActions = { getPlanes };
+export const planesSelectors = {
+  selectPlanes,
+  selectStatus,
+  selectUpdateStatus,
+};
+export const planesActions = { getPlanes, updatePlanes };
 export { planesReducer, planewWatcher };
