@@ -40,6 +40,7 @@ export const routes: RouteItem[] = [
     path: '/users',
     component: Users,
     private: true,
+    exact: true,
     roles: null,
   },
   {
