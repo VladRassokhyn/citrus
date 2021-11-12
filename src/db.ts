@@ -10,7 +10,7 @@ export const connectToDb = async () => {
       database: process.env['DB_USERNAME'] + '',
       password: process.env['DB_PASSWORD'] + '',
       host: process.env['DB_HOSTNAME'] + '',
-      entities: [User, Checklist, Category, Field, Planes],
+      entities: [User, Planes, Checklist, Category, Field],
       synchronize: true,
       logging: false,
       keepConnectionAlive: true,

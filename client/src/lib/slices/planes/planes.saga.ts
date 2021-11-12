@@ -7,7 +7,9 @@ import { getPlanes, setError, setPlanes } from './planes.slice';
 function* getPlanesWorker(action: FixLater): SagaIterator {
   try {
     const res = yield call(planesApi.getPlanes, action.payload);
-    yield put({ type: setPlanes.type, payload: res.data });
+    if (res.status === 200) {
+      yield put({ type: setPlanes.type, payload: res.data });
+    }
   } catch (e) {
     yield put({ type: setError.type });
   }

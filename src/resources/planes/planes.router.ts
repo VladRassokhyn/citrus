@@ -11,15 +11,12 @@ router.route('/').get(async (req, res) => {
 
   try {
     const planes = await planesRepo.findOne({ tt });
-    if (planes) {
-      res.status(200).send(planes);
-    } else {
-      res.status(404).send('no planes');
-    }
+    res.status(200).send(planes);
   } catch (err) {
-    res.status(500);
+    res.status(404);
   }
 });
+
 
 router.route('/').post(async (req, res) => {
   const dto = req.body;

@@ -10,15 +10,10 @@ router.route('/').get(async (req, res) => {
     const planesRepo = (0, typeorm_1.getRepository)(entities_1.Planes);
     try {
         const planes = await planesRepo.findOne({ tt });
-        if (planes) {
-            res.status(200).send(planes);
-        }
-        else {
-            res.status(404).send('no planes');
-        }
+        res.status(200).send(planes);
     }
     catch (err) {
-        res.status(500);
+        res.status(404);
     }
 });
 router.route('/').post(async (req, res) => {

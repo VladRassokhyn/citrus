@@ -54,10 +54,6 @@ export const Main = (): JSX.Element => {
   const [destination, setDestination] = useState('');
   const history = useHistory();
 
-  const authUser = useTypedSelector(authSelectors.selectAuthUser);
-  const isManagerOrAdmin =
-    authUser?.role === UserRoles.MANAGER || authUser?.role === UserRoles.ADMIN;
-
   const handleClose = (dest: string) => {
     setIsClosing(true);
     setDestination(dest);
@@ -80,21 +76,14 @@ export const Main = (): JSX.Element => {
         <Img src={analitic} alt="anslyics image" />
         <H1>Аналитика</H1>
       </MenuItem>
-      {isManagerOrAdmin && (
-        <>
-          <MenuItem isClosing={isClosing} onClick={() => handleClose('users')}>
-            <Img src={employee} alt="salesmans image" />
-            <H1>Продавцы</H1>
-          </MenuItem>
-          <MenuItem
-            isClosing={isClosing}
-            onClick={() => handleClose('checklist')}
-          >
-            <Img src={checklist} alt="chacklist image" />
-            <H1>Чеклист</H1>
-          </MenuItem>
-        </>
-      )}
+      <MenuItem isClosing={isClosing} onClick={() => handleClose('users')}>
+        <Img src={employee} alt="salesmans image" />
+        <H1>Продавцы</H1>
+      </MenuItem>
+      <MenuItem isClosing={isClosing} onClick={() => handleClose('checklist')}>
+        <Img src={checklist} alt="chacklist image" />
+        <H1>Чеклист</H1>
+      </MenuItem>
     </Wrapper>
   );
 };
