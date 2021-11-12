@@ -166,7 +166,11 @@ export const PlanesPanel = (props: Props): JSX.Element => {
             </H1>
           </Container>
           <Btns>
-            <Button disabled={isDisabled} onClick={() => reset(planes)}>
+            <Button
+              disabled={isDisabled}
+              type={'button'}
+              onClick={() => reset(planes)}
+            >
               Сброс
             </Button>
             <Button disabled={isDisabled} type={'submit'}>
