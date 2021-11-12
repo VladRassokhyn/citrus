@@ -17,7 +17,7 @@ function* loginWorker(action: FixLater): SagaIterator {
   try {
     const { data } = yield call(authApi.login, action.payload);
     yield put({ type: setLogin.type, payload: data.token });
-    yield put({ type: getAuth.type });
+    yield put({ type: setAuthUser, payload: data.user });
   } catch (err) {
     yield put({ type: setLoginError.type });
   }

@@ -14,6 +14,9 @@ const Wrapper = styled.form`
   display: flex;
   flex-direction: column;
   gap: 25px;
+  @media (min-width: 560px) {
+    padding: 25vh 35vw;
+  }
 `;
 
 const Button = styled.button`
