@@ -17,6 +17,7 @@ export enum TT {
   KR29 = 'KR29',
   KR52 = 'KR52',
   BV23 = 'BV23',
+  BV66 = 'BV66',
   GLOBUS = 'GLOBUS',
   LAVINA = 'LAVINA',
   DRIM = 'DRIM',
