@@ -38,11 +38,11 @@ const getChecklistById = async (id) => {
 const deleteChecklist = async (deletorId, checklistId) => {
     const checklistRepo = (0, typeorm_1.getRepository)(entities_1.Checklist);
     const checklist = await checklistRepo.findOne({ id: checklistId });
-    if (checklist?.creatorId === deletorId) {
+    if (checklist && checklist.creatorId === deletorId) {
         return await checklistRepo.delete(checklistId);
     }
     else {
-        return { message: 'not creator' };
+        return null;
     }
 };
 exports.checklistsRepo = {

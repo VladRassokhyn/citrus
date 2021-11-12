@@ -50,8 +50,13 @@ router
     const deletorId = res.locals['jwtPayload'].userId;
     const checklistId = Number(req.params['id']);
     try {
-        await checklist_service_1.checklistService.deleteChecklist(deletorId, checklistId);
-        res.status(200).send('deleted');
+        const deleted = await checklist_service_1.checklistService.deleteChecklist(deletorId, checklistId);
+        if (deleted) {
+            res.status(200).send('deleted');
+        }
+        else {
+            res.status(401).send('not autor');
+        }
     }
     catch (err) {
         console.log(err);

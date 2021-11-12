@@ -58,8 +58,15 @@ router
       const checklistId = Number(req.params['id']);
 
       try {
-        await checklistService.deleteChecklist(deletorId, checklistId);
-        res.status(200).send('deleted');
+        const deleted = await checklistService.deleteChecklist(
+          deletorId,
+          checklistId,
+        );
+        if (deleted) {
+          res.status(200).send('deleted');
+        } else {
+          res.status(401).send('not autor');
+        }
       } catch (err) {
         console.log(err);
       }

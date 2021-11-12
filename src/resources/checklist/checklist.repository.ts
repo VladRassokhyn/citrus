@@ -49,10 +49,11 @@ const getChecklistById = async (id: number) => {
 const deleteChecklist = async (deletorId: number, checklistId: number) => {
   const checklistRepo = getRepository(Checklist);
   const checklist = await checklistRepo.findOne({ id: checklistId });
-  if (checklist?.creatorId === deletorId) {
+
+  if (checklist && checklist.creatorId === deletorId) {
     return await checklistRepo.delete(checklistId);
   } else {
-    return { message: 'not creator' };
+    return null
   }
 };
 
