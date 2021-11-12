@@ -1012,37 +1012,6 @@ export const menus: Menus[] = [
           },
           {
             id: uuid(),
-            name: 'packageOllTV',
-            price: 900,
-            displayName: 'Пакет TV OllTV',
-            includes: [
-              {
-                id: uuid(),
-                title: 'Первоначальная настройка',
-                description:
-                  'Активация, настройка языка, даты, времени, интернета',
-              },
-              {
-                id: uuid(),
-                title: 'Обновление ПО до последней версии',
-                description:
-                  'Обновление систем безопасности, добавление новых функций',
-              },
-              {
-                id: uuid(),
-                title: 'Настройка Учетной записи',
-                description:
-                  'Создание и подключение учетной записи Samsung/LG/Google т.д. для доступа в магазин приложений и фирменым сервисам',
-              },
-              {
-                id: uuid(),
-                title: 'OllTV 3мес',
-                description: 'Лицензия OllTV 3мес (тариф - Футбол+Кинозалы)',
-              },
-            ],
-          },
-          {
-            id: uuid(),
             name: 'packageMegogoTV',
             price: 800,
             displayName: 'Пакет TV Megogo',
@@ -1190,7 +1159,7 @@ export const menus: Menus[] = [
                 id: uuid(),
                 title: 'Перенос контактов',
                 description: 'С ОДНОГО телефона',
-                price: 200,
+                price: 150,
               },
               {
                 id: uuid(),
@@ -1434,33 +1403,6 @@ export const licPO: LicPo = [
     ],
     link:
       'https://drive.google.com/file/d/19j0rRjCMfo1ET2pzuSxhcz_rkMiNuW-O/view',
-  },
-
-  {
-    id: uuid(),
-    title: 'OllTV',
-    types: [
-      {
-        id: uuid(),
-        title: 'Тариф All inclusive',
-        price: 311,
-        period: '3 мес',
-      },
-      {
-        id: uuid(),
-        title: 'Тариф All inclusive extra sport',
-        price: 569,
-        period: '3 мес',
-      },
-      {
-        id: uuid(),
-        title: 'Тариф All inclusive extra sport',
-        price: 1999,
-        period: '12 мес',
-      },
-    ],
-    link:
-      'https://drive.google.com/file/d/1fyO-1hlDleZxLWoOI4O6Ox_fR9uxQ62n/view',
   },
   {
     id: uuid(),
