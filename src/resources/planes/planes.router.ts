@@ -10,7 +10,7 @@ router.route('/').get(async (req, res) => {
   const planesRepo = getRepository(Planes);
 
   try {
-    const planes = await planesRepo.findOneOrFail({ tt });
+    const planes = await planesRepo.findOne({ tt });
     res.status(200).send(planes);
   } catch (err) {
     res.status(500);
