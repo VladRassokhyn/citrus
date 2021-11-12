@@ -7,7 +7,18 @@ import { useTypedSelector } from '../../lib/hooks';
 import { authSelectors } from '../../lib/slices/auth';
 import { planesActions, planesSelectors } from '../../lib/slices/planes';
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  display: flex;
+  width: 90%;
+  flex-direction: column;
+  padding: 0 5vw 30px 5vw;
+  background-color: #f1f1f1;
+  border-radius: 5px;
+  box-shadow: 0 0 5px gray;
+  @media (min-width: 560px) {
+    width: 50%;
+  }
+`;
 
 export const PlanesPanel = (): JSX.Element => {
   const planes = useTypedSelector(planesSelectors.selectPlanes);
