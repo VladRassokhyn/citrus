@@ -10,7 +10,10 @@ import { Accordion } from '../../Components/Accordion';
 import { NewUserForm } from './NewUserForm';
 import { UserSubMenu } from './UserSubMenu';
 import { authSelectors } from '../../lib/slices/auth';
-import { selectSalesmans } from '../../lib/slices/users/users.selectors';
+import {
+  selectAllUsers,
+  selectSalesmans,
+} from '../../lib/slices/users/users.selectors';
 
 const Wrapper = styled.div`
   display: flex;
@@ -23,10 +26,15 @@ const Wrapper = styled.div`
 `;
 
 export const Users = (): JSX.Element => {
-  const users = useTypedSelector(selectSalesmans);
+  const allusers = useTypedSelector(selectAllUsers);
   const salesmansStatus = useTypedSelector(userSelectors.selectUsersStatus);
   const authUser = useTypedSelector(authSelectors.selectAuthUser);
   const dispatch = useDispatch();
+
+  const users =
+    authUser?.role === UserRoles.ADMIN
+      ? allusers
+      : allusers.filter((user) => user.role === UserRoles.SALESMAN);
 
   const isAdminOrManager =
     authUser &&
