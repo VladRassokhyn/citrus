@@ -7,16 +7,14 @@ const router = Router();
 router.route('/').get(async (req, res) => {
   const tt = String(req.query['tt']);
 
-  const planesRepo = getRepository(Planes);
-
   try {
+    const planesRepo = getRepository(Planes);
     const planes = await planesRepo.findOne({ tt });
     res.status(200).send(planes);
   } catch (err) {
     res.status(404);
   }
 });
-
 
 router.route('/').post(async (req, res) => {
   const dto = req.body;

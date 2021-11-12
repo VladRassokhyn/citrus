@@ -7,8 +7,8 @@ const express_1 = require("express");
 const router = (0, express_1.Router)();
 router.route('/').get(async (req, res) => {
     const tt = String(req.query['tt']);
-    const planesRepo = (0, typeorm_1.getRepository)(entities_1.Planes);
     try {
+        const planesRepo = (0, typeorm_1.getRepository)(entities_1.Planes);
         const planes = await planesRepo.findOne({ tt });
         res.status(200).send(planes);
     }
