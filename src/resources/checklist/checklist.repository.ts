@@ -40,16 +40,20 @@ const createNewChecklist = async (dto: Checklist) => {
 
 const getChecklistById = async (id: number) => {
   const checklistRepo = getRepository(Checklist);
-  return await checklistRepo.findOneOrFail(
+  return await checklistRepo.findOne(
     { id },
     { relations: ['categories', 'categories.fields'] },
   );
 };
 
-const deleteChecklist = async (id: number) => {
+const deleteChecklist = async (deletorId: number, checklistId: number) => {
   const checklistRepo = getRepository(Checklist);
-
-  await checklistRepo.delete(id);
+  const checklist = await checklistRepo.findOne({ id: checklistId });
+  if (checklist?.creatorId === deletorId) {
+    return await checklistRepo.delete(checklistId);
+  } else {
+    return { message: 'not creator' };
+  }
 };
 
 export const checklistsRepo = {

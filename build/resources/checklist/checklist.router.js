@@ -47,9 +47,10 @@ router.route('/:id').get(async (req, res) => {
 router
     .route('/:id')
     .delete([meddleware_1.checkJwt, (0, meddleware_1.checkRole)(['ADMIN', 'MANAGER'])], async (req, res) => {
+    const deletorId = res.locals['jwtPayload'].userId;
     const checklistId = Number(req.params['id']);
     try {
-        await checklist_service_1.checklistService.deleteChecklist(checklistId);
+        await checklist_service_1.checklistService.deleteChecklist(deletorId, checklistId);
         res.status(200).send('deleted');
     }
     catch (err) {

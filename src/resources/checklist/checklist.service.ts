@@ -25,7 +25,8 @@ const createNewChecklist = async (dto: Checklist) =>
 
 const getChecklistById = (id: number) => checklistsRepo.getChecklistById(id);
 
-const deleteChecklist = (id: number) => checklistsRepo.deleteChecklist(id);
+const deleteChecklist = (deletorId: number, checklistId: number) =>
+  checklistsRepo.deleteChecklist(deletorId, checklistId);
 
 export const checklistService = {
   getChecklists,

@@ -33,11 +33,17 @@ const createNewChecklist = async (dto) => {
 };
 const getChecklistById = async (id) => {
     const checklistRepo = (0, typeorm_1.getRepository)(entities_1.Checklist);
-    return await checklistRepo.findOneOrFail({ id }, { relations: ['categories', 'categories.fields'] });
+    return await checklistRepo.findOne({ id }, { relations: ['categories', 'categories.fields'] });
 };
-const deleteChecklist = async (id) => {
+const deleteChecklist = async (deletorId, checklistId) => {
     const checklistRepo = (0, typeorm_1.getRepository)(entities_1.Checklist);
-    await checklistRepo.delete(id);
+    const checklist = await checklistRepo.findOne({ id: checklistId });
+    if (checklist?.creatorId === deletorId) {
+        return await checklistRepo.delete(checklistId);
+    }
+    else {
+        return { message: 'not creator' };
+    }
 };
 exports.checklistsRepo = {
     getChecklists,

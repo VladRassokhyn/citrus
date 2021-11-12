@@ -68,7 +68,7 @@ export const Checklists = (): JSX.Element => {
         <NewChecklistForm />
       </Accordion>
       <ChecklistsList>
-        <H1>Доступные чак-листы</H1>
+        <H1>Доступные чек-листы</H1>
         {checklists?.map((checklist, index) => (
           <Accordion
             titleBgColor={'#f1f1f1'}

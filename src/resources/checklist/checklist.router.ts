@@ -54,9 +54,11 @@ router
   .delete(
     [checkJwt, checkRole(['ADMIN', 'MANAGER'])],
     async (req: Request, res: Response) => {
+      const deletorId = res.locals['jwtPayload'].userId;
       const checklistId = Number(req.params['id']);
+
       try {
-        await checklistService.deleteChecklist(checklistId);
+        await checklistService.deleteChecklist(deletorId, checklistId);
         res.status(200).send('deleted');
       } catch (err) {
         console.log(err);

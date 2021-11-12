@@ -40,10 +40,10 @@ export const Confirm = (props: Props) => {
   const { confirmFn, children, title } = props;
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleOk = useCallback(() => {
+  const handleOk = () => {
     confirmFn();
     handleClose();
-  }, []);
+  };
 
   const handleOpen = useCallback(() => {
     setIsOpen(true);
