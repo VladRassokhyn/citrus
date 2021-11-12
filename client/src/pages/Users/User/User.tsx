@@ -77,6 +77,7 @@ export const User = (): JSX.Element | null => {
         <h3>id : {user && user.id}</h3>
         <h3>Имя : {user && user.name}</h3>
         <h3>Фамилия : {user && user.lastName}</h3>
+        <h3>TT : {user && user.tt}</h3>
       </Head>
 
       <H2>Пройденные чек-листы</H2>
