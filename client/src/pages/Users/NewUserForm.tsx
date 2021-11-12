@@ -74,7 +74,9 @@ export const NewUserForm = (props: Props): JSX.Element => {
     if (user) {
       dispatch(userActions.updateUser({ id: user.id, dto: e }));
     } else {
-      dispatch(userActions.postNewUser({ ...e, role: e.role.value }));
+      dispatch(
+        userActions.postNewUser({ ...e, role: e.role.value, tt: e.tt.value }),
+      );
     }
   };
 
