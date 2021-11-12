@@ -7,6 +7,8 @@ import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { deleteChecklist } from '../../lib/slices/checklist/checklist.slice';
 import { Confirm } from '../../Components/Confirm';
+import { useTypedSelector } from '../../lib/hooks';
+import { authSelectors } from '../../lib/slices/auth';
 
 type Props = {
   checklist: Checklist;
@@ -37,6 +39,7 @@ const H1 = styled.h1`
 `;
 
 export const ChecklistSubMenu = (props: Props): JSX.Element => {
+  const aythUser = useTypedSelector(authSelectors.selectAuthUser);
   const { checklist } = props;
   const dispatch = useDispatch();
 
@@ -50,9 +53,11 @@ export const ChecklistSubMenu = (props: Props): JSX.Element => {
       <Link to={`/checklist/${checklist.id}`}>
         <Img style={{ marginTop: '15px' }} src={viewList} alt={'view'} />
       </Link>
-      <Confirm confirmFn={handleDelete} title={'Удалить чек-лист ?'}>
-        <Img src={trash} alt={'delete'} />
-      </Confirm>
+      {aythUser?.id === checklist.creatorId && (
+        <Confirm confirmFn={handleDelete} title={'Удалить чек-лист ?'}>
+          <Img src={trash} alt={'delete'} />
+        </Confirm>
+      )}
     </Wrapper>
   );
 };
