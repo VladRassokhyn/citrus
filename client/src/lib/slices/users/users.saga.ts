@@ -20,7 +20,6 @@ import { getUserChecklists, setUserChecklists } from './oneUser.slice';
 function* getUsersWorker(action: FixLater): SagaIterator {
   try {
     const { data } = yield call(usersApi.getUsers, action.payload);
-    yield delay(500);
     yield put({ type: setUsers.type, payload: data });
   } catch (error) {
     yield put({ type: setError.type });
@@ -31,7 +30,7 @@ function* postUsersWorker(action: FixLater): SagaIterator {
   try {
     yield call(usersApi.postNewUser, action.payload);
     yield put({ type: newUserPosted.type });
-    yield put({ type: getUsers.type });
+    yield put({ type: getUsers.type, payload: action.payload.tt });
   } catch (error) {
     yield put({ type: setCRUDError.type });
   }

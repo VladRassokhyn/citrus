@@ -32,7 +32,7 @@ export const routes: RouteItem[] = [
   {
     path: '/analytics',
     component: Analitic,
-    exact: true,
+    exact: false,
     private: true,
     roles: null,
   },
