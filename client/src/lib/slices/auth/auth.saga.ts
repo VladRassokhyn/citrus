@@ -1,7 +1,7 @@
 import { usersApi } from './../../api/users.api';
 import { authApi } from './../../api/auth.api';
 import { SagaIterator } from '@redux-saga/types';
-import { FixLater } from './../../globalTypes';
+import { FixLater, LoadingErrors } from './../../globalTypes';
 import { takeEvery, call, put } from 'redux-saga/effects';
 import {
   tryLogin,
@@ -15,11 +15,14 @@ import {
 
 function* loginWorker(action: FixLater): SagaIterator {
   try {
-    const { data } = yield call(authApi.login, action.payload);
-    yield put({ type: setLogin.type, payload: data.token });
+    const res = yield call(authApi.login, action.payload);
+    yield put({ type: setLogin.type, payload: res.data.token });
     window.location.reload();
   } catch (err) {
-    yield put({ type: setLoginError.type });
+    yield put({
+      type: setLoginError.type,
+      payload: LoadingErrors.NOT_AUTORISED,
+    });
   }
 }
 

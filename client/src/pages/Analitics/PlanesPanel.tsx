@@ -14,21 +14,24 @@ type Props = {
 
 const Wrapper = styled.div`
   display: flex;
-  width: 90%;
-  flex-direction: column;
+  width: 100%;
+  flex-direction: row;
   align-items: center;
+  justify-content: center;
   gap: 10px;
-  padding: 15px 5vw;
   background-color: #f1f1f1;
   border-radius: 5px;
   transition: linear 0.1s;
   box-shadow: 0 0 5px gray;
+  min-height: 40px;
   @media (min-width: 560px) {
     &:hover {
-      padding: 30px 2vw;
       gap: 20px;
     }
-    padding: 15px 2vw;
+  }
+  @media (max-width: 559px) {
+    flex-direction: column;
+    padding: 10px 0;
   }
 `;
 
@@ -39,13 +42,19 @@ const Container = styled.div`
   align-items: center;
   flex-wrap: wrap;
   gap: 25px;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const Form = styled.form`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 15px;
   align-items: center;
+  @media (max-width: 559px) {
+    flex-direction: column;
+  }
 `;
 
 const Btns = styled.div`
@@ -67,6 +76,11 @@ const H2 = styled.b`
   color: black;
 `;
 
+const H3 = styled.h1`
+  font-size: 12pt;
+  color: var(--color-secondary);
+`;
+
 const Title = styled.div`
   display: flex;
   align-items: center;
@@ -78,15 +92,15 @@ const Title = styled.div`
 `;
 
 const Img = styled.img`
-  width: 15px;
-  height: 15px;
+  width: 10px;
+  height: 10px;
 `;
 
 const Input = styled.input`
   max-width: 70px;
   font-size: 12pt;
-  height: 30px;
-  padding-left: 10px;
+  height: 20px;
+  padding: 3px 10px;
   box-shadow: 0 0 5px gray;
   border: 0;
   border-radius: 5px;
@@ -100,6 +114,9 @@ const Button = styled.button`
   border: 0;
   border-radius: 5px;
   box-shadow: 0 0 5px gray;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 export const PlanesPanel = (props: Props): JSX.Element => {
@@ -125,11 +142,11 @@ export const PlanesPanel = (props: Props): JSX.Element => {
   return (
     <Wrapper>
       <Title onClick={toggleEditMode}>
-        <h3>Планы</h3>
+        <H3>Планы</H3>
         <Img src={edit} />
       </Title>
       {!isEditMode ? (
-        <Container>
+        <Container onClick={toggleEditMode}>
           <H1>
             ЦМ: <H2>{planes.cm}</H2>
           </H1>

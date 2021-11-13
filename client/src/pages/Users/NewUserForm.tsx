@@ -59,6 +59,7 @@ const TTselectorOptions = [
   { label: TT.PIRAMIDA, value: TT.PIRAMIDA },
   { label: TT.RIVER, value: TT.RIVER },
   { label: TT.SKY, value: TT.SKY },
+  { label: TT.BV66, value: TT.BV66 },
 ];
 
 export const NewUserForm = (props: Props): JSX.Element => {

@@ -1,8 +1,9 @@
-import { LoadingStatuses, User } from './../../globalTypes';
+import { LoadingStatuses, User, LoadingErrors } from './../../globalTypes';
 
 export type AuthInitial = {
   loginStatus: LoadingStatuses;
   authStatus: LoadingStatuses;
-  error: any;
+  loginError: LoadingErrors;
+  authError: LoadingErrors;
   authUser: User | null;
 };

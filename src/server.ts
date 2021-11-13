@@ -1,3 +1,4 @@
+import { daySalesRouter } from './resources/daySales/daySales.router';
 import express, { Request, Response, NextFunction } from 'express';
 import { config as envConfig } from 'dotenv';
 import path from 'path';
@@ -34,6 +35,7 @@ app.use('/api/auth', authRouter);
 app.use('/api/users', userRouter);
 app.use('/api/checklist', checklistRouter);
 app.use('/api/planes', planesRouter);
+app.use('/api/daySales', daySalesRouter);
 
 (async () => {
   await TryDbConnect(() =>

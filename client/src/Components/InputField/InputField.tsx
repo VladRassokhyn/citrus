@@ -9,12 +9,14 @@ type Props = {
   label?: string;
   password?: boolean;
   value?: string;
+  isError?: boolean;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   vertical?: boolean;
 };
 
 type FieldProps = {
   vertical?: boolean;
+  isError?: boolean;
 };
 
 const Field = styled.div<FieldProps>`
@@ -27,9 +29,9 @@ const Field = styled.div<FieldProps>`
   align-items: center;
 `;
 
-const Input = styled.input`
+const Input = styled.input<FieldProps>`
   width: 100%;
-  border: 1px solid #d1d1d1;
+  border: 1px solid ${(props) => (props.isError ? '#ef9a9a' : '#d1d1d1')};
   border-radius: 5px;
   padding: 3px;
   height: 25px;
@@ -50,11 +52,13 @@ export const InputField = (props: Props): JSX.Element => {
     value,
     onChange,
     vertical,
+    isError,
   } = props;
   return (
     <Field vertical={vertical}>
       <H1>{label}</H1>
       <Input
+        isError={isError}
         disabled={disabled}
         {...register}
         type={password && 'password'}

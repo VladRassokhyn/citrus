@@ -12,7 +12,7 @@ const connectToDb = async () => {
             database: process.env['DB_USERNAME'] + '',
             password: process.env['DB_PASSWORD'] + '',
             host: process.env['DB_HOSTNAME'] + '',
-            entities: [entities_1.User, entities_1.Planes, entities_1.Checklist, entities_1.Category, entities_1.Field],
+            entities: [entities_1.User, entities_1.Planes, entities_1.Checklist, entities_1.Category, entities_1.Field, entities_1.DaySales],
             synchronize: true,
             logging: false,
             keepConnectionAlive: true,

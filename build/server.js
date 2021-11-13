@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.app = void 0;
+const daySales_router_1 = require("./resources/daySales/daySales.router");
 const express_1 = __importDefault(require("express"));
 const dotenv_1 = require("dotenv");
 const path_1 = __importDefault(require("path"));
@@ -29,6 +30,7 @@ exports.app.use('/api/auth', resources_1.authRouter);
 exports.app.use('/api/users', resources_1.userRouter);
 exports.app.use('/api/checklist', resources_1.checklistRouter);
 exports.app.use('/api/planes', resources_1.planesRouter);
+exports.app.use('/api/daySales', daySales_router_1.daySalesRouter);
 (async () => {
     await (0, db_1.TryDbConnect)(() => exports.app.listen(process.env['PORT'], () => console.log('running' + process.env['PORT'])));
 })();
