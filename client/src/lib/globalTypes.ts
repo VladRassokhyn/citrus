@@ -27,6 +27,7 @@ export enum TT {
   SKY = 'SKY',
   GORODOK = 'GORODOK',
   RIVER = 'RIVER',
+  HITMALL = 'HITMALL',
 }
 
 export enum LoadingErrors {

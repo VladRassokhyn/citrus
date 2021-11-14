@@ -3,13 +3,7 @@ import styled from 'styled-components';
 import Selector from 'react-select';
 import { useDispatch } from 'react-redux';
 import { Controller, useForm } from 'react-hook-form';
-import {
-  FixLater,
-  LoadingStatuses,
-  UserRoles,
-  TT,
-  User,
-} from '../../lib/globalTypes';
+import { FixLater, LoadingStatuses, UserRoles, TT, User } from '../../lib/globalTypes';
 import { userActions, userSelectors } from '../../lib/slices/users';
 import { useTypedSelector } from '../../lib/hooks';
 import { InputField } from '../../Components/InputField';
@@ -34,8 +28,7 @@ const Wrapper = styled.form`
 const Button = styled.button<StyleProps>`
   width: 50%;
   height: 30px;
-  background-color: ${(props) =>
-    props.disabled ? 'lightgrey' : 'var(--color-secondary)'};
+  background-color: ${(props) => (props.disabled ? 'lightgrey' : 'var(--color-secondary)')};
   border: 1px solid #d1d1d1;
   color: white;
   font-size: 14pt;
@@ -60,6 +53,7 @@ const TTselectorOptions = [
   { label: TT.RIVER, value: TT.RIVER },
   { label: TT.SKY, value: TT.SKY },
   { label: TT.BV66, value: TT.BV66 },
+  { label: TT.HITMALL, value: TT.HITMALL },
 ];
 
 export const NewUserForm = (props: Props): JSX.Element => {
@@ -75,9 +69,7 @@ export const NewUserForm = (props: Props): JSX.Element => {
     if (user) {
       dispatch(userActions.updateUser({ id: user.id, dto: e }));
     } else {
-      dispatch(
-        userActions.postNewUser({ ...e, role: e.role.value, tt: e.tt.value }),
-      );
+      dispatch(userActions.postNewUser({ ...e, role: e.role.value, tt: e.tt.value }));
     }
   };
 
@@ -94,11 +86,7 @@ export const NewUserForm = (props: Props): JSX.Element => {
     <Wrapper onSubmit={handleSubmit(handleSave)}>
       {!user && (
         <>
-          <InputField
-            register={{ ...register('username') }}
-            label={'Логин'}
-            disabled={disabled}
-          />
+          <InputField register={{ ...register('username') }} label={'Логин'} disabled={disabled} />
           <InputField
             password
             register={{ ...register('password') }}
@@ -108,26 +96,14 @@ export const NewUserForm = (props: Props): JSX.Element => {
         </>
       )}
 
-      <InputField
-        register={{ ...register('name') }}
-        label={'Имя'}
-        disabled={disabled}
-      />
-      <InputField
-        register={{ ...register('lastName') }}
-        label={'Фамилия'}
-        disabled={disabled}
-      />
+      <InputField register={{ ...register('name') }} label={'Имя'} disabled={disabled} />
+      <InputField register={{ ...register('lastName') }} label={'Фамилия'} disabled={disabled} />
       {!user && (
         <Controller
           control={control}
           name="tt"
           render={({ field: { onChange } }) => (
-            <Selector
-              onChange={onChange}
-              placeholder={'ТТ'}
-              options={TTselectorOptions}
-            />
+            <Selector onChange={onChange} placeholder={'ТТ'} options={TTselectorOptions} />
           )}
         />
       )}
@@ -137,11 +113,7 @@ export const NewUserForm = (props: Props): JSX.Element => {
           control={control}
           name="role"
           render={({ field: { onChange } }) => (
-            <Selector
-              placeholder={'Роль'}
-              onChange={onChange}
-              options={roleSelectorOptions}
-            />
+            <Selector placeholder={'Роль'} onChange={onChange} options={roleSelectorOptions} />
           )}
         />
       )}

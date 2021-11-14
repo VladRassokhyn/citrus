@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+import { useTypedSelector } from '../../../lib/hooks';
+import { authSelectors } from '../../../lib/slices/auth';
 import { Planes } from '../../../lib/slices/planes/planes.type';
 import { Sales } from './types';
 
@@ -22,7 +24,7 @@ enum FillColors {
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 50px;
+  gap: 15px;
 `;
 
 const Container = styled.div`
@@ -71,8 +73,15 @@ const H2 = styled.h2`
   color: var(--color-stroke);
 `;
 
+const H3 = styled.h3`
+  width: 391px;
+  height: 40px;
+  text-align: center;
+`;
+
 export const EveningReportTable = (props: Props): JSX.Element => {
   const { planes, daySales, mounthSales } = props;
+  const authUser = useTypedSelector(authSelectors.selectAuthUser);
 
   const dayCount = 31;
   const day = new Date().getDate();
@@ -101,6 +110,7 @@ export const EveningReportTable = (props: Props): JSX.Element => {
 
   return (
     <Wrapper>
+      <H3>{authUser!.tt}</H3>
       <Container>
         <H1>МЕСЯЦ</H1>
         <Row>
