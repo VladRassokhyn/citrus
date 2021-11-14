@@ -28,6 +28,8 @@ const Wrapper = styled.div`
   height: 40px;
   padding: 5px 5%;
   background-color: #3f4e5d;
+  position: relative;
+  z-index: 1000;
 `;
 
 const H1 = styled.h1<H1Props>`
@@ -35,8 +37,7 @@ const H1 = styled.h1<H1Props>`
   margin-left: 70%;
   font-size: 10pt;
   color: white;
-  animation: ${(props) => (props.goLeft ? goLeftAnimation : goRightAnimation)}
-    0.3s forwards;
+  animation: ${(props) => (props.goLeft ? goLeftAnimation : goRightAnimation)} 0.3s forwards;
 `;
 
 const H2 = styled.h1`

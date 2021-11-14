@@ -1,16 +1,19 @@
 import React, { useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { FixLater, LoadingStatuses } from '../../lib/globalTypes';
 import { useTypedSelector } from '../../lib/hooks';
 import { planesActions, planesSelectors } from '../../lib/slices/planes';
 import { Planes } from '../../lib/slices/planes/planes.type';
 import edit from '../../static/edit.svg';
+import { slideInDown } from 'react-animations';
 
 type Props = {
   planes: Planes;
 };
+
+const animationIn = keyframes`${slideInDown}`;
 
 const Wrapper = styled.div`
   display: flex;
@@ -24,6 +27,7 @@ const Wrapper = styled.div`
   transition: linear 0.1s;
   box-shadow: 0 0 5px gray;
   min-height: 40px;
+  animation: ${animationIn} 0.3s forwards;
   @media (min-width: 560px) {
     &:hover {
       gap: 20px;
@@ -183,11 +187,7 @@ export const PlanesPanel = (props: Props): JSX.Element => {
             </H1>
           </Container>
           <Btns>
-            <Button
-              disabled={isDisabled}
-              type={'button'}
-              onClick={() => reset(planes)}
-            >
+            <Button disabled={isDisabled} type={'button'} onClick={() => reset(planes)}>
               Сброс
             </Button>
             <Button disabled={isDisabled} type={'submit'}>

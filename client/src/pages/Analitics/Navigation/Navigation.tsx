@@ -1,5 +1,8 @@
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
+import { slideInLeft } from 'react-animations';
+
+const animationIn = keyframes`${slideInLeft}`;
 
 const Wrapper = styled.div`
   width: 20%;
@@ -7,6 +10,7 @@ const Wrapper = styled.div`
   min-height: 500px;
   position: absolute;
   left: 15px;
+  animation: ${animationIn} 0.3s forwards;
   @media (max-width: 559px) {
     display: none;
   }
