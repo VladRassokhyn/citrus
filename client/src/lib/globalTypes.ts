@@ -28,6 +28,7 @@ export enum TT {
   GORODOK = 'GORODOK',
   RIVER = 'RIVER',
   HITMALL = 'HITMALL',
+  RESPUBLIKA = 'RESPUBLIKA',
 }
 
 export enum LoadingErrors {

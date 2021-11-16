@@ -54,6 +54,7 @@ const TTselectorOptions = [
   { label: TT.SKY, value: TT.SKY },
   { label: TT.BV66, value: TT.BV66 },
   { label: TT.HITMALL, value: TT.HITMALL },
+  { label: TT.RESPUBLIKA, value: TT.RESPUBLIKA },
 ];
 
 export const NewUserForm = (props: Props): JSX.Element => {

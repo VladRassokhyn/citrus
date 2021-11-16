@@ -114,26 +114,22 @@ export const EveningReportTable = (props: Props): JSX.Element => {
 
   const cmGrowthRatio = +(
     cmRatio -
-    (mounthSales.cm - daySales.cm) / (mounthSales.to - daySales.to) -
-    cmRatio
+    ((mounthSales.cm - daySales.cm) / (mounthSales.to - daySales.to)) * 100
   ).toFixed(2);
 
   const cmGrowthForecast = +(
     cmForecast -
-    (((mounthSales.cm - daySales.cm) / (day - 1)) * dayCount) / planes.cm -
-    cmForecast
+    ((((mounthSales.cm - daySales.cm) / (day - 1)) * dayCount) / planes.cm) * 100
   ).toFixed(2);
 
   const czGrowthRatio = +(
     czRatio -
-    (mounthSales.cz - daySales.cz) / (mounthSales.to - daySales.to) -
-    czRatio
+    ((mounthSales.cz - daySales.cz) / (mounthSales.to - daySales.to)) * 100
   ).toFixed(2);
 
   const czGrowthForecast = +(
     czForecast -
-    (((mounthSales.cz - daySales.cz) / (day - 1)) * dayCount) / planes.cz -
-    czForecast
+    ((((mounthSales.cz - daySales.cz) / (day - 1)) * dayCount) / planes.cz) * 100
   ).toFixed(2);
 
   const cmForecastColor =
