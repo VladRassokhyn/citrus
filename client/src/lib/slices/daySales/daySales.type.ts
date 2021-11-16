@@ -3,6 +3,7 @@ import { LoadingStatuses } from './../../globalTypes';
 export type Sales = {
   id?: number;
   tt?: string;
+  day: string;
   cm: number;
   cz: number;
   to: number;

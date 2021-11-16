@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Sales } from '../../../lib/slices/daySales';
+import { format } from 'date-fns';
 
 type Props = {
   submitFn: (sales: Sales) => void;
@@ -72,6 +73,7 @@ export const SalesInput = (props: Props): JSX.Element => {
       const cz = parseInt(newValue[42].replace(/\s/g, ''));
       const ca = parseInt(newValue[44].replace(/\s/g, ''));
       const newDaySales = {
+        day: format(new Date(), 'dd.MM.yyyy'),
         to: isNaN(to) ? 0 : to,
         cm: isNaN(cm) ? 0 : cm,
         cz: isNaN(cz) ? 0 : cz,
@@ -85,9 +87,6 @@ export const SalesInput = (props: Props): JSX.Element => {
     <Wrapper>
       <Input value={value} onChange={(e) => setValue(e.target.value)} />
       <SubmitBlock>
-        {/* <Button disabled={value.length < 100} onClick={parseValue}>
-          Заполнить
-        </Button> */}
         {parsedValue && (
           <Container>
             <H1>Устройства: {parsedValue.to}</H1>

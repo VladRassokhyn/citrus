@@ -209,6 +209,15 @@ export const EveningReportTable = (props: Props): JSX.Element => {
       </Container>
       <Container>
         <H1>ДЕНЬ</H1>
+
+        <Row>
+          <Cell>
+            <H2>Сумма Устройств</H2>
+          </Cell>
+          <Cell>
+            <H2>{daySales.to}</H2>
+          </Cell>
+        </Row>
         <Row>
           <Cell>
             <H2>Сумма ЦМ</H2>

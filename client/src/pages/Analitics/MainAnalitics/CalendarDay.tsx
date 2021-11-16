@@ -14,6 +14,7 @@ type StyleProps = {
   delay?: number;
   withData?: boolean;
   disabled?: boolean;
+  isEmpty?: boolean;
 };
 
 const animationIn = keyframes`${zoomIn}`;
@@ -61,10 +62,12 @@ const H1 = styled.h1`
 `;
 
 const Wrapper = styled.div<StyleProps>`
-  background-color: ${(props) => (props.withData ? '#ebffeb' : '#fff0f0')};
+  background-color: ${(props) =>
+    props.isEmpty ? '#dfdfdf' : props.withData ? '#ebffeb' : '#fff0f0'};
   box-shadow: 0 0 5px #dfdfdf;
   border-radius: 10px;
   opacity: 0;
+  min-width: 100px;
   animation: ${opacityAnimation} 0.1s forwards, ${animationIn} 0.3s forwards;
   animation-delay: ${(props) => props.delay && props.delay * 50}ms;
   &:hover {
@@ -81,7 +84,7 @@ const Wrapper = styled.div<StyleProps>`
 export const CalendarDay = (props: Props): JSX.Element => {
   const { isEmpty, title, delay, daySales } = props;
 
-  if (isEmpty) return <Wrapper withData={false} delay={delay} />;
+  if (isEmpty) return <Wrapper isEmpty delay={delay} />;
 
   return (
     <Wrapper delay={delay} withData={!!daySales}>

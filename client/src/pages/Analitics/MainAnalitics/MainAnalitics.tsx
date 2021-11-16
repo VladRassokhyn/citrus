@@ -12,6 +12,13 @@ const Wrapper = styled.div`
   gap: 15px 7px;
   grid-template-columns: repeat(7, 1fr);
   grid-template-rows: repeat(5, 150px);
+  @media (max-width: 560px) {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+  }
 `;
 
 export const MainAnalitics = (props: Props): JSX.Element => {
@@ -22,9 +29,10 @@ export const MainAnalitics = (props: Props): JSX.Element => {
     <Wrapper>
       {days.map((day, i) => {
         if (!day) {
-          return <CalendarDay delay={0} key={day} isEmpty title={''} />;
+          return <CalendarDay delay={0} key={i} isEmpty title={''} />;
         } else {
-          return <CalendarDay delay={i} title={day.split(' ')[1]} key={day} />;
+          const daySales = sales?.find((salesItem) => salesItem.day === day.split(' ')[1]);
+          return <CalendarDay delay={i} daySales={daySales} title={day.split(' ')[1]} key={i} />;
         }
       })}
     </Wrapper>
@@ -43,10 +51,13 @@ function getDays() {
   }
 
   for (let i = 0; i < weekDays.length; i++) {
-    const weekDay = days[i].split(' ')[0];
-    if (weekDay !== weekDays[i]) {
-      days.unshift(null);
-      break;
+    const day = days[i];
+    if (day) {
+      const weekDay = day.split(' ')[0];
+      if (weekDay !== weekDays[i]) {
+        days.unshift(null);
+        continue;
+      }
     }
   }
 
