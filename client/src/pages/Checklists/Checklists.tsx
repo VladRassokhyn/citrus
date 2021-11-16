@@ -7,10 +7,7 @@ import { userActions, userSelectors } from '../../lib/slices/users';
 import { useTypedSelector } from '../../lib/hooks';
 import { LoadingStatuses } from '../../lib/globalTypes';
 import { Preloader } from '../../Components/Preloader';
-import {
-  checklistSelectors,
-  checklistActions,
-} from '../../lib/slices/checklist';
+import { checklistSelectors, checklistActions } from '../../lib/slices/checklist';
 import { ChecklistSubMenu } from './ChecklistSubMenu';
 import { authSelectors } from '../../lib/slices/auth';
 
@@ -41,9 +38,7 @@ export const Checklists = (): JSX.Element => {
   const usersStatus = useTypedSelector(userSelectors.selectUsersStatus);
   const dispatch = useDispatch();
   const checklists = useTypedSelector(checklistSelectors.selectAllChecklists);
-  const checklistStatus = useTypedSelector(
-    checklistSelectors.selectChecklistsStatus,
-  );
+  const checklistStatus = useTypedSelector(checklistSelectors.selectChecklistsStatus);
   const authUser = useTypedSelector(authSelectors.selectAuthUser);
 
   const isChecklistsLoading = checklistStatus === LoadingStatuses.LOADING;

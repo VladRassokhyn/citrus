@@ -38,12 +38,7 @@ export const SelectField = (props: Props): JSX.Element => {
     <Wrapper dirColumn={dirColumn}>
       <Label>{label}</Label>
       <div style={{ width: '100%' }}>
-        <Select
-          placeholder={'Выбор'}
-          name={name}
-          options={options}
-          onChange={handleChange}
-        />
+        <Select placeholder={'Выбор'} name={name} options={options} onChange={handleChange} />
       </div>
     </Wrapper>
   );

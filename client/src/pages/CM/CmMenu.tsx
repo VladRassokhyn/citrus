@@ -110,9 +110,7 @@ export const CmMenu = (): JSX.Element => {
             {menu.os.map((os) => (
               <div key={os.id}>
                 <H3>{os.displayName}</H3>
-                <Button onClick={handleOpenAll}>
-                  Показать/Скрыть описание
-                </Button>
+                <Button onClick={handleOpenAll}>Показать/Скрыть описание</Button>
                 {os.items.map((item) => (
                   <Slide key={item.id}>
                     <H1>{item.displayName}</H1>
@@ -144,8 +142,7 @@ export const CmMenu = (): JSX.Element => {
       <CollapsedItem title={'ЛицПО'}>
         <LicPoWrapper>
           <h4 style={{ marginBottom: '20px' }}>
-            <b style={{ color: 'red' }}>Красный текст </b> - ссылка на
-            презентацию
+            <b style={{ color: 'red' }}>Красный текст </b> - ссылка на презентацию
           </h4>
           {licPO.map((vendor) => (
             <div key={vendor.id}>

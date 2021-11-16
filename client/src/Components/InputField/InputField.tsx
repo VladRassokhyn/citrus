@@ -44,16 +44,7 @@ const H1 = styled.h1`
 `;
 
 export const InputField = (props: Props): JSX.Element => {
-  const {
-    disabled,
-    register,
-    label,
-    password,
-    value,
-    onChange,
-    vertical,
-    isError,
-  } = props;
+  const { disabled, register, label, password, value, onChange, vertical, isError } = props;
   return (
     <Field vertical={vertical}>
       <H1>{label}</H1>

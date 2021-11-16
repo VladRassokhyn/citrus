@@ -40,8 +40,7 @@ const SubmitBlock = styled.div`
 `;
 
 const Button = styled.button<StyleProps>`
-  background-color: ${(props) =>
-    props.disabled ? '#aaa' : 'var(--color-button)'};
+  background-color: ${(props) => (props.disabled ? '#aaa' : 'var(--color-button)')};
   color: white;
   min-width: 100px;
   height: 30px;

@@ -47,12 +47,7 @@ export const Checkbox = (props: Props): JSX.Element => {
   };
   return (
     <Wrapper fullSize={fullSize} value={value}>
-      <Input
-        {...register}
-        type="checkbox"
-        checked={value}
-        onChange={handleChange}
-      />
+      <Input {...register} type="checkbox" checked={value} onChange={handleChange} />
       <H1 value={value} onClick={handleClick}>
         {label}
       </H1>

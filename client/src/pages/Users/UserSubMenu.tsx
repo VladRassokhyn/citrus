@@ -49,8 +49,7 @@ const H1 = styled.h1`
 const Button = styled.button<ButtonProps>`
   width: 50%;
   height: 30px;
-  background-color: ${(props) =>
-    props.disabled ? 'lightgrey' : 'var(--color-button)'};
+  background-color: ${(props) => (props.disabled ? 'lightgrey' : 'var(--color-button)')};
   border: 1px solid #d1d1d1;
   color: white;
   font-size: 14pt;

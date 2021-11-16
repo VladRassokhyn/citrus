@@ -36,9 +36,7 @@ type ContentProps = {
 const Wrapper = styled.div<WrapperProps>`
   width: ${(props) => props.width || ''}px;
   height: ${(props) => props.height || '50'}px;
-  animation: ${(props) =>
-      props.isOpen ? props.openAnimation : props.openAnimation}
-    0.3s forwards;
+  animation: ${(props) => (props.isOpen ? props.openAnimation : props.openAnimation)} 0.3s forwards;
   background-color: white;
   display: flex;
   flex-direction: column;
@@ -51,8 +49,7 @@ const Title = styled.h1<TitleProps>`
   font-size: 16pt;
   width: 100%;
   min-height: 50px;
-  background-color: ${(props) =>
-    props.isOpen ? 'var(--color-button)' : 'white'};
+  background-color: ${(props) => (props.isOpen ? 'var(--color-button)' : 'white')};
   color: ${(props) => (props.isOpen ? 'white' : 'var(--color-stroke)')};
   transition: linear 0.3s;
   &:hover {
@@ -106,12 +103,7 @@ export const CollapsedItem = (props: Props): JSX.Element => {
   };
 
   return (
-    <Wrapper
-      openAnimation={openAnimation}
-      isOpen={isOpen}
-      width={width}
-      height={height}
-    >
+    <Wrapper openAnimation={openAnimation} isOpen={isOpen} width={width} height={height}>
       <Title onClick={handleOpen} isOpen={isOpen}>
         {title}
       </Title>

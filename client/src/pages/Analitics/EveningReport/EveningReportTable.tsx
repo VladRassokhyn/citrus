@@ -11,8 +11,9 @@ type Props = {
 };
 
 type CellProps = {
-  width: number;
-  color: string;
+  width?: number;
+  color?: string;
+  grow?: boolean;
 };
 
 enum FillColors {
@@ -44,12 +45,24 @@ const Cell = styled.div`
 `;
 
 const FilledCell = styled.div<CellProps>`
-  width: ${(props) => (props.width > 100 ? 100 : props.width)}%;
+  width: ${(props) => (props.width && props.width > 100 ? 100 : props.width)}%;
   background-color: ${(props) => props.color};
   height: 30px;
   display: flex;
   align-items: center;
   justify-content: flex-end;
+`;
+
+const Growth = styled.sup<CellProps>`
+  background-color: ${(props) => (props.grow ? FillColors.GREEN : FillColors.RED)};
+  padding: 3px;
+  margin-left: 10px;
+  font-size: 8pt;
+  width: 24px;
+  border-radius: 5px;
+  &::after {
+    content: '%';
+  }
 `;
 
 const Row = styled.div`
@@ -99,6 +112,30 @@ export const EveningReportTable = (props: Props): JSX.Element => {
   const czDayRatio = +((daySales.cz / daySales.to) * 100).toFixed(2);
   const czDayRate = +((daySales.cz / czDayPlane) * 100).toFixed();
 
+  const cmGrowthRatio = +(
+    cmRatio -
+    (mounthSales.cm - daySales.cm) / (mounthSales.to - daySales.to) -
+    cmRatio
+  ).toFixed(2);
+
+  const cmGrowthForecast = +(
+    cmForecast -
+    (((mounthSales.cm - daySales.cm) / (day - 1)) * dayCount) / planes.cm -
+    cmForecast
+  ).toFixed(2);
+
+  const czGrowthRatio = +(
+    czRatio -
+    (mounthSales.cz - daySales.cz) / (mounthSales.to - daySales.to) -
+    czRatio
+  ).toFixed(2);
+
+  const czGrowthForecast = +(
+    czForecast -
+    (((mounthSales.cz - daySales.cz) / (day - 1)) * dayCount) / planes.cz -
+    czForecast
+  ).toFixed(2);
+
   const cmForecastColor =
     cmForecast > 90 ? FillColors.GREEN : cmForecast > 70 ? FillColors.YELLOW : FillColors.RED;
   const czForecastColor =
@@ -126,7 +163,9 @@ export const EveningReportTable = (props: Props): JSX.Element => {
 
         <Row>
           <Cell>
-            <H2>Доля ЦМ</H2>
+            <H2>
+              Доля ЦМ<Growth grow={cmGrowthRatio >= 0}>{cmGrowthRatio}</Growth>
+            </H2>
           </Cell>
           <Cell>
             <H2>{cmRatio}%</H2>
@@ -135,7 +174,9 @@ export const EveningReportTable = (props: Props): JSX.Element => {
 
         <Row>
           <Cell>
-            <H2>Прогноз ЦМ</H2>
+            <H2>
+              Прогноз ЦМ<Growth grow={cmGrowthForecast >= 0}>{cmGrowthForecast}</Growth>
+            </H2>
           </Cell>
           <Cell>
             <H2>
@@ -148,7 +189,9 @@ export const EveningReportTable = (props: Props): JSX.Element => {
 
         <Row>
           <Cell>
-            <H2>Доля ЦЗ</H2>
+            <H2>
+              Доля ЦЗ<Growth grow={czGrowthRatio >= 0}>{czGrowthRatio}</Growth>
+            </H2>
           </Cell>
           <Cell>
             <H2>{czRatio}%</H2>
@@ -157,7 +200,9 @@ export const EveningReportTable = (props: Props): JSX.Element => {
 
         <Row>
           <Cell>
-            <H2>Прогноз ЦЗ</H2>
+            <H2>
+              Прогноз ЦЗ<Growth grow={czGrowthForecast >= 0}>{czGrowthForecast}</Growth>
+            </H2>
           </Cell>
           <Cell>
             <FilledCell width={czForecast} color={czForecastColor}>

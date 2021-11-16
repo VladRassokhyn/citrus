@@ -15,10 +15,7 @@ export const App = (): JSX.Element => {
     dispatch(getAuth());
   }, []);
 
-  if (
-    authStatus === LoadingStatuses.LOADING ||
-    authStatus == LoadingStatuses.IDLE
-  ) {
+  if (authStatus === LoadingStatuses.LOADING || authStatus == LoadingStatuses.IDLE) {
     return <Preloader />;
   }
 

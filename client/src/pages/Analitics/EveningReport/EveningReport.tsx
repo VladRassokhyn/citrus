@@ -55,11 +55,7 @@ export const EveningReport = (): JSX.Element => {
         )}
       </>
       {daySales && mounthSales && (
-        <EveningReportTable
-          planes={planes}
-          daySales={daySales!}
-          mounthSales={mounthSales!}
-        />
+        <EveningReportTable planes={planes} daySales={daySales!} mounthSales={mounthSales!} />
       )}
     </Wrapper>
   );

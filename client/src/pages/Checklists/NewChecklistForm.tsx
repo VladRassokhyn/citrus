@@ -3,10 +3,7 @@ import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { InputField } from '../../Components/InputField';
 import { useTypedSelector } from '../../lib/hooks';
-import {
-  checklistActions,
-  checklistSelectors,
-} from '../../lib/slices/checklist';
+import { checklistActions, checklistSelectors } from '../../lib/slices/checklist';
 import trash from '../../static/trash.svg';
 import { LoadingStatuses } from '../../lib/globalTypes';
 import { authSelectors } from '../../lib/slices/auth';
@@ -89,9 +86,7 @@ const BottomBtns = styled.div`
 
 export const NewChecklistForm = (): JSX.Element => {
   const checklist = useTypedSelector(checklistSelectors.selectSingleChecklist);
-  const postStatus = useTypedSelector(
-    checklistSelectors.selectPostChecklistStatus,
-  );
+  const postStatus = useTypedSelector(checklistSelectors.selectPostChecklistStatus);
   const authUser = useTypedSelector(authSelectors.selectAuthUser);
   const [disabled, setDisabled] = useState(false);
   const dispatch = useDispatch();
@@ -135,13 +130,8 @@ export const NewChecklistForm = (): JSX.Element => {
 
   const resetForm = () => dispatch(checklistActions.clearNewChecklist());
 
-  const handleCategoryTitleChange = (
-    e: ChangeEvent<HTMLInputElement>,
-    index: number,
-  ) => {
-    dispatch(
-      checklistActions.categoryTitleChanged({ title: e.target.value, index }),
-    );
+  const handleCategoryTitleChange = (e: ChangeEvent<HTMLInputElement>, index: number) => {
+    dispatch(checklistActions.categoryTitleChanged({ title: e.target.value, index }));
   };
 
   const handleFieldTitleChange = (
@@ -165,9 +155,7 @@ export const NewChecklistForm = (): JSX.Element => {
         label={'Тема'}
         vertical
         value={checklist.title}
-        onChange={(e) =>
-          dispatch(checklistActions.checklistTitleChanged(e.target.value))
-        }
+        onChange={(e) => dispatch(checklistActions.checklistTitleChanged(e.target.value))}
       />
       <HR />
       {checklist.categories.map((category, categoryIndex) => (
@@ -190,21 +178,13 @@ export const NewChecklistForm = (): JSX.Element => {
                   disabled={disabled}
                   label={fieldIndex + 1 + ''}
                   value={field.title}
-                  onChange={(e) =>
-                    handleFieldTitleChange(e, categoryIndex, fieldIndex)
-                  }
+                  onChange={(e) => handleFieldTitleChange(e, categoryIndex, fieldIndex)}
                 />
-                <Img
-                  src={trash}
-                  onClick={() => removeField(categoryIndex, fieldIndex)}
-                />
+                <Img src={trash} onClick={() => removeField(categoryIndex, fieldIndex)} />
               </Field>
             </FieldsBlock>
           ))}
-          <AddBtn
-            disabled={disabled}
-            onClick={() => appendField(categoryIndex)}
-          >
+          <AddBtn disabled={disabled} onClick={() => appendField(categoryIndex)}>
             Добавить Поле
           </AddBtn>
           <HR />

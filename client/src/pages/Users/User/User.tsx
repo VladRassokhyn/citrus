@@ -54,9 +54,7 @@ export const User = (): JSX.Element | null => {
   const user = useTypedSelector(userSelectors.selectOneUser);
   const userStatus = useTypedSelector(userSelectors.selectOneUserStatus);
   const userChecklists = useTypedSelector(userSelectors.selectUserChecklists);
-  const userChecklistStatus = useTypedSelector(
-    userSelectors.selectUserChecklistsStatus,
-  );
+  const userChecklistStatus = useTypedSelector(userSelectors.selectUserChecklistsStatus);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -64,10 +62,7 @@ export const User = (): JSX.Element | null => {
     dispatch(userActions.getUserChecklists(userId));
   }, []);
 
-  if (
-    userStatus === LoadingStatuses.LOADING ||
-    userChecklistStatus === LoadingStatuses.LOADING
-  ) {
+  if (userStatus === LoadingStatuses.LOADING || userChecklistStatus === LoadingStatuses.LOADING) {
     return <Preloader />;
   }
 
@@ -94,12 +89,7 @@ export const User = (): JSX.Element | null => {
                   <H2>{category.title}</H2>
                   <FieldsContainer>
                     {category.fields.map((field, fieldIndex) => (
-                      <Checkbox
-                        key={field.id}
-                        value={field.checked}
-                        fullSize
-                        label={field.title}
-                      />
+                      <Checkbox key={field.id} value={field.checked} fullSize label={field.title} />
                     ))}
                   </FieldsContainer>
                 </CategoryContsiner>

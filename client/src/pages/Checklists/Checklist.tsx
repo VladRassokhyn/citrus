@@ -7,11 +7,7 @@ import { Checkbox } from '../../Components/Checkbox';
 import { Preloader } from '../../Components/Preloader';
 import { FixLater, LoadingStatuses, UserRoles } from '../../lib/globalTypes';
 import { useTypedSelector } from '../../lib/hooks';
-import {
-  Category,
-  checklistActions,
-  checklistSelectors,
-} from '../../lib/slices/checklist/';
+import { Category, checklistActions, checklistSelectors } from '../../lib/slices/checklist/';
 import { userActions, userSelectors } from '../../lib/slices/users';
 import { authSelectors } from '../../lib/slices/auth';
 
@@ -90,12 +86,8 @@ export const Checklist = (): JSX.Element => {
   const users = useTypedSelector(userSelectors.selectAllUsers);
   const usersStatus = useTypedSelector(userSelectors.selectUsersStatus);
   const checklist = useTypedSelector(checklistSelectors.selectSingleChecklist);
-  const checklistStatus = useTypedSelector(
-    checklistSelectors.selectSingleChecklistStatus,
-  );
-  const postChecklistStatus = useTypedSelector(
-    checklistSelectors.selectPostChecklistStatus,
-  );
+  const checklistStatus = useTypedSelector(checklistSelectors.selectSingleChecklistStatus);
+  const postChecklistStatus = useTypedSelector(checklistSelectors.selectPostChecklistStatus);
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -138,10 +130,7 @@ export const Checklist = (): JSX.Element => {
   const managersOptions = useMemo(
     () =>
       users
-        .filter(
-          (user) =>
-            user.role === UserRoles.MANAGER || user.role === UserRoles.ADMIN,
-        )
+        .filter((user) => user.role === UserRoles.MANAGER || user.role === UserRoles.ADMIN)
         .map((user) => ({
           label: user.lastName + ' ' + user.name,
           value: user.id,
@@ -172,9 +161,7 @@ export const Checklist = (): JSX.Element => {
   };
 
   const handleCheckedChange = (fieldIndex: number, categoryIndex: number) => {
-    dispatch(
-      checklistActions.fieldCheckedChanged({ fieldIndex, categoryIndex }),
-    );
+    dispatch(checklistActions.fieldCheckedChanged({ fieldIndex, categoryIndex }));
   };
 
   const handleChangeSalesman = (e: FixLater) => {
@@ -185,10 +172,7 @@ export const Checklist = (): JSX.Element => {
     setManagerId(e.value);
   };
 
-  if (
-    checklistStatus === LoadingStatuses.LOADING ||
-    usersStatus === LoadingStatuses.LOADING
-  ) {
+  if (checklistStatus === LoadingStatuses.LOADING || usersStatus === LoadingStatuses.LOADING) {
     return <Preloader />;
   }
 
@@ -197,19 +181,11 @@ export const Checklist = (): JSX.Element => {
       <Head>
         <HeadField>
           <H3>Сдает</H3>
-          <Select
-            options={salesmansOptions}
-            name={'salesman'}
-            onChange={handleChangeSalesman}
-          />
+          <Select options={salesmansOptions} name={'salesman'} onChange={handleChangeSalesman} />
         </HeadField>
         <HeadField>
           <H3>Принимает</H3>
-          <Select
-            options={managersOptions}
-            name={'manager'}
-            onChange={handleChangeManager}
-          />
+          <Select options={managersOptions} name={'manager'} onChange={handleChangeManager} />
         </HeadField>
       </Head>
       {showChecklist && (
@@ -224,9 +200,7 @@ export const Checklist = (): JSX.Element => {
                     key={field.id}
                     value={field.checked}
                     fullSize
-                    handleChange={() =>
-                      handleCheckedChange(fieldIndex, categoryIndex)
-                    }
+                    handleChange={() => handleCheckedChange(fieldIndex, categoryIndex)}
                     label={field.title}
                   />
                 ))}

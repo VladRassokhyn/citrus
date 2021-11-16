@@ -10,10 +10,7 @@ import { Accordion } from '../../Components/Accordion';
 import { NewUserForm } from './NewUserForm';
 import { UserSubMenu } from './UserSubMenu';
 import { authSelectors } from '../../lib/slices/auth';
-import {
-  selectAllUsers,
-  selectSalesmans,
-} from '../../lib/slices/users/users.selectors';
+import { selectAllUsers, selectSalesmans } from '../../lib/slices/users/users.selectors';
 
 const Wrapper = styled.div`
   display: flex;
@@ -37,8 +34,7 @@ export const Users = (): JSX.Element => {
       : allusers.filter((user) => user.role === UserRoles.SALESMAN);
 
   const isAdminOrManager =
-    authUser &&
-    (authUser.role === UserRoles.ADMIN || authUser.role === UserRoles.MANAGER);
+    authUser && (authUser.role === UserRoles.ADMIN || authUser.role === UserRoles.MANAGER);
 
   useEffect(() => {
     authUser && dispatch(userActions.getUsers(authUser.tt));

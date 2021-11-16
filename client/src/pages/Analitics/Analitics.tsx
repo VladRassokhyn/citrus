@@ -44,10 +44,7 @@ export const Analitic = (): JSX.Element => {
       <Container>
         <Navigation />
         <Content>
-          <Route
-            path={'/analytics/evening-report'}
-            render={() => <EveningReport />}
-          />
+          <Route path={'/analytics/evening-report'} render={() => <EveningReport />} />
         </Content>
       </Container>
     </Wrapper>
