@@ -42,14 +42,14 @@ app.use('/', (req: Request, res: Response, next: NextFunction) => {
 
 app.use('/api/auth', authRouter);
 app.use('/api/users', userRouter);
-app.use('/api/checklist', checklistRouter);
 app.use('/api/planes', planesRouter);
-app.use('/api/day-sales', daySalesRouter);
+app.use('/api/daySales', daySalesRouter);
+app.use('/api/checklist', checklistRouter);
 
 (async () => {
   await TryDbConnect(() =>
     app.listen(process.env['PORT'], () =>
-      console.log('running' + process.env['PORT']),
+      console.log('running ' + process.env['PORT']),
     ),
   );
 })();
