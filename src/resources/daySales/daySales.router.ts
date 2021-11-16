@@ -8,7 +8,7 @@ router.route('/').get(async (req, res) => {
   const tt = String(req.query['tt']);
 
   const daySalesRepo = getRepository(DaySales);
-  const daySales = daySalesRepo.find({ tt });
+  const daySales = await daySalesRepo.find({ tt });
   res.status(200).send(daySales);
 });
 

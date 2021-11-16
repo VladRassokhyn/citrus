@@ -8,7 +8,7 @@ const router = (0, express_1.Router)();
 router.route('/').get(async (req, res) => {
     const tt = String(req.query['tt']);
     const daySalesRepo = (0, typeorm_1.getRepository)(entities_1.DaySales);
-    const daySales = daySalesRepo.find({ tt });
+    const daySales = await daySalesRepo.find({ tt });
     res.status(200).send(daySales);
 });
 router.route('/').post(async (req, res) => {
