@@ -1,4 +1,3 @@
-import { daySalesRouter } from './resources/daySales/daySales.router';
 import express, { Request, Response, NextFunction } from 'express';
 import { config as envConfig } from 'dotenv';
 import path from 'path';
@@ -10,6 +9,7 @@ import {
   authRouter,
   checklistRouter,
   planesRouter,
+  daySalesRouter,
 } from './resources';
 
 envConfig();
@@ -21,7 +21,16 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../client/build')));
 
-const rootUrls = ['/', '/users', '/cm', '/analytics', '/checklist', '/login'];
+const rootUrls = [
+  '/',
+  '/users',
+  '/cm',
+  '/analytics',
+  '/checklist',
+  '/login',
+  '/analytics/main',
+  '/analytics/evening-report',
+];
 
 app.use('/', (req: Request, res: Response, next: NextFunction) => {
   if (rootUrls.includes(req.url)) {
