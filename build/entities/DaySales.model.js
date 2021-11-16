@@ -28,6 +28,10 @@ __decorate([
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", Number)
+], DaySales.prototype, "to", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", Number)
 ], DaySales.prototype, "cm", void 0);
 __decorate([
     (0, typeorm_1.Column)(),

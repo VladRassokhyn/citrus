@@ -35,7 +35,7 @@ app.use('/api/auth', authRouter);
 app.use('/api/users', userRouter);
 app.use('/api/checklist', checklistRouter);
 app.use('/api/planes', planesRouter);
-app.use('/api/daySales', daySalesRouter);
+app.use('/api/day-sales', daySalesRouter);
 
 (async () => {
   await TryDbConnect(() =>

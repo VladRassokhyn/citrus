@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Sales } from '../EveningReport/types';
+import { Sales } from '../../../lib/slices/daySales';
 
 type Props = {
   submitFn: (sales: Sales) => void;
@@ -64,28 +64,30 @@ export const SalesInput = (props: Props): JSX.Element => {
   const [value, setValue] = useState('');
   const [parsedValue, setParsedValue] = useState<Sales | null>(null);
 
-  const parseValue = () => {
-    const newValue = value.split('\t');
-    const to = parseInt(newValue[33].replace(/\s/g, ''));
-    const cm = parseInt(newValue[40].replace(/\s/g, ''));
-    const cz = parseInt(newValue[42].replace(/\s/g, ''));
-    const ca = parseInt(newValue[44].replace(/\s/g, ''));
-    const newDaySales = {
-      to: isNaN(to) ? 0 : to,
-      cm: isNaN(cm) ? 0 : cm,
-      cz: isNaN(cz) ? 0 : cz,
-      ca: isNaN(ca) ? 0 : ca,
-    };
-    setParsedValue(newDaySales);
-  };
+  useEffect(() => {
+    if (value && value.length > 100) {
+      const newValue = value.split('\t');
+      const to = parseInt(newValue[33].replace(/\s/g, ''));
+      const cm = parseInt(newValue[40].replace(/\s/g, ''));
+      const cz = parseInt(newValue[42].replace(/\s/g, ''));
+      const ca = parseInt(newValue[44].replace(/\s/g, ''));
+      const newDaySales = {
+        to: isNaN(to) ? 0 : to,
+        cm: isNaN(cm) ? 0 : cm,
+        cz: isNaN(cz) ? 0 : cz,
+        ca: isNaN(ca) ? 0 : ca,
+      };
+      setParsedValue(newDaySales);
+    }
+  }, [value]);
 
   return (
     <Wrapper>
       <Input value={value} onChange={(e) => setValue(e.target.value)} />
       <SubmitBlock>
-        <Button disabled={value.length < 100} onClick={parseValue}>
+        {/* <Button disabled={value.length < 100} onClick={parseValue}>
           Заполнить
-        </Button>
+        </Button> */}
         {parsedValue && (
           <Container>
             <H1>Устройства: {parsedValue.to}</H1>

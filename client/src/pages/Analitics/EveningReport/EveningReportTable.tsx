@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { useTypedSelector } from '../../../lib/hooks';
 import { authSelectors } from '../../../lib/slices/auth';
 import { Planes } from '../../../lib/slices/planes/planes.type';
-import { Sales } from './types';
+import { Sales } from '../../../lib/slices/daySales';
 
 type Props = {
   planes: Planes;
@@ -96,7 +96,7 @@ export const EveningReportTable = (props: Props): JSX.Element => {
   const { planes, daySales, mounthSales } = props;
   const authUser = useTypedSelector(authSelectors.selectAuthUser);
 
-  const dayCount = 31;
+  const dayCount = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate();
   const day = new Date().getDate();
 
   const cmRatio = +((mounthSales.cm / mounthSales.to) * 100).toFixed(2);

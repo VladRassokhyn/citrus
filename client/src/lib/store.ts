@@ -3,6 +3,7 @@ import createSagaMiddleware from 'redux-saga';
 import { rootSaga } from './sagas';
 import { authReducer } from './slices/auth';
 import { checklistReducer } from './slices/checklist';
+import { daySalesReducer } from './slices/daySales';
 import { planesReducer } from './slices/planes';
 import { usersReducer, oneUserReducer } from './slices/users';
 
@@ -16,6 +17,7 @@ export const store = configureStore({
     checklist: checklistReducer,
     auth: authReducer,
     planes: planesReducer,
+    daySales: daySalesReducer,
   },
   middleware,
 });

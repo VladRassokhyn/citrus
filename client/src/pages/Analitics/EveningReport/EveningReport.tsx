@@ -4,7 +4,7 @@ import { useTypedSelector } from '../../../lib/hooks';
 import { planesSelectors } from '../../../lib/slices/planes';
 import { SalesInput } from '../SalesInput';
 import { EveningReportTable } from './EveningReportTable';
-import { Sales } from './types';
+import { Sales } from '../../../lib/slices/daySales';
 
 const Wrapper = styled.div`
   display: flex;

@@ -19,8 +19,8 @@ router.route('/').post(async (req, res) => {
         res.status(205).send('updated');
     }
     else {
-        const newWaySales = daySalesRepo.create(dto);
-        await daySalesRepo.save(newWaySales);
+        const newDaySales = daySalesRepo.create(dto);
+        await daySalesRepo.save(newDaySales);
         res.status(201).send('created');
     }
 });

@@ -72,7 +72,7 @@ export const Main = (): JSX.Element => {
         <Img src={cmImage} alt="cm image" />
         <H1>Наполнение</H1>
       </MenuItem>
-      <MenuItem isClosing={isClosing} onClick={() => handleClose('analytics')}>
+      <MenuItem isClosing={isClosing} onClick={() => handleClose('analytics/main')}>
         <Img src={analitic} alt="anslyics image" />
         <H1>Аналитика</H1>
       </MenuItem>

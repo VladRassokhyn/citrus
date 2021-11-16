@@ -12,6 +12,9 @@ export class DaySales {
   day: string;
 
   @Column()
+  to: number;
+
+  @Column()
   cm: number;
 
   @Column()

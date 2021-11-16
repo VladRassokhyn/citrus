@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 import { slideInLeft } from 'react-animations';
+import { NavItem } from './NavItem';
 
 const animationIn = keyframes`${slideInLeft}`;
 
@@ -16,20 +17,6 @@ const Wrapper = styled.div`
   }
 `;
 
-const NavItem = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 40px;
-  border-bottom: 1px solid #dfdfdf;
-  transition: linear 0.3s;
-  &:hover {
-    background-color: #f0f0f0;
-    cursor: pointer;
-  }
-`;
-
 const H1 = styled.h1`
   color: var(--color-stroke);
   font-size: 12pt;
@@ -38,11 +25,12 @@ const H1 = styled.h1`
 export const Navigation = (): JSX.Element => {
   return (
     <Wrapper>
-      <Link to={'/analytics/evening-report'}>
-        <NavItem>
-          <H1>Вечерний отчет</H1>
-        </NavItem>
-      </Link>
+      <NavItem path={'/analytics/main'}>
+        <H1>Главная</H1>
+      </NavItem>
+      <NavItem path={'/analytics/evening-report'}>
+        <H1>Вечерний отчет</H1>
+      </NavItem>
     </Wrapper>
   );
 };
