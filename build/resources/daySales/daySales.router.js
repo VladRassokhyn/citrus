@@ -14,14 +14,20 @@ router.route('/').get(async (req, res) => {
 router.route('/').post(async (req, res) => {
     const dto = req.body;
     const daySalesRepo = (0, typeorm_1.getRepository)(entities_1.DaySales);
-    if (dto.id) {
+    const newDaySales = daySalesRepo.create(dto);
+    await daySalesRepo.save(newDaySales);
+    res.status(201).send('created');
+});
+router.route('/').put(async (req, res) => {
+    const dto = req.body;
+    const daySalesRepo = (0, typeorm_1.getRepository)(entities_1.DaySales);
+    const daysSales = await daySalesRepo.find({ id: dto.id });
+    if (daysSales) {
         await daySalesRepo.update(dto.id, dto);
-        res.status(205).send('updated');
+        res.status(201).send('updated');
     }
     else {
-        const newDaySales = daySalesRepo.create(dto);
-        await daySalesRepo.save(newDaySales);
-        res.status(201).send('created');
+        res.status(404).send('daySales not found');
     }
 });
 exports.daySalesRouter = router;

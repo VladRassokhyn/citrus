@@ -27,7 +27,7 @@ const Button = styled.button<StyleProps>`
   height: 0;
   border: 0;
   border-radius: 0 0 10px 10px;
-  transition: linear 0.3s;
+  transition: linear 0.1s;
   ${(props) =>
     !props.disabled &&
     `&:hover {
@@ -53,7 +53,7 @@ const Content = styled.div`
   gap: 5px;
   justify-content: space-between;
   height: 70%;
-  transition: linear 0.3s;
+  transition: linear 0.1s;
 `;
 
 const H1 = styled.h1`

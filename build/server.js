@@ -19,11 +19,11 @@ exports.app.use(express_1.default.json());
 exports.app.use(express_1.default.static(path_1.default.join(__dirname, '../client/build')));
 const rootUrls = [
     '/',
-    '/users',
     '/cm',
+    '/users',
+    '/login',
     '/analytics',
     '/checklist',
-    '/login',
     '/analytics/main',
     '/analytics/evening-report',
 ];

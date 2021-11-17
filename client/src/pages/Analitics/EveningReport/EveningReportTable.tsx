@@ -215,7 +215,7 @@ export const EveningReportTable = (props: Props): JSX.Element => {
             <H2>Сумма Устройств</H2>
           </Cell>
           <Cell>
-            <H2>{daySales.to}</H2>
+            <H2>{daySales.cm}</H2>
           </Cell>
         </Row>
         <Row>
