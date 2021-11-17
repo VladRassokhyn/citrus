@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import styled, { keyframes } from 'styled-components';
-import { FixLater, LoadingStatuses } from '../../lib/globalTypes';
+import { FixLater, LoadingStatuses, TTselectorOptions } from '../../lib/globalTypes';
 import { useTypedSelector } from '../../lib/hooks';
 import { planesActions, planesSelectors } from '../../lib/slices/planes';
 import { Planes } from '../../lib/slices/planes/planes.type';
@@ -122,6 +122,8 @@ const Button = styled.button`
     cursor: pointer;
   }
 `;
+
+const Filter = styled.div``;
 
 export const PlanesPanel = (props: Props): JSX.Element => {
   const { planes } = props;

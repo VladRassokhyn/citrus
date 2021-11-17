@@ -1,7 +1,7 @@
 import styled, { keyframes } from 'styled-components';
 import { zoomIn } from 'react-animations';
 import { daySalesActions, daySalesSelectors, Sales } from '../../../lib/slices/daySales';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Modal } from '../../../Components/Modal';
 import { SalesInput } from '../SalesInput';
 import { useDispatch } from 'react-redux';
@@ -13,6 +13,8 @@ type Props = {
   title: string;
   delay: number;
   daySales?: Sales;
+  tt: string;
+  isHollyDay?: boolean;
 };
 
 type StyleProps = {
@@ -20,6 +22,7 @@ type StyleProps = {
   withData?: boolean;
   disabled?: boolean;
   isEmpty?: boolean;
+  isHollyDay?: boolean;
 };
 
 const animationIn = keyframes`${zoomIn}`;
@@ -41,13 +44,13 @@ const Button = styled.button<StyleProps>`
     }`}
 `;
 
-const Title = styled.h1`
+const Title = styled.h1<StyleProps>`
   width: 100%;
   padding: 5px 0;
   border-radius: 10px 10px 0 0;
   font-size: 14pt;
   color: white;
-  background-color: var(--color-button);
+  background-color: ${(props) => (props.isHollyDay ? '#b3405b' : 'var(--color-button)')};
   text-align: center;
 `;
 
@@ -87,7 +90,7 @@ const Wrapper = styled.div<StyleProps>`
 `;
 
 export const CalendarDay = (props: Props): JSX.Element => {
-  const { isEmpty, title, delay, daySales } = props;
+  const { isEmpty, title, delay, daySales, tt, isHollyDay } = props;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { postStatus, updateStatus } = useTypedSelector(daySalesSelectors.selectDaySalesStatuses);
   const dispatch = useDispatch();
@@ -100,18 +103,24 @@ export const CalendarDay = (props: Props): JSX.Element => {
   }, []);
 
   const postDaySales = (payload: Sales) => {
-    dispatch(daySalesActions.postDaySales(payload));
+    dispatch(daySalesActions.postDaySales({ ...payload, tt, day: title }));
   };
 
   const updateDaySales = (payload: Sales) => {
-    dispatch(daySalesActions.updateDaySales(payload));
+    dispatch(daySalesActions.updateDaySales({ ...payload, id: daySales!.id, day: title, tt }));
   };
+
+  useEffect(() => {
+    if (postStatus === LoadingStatuses.SUCCESS || updateStatus === LoadingStatuses.SUCCESS) {
+      setIsModalOpen(false);
+    }
+  }, [postStatus, updateStatus]);
 
   if (isEmpty) return <Wrapper isEmpty delay={delay} />;
 
   return (
     <Wrapper delay={delay} withData={!!daySales}>
-      <Title>{title}</Title>
+      <Title isHollyDay={isHollyDay}>{title}</Title>
       <Content>
         <H1 color={'gray'}>ТО: {daySales ? daySales.to : 'no data'}</H1>
         <H1 color={'green'}>ЦМ: {daySales ? daySales.cm : 'no data'}</H1>
@@ -130,7 +139,7 @@ export const CalendarDay = (props: Props): JSX.Element => {
       {isModalOpen && (
         <Modal onClose={modalToggle}>
           {!!daySales ? (
-            <SalesInput id={daySales.id} submitFn={updateDaySales} />
+            <SalesInput id={daySales.id} tt={daySales.tt} submitFn={updateDaySales} />
           ) : (
             <SalesInput submitFn={postDaySales} />
           )}

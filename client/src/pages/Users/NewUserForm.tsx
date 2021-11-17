@@ -3,7 +3,14 @@ import styled from 'styled-components';
 import Selector from 'react-select';
 import { useDispatch } from 'react-redux';
 import { Controller, useForm } from 'react-hook-form';
-import { FixLater, LoadingStatuses, UserRoles, TT, User } from '../../lib/globalTypes';
+import {
+  FixLater,
+  LoadingStatuses,
+  UserRoles,
+  TT,
+  User,
+  TTselectorOptions,
+} from '../../lib/globalTypes';
 import { userActions, userSelectors } from '../../lib/slices/users';
 import { useTypedSelector } from '../../lib/hooks';
 import { InputField } from '../../Components/InputField';
@@ -37,24 +44,6 @@ const Button = styled.button<StyleProps>`
 const roleSelectorOptions = [
   { label: UserRoles.SALESMAN, value: UserRoles.SALESMAN },
   { label: UserRoles.MANAGER, value: UserRoles.MANAGER },
-];
-
-const TTselectorOptions = [
-  { label: TT.BLOCK, value: TT.BLOCK },
-  { label: TT.KR29, value: TT.KR29 },
-  { label: TT.KR52, value: TT.KR52 },
-  { label: TT.BV23, value: TT.BV23 },
-  { label: TT.DRIM, value: TT.DRIM },
-  { label: TT.LAVINA, value: TT.LAVINA },
-  { label: TT.GLOBUS, value: TT.GLOBUS },
-  { label: TT.GORODOK, value: TT.GORODOK },
-  { label: TT.OCEAN, value: TT.OCEAN },
-  { label: TT.PIRAMIDA, value: TT.PIRAMIDA },
-  { label: TT.RIVER, value: TT.RIVER },
-  { label: TT.SKY, value: TT.SKY },
-  { label: TT.BV66, value: TT.BV66 },
-  { label: TT.HITMALL, value: TT.HITMALL },
-  { label: TT.RESPUBLIKA, value: TT.RESPUBLIKA },
 ];
 
 export const NewUserForm = (props: Props): JSX.Element => {

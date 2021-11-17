@@ -13,13 +13,23 @@ type H1Props = {
 
 const bounceInAnimation = keyframes`${slideInRight}`;
 
-const goLeftAnimation = keyframes`
+const goLeftAnimationMobile = keyframes`
   0% {margin-left: 70%}
   100% {margin-left: 20%}
 `;
 
-const goRightAnimation = keyframes`
+const goRightAnimationMobile = keyframes`
   0% {margin-left: 20%}
+  100% {margin-left: 70%}
+`;
+
+const goLeftAnimationPC = keyframes`
+  0% {margin-left: 70%}
+  100% {margin-left: 50%}
+`;
+
+const goRightAnimationPC = keyframes`
+  0% {margin-left: 50%}
   100% {margin-left: 70%}
 `;
 
@@ -37,7 +47,14 @@ const H1 = styled.h1<H1Props>`
   margin-left: 70%;
   font-size: 10pt;
   color: white;
-  animation: ${(props) => (props.goLeft ? goLeftAnimation : goRightAnimation)} 0.3s forwards;
+  animation: ${(props) => (props.goLeft ? goLeftAnimationPC : goRightAnimationPC)} 0.3s forwards;
+  @media (max-width: 559px) {
+    animation: ${(props) => (props.goLeft ? goLeftAnimationMobile : goRightAnimationMobile)} 0.3s
+      forwards;
+  }
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const H2 = styled.h1`

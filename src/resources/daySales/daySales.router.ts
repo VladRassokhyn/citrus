@@ -15,9 +15,13 @@ router.route('/').get(async (req, res) => {
 router.route('/').post(async (req, res) => {
   const dto = req.body;
   const daySalesRepo = getRepository(DaySales);
-  const newDaySales = daySalesRepo.create(dto);
-  await daySalesRepo.save(newDaySales);
-  res.status(201).send('created');
+  try {
+    const newDaySales = daySalesRepo.create(dto);
+    await daySalesRepo.save(newDaySales);
+    res.status(201).send('created');
+  } catch (err) {
+    res.status(500).send(err);
+  }
 });
 
 router.route('/').put(async (req, res) => {
@@ -30,6 +34,17 @@ router.route('/').put(async (req, res) => {
     res.status(201).send('updated');
   } else {
     res.status(404).send('daySales not found');
+  }
+});
+
+router.route('/:id').delete(async (req, res) => {
+  const id = Number(req.params['id']);
+  const daySalesRepo = getRepository(DaySales);
+  try {
+    await daySalesRepo.delete(id);
+    res.status(200).send('deleted');
+  } catch (err) {
+    res.status(500).send(err);
   }
 });
 

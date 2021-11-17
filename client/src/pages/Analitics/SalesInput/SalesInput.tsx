@@ -6,6 +6,7 @@ import { format } from 'date-fns';
 type Props = {
   submitFn: (sales: Sales) => void;
   id?: number;
+  tt?: string;
 };
 
 type StyleProps = {
@@ -62,7 +63,7 @@ const H1 = styled.h1`
 `;
 
 export const SalesInput = (props: Props): JSX.Element => {
-  const { submitFn, id } = props;
+  const { submitFn, id, tt } = props;
   const [value, setValue] = useState('');
   const [parsedValue, setParsedValue] = useState<Sales | null>(null);
 
@@ -74,14 +75,14 @@ export const SalesInput = (props: Props): JSX.Element => {
       const cz = parseInt(newValue[42].replace(/\s/g, ''));
       const ca = parseInt(newValue[44].replace(/\s/g, ''));
       const newDaySales = {
-        day: format(new Date(), 'dd.MM.yyyy'),
+        day: '',
         to: isNaN(to) ? 0 : to,
         cm: isNaN(cm) ? 0 : cm,
         cz: isNaN(cz) ? 0 : cz,
         ca: isNaN(ca) ? 0 : ca,
       };
       if (id) {
-        setParsedValue({ ...newDaySales, id });
+        setParsedValue(newDaySales);
       } else {
         setParsedValue(newDaySales);
       }

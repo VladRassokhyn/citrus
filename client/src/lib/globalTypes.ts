@@ -46,3 +46,21 @@ export type User = {
   id: number;
   tt: string;
 };
+
+export const TTselectorOptions = [
+  { label: TT.BLOCK, value: TT.BLOCK },
+  { label: TT.KR29, value: TT.KR29 },
+  { label: TT.KR52, value: TT.KR52 },
+  { label: TT.BV23, value: TT.BV23 },
+  { label: TT.DRIM, value: TT.DRIM },
+  { label: TT.LAVINA, value: TT.LAVINA },
+  { label: TT.GLOBUS, value: TT.GLOBUS },
+  { label: TT.GORODOK, value: TT.GORODOK },
+  { label: TT.OCEAN, value: TT.OCEAN },
+  { label: TT.PIRAMIDA, value: TT.PIRAMIDA },
+  { label: TT.RIVER, value: TT.RIVER },
+  { label: TT.SKY, value: TT.SKY },
+  { label: TT.BV66, value: TT.BV66 },
+  { label: TT.HITMALL, value: TT.HITMALL },
+  { label: TT.RESPUBLIKA, value: TT.RESPUBLIKA },
+];
