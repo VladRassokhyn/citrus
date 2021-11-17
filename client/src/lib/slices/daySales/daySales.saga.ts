@@ -2,8 +2,10 @@ import { FixLater } from './../../globalTypes';
 import { takeEvery, call, put } from 'redux-saga/effects';
 import { SagaIterator } from '@redux-saga/types';
 import {
+  daySalesDeleted,
   daySalesPosted,
   daySalesUpdated,
+  deleteDaySales,
   getDaySales,
   postDaySales,
   setDaySales,
@@ -41,8 +43,19 @@ function* daySalesUpdateWorker(action: FixLater): SagaIterator {
   }
 }
 
+function* daySalesDeleteWorker(action: FixLater): SagaIterator {
+  try {
+    yield call(daySalesApi.deleteDaySales, action.payload);
+    yield put({ type: daySalesDeleted.type });
+    yield put({ type: getDaySales.type, payload: action.payload.tt });
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 export function* daySalesWatcher(): SagaIterator {
   yield takeEvery(getDaySales.type, daySalesWorker);
   yield takeEvery(postDaySales.type, daySalesPostWorker);
   yield takeEvery(updateDaySales.type, daySalesUpdateWorker);
+  yield takeEvery(deleteDaySales.type, daySalesDeleteWorker);
 }

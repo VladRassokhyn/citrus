@@ -11,4 +11,7 @@ export const daySalesApi = {
   async putDaySales(payload: Sales) {
     return await axiosInstance.put('/daySales', payload);
   },
+  async deleteDaySales(payload: Sales) {
+    return await axiosInstance.delete(`/daySales/${payload.id}`);
+  },
 };

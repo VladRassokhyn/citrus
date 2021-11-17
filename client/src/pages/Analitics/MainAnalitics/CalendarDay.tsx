@@ -7,6 +7,7 @@ import { SalesInput } from '../SalesInput';
 import { useDispatch } from 'react-redux';
 import { useTypedSelector } from '../../../lib/hooks';
 import { LoadingStatuses } from '../../../lib/globalTypes';
+import { Confirm } from '../../../Components/Confirm';
 
 type Props = {
   isEmpty?: boolean;
@@ -34,8 +35,10 @@ const Button = styled.button<StyleProps>`
   width: 100%;
   height: 0;
   border: 0;
-  border-radius: 0 0 10px 10px;
   transition: linear 0.1s;
+  margin-top: 5px;
+  position: relative;
+  z-index: 1000;
   ${(props) =>
     !props.disabled &&
     `&:hover {
@@ -61,6 +64,7 @@ const Content = styled.div`
   gap: 5px;
   justify-content: space-between;
   height: 70%;
+  opacity: 1;
   transition: linear 0.1s;
 `;
 
@@ -85,7 +89,8 @@ const Wrapper = styled.div<StyleProps>`
     height: 30px;
   }
   &:hover ${Content} {
-    height: 50%;
+    height: 0;
+    opacity: 0;
   }
 `;
 
@@ -110,6 +115,10 @@ export const CalendarDay = (props: Props): JSX.Element => {
     dispatch(daySalesActions.updateDaySales({ ...payload, id: daySales!.id, day: title, tt }));
   };
 
+  const handleDateteDaySales = () => {
+    dispatch(daySalesActions.deleteDaySales(daySales));
+  };
+
   useEffect(() => {
     if (postStatus === LoadingStatuses.SUCCESS || updateStatus === LoadingStatuses.SUCCESS) {
       setIsModalOpen(false);
@@ -128,9 +137,14 @@ export const CalendarDay = (props: Props): JSX.Element => {
         <H1 color={'#9018ad'}>ЦА: {daySales ? daySales.ca : 'no data'}</H1>
       </Content>
       {!!daySales ? (
-        <Button disabled={disabled} onClick={modalToggle}>
-          Обновить
-        </Button>
+        <>
+          <Confirm title={'Очистить продажи за день ?'} confirmFn={handleDateteDaySales}>
+            <Button>Очистить</Button>
+          </Confirm>
+          <Button disabled={disabled} onClick={modalToggle}>
+            Обновить
+          </Button>
+        </>
       ) : (
         <Button disabled={disabled} onClick={modalToggle}>
           Заполнить

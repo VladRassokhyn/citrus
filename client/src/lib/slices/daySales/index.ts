@@ -7,6 +7,8 @@ import {
   daySalesPosted,
   updateDaySales,
   daySalesUpdated,
+  deleteDaySales,
+  daySalesDeleted,
 } from './daySales.slice';
 import { daySalesWatcher } from './daySales.saga';
 import { Sales } from './daySales.type';
@@ -18,6 +20,8 @@ export const daySalesActions = {
   daySalesPosted,
   updateDaySales,
   daySalesUpdated,
+  deleteDaySales,
+  daySalesDeleted,
 };
 export const daySalesSelectors = { selectDaySalesStatuses, selectAllDaySales };
 export type { Sales };

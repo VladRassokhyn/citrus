@@ -14,5 +14,6 @@ export type DaySalesState = {
   getStatus: LoadingStatuses;
   postStatus: LoadingStatuses;
   updateStatus: LoadingStatuses;
+  deleteStatus: LoadingStatuses;
   sales: Sales[] | null;
 };

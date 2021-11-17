@@ -6,6 +6,7 @@ const initialState: DaySalesState = {
   getStatus: LoadingStatuses.IDLE,
   postStatus: LoadingStatuses.IDLE,
   updateStatus: LoadingStatuses.IDLE,
+  deleteStatus: LoadingStatuses.IDLE,
   sales: null,
 };
 
@@ -23,14 +24,20 @@ const daySalesSlice = createSlice({
     postDaySales(state, action) {
       state.postStatus = LoadingStatuses.LOADING;
     },
-    daySalesPosted(state, action) {
+    daySalesPosted(state) {
       state.postStatus = LoadingStatuses.SUCCESS;
     },
     updateDaySales(state, action) {
       state.updateStatus = LoadingStatuses.LOADING;
     },
-    daySalesUpdated(state, action) {
+    daySalesUpdated(state) {
       state.updateStatus = LoadingStatuses.SUCCESS;
+    },
+    deleteDaySales(state, action) {
+      state.deleteStatus = LoadingStatuses.LOADING;
+    },
+    daySalesDeleted(state) {
+      state.deleteStatus = LoadingStatuses.SUCCESS;
     },
   },
 });
@@ -42,6 +49,8 @@ export const {
   daySalesPosted,
   updateDaySales,
   daySalesUpdated,
+  deleteDaySales,
+  daySalesDeleted,
 } = daySalesSlice.actions;
 
 export const daySalesReducer = daySalesSlice.reducer;
