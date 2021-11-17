@@ -33,7 +33,8 @@ const Button = styled.button<StyleProps>`
   background-color: ${(props) => (props.disabled ? '#aaa' : 'var(--color-button)')};
   color: white;
   width: 100%;
-  height: 0;
+  height: 30px;
+  opacity: 0;
   border: 0;
   transition: linear 0.1s;
   margin-top: 5px;
@@ -86,7 +87,7 @@ const Wrapper = styled.div<StyleProps>`
     cursor: pointer;
   }
   &:hover ${Button} {
-    height: 30px;
+    opacity: 1;
   }
   &:hover ${Content} {
     height: 0;

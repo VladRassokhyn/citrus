@@ -29,6 +29,15 @@ export enum TT {
   RIVER = 'RIVER',
   HITMALL = 'HITMALL',
   RESPUBLIKA = 'RESPUBLIKA',
+  KOPERNIKA = 'LVOV_KOPERNIKA',
+  VICTORIYA = 'VICTORIYA',
+  CHERKAS = 'CHERKAS',
+  CHERNIGOV_CUM = 'CHERNIGOV_CUM',
+  CHERNIGOV_HOLLYWOOD = 'CHERNIGOV_HOLLYWOOD',
+  SOBORNAYA = 'SOBORNAYA',
+  MEGAMALL = 'MEGAMALL',
+  SKYPARK = 'SKYPARK',
+  FRANKOVSK = 'FRANKOVSK',
 }
 
 export enum LoadingErrors {
@@ -63,4 +72,13 @@ export const TTselectorOptions = [
   { label: TT.BV66, value: TT.BV66 },
   { label: TT.HITMALL, value: TT.HITMALL },
   { label: TT.RESPUBLIKA, value: TT.RESPUBLIKA },
+  { label: TT.KOPERNIKA, value: TT.KOPERNIKA },
+  { label: TT.CHERKAS, value: TT.CHERKAS },
+  { label: TT.CHERNIGOV_CUM, value: TT.CHERNIGOV_CUM },
+  { label: TT.VICTORIYA, value: TT.VICTORIYA },
+  { label: TT.CHERNIGOV_HOLLYWOOD, value: TT.CHERNIGOV_HOLLYWOOD },
+  { label: TT.SOBORNAYA, value: TT.SOBORNAYA },
+  { label: TT.MEGAMALL, value: TT.MEGAMALL },
+  { label: TT.SKYPARK, value: TT.SKYPARK },
+  { label: TT.FRANKOVSK, value: TT.FRANKOVSK },
 ];
