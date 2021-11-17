@@ -12,5 +12,7 @@ export type Sales = {
 
 export type DaySalesState = {
   getStatus: LoadingStatuses;
+  postStatus: LoadingStatuses;
+  updateStatus: LoadingStatuses;
   sales: Sales[] | null;
 };

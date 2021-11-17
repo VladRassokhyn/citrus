@@ -1,7 +1,12 @@
 import styled, { keyframes } from 'styled-components';
 import { zoomIn } from 'react-animations';
-import { Sales } from '../../../lib/slices/daySales';
+import { daySalesActions, daySalesSelectors, Sales } from '../../../lib/slices/daySales';
 import { useCallback, useState } from 'react';
+import { Modal } from '../../../Components/Modal';
+import { SalesInput } from '../SalesInput';
+import { useDispatch } from 'react-redux';
+import { useTypedSelector } from '../../../lib/hooks';
+import { LoadingStatuses } from '../../../lib/globalTypes';
 
 type Props = {
   isEmpty?: boolean;
@@ -83,6 +88,24 @@ const Wrapper = styled.div<StyleProps>`
 
 export const CalendarDay = (props: Props): JSX.Element => {
   const { isEmpty, title, delay, daySales } = props;
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { postStatus, updateStatus } = useTypedSelector(daySalesSelectors.selectDaySalesStatuses);
+  const dispatch = useDispatch();
+
+  const disabled =
+    postStatus === LoadingStatuses.LOADING || updateStatus === LoadingStatuses.LOADING;
+
+  const modalToggle = useCallback(() => {
+    setIsModalOpen((prev) => !prev);
+  }, []);
+
+  const postDaySales = (payload: Sales) => {
+    dispatch(daySalesActions.postDaySales(payload));
+  };
+
+  const updateDaySales = (payload: Sales) => {
+    dispatch(daySalesActions.updateDaySales(payload));
+  };
 
   if (isEmpty) return <Wrapper isEmpty delay={delay} />;
 
@@ -95,7 +118,24 @@ export const CalendarDay = (props: Props): JSX.Element => {
         <H1 color={'red'}>ЦЗ: {daySales ? daySales.cz : 'no data'}</H1>
         <H1 color={'#9018ad'}>ЦА: {daySales ? daySales.ca : 'no data'}</H1>
       </Content>
-      <Button>{!!daySales ? 'Обновить' : 'Заполнить'}</Button>
+      {!!daySales ? (
+        <Button disabled={disabled} onClick={modalToggle}>
+          Обновить
+        </Button>
+      ) : (
+        <Button disabled={disabled} onClick={modalToggle}>
+          Заполнить
+        </Button>
+      )}
+      {isModalOpen && (
+        <Modal onClose={modalToggle}>
+          {!!daySales ? (
+            <SalesInput id={daySales.id} submitFn={updateDaySales} />
+          ) : (
+            <SalesInput submitFn={postDaySales} />
+          )}
+        </Modal>
+      )}
     </Wrapper>
   );
 };
