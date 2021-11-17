@@ -67,11 +67,12 @@ export const SalesInput = (props: Props): JSX.Element => {
 
   useEffect(() => {
     if (value && value.length > 100) {
-      const newValue = value.split('\t');
-      const to = parseInt(newValue[33].replace(/\s/g, ''));
-      const cm = parseInt(newValue[40].replace(/\s/g, ''));
-      const cz = parseInt(newValue[42].replace(/\s/g, ''));
-      const ca = parseInt(newValue[44].replace(/\s/g, ''));
+      const newValue = parse(value);
+      console.log(parse(value));
+      const to = parseInt(newValue[3][1].replace(/\s/g, ''));
+      const cm = parseInt(newValue[3][8].replace(/\s/g, ''));
+      const cz = parseInt(newValue[3][10].replace(/\s/g, ''));
+      const ca = parseInt(newValue[3][12].replace(/\s/g, ''));
       const newDaySales = {
         day: '',
         to: isNaN(to) ? 0 : to,
@@ -102,3 +103,20 @@ export const SalesInput = (props: Props): JSX.Element => {
     </Wrapper>
   );
 };
+
+function parse(input: string) {
+  const inputToArray = input.replace(/\n/g, '\t').split('\t');
+  console.log(inputToArray);
+  const result: any = [];
+  let tmp: any = [];
+
+  inputToArray.forEach((item, index) => {
+    tmp.push(item);
+    if ((index + 1) % 17 === 0) {
+      result.push(tmp);
+      tmp = [];
+    }
+  });
+
+  return result;
+}

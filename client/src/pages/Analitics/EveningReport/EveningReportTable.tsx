@@ -92,6 +92,13 @@ const H3 = styled.h3`
   text-align: center;
 `;
 
+const H4 = styled.h2`
+  width: 35%;
+  text-align: center;
+  font-size: 12pt;
+  color: var(--color-stroke);
+`;
+
 export const EveningReportTable = (props: Props): JSX.Element => {
   const { planes, daySales, mounthSales } = props;
   const authUser = useTypedSelector(authSelectors.selectAuthUser);
@@ -159,9 +166,10 @@ export const EveningReportTable = (props: Props): JSX.Element => {
 
         <Row>
           <Cell>
-            <H2>
-              Доля ЦМ<Growth grow={cmGrowthRatio >= 0}>{cmGrowthRatio}</Growth>
-            </H2>
+            <H2>Доля ЦМ</H2>
+            <H4>
+              <Growth grow={cmGrowthRatio >= 0}>{cmGrowthRatio}</Growth>
+            </H4>
           </Cell>
           <Cell>
             <H2>{cmRatio}%</H2>
@@ -170,9 +178,10 @@ export const EveningReportTable = (props: Props): JSX.Element => {
 
         <Row>
           <Cell>
-            <H2>
-              Прогноз ЦМ<Growth grow={cmGrowthForecast >= 0}>{cmGrowthForecast}</Growth>
-            </H2>
+            <H2>Прогноз ЦМ</H2>
+            <H4>
+              <Growth grow={cmGrowthForecast >= 0}>{cmGrowthForecast}</Growth>
+            </H4>
           </Cell>
           <Cell>
             <H2>
@@ -185,9 +194,10 @@ export const EveningReportTable = (props: Props): JSX.Element => {
 
         <Row>
           <Cell>
-            <H2>
-              Доля ЦЗ<Growth grow={czGrowthRatio >= 0}>{czGrowthRatio}</Growth>
-            </H2>
+            <H2>Доля ЦЗ</H2>
+            <H4>
+              <Growth grow={czGrowthRatio >= 0}>{czGrowthRatio}</Growth>
+            </H4>
           </Cell>
           <Cell>
             <H2>{czRatio}%</H2>
@@ -196,9 +206,10 @@ export const EveningReportTable = (props: Props): JSX.Element => {
 
         <Row>
           <Cell>
-            <H2>
-              Прогноз ЦЗ<Growth grow={czGrowthForecast >= 0}>{czGrowthForecast}</Growth>
-            </H2>
+            <H2>Прогноз ЦЗ</H2>
+            <H4>
+              <Growth grow={czGrowthForecast >= 0}>{czGrowthForecast}</Growth>
+            </H4>
           </Cell>
           <Cell>
             <FilledCell width={czForecast} color={czForecastColor}>

@@ -40,6 +40,7 @@ const Button = styled.button<StyleProps>`
   margin-top: 5px;
   position: relative;
   z-index: 1000;
+  display: none;
   ${(props) =>
     !props.disabled &&
     `&:hover {
@@ -88,6 +89,7 @@ const Wrapper = styled.div<StyleProps>`
   }
   &:hover ${Button} {
     opacity: 1;
+    display: block;
   }
   &:hover ${Content} {
     height: 0;
