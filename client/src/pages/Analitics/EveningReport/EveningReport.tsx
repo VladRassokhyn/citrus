@@ -6,6 +6,10 @@ import { SalesInput } from '../SalesInput';
 import { EveningReportTable } from './EveningReportTable';
 import { Sales } from '../../../lib/slices/daySales';
 
+type Props = {
+  sales: Sales[] | null;
+};
+
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -19,7 +23,8 @@ const H1 = styled.h1`
   text-align: center;
 `;
 
-export const EveningReport = (): JSX.Element => {
+export const EveningReport = (props: Props): JSX.Element => {
+  const { sales } = props;
   const [daySales, setDaySales] = useState<Sales | null>(null);
   const [mounthSales, setMounthSales] = useState<Sales | null>(null);
   const planes = useTypedSelector(planesSelectors.selectPlanes);
@@ -37,6 +42,16 @@ export const EveningReport = (): JSX.Element => {
       console.log(daySales, mounthSales);
     }
   }, [daySales, mounthSales]);
+
+  if (sales && sales.length > 1) {
+    return (
+      <EveningReportTable
+        planes={planes}
+        daySales={sales[sales.length - 1]}
+        mounthSales={calcMounthSales(sales)}
+      />
+    );
+  }
 
   return (
     <Wrapper>
@@ -60,3 +75,23 @@ export const EveningReport = (): JSX.Element => {
     </Wrapper>
   );
 };
+
+function calcMounthSales(sales: Sales[]) {
+  const mounthSales: Sales = {
+    cm: 0,
+    cz: 0,
+    ca: 0,
+    to: 0,
+    tt: sales[0].tt,
+    id: sales[0].id,
+    day: '',
+  };
+  sales.forEach((sale) => {
+    mounthSales.cm += sale.cm;
+    mounthSales.cz += sale.cz;
+    mounthSales.to += sale.to;
+    mounthSales.ca += sale.ca;
+  });
+
+  return mounthSales;
+}

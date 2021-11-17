@@ -139,7 +139,7 @@ export const CalendarDay = (props: Props): JSX.Element => {
       {isModalOpen && (
         <Modal onClose={modalToggle}>
           {!!daySales ? (
-            <SalesInput id={daySales.id} tt={daySales.tt} submitFn={updateDaySales} />
+            <SalesInput submitFn={updateDaySales} />
           ) : (
             <SalesInput submitFn={postDaySales} />
           )}
