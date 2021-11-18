@@ -76,7 +76,7 @@ export const EveningReport = (props: Props): JSX.Element => {
   );
 };
 
-function calcMounthSales(sales: Sales[]) {
+export function calcMounthSales(sales: Sales[]) {
   const mounthSales: Sales = {
     cm: 0,
     cz: 0,

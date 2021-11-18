@@ -68,7 +68,6 @@ export const SalesInput = (props: Props): JSX.Element => {
   useEffect(() => {
     if (value && value.length > 100) {
       const newValue = parse(value);
-      console.log(parse(value));
       const to = parseInt(newValue[3][1].replace(/\s/g, ''));
       const cm = parseInt(newValue[3][8].replace(/\s/g, ''));
       const cz = parseInt(newValue[3][10].replace(/\s/g, ''));

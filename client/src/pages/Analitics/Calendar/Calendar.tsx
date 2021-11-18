@@ -3,10 +3,14 @@ import { format } from 'date-fns';
 import { CalendarDay } from './CalendarDay';
 import { Sales } from '../../../lib/slices/daySales';
 import { User } from '../../../lib/globalTypes';
+import { Circle } from './Circles';
+import { Planes } from '../../../lib/slices/planes/planes.type';
+import { calcMounthSales } from '../EveningReport/EveningReport';
 
 type Props = {
   sales: Sales[] | null;
   authUser: User;
+  planes: Planes;
 };
 
 type StyleProps = {
@@ -51,6 +55,12 @@ const WeekTitle = styled.h1<StyleProps>`
     props.day === 'Saturday' || props.day === 'Sunday' ? '#b3405b' : 'var (--color-stroke)'};
 `;
 
+const Circles = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+`;
+
 const weekDays = [
   { value: 'Monday', label: 'Понедельник' },
   { value: 'Tuesday', label: 'Вторник' },
@@ -61,12 +71,19 @@ const weekDays = [
   { value: 'Sunday', label: 'Воскресенье' },
 ];
 
-export const MainAnalitics = (props: Props): JSX.Element => {
-  const { sales, authUser } = props;
+export const Calendar = (props: Props): JSX.Element => {
+  const { sales, authUser, planes } = props;
   const days = getDays();
+
+  const salesSum = sales ? calcMounthSales(sales) : { cm: 0, ca: 0, cz: 0 };
 
   return (
     <Wrapper>
+      <Circles>
+        <Circle color={'green'} sale={salesSum.cm} plane={planes.cm} title={'ЦМ'} />
+        <Circle color={'red'} sale={salesSum.cz} plane={planes.cz} title={'ЦЗ'} />
+        <Circle color={'#9018ad'} sale={salesSum.ca} plane={planes.ca} title={'ЦА'} />
+      </Circles>
       <WeekTitleWrapper>
         {weekDays.map((day) => (
           <WeekTitle key={day.value} day={day.value}>

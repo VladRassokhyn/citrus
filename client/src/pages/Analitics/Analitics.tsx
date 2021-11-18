@@ -9,7 +9,7 @@ import { useTypedSelector } from '../../lib/hooks';
 import { authSelectors } from '../../lib/slices/auth';
 import { daySalesActions, daySalesSelectors } from '../../lib/slices/daySales';
 import { planesActions, planesSelectors } from '../../lib/slices/planes';
-import { MainAnalitics } from './MainAnalitics';
+import { Calendar } from './Calendar';
 import { Navigation } from './Navigation';
 import { PlanesPanel } from './PlanesPanel';
 import Selector from 'react-select';
@@ -72,7 +72,7 @@ export const Analitic = (): JSX.Element => {
           />
           <Route
             path={'/analytics/main'}
-            render={() => <MainAnalitics authUser={authUser!} sales={daySales} />}
+            render={() => <Calendar planes={planes} authUser={authUser!} sales={daySales} />}
           />
         </Content>
       </Container>
