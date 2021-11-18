@@ -4,7 +4,7 @@ import { Sales } from '../../../lib/slices/daySales';
 import { format } from 'date-fns';
 
 type Props = {
-  submitFn: (sales: Sales) => void;
+  submitFn: (sales: any) => void;
 };
 
 type StyleProps = {
@@ -68,7 +68,6 @@ export const SalesInput = (props: Props): JSX.Element => {
   useEffect(() => {
     if (value && value.length > 100) {
       const newValue = parse(value);
-      console.log(newValue);
       const to = parseInt(newValue[3][1].replace(/\s/g, ''));
       const cm = parseInt(newValue[3][8].replace(/\s/g, ''));
       const cz = parseInt(newValue[3][10].replace(/\s/g, ''));
@@ -96,7 +95,7 @@ export const SalesInput = (props: Props): JSX.Element => {
             <H1>ЦА: {parsedValue.ca}</H1>
           </Container>
         )}
-        <Button disabled={!parsedValue} onClick={() => submitFn(parsedValue!)}>
+        <Button disabled={!parsedValue} onClick={() => submitFn({ sales: value })}>
           Сохранить
         </Button>
       </SubmitBlock>

@@ -5,6 +5,7 @@ import { authReducer } from './slices/auth';
 import { checklistReducer } from './slices/checklist';
 import { daySalesReducer } from './slices/daySales';
 import { planesReducer } from './slices/planes';
+import { salesReducer } from './slices/sales';
 import { salesmanReducer } from './slices/salesman';
 import { usersReducer, oneUserReducer } from './slices/users';
 
@@ -20,6 +21,7 @@ export const store = configureStore({
     planes: planesReducer,
     daySales: daySalesReducer,
     salesman: salesmanReducer,
+    sales: salesReducer,
   },
   middleware,
 });

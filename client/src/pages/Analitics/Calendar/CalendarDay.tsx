@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux';
 import { useTypedSelector } from '../../../lib/hooks';
 import { LoadingStatuses } from '../../../lib/globalTypes';
 import { Confirm } from '../../../Components/Confirm';
+import { salesActions } from '../../../lib/slices/sales';
 
 type Props = {
   isEmpty?: boolean;
@@ -110,11 +111,11 @@ export const CalendarDay = (props: Props): JSX.Element => {
     setIsModalOpen((prev) => !prev);
   }, []);
 
-  const postDaySales = (payload: Sales) => {
-    dispatch(daySalesActions.postDaySales({ ...payload, tt, day: title }));
+  const postDaySales = (payload: any) => {
+    dispatch(salesActions.postSales({ ...payload, tt, day: title }));
   };
 
-  const updateDaySales = (payload: Sales) => {
+  const updateDaySales = (payload: any) => {
     dispatch(daySalesActions.updateDaySales({ ...payload, id: daySales!.id, day: title, tt }));
   };
 

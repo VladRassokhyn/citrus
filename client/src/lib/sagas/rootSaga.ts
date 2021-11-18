@@ -5,6 +5,7 @@ import { daySalesWatcher } from '../slices/daySales';
 import { planewWatcher } from '../slices/planes';
 import { usersWatcher } from '../slices/users';
 import { salesmanWatcher } from '../slices/salesman';
+import { salesWatcher } from '../slices/sales';
 
 export function* rootSaga() {
   yield all([
@@ -14,5 +15,6 @@ export function* rootSaga() {
     planewWatcher(),
     daySalesWatcher(),
     salesmanWatcher(),
+    salesWatcher(),
   ]);
 }

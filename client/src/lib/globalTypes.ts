@@ -62,6 +62,13 @@ export type Salesman = {
   tt: string;
 };
 
+export type SalesPayload = {
+  id?: number;
+  day: string;
+  tt: string;
+  sales: string;
+};
+
 export const TTselectorOptions = [
   { label: TT.BLOCK, value: TT.BLOCK },
   { label: TT.KR29, value: TT.KR29 },
