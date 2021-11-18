@@ -24,6 +24,7 @@ function* postSalesmansWorker(action: FixLater): SagaIterator {
   try {
     yield call(salesmanApi.postSalesmans, action.payload);
     yield put({ type: salesmanPosted.type });
+    yield put({ type: getSalesmans.type, payload: action.payload.tt });
   } catch (err) {
     console.log(err);
   }
@@ -31,8 +32,9 @@ function* postSalesmansWorker(action: FixLater): SagaIterator {
 
 function* deleteSalesmansWorker(action: FixLater): SagaIterator {
   try {
-    const res = yield call(salesmanApi.deleteSalesmans, action.payload);
+    const res = yield call(salesmanApi.deleteSalesmans, action.payload.id);
     yield put({ type: salesmanDeleted.type });
+    yield put({ type: getSalesmans.type, payload: action.payload.tt });
   } catch (err) {
     console.log(err);
   }

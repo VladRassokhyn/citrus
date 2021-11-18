@@ -7,10 +7,10 @@ import {
   deleteSalesman,
   salesmanDeleted,
 } from './salesman.slice';
-import { selectAllSalesmans } from './salesman.selectors';
+import { selectAllSalesmans, selectSalesmanStatuses } from './salesman.selectors';
 import { salesmanWatcher } from './salesman.saga';
 
-export const salesmanSelectors = { selectAllSalesmans };
+export const salesmanSelectors = { selectAllSalesmans, selectSalesmanStatuses };
 export const salesmanActions = {
   getSalesmans,
   setSalesmans,

@@ -36,6 +36,7 @@ exports.app.use('/', (req, res, next) => {
 });
 exports.app.use('/api/auth', resources_1.authRouter);
 exports.app.use('/api/users', resources_1.userRouter);
+exports.app.use('/api/sales', resources_1.salesRouter);
 exports.app.use('/api/planes', resources_1.planesRouter);
 exports.app.use('/api/daySales', resources_1.daySalesRouter);
 exports.app.use('/api/salesman', resources_1.salesmanRouter);

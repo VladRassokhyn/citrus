@@ -11,6 +11,7 @@ import {
   planesRouter,
   daySalesRouter,
   salesmanRouter,
+  salesRouter,
 } from './resources';
 
 envConfig();
@@ -43,6 +44,7 @@ app.use('/', (req: Request, res: Response, next: NextFunction) => {
 
 app.use('/api/auth', authRouter);
 app.use('/api/users', userRouter);
+app.use('/api/sales', salesRouter);
 app.use('/api/planes', planesRouter);
 app.use('/api/daySales', daySalesRouter);
 app.use('/api/salesman', salesmanRouter);
