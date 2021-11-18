@@ -5,6 +5,7 @@ import { authReducer } from './slices/auth';
 import { checklistReducer } from './slices/checklist';
 import { daySalesReducer } from './slices/daySales';
 import { planesReducer } from './slices/planes';
+import { salesmanReducer } from './slices/salesman';
 import { usersReducer, oneUserReducer } from './slices/users';
 
 const sagaMiddleware = createSagaMiddleware();
@@ -18,6 +19,7 @@ export const store = configureStore({
     auth: authReducer,
     planes: planesReducer,
     daySales: daySalesReducer,
+    salesman: salesmanReducer,
   },
   middleware,
 });

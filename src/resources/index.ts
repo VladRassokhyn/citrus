@@ -3,6 +3,7 @@ import { checklistRouter } from './checklist';
 import { userRouter } from './user';
 import { planesRouter } from './planes';
 import { daySalesRouter } from './daySales';
+import { salesmanRouter } from './salesman';
 
 export {
   authRouter,
@@ -10,4 +11,5 @@ export {
   userRouter,
   planesRouter,
   daySalesRouter,
+  salesmanRouter,
 };

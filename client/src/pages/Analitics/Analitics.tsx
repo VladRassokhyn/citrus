@@ -13,6 +13,7 @@ import { Calendar } from './Calendar';
 import { Navigation } from './Navigation';
 import { PlanesPanel } from './PlanesPanel';
 import Selector from 'react-select';
+import { Salesmans } from './Salesmans';
 
 const Wrapper = styled.div``;
 
@@ -74,6 +75,7 @@ export const Analitic = (): JSX.Element => {
             path={'/analytics/main'}
             render={() => <Calendar planes={planes} authUser={authUser!} sales={daySales} />}
           />
+          <Route path={'/analytics/salesmans'} render={() => <Salesmans authUser={authUser!} />} />
         </Content>
       </Container>
     </Wrapper>

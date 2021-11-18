@@ -10,6 +10,7 @@ import {
   checklistRouter,
   planesRouter,
   daySalesRouter,
+  salesmanRouter,
 } from './resources';
 
 envConfig();
@@ -44,6 +45,7 @@ app.use('/api/auth', authRouter);
 app.use('/api/users', userRouter);
 app.use('/api/planes', planesRouter);
 app.use('/api/daySales', daySalesRouter);
+app.use('/api/salesman', salesmanRouter);
 app.use('/api/checklist', checklistRouter);
 
 (async () => {

@@ -28,6 +28,9 @@ export const Navigation = (): JSX.Element => {
       <NavItem path={'/analytics/main'}>
         <H1>Главная</H1>
       </NavItem>
+      <NavItem path={'/analytics/salesmans'}>
+        <H1>Продавцы</H1>
+      </NavItem>
       <NavItem path={'/analytics/evening-report'}>
         <H1>Вечерний отчет</H1>
       </NavItem>

@@ -14,17 +14,17 @@ const typeorm_1 = require("typeorm");
 let Salesman = class Salesman {
 };
 __decorate([
-    (0, typeorm_1.PrimaryGeneratedColumn)('uuid'),
-    __metadata("design:type", String)
+    (0, typeorm_1.PrimaryGeneratedColumn)(),
+    __metadata("design:type", Number)
 ], Salesman.prototype, "id", void 0);
 __decorate([
-    (0, typeorm_1.Column)('varchar'),
+    (0, typeorm_1.Column)(),
     __metadata("design:type", String)
 ], Salesman.prototype, "name", void 0);
 __decorate([
-    (0, typeorm_1.Column)('varchar'),
+    (0, typeorm_1.Column)(),
     __metadata("design:type", String)
-], Salesman.prototype, "lastname", void 0);
+], Salesman.prototype, "tt", void 0);
 Salesman = __decorate([
     (0, typeorm_1.Entity)()
 ], Salesman);

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DaySales = exports.Planes = exports.Field = exports.Category = exports.Checklist = exports.User = void 0;
+exports.Salesman = exports.DaySales = exports.Planes = exports.Field = exports.Category = exports.Checklist = exports.User = void 0;
 const User_model_1 = require("./User.model");
 Object.defineProperty(exports, "User", { enumerable: true, get: function () { return User_model_1.User; } });
 const Checklist_model_1 = require("./Checklist.model");
@@ -11,3 +11,5 @@ const Planes_model_1 = require("./Planes.model");
 Object.defineProperty(exports, "Planes", { enumerable: true, get: function () { return Planes_model_1.Planes; } });
 const DaySales_model_1 = require("./DaySales.model");
 Object.defineProperty(exports, "DaySales", { enumerable: true, get: function () { return DaySales_model_1.DaySales; } });
+const Salesman_model_1 = require("./Salesman.model");
+Object.defineProperty(exports, "Salesman", { enumerable: true, get: function () { return Salesman_model_1.Salesman; } });

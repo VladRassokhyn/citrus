@@ -68,6 +68,7 @@ export const SalesInput = (props: Props): JSX.Element => {
   useEffect(() => {
     if (value && value.length > 100) {
       const newValue = parse(value);
+      console.log(newValue);
       const to = parseInt(newValue[3][1].replace(/\s/g, ''));
       const cm = parseInt(newValue[3][8].replace(/\s/g, ''));
       const cz = parseInt(newValue[3][10].replace(/\s/g, ''));
@@ -105,7 +106,6 @@ export const SalesInput = (props: Props): JSX.Element => {
 
 function parse(input: string) {
   const inputToArray = input.replace(/\n/g, '\t').split('\t');
-  console.log(inputToArray);
   const result: any = [];
   let tmp: any = [];
 

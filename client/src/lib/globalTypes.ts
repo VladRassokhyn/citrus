@@ -56,6 +56,12 @@ export type User = {
   tt: string;
 };
 
+export type Salesman = {
+  name: string;
+  id: number;
+  tt: string;
+};
+
 export const TTselectorOptions = [
   { label: TT.BLOCK, value: TT.BLOCK },
   { label: TT.KR29, value: TT.KR29 },
