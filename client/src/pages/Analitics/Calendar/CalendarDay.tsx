@@ -118,7 +118,12 @@ export const CalendarDay = (props: Props): JSX.Element => {
 
   const updateDaySales = (payload: any) => {
     dispatch(
-      daySalesActions.updateDaySales({ ...payload, id: daySales!.id, day: title, tt: tt.value }),
+      daySalesActions.updateDaySales({
+        ...payload.parsed,
+        id: daySales!.id,
+        day: title,
+        tt: tt.value,
+      }),
     );
   };
 
