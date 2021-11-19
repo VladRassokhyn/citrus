@@ -5,7 +5,7 @@ import { InputField } from '../../../Components/InputField';
 import { salesmanActions } from '../../../lib/slices/salesman';
 
 type Props = {
-  tt: string;
+  tt: { label: string; value: string };
 };
 
 type StyleProps = {
@@ -64,7 +64,7 @@ export const NewSalesman = (props: Props): JSX.Element => {
     dispatch(
       salesmanActions.postSalesman({
         name: value,
-        tt: props.tt,
+        tt: props.tt.value,
       }),
     );
   }, [value]);

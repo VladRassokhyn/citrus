@@ -1,4 +1,4 @@
-import { FixLater } from './../../globalTypes';
+import { FixLater, Salesman } from './../../globalTypes';
 import { takeEvery, call, put } from 'redux-saga/effects';
 import { SagaIterator } from '@redux-saga/types';
 import {
@@ -16,9 +16,11 @@ import { salesApi } from '../../api/sales.api';
 function* getSalesWorker(action: FixLater): SagaIterator {
   try {
     const res = yield call(salesApi.getSales, action.payload);
-    const sales = parse(res.data);
-    console.log(sales);
-    yield put({ type: setSales.type, payload: res.data });
+    const sales: any = [];
+    res.data.forEach((item: any) => {
+      sales.push({ ...item, sales: parse(item.sales) });
+    });
+    yield put({ type: setSales.type, payload: sales });
   } catch (err) {
     console.log(err);
   }
@@ -26,9 +28,8 @@ function* getSalesWorker(action: FixLater): SagaIterator {
 
 function* salesPostWorker(action: FixLater): SagaIterator {
   try {
-    const sales = action.payload.sales.replace(/\n/g, '\t').split('\t').join('-');
+    const sales = action.payload.sales.replace(/\n/g, '*+').replace(/\t/g, '*+').split('*').join();
     const payload = { ...action.payload, sales };
-    console.log(payload);
     yield call(salesApi.postSales, payload);
     yield put({ type: salesPosted.type });
     yield put({ type: getSales.type, payload: action.payload.tt });
@@ -65,12 +66,12 @@ export function* salesWatcher(): SagaIterator {
 }
 
 function parse(input: string) {
-  const inputToArray = input.replace(/\n/g, '\t').split('\t');
+  const inputToArray = input.split('+');
   const result: any = [];
   let tmp: any = [];
 
   inputToArray.forEach((item, index) => {
-    tmp.push(item);
+    tmp.push(item.substring(0, item.length - 1));
     if ((index + 1) % 17 === 0) {
       result.push(tmp);
       tmp = [];

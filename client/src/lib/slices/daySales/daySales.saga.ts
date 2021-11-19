@@ -24,10 +24,9 @@ function* daySalesWorker(action: FixLater): SagaIterator {
 
 function* daySalesPostWorker(action: FixLater): SagaIterator {
   try {
-    console.log(action.payload);
     yield call(daySalesApi.postDaySales, action.payload);
     yield put({ type: daySalesPosted.type });
-    yield put({ type: getDaySales.type, payload: action.payload.tt });
+    yield put({ type: getDaySales.type, payload: action.payload.tt.value });
   } catch (err) {
     console.log(err);
   }
@@ -37,7 +36,7 @@ function* daySalesUpdateWorker(action: FixLater): SagaIterator {
   try {
     yield call(daySalesApi.putDaySales, action.payload);
     yield put({ type: daySalesUpdated.type });
-    yield put({ type: getDaySales.type, payload: action.payload.tt });
+    yield put({ type: getDaySales.type, payload: action.payload.tt.value });
   } catch (err) {
     console.log(err);
   }
@@ -47,7 +46,7 @@ function* daySalesDeleteWorker(action: FixLater): SagaIterator {
   try {
     yield call(daySalesApi.deleteDaySales, action.payload);
     yield put({ type: daySalesDeleted.type });
-    yield put({ type: getDaySales.type, payload: action.payload.tt });
+    yield put({ type: getDaySales.type, payload: action.payload.tt.value });
   } catch (err) {
     console.log(err);
   }

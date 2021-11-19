@@ -95,7 +95,10 @@ export const SalesInput = (props: Props): JSX.Element => {
             <H1>ЦА: {parsedValue.ca}</H1>
           </Container>
         )}
-        <Button disabled={!parsedValue} onClick={() => submitFn({ sales: value })}>
+        <Button
+          disabled={!parsedValue}
+          onClick={() => submitFn({ sales: value, parsed: parsedValue })}
+        >
           Сохранить
         </Button>
       </SubmitBlock>
@@ -104,7 +107,9 @@ export const SalesInput = (props: Props): JSX.Element => {
 };
 
 function parse(input: string) {
-  const inputToArray = input.replace(/\n/g, '\t').split('\t');
+  let inputToArray = [];
+  const a = input;
+  inputToArray = a.replace(/\n/g, '\t').split('\t');
   const result: any = [];
   let tmp: any = [];
 

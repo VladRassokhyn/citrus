@@ -55,20 +55,21 @@ const Text = styled.h1`
   color: var(--color-stroke);
 `;
 
-const BidText = styled.h1`
+const BidText = styled.span`
+  display: block;
   font-size: 14pt;
 `;
 
 export const Circle = (props: Props) => {
   const { plane, sale, title, color } = props;
 
-  const cmFact = +((sale / plane) * 100).toFixed(2);
+  const fact = +((sale / plane) * 100).toFixed(2);
   const animation = keyframes`
   from {
     stroke-dashoffset: 326.56;
   }
   to {
-    stroke-dashoffset: ${326 - (cmFact / 100) * 326};
+    stroke-dashoffset: ${326 - (fact / 100) * 326};
   }`;
 
   return (
@@ -76,14 +77,14 @@ export const Circle = (props: Props) => {
       <Out>
         <Text>
           {title && title}
-          <BidText>{cmFact}%</BidText>
+          <BidText>{isNaN(fact) ? 0 : fact}</BidText>
         </Text>
         <SVG>
           <CircleBg cx="75" cy="75" r="52"></CircleBg>
           <CircleProgress
             color={color}
             animation={animation}
-            progress={cmFact}
+            progress={fact}
             cx="75"
             cy="75"
             r="52"

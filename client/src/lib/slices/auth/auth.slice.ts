@@ -1,4 +1,4 @@
-import { LoadingErrors, LoadingStatuses } from './../../globalTypes';
+import { LoadingErrors, LoadingStatuses, TTselectorOptions } from './../../globalTypes';
 import { createSlice } from '@reduxjs/toolkit';
 import { AuthInitial } from './auth.types';
 
@@ -33,6 +33,7 @@ export const authSlice = createSlice({
     },
     setAuthUser(state, action) {
       state.authUser = action.payload;
+      state.authUser!.tt = TTselectorOptions.find((tt) => tt.value === action.payload.tt)!;
     },
     logout(state) {
       localStorage.setItem('token', '');

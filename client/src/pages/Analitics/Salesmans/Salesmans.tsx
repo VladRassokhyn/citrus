@@ -1,16 +1,14 @@
-import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { Preloader } from '../../../Components/Preloader';
-import { LoadingStatuses, Salesman, User } from '../../../lib/globalTypes';
-import { useTypedSelector } from '../../../lib/hooks';
-import { salesmanActions, salesmanSelectors } from '../../../lib/slices/salesman';
+import { Salesman, User } from '../../../lib/globalTypes';
+import { salesmanActions } from '../../../lib/slices/salesman';
 import { NewSalesman } from './NewSalesman';
 import trash from '../../../static/trash.svg';
 import { Confirm } from '../../../Components/Confirm';
 
 type Props = {
   authUser: User;
+  salesmans: Salesman[] | null;
 };
 
 const Wrapper = styled.div``;
@@ -39,6 +37,7 @@ const SalesmanContainer = styled.div`
   display: grid;
   border-radius: 5px;
   height: 30px;
+  min-width: 350px;
   grid-template-columns: 1fr 50px;
   grid-gap: 1px 0;
   align-items: center;
@@ -63,18 +62,8 @@ const Img = styled.img`
 `;
 
 export const Salesmans = (props: Props): JSX.Element => {
-  const { authUser } = props;
-  const salesmans = useTypedSelector(salesmanSelectors.selectAllSalesmans);
-  const { getStatus } = useTypedSelector(salesmanSelectors.selectSalesmanStatuses);
+  const { authUser, salesmans } = props;
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (!salesmans) {
-      dispatch(salesmanActions.getSalesmans(authUser.tt));
-    }
-  }, []);
-
-  if (getStatus === LoadingStatuses.LOADING) return <Preloader />;
 
   const handleDeleteSalesman = (salesman: Salesman) => {
     dispatch(salesmanActions.deleteSalesman(salesman));

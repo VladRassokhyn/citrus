@@ -1,4 +1,4 @@
-import { LoadingStatuses } from './../../globalTypes';
+import { LoadingStatuses, TTselectorOptions } from './../../globalTypes';
 import { createSlice } from '@reduxjs/toolkit';
 import { DaySalesState } from './daySales.type';
 
@@ -18,7 +18,10 @@ const daySalesSlice = createSlice({
       state.getStatus = LoadingStatuses.LOADING;
     },
     setDaySales(state, action) {
-      state.sales = action.payload;
+      state.sales = action.payload.map((sales: any) => {
+        const tt = TTselectorOptions.find((tt) => tt.value === sales.tt);
+        return { ...sales, tt };
+      });
       state.getStatus = LoadingStatuses.SUCCESS;
     },
     postDaySales(state, action) {

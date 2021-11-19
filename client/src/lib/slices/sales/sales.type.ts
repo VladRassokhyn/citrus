@@ -2,12 +2,9 @@ import { LoadingStatuses } from './../../globalTypes';
 
 export type Sales = {
   id?: number;
-  tt?: string;
+  tt?: { label: string; value: string };
   day: string;
-  cm: number;
-  cz: number;
-  to: number;
-  ca: number;
+  sales: string[][];
 };
 
 export type SalesState = {
@@ -15,5 +12,5 @@ export type SalesState = {
   postStatus: LoadingStatuses;
   updateStatus: LoadingStatuses;
   deleteStatus: LoadingStatuses;
-  sales: Sales[] | null;
+  daySales: Sales[] | null;
 };

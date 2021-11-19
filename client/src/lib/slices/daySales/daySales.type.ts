@@ -2,7 +2,7 @@ import { LoadingStatuses } from './../../globalTypes';
 
 export type Sales = {
   id?: number;
-  tt?: string;
+  tt?: { value: string; label: string };
   day: string;
   cm: number;
   cz: number;

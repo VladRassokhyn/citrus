@@ -150,14 +150,12 @@ export const EveningReportTable = (props: Props): JSX.Element => {
 
   return (
     <Wrapper>
-      <H3>{authUser!.tt}</H3>
+      <H3>{authUser!.tt.label}</H3>
       <Container>
         <H1>МЕСЯЦ</H1>
         <Row>
           <Cell>
-            <H2>
-              <H2>День</H2>
-            </H2>
+            <H2>День</H2>
           </Cell>
           <Cell>
             <H2>{day}</H2>

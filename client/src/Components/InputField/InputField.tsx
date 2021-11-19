@@ -48,14 +48,22 @@ export const InputField = (props: Props): JSX.Element => {
   return (
     <Field vertical={vertical}>
       <H1>{label}</H1>
-      <Input
-        isError={isError}
-        disabled={disabled}
-        {...register}
-        type={password && 'password'}
-        value={value && value}
-        onChange={onChange}
-      />
+      {!!register ? (
+        <Input
+          isError={isError}
+          disabled={disabled}
+          {...register}
+          type={password ? 'password' : 'text'}
+        />
+      ) : (
+        <Input
+          isError={isError}
+          disabled={disabled}
+          type={password ? 'password' : 'text'}
+          value={value && value}
+          onChange={onChange}
+        />
+      )}
     </Field>
   );
 };

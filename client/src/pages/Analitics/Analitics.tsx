@@ -14,6 +14,9 @@ import { Navigation } from './Navigation';
 import { PlanesPanel } from './PlanesPanel';
 import Selector from 'react-select';
 import { Salesmans } from './Salesmans';
+import { salesActions, salesSelectors } from '../../lib/slices/sales';
+import { Test } from './Test';
+import { salesmanActions, salesmanSelectors } from '../../lib/slices/salesman';
 
 const Wrapper = styled.div``;
 
@@ -31,24 +34,41 @@ const Filter = styled.div`
   left: 15%;
   z-index: 1000;
   width: 200px;
+  @media (min-width: 560px) {
+    width: 400px;
+  }
 `;
 
 export const Analitic = (): JSX.Element => {
   const planes = useTypedSelector(planesSelectors.selectPlanes);
-  const status = useTypedSelector(planesSelectors.selectStatus);
   const authUser = useTypedSelector(authSelectors.selectAuthUser);
   const daySales = useTypedSelector(daySalesSelectors.selectAllDaySales);
+  const sales = useTypedSelector(salesSelectors.selectAllSales);
+  const salesmans = useTypedSelector(salesmanSelectors.selectAllSalesmans);
+
+  const salesmansStatus = useTypedSelector(salesmanSelectors.selectSalesmanStatuses);
+  const planesStatus = useTypedSelector(planesSelectors.selectStatus);
+  const daySalesStatus = useTypedSelector(daySalesSelectors.selectDaySalesStatuses);
+  const salesStatus = useTypedSelector(salesSelectors.selectSalesStatuses);
+
   const [selectedTT, setSelectedTT] = useState(authUser!.tt);
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (authUser) {
-      dispatch(daySalesActions.getDaySales(selectedTT));
-      dispatch(planesActions.getPlanes(selectedTT));
+      dispatch(daySalesActions.getDaySales(selectedTT.value));
+      dispatch(planesActions.getPlanes(selectedTT.value));
+      dispatch(salesActions.getSales(selectedTT.value));
+      dispatch(salesmanActions.getSalesmans(selectedTT.value));
     }
   }, [selectedTT]);
 
-  if (status === LoadingStatuses.LOADING) {
+  if (
+    planesStatus === LoadingStatuses.LOADING ||
+    daySalesStatus.getStatus === LoadingStatuses.LOADING ||
+    salesStatus.getStatus === LoadingStatuses.LOADING ||
+    salesmansStatus.getStatus === LoadingStatuses.LOADING
+  ) {
     return <Preloader />;
   }
 
@@ -58,8 +78,8 @@ export const Analitic = (): JSX.Element => {
         <Filter>
           <Selector
             options={TTselectorOptions}
-            value={{ value: selectedTT, label: selectedTT }}
-            onChange={(e: any) => setSelectedTT(e.value)}
+            value={selectedTT}
+            onChange={(e: any) => setSelectedTT(e)}
           />
         </Filter>
       )}
@@ -75,7 +95,14 @@ export const Analitic = (): JSX.Element => {
             path={'/analytics/main'}
             render={() => <Calendar planes={planes} authUser={authUser!} sales={daySales} />}
           />
-          <Route path={'/analytics/salesmans'} render={() => <Salesmans authUser={authUser!} />} />
+          <Route
+            path={'/analytics/salesmans'}
+            render={() => <Salesmans authUser={authUser!} salesmans={salesmans} />}
+          />
+          <Route
+            path={'/analytics/test'}
+            render={() => <Test sales={sales} salesmans={salesmans} />}
+          />
         </Content>
       </Container>
     </Wrapper>

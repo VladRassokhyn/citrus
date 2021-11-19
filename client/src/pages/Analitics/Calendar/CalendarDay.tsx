@@ -15,7 +15,7 @@ type Props = {
   title: string;
   delay: number;
   daySales?: Sales;
-  tt: string;
+  tt: { label: string; value: string };
   isHollyDay?: boolean;
 };
 
@@ -112,11 +112,14 @@ export const CalendarDay = (props: Props): JSX.Element => {
   }, []);
 
   const postDaySales = (payload: any) => {
-    dispatch(salesActions.postSales({ ...payload, tt, day: title }));
+    dispatch(salesActions.postSales({ sales: payload.sales, tt: tt.value, day: title }));
+    dispatch(daySalesActions.postDaySales({ ...payload.parsed, day: title, tt: tt.value }));
   };
 
   const updateDaySales = (payload: any) => {
-    dispatch(daySalesActions.updateDaySales({ ...payload, id: daySales!.id, day: title, tt }));
+    dispatch(
+      daySalesActions.updateDaySales({ ...payload, id: daySales!.id, day: title, tt: tt.value }),
+    );
   };
 
   const handleDateteDaySales = () => {
@@ -133,7 +136,7 @@ export const CalendarDay = (props: Props): JSX.Element => {
 
   return (
     <Wrapper delay={delay} withData={!!daySales}>
-      <Title isHollyDay={isHollyDay}>{title}</Title>
+      <Title isHollyDay={isHollyDay}>{title.split('.')[0]}</Title>
       <Content>
         <H1 color={'gray'}>ТО: {daySales ? daySales.to : 'no data'}</H1>
         <H1 color={'green'}>ЦМ: {daySales ? daySales.cm : 'no data'}</H1>

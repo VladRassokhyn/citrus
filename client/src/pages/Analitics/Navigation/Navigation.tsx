@@ -34,6 +34,9 @@ export const Navigation = (): JSX.Element => {
       <NavItem path={'/analytics/evening-report'}>
         <H1>Вечерний отчет</H1>
       </NavItem>
+      <NavItem path={'/analytics/test'}>
+        <H1>test</H1>
+      </NavItem>
     </Wrapper>
   );
 };
