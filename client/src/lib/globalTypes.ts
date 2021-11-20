@@ -55,7 +55,7 @@ export enum TTlabel {
   GORODOK = 'КиЇв_Городок, пр. С.Бандери,23',
   RIVER = 'Киев_Ривермол, Днепровская наб.,12',
   HITMALL = 'Киев_Хит_Молл,проспект Перемоги, 134/1',
-  RESPUBLIKA = 'RESPUBLIKA',
+  RESPUBLIKA = 'Киев_Республика, ул. Кольцевая дор, 1а.',
   KOPERNIKA = 'Львов_Коперника,2',
   VICTORIYA = 'Львов_Кульпарковская, 226а "Victoria Gardens"',
   CHERKAS = 'Черкассы_Любава,б. Шевченка, 208/1',
@@ -64,7 +64,7 @@ export enum TTlabel {
   SOBORNAYA = 'Винница_вул. Соборна, буд. 22 прим.38',
   MEGAMALL = 'Винница_Мегамолл,600 -летие, 17',
   SKYPARK = 'Вінниця_Sky Park, Соборна,24',
-  FRANKOVSK = 'FRANKOVSK',
+  FRANKOVSK = 'Ивано-Франковск, ул Независимости, 45',
 }
 
 export enum LoadingErrors {

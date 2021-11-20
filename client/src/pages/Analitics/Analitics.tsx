@@ -15,7 +15,7 @@ import { PlanesPanel } from './PlanesPanel';
 import Selector from 'react-select';
 import { Salesmans } from './Salesmans';
 import { salesActions, salesSelectors } from '../../lib/slices/sales';
-import { Test } from './Test';
+import { DayDetail } from './DatDetail';
 import { salesmanActions, salesmanSelectors } from '../../lib/slices/salesman';
 
 const Wrapper = styled.div``;
@@ -93,15 +93,18 @@ export const Analitic = (): JSX.Element => {
           />
           <Route
             path={'/analytics/main'}
-            render={() => <Calendar planes={planes} authUser={authUser!} sales={daySales} />}
+            exact
+            render={() => (
+              <Calendar newSales={sales} planes={planes} authUser={authUser!} sales={daySales} />
+            )}
           />
           <Route
             path={'/analytics/salesmans'}
             render={() => <Salesmans authUser={authUser!} salesmans={salesmans} />}
           />
           <Route
-            path={'/analytics/test'}
-            render={() => <Test sales={sales} salesmans={salesmans} />}
+            path={'/analytics/main/:salesDate'}
+            render={() => <DayDetail sales={sales} tt={authUser!.tt} salesmans={salesmans} />}
           />
         </Content>
       </Container>

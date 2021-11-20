@@ -40,7 +40,10 @@ function* salesPostWorker(action: FixLater): SagaIterator {
 
 function* salesUpdateWorker(action: FixLater): SagaIterator {
   try {
-    yield call(salesApi.putSales, action.payload);
+    const sales = action.payload.sales.replace(/\n/g, '*+').replace(/\t/g, '*+').split('*').join();
+    const payload = { ...action.payload, sales };
+    console.log(payload);
+    yield call(salesApi.putSales, payload);
     yield put({ type: salesUpdated.type });
     yield put({ type: getSales.type, payload: action.payload.tt });
   } catch (err) {
@@ -50,9 +53,9 @@ function* salesUpdateWorker(action: FixLater): SagaIterator {
 
 function* salesDeleteWorker(action: FixLater): SagaIterator {
   try {
-    yield call(salesApi.deleteSales, action.payload);
+    yield call(salesApi.deleteSales, action.payload.id);
     yield put({ type: salesDeleted.type });
-    yield put({ type: getSales.type, payload: action.payload.tt });
+    yield put({ type: getSales.type, payload: action.payload.tt.value });
   } catch (err) {
     console.log(err);
   }

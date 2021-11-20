@@ -42,7 +42,6 @@ const Out = styled.div`
   position: relative;
   width: 150px;
   height: 150px;
-  margin: 10px 0;
 `;
 
 const Text = styled.h1`

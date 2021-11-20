@@ -7,3 +7,6 @@ export const selectSalesStatuses = (state: RootState) => ({
   postStatus: state.daySales.postStatus,
   updateStatus: state.daySales.updateStatus,
 });
+
+export const selectSalesByDate = (day: string) => (state: RootState) =>
+  state.sales.daySales?.filter((sales) => sales.day === day)[0];

@@ -9,12 +9,14 @@ import { useTypedSelector } from '../../../lib/hooks';
 import { LoadingStatuses } from '../../../lib/globalTypes';
 import { Confirm } from '../../../Components/Confirm';
 import { salesActions } from '../../../lib/slices/sales';
+import { useHistory } from 'react-router';
 
 type Props = {
   isEmpty?: boolean;
   title: string;
   delay: number;
   daySales?: Sales;
+  sales?: any;
   tt: { label: string; value: string };
   isHollyDay?: boolean;
 };
@@ -38,7 +40,6 @@ const Button = styled.button<StyleProps>`
   opacity: 0;
   border: 0;
   transition: linear 0.1s;
-  margin-top: 5px;
   position: relative;
   z-index: 1000;
   display: none;
@@ -99,10 +100,11 @@ const Wrapper = styled.div<StyleProps>`
 `;
 
 export const CalendarDay = (props: Props): JSX.Element => {
-  const { isEmpty, title, delay, daySales, tt, isHollyDay } = props;
+  const { isEmpty, title, delay, daySales, tt, isHollyDay, sales } = props;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { postStatus, updateStatus } = useTypedSelector(daySalesSelectors.selectDaySalesStatuses);
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const disabled =
     postStatus === LoadingStatuses.LOADING || updateStatus === LoadingStatuses.LOADING;
@@ -117,6 +119,10 @@ export const CalendarDay = (props: Props): JSX.Element => {
   };
 
   const updateDaySales = (payload: any) => {
+    sales &&
+      dispatch(
+        salesActions.updateSales({ sales: payload.sales, id: sales.id, tt: tt.value, day: title }),
+      );
     dispatch(
       daySalesActions.updateDaySales({
         ...payload.parsed,
@@ -128,7 +134,12 @@ export const CalendarDay = (props: Props): JSX.Element => {
   };
 
   const handleDateteDaySales = () => {
+    sales && dispatch(salesActions.deleteSales(sales));
     dispatch(daySalesActions.deleteDaySales(daySales));
+  };
+
+  const handleInfo = () => {
+    history.push(`/analytics/main/${title.replace(/[^0-9]/g, '-')}`);
   };
 
   useEffect(() => {
@@ -156,6 +167,11 @@ export const CalendarDay = (props: Props): JSX.Element => {
           <Button disabled={disabled} onClick={modalToggle}>
             Обновить
           </Button>
+          {sales && (
+            <Button disabled={disabled} onClick={handleInfo}>
+              Детально
+            </Button>
+          )}
         </>
       ) : (
         <Button disabled={disabled} onClick={modalToggle}>

@@ -10,9 +10,9 @@ import {
   salesDeleted,
 } from './sales.slice';
 import { salesWatcher } from './sales.saga';
-import { selectAllSales, selectSalesStatuses } from './sales.selectors';
+import { selectAllSales, selectSalesStatuses, selectSalesByDate } from './sales.selectors';
 
-export const salesSelectors = { selectAllSales, selectSalesStatuses };
+export const salesSelectors = { selectAllSales, selectSalesStatuses, selectSalesByDate };
 export const salesActions = {
   getSales,
   setSales,

@@ -6,9 +6,11 @@ import { User } from '../../../lib/globalTypes';
 import { Circle } from './Circles';
 import { Planes } from '../../../lib/slices/planes/planes.type';
 import { calcMounthSales } from '../EveningReport/EveningReport';
+import { useEffect, useState } from 'react';
 
 type Props = {
   sales: Sales[] | null;
+  newSales: any;
   authUser: User;
   planes: Planes;
 };
@@ -47,7 +49,6 @@ const WeekTitleWrapper = styled.div`
 const WeekTitle = styled.h1<StyleProps>`
   padding: 5px;
   background-color: white;
-  min-width: 100px;
   height: 20px;
   font-size: 12pt;
   text-align: center;
@@ -55,10 +56,25 @@ const WeekTitle = styled.h1<StyleProps>`
     props.day === 'Saturday' || props.day === 'Sunday' ? '#b3405b' : 'var (--color-stroke)'};
 `;
 
+const CirclesContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`;
+
+const CircleContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 5px;
+  box-shadow: 0 0 5px #dfdfdf;
+  width: 49.3%;
+  margin-bottom: 15px;
+`;
+
 const Circles = styled.div`
   display: flex;
   flex-direction: row;
-  gap: 20px;
 `;
 
 const Header = styled.div`
@@ -87,19 +103,25 @@ const GoBtn = styled.button`
   }
 `;
 
+const H1 = styled.h1`
+  color: var(--color-stroke);
+  font-size: 20pt;
+  margin-top: 10px;
+`;
+
 const Mounth = styled.h1`
   font-size: 14pt;
   color: var(--color-stroke);
 `;
 
 const weekDays = [
-  { value: 'Monday', label: 'Понедельник' },
-  { value: 'Tuesday', label: 'Вторник' },
-  { value: 'Wednesday', label: 'Среда' },
-  { value: 'Thursday', label: 'Четверг' },
-  { value: 'Friday', label: 'Пятница' },
-  { value: 'Saturday', label: 'Суббота' },
-  { value: 'Sunday', label: 'Воскресенье' },
+  { value: 'Monday', label: 'Пн' },
+  { value: 'Tuesday', label: 'Вт' },
+  { value: 'Wednesday', label: 'Ср' },
+  { value: 'Thursday', label: 'Чт' },
+  { value: 'Friday', label: 'Пт' },
+  { value: 'Saturday', label: 'Сб' },
+  { value: 'Sunday', label: 'Вс' },
 ];
 
 const mounthsRu = [
@@ -118,24 +140,56 @@ const mounthsRu = [
 ];
 
 export const Calendar = (props: Props): JSX.Element => {
-  const { sales, authUser, planes } = props;
-  const days = getDays();
+  const { newSales, sales, authUser, planes } = props;
+  const [mounth, setMounth] = useState(new Date().getMonth());
+  const [days, setDays] = useState(getDays(mounth));
 
   const salesSum = sales ? calcMounthSales(sales) : { cm: 0, ca: 0, cz: 0 };
-  const currentMounthRu = getCurrentMounthRu(sales);
+
+  const dayCount = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate();
+  const day = new Date().getDate();
+  const cmForecast = (salesSum.cm / day) * dayCount;
+  const czForecast = (salesSum.cz / day) * dayCount;
+  const caForecast = (salesSum.ca / day) * dayCount;
+
+  useEffect(() => {
+    if (mounth > 11) {
+      setDays(getDays(1));
+      setMounth(1);
+    } else if (mounth < 1) {
+      setDays(getDays(11));
+      setMounth(11);
+    } else {
+      setDays(getDays(mounth));
+    }
+  }, [mounth]);
 
   return (
     <Wrapper>
       <Header>
-        <GoBtn>⟵</GoBtn>
-        <Mounth>{currentMounthRu}</Mounth>
-        <GoBtn>⟶</GoBtn>
+        <GoBtn onClick={() => setMounth((prev) => prev - 1)}>⟵</GoBtn>
+        <Mounth>{mounthsRu[mounth]} 2021г.</Mounth>
+        <GoBtn onClick={() => setMounth((prev) => prev + 1)}>⟶</GoBtn>
       </Header>
-      <Circles>
-        <Circle color={'green'} sale={salesSum.cm} plane={planes.cm} title={'ЦМ'} />
-        <Circle color={'red'} sale={salesSum.cz} plane={planes.cz} title={'ЦЗ'} />
-        <Circle color={'#9018ad'} sale={salesSum.ca} plane={planes.ca} title={'ЦА'} />
-      </Circles>
+      <CirclesContainer>
+        <CircleContent>
+          <H1>Факт</H1>
+          <Circles>
+            <Circle color={'green'} sale={salesSum.cm} plane={planes.cm} title={'ЦМ'} />
+            <Circle color={'red'} sale={salesSum.cz} plane={planes.cz} title={'ЦЗ'} />
+            <Circle color={'#9018ad'} sale={salesSum.ca} plane={planes.ca} title={'ЦА'} />
+          </Circles>
+        </CircleContent>
+
+        <CircleContent>
+          <H1>Прогноз</H1>
+          <Circles>
+            <Circle color={'green'} sale={cmForecast} plane={planes.cm} title={'ЦМ'} />
+            <Circle color={'red'} sale={czForecast} plane={planes.cz} title={'ЦЗ'} />
+            <Circle color={'#9018ad'} sale={caForecast} plane={planes.ca} title={'ЦА'} />
+          </Circles>
+        </CircleContent>
+      </CirclesContainer>
       <WeekTitleWrapper>
         {weekDays.map((day) => (
           <WeekTitle key={day.value} day={day.value}>
@@ -150,6 +204,7 @@ export const Calendar = (props: Props): JSX.Element => {
           } else {
             const isHollyDay = day.split(' ')[0] === 'Saturday' || day.split(' ')[0] === 'Sunday';
             const daySales = sales?.find((salesItem) => salesItem.day === day.split(' ')[1]);
+            const newSale = newSales?.find((salesItem: any) => salesItem.day === day.split(' ')[1]);
             return (
               <CalendarDay
                 isHollyDay={isHollyDay}
@@ -158,6 +213,7 @@ export const Calendar = (props: Props): JSX.Element => {
                 tt={authUser.tt}
                 title={day.split(' ')[1]}
                 key={i}
+                sales={newSale}
               />
             );
           }
@@ -167,12 +223,12 @@ export const Calendar = (props: Props): JSX.Element => {
   );
 };
 
-function getDays() {
+function getDays(mounth: number) {
   const daysCount = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate();
   const days = [];
 
   for (let i = 1; i <= daysCount; i++) {
-    const day = new Date(new Date().getFullYear(), new Date().getMonth(), i);
+    const day = new Date(new Date().getFullYear(), mounth, i);
     const formatedDay = format(day, 'iiii dd.MM.yyyy');
     days.push(formatedDay);
   }
@@ -189,14 +245,4 @@ function getDays() {
   }
 
   return days;
-}
-
-function getCurrentMounthRu(sales: Sales[] | null) {
-  if (!sales) {
-    return '';
-  }
-  const salesDay = sales[0] ? sales[0].day : format(new Date(), 'dd.MM.yyyy');
-  const mounth = parseInt(salesDay.split('.')[1]);
-  const year = salesDay.split('.')[2];
-  return `${mounthsRu[mounth - 1]} ${year}г.`;
 }

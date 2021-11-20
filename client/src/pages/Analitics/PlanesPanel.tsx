@@ -142,7 +142,13 @@ export const PlanesPanel = (props: Props): JSX.Element => {
   }, []);
 
   const onSubmit = (e: FixLater) => {
-    dispatch(planesActions.updatePlanes(e));
+    const newPlanes: Planes = {
+      ...e,
+      cm: parseInt(String(e.cm).replace(/\s/g, '')),
+      ca: parseInt(String(e.ca).replace(/\s/g, '')),
+      cz: parseInt(String(e.cz).replace(/\s/g, '')),
+    };
+    dispatch(planesActions.updatePlanes(newPlanes));
   };
 
   return (

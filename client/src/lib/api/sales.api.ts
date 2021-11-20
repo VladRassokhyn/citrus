@@ -12,6 +12,6 @@ export const salesApi = {
     return await axiosInstance.put('/sales', dto);
   },
   async deleteSales(id: number) {
-    return await axiosInstance.delete(`/sales${id}`);
+    return await axiosInstance.delete(`/sales/${id}`);
   },
 };
