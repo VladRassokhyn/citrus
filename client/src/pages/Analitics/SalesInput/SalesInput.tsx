@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Sales } from '../../../lib/slices/daySales';
+import { DaySales } from '../../../lib/slices/daySales';
 import { format } from 'date-fns';
 
 type Props = {
@@ -63,7 +63,7 @@ const H1 = styled.h1`
 export const SalesInput = (props: Props): JSX.Element => {
   const { submitFn } = props;
   const [value, setValue] = useState('');
-  const [parsedValue, setParsedValue] = useState<Sales | null>(null);
+  const [parsedValue, setParsedValue] = useState<DaySales | null>(null);
 
   useEffect(() => {
     if (value && value.length > 100) {

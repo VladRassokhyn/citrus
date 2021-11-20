@@ -1,17 +1,17 @@
-import { Sales } from '../slices/daySales';
+import { DaySales } from '../slices/daySales';
 import { axiosInstance } from './axiosInstance';
 
 export const daySalesApi = {
-  async getDaySales(tt: string): Promise<{ data: Sales[] }> {
+  async getDaySales(tt: string): Promise<{ data: DaySales[] }> {
     return await axiosInstance.get(`/daySales?tt=${tt}`);
   },
-  async postDaySales(payload: Sales) {
+  async postDaySales(payload: DaySales) {
     return await axiosInstance.post('/daySales', payload);
   },
-  async putDaySales(payload: Sales) {
+  async putDaySales(payload: DaySales) {
     return await axiosInstance.put('/daySales', payload);
   },
-  async deleteDaySales(payload: Sales) {
+  async deleteDaySales(payload: DaySales) {
     return await axiosInstance.delete(`/daySales/${payload.id}`);
   },
 };

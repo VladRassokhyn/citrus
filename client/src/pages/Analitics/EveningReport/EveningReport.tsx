@@ -4,10 +4,10 @@ import { useTypedSelector } from '../../../lib/hooks';
 import { planesSelectors } from '../../../lib/slices/planes';
 import { SalesInput } from '../SalesInput';
 import { EveningReportTable } from './EveningReportTable';
-import { Sales } from '../../../lib/slices/daySales';
+import { DaySales } from '../../../lib/slices/daySales';
 
 type Props = {
-  sales: Sales[] | null;
+  sales: DaySales[] | null;
 };
 
 const Wrapper = styled.div`
@@ -25,15 +25,15 @@ const H1 = styled.h1`
 
 export const EveningReport = (props: Props): JSX.Element => {
   const { sales } = props;
-  const [daySales, setDaySales] = useState<Sales | null>(null);
-  const [mounthSales, setMounthSales] = useState<Sales | null>(null);
+  const [daySales, setDaySales] = useState<DaySales | null>(null);
+  const [mounthSales, setMounthSales] = useState<DaySales | null>(null);
   const planes = useTypedSelector(planesSelectors.selectPlanes);
 
-  const handleDaySales = (sales: Sales) => {
+  const handleDaySales = (sales: DaySales) => {
     setDaySales(sales);
   };
 
-  const handleMounthSales = (sales: Sales) => {
+  const handleMounthSales = (sales: DaySales) => {
     setMounthSales(sales);
   };
 
@@ -76,7 +76,7 @@ export const EveningReport = (props: Props): JSX.Element => {
   );
 };
 
-export function calcMounthSales(sales: Sales[]) {
+export function calcMounthSales(sales: DaySales[]) {
   if (sales.length === 0) {
     return {
       cm: 0,
@@ -88,7 +88,7 @@ export function calcMounthSales(sales: Sales[]) {
       day: '',
     };
   }
-  const mounthSales: Sales = {
+  const mounthSales: DaySales = {
     cm: 0,
     cz: 0,
     ca: 0,

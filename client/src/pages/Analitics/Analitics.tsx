@@ -104,7 +104,7 @@ export const Analitic = (): JSX.Element => {
           />
           <Route
             path={'/analytics/main/:salesDate'}
-            render={() => <DayDetail sales={sales} tt={authUser!.tt} salesmans={salesmans} />}
+            render={() => <DayDetail allSales={daySales} tt={authUser!.tt} salesmans={salesmans} />}
           />
         </Content>
       </Container>

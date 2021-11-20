@@ -1,7 +1,7 @@
 import styled, { keyframes } from 'styled-components';
 import { format } from 'date-fns';
 import { CalendarDay } from './CalendarDay';
-import { Sales } from '../../../lib/slices/daySales';
+import { DaySales } from '../../../lib/slices/daySales';
 import { User } from '../../../lib/globalTypes';
 import { Circle } from './Circles';
 import { Planes } from '../../../lib/slices/planes/planes.type';
@@ -9,7 +9,7 @@ import { calcMounthSales } from '../EveningReport/EveningReport';
 import { useEffect, useState } from 'react';
 
 type Props = {
-  sales: Sales[] | null;
+  sales: DaySales[] | null;
   newSales: any;
   authUser: User;
   planes: Planes;

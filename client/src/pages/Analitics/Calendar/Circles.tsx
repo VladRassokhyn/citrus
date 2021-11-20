@@ -5,6 +5,7 @@ type Props = {
   sale: number;
   title?: string;
   color: string;
+  showFact?: boolean;
 };
 
 type StyleProps = {
@@ -60,7 +61,7 @@ const BidText = styled.span`
 `;
 
 export const Circle = (props: Props) => {
-  const { plane, sale, title, color } = props;
+  const { plane, sale, title, color, showFact } = props;
 
   const fact = +((sale / plane) * 100).toFixed(2);
   const animation = keyframes`
@@ -76,7 +77,7 @@ export const Circle = (props: Props) => {
       <Out>
         <Text>
           {title && title}
-          <BidText>{isNaN(fact) ? 0 : fact}</BidText>
+          <BidText>{showFact ? sale : isNaN(fact) ? 0 : fact}</BidText>
         </Text>
         <SVG>
           <CircleBg cx="75" cy="75" r="52"></CircleBg>

@@ -1,6 +1,6 @@
 import styled, { keyframes } from 'styled-components';
 import { zoomIn } from 'react-animations';
-import { daySalesActions, daySalesSelectors, Sales } from '../../../lib/slices/daySales';
+import { daySalesActions, daySalesSelectors, DaySales } from '../../../lib/slices/daySales';
 import { useCallback, useEffect, useState } from 'react';
 import { Modal } from '../../../Components/Modal';
 import { SalesInput } from '../SalesInput';
@@ -15,7 +15,7 @@ type Props = {
   isEmpty?: boolean;
   title: string;
   delay: number;
-  daySales?: Sales;
+  daySales?: DaySales;
   sales?: any;
   tt: { label: string; value: string };
   isHollyDay?: boolean;

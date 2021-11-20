@@ -2,12 +2,12 @@ import styled from 'styled-components';
 import { useTypedSelector } from '../../../lib/hooks';
 import { authSelectors } from '../../../lib/slices/auth';
 import { Planes } from '../../../lib/slices/planes/planes.type';
-import { Sales } from '../../../lib/slices/daySales';
+import { DaySales } from '../../../lib/slices/daySales';
 
 type Props = {
   planes: Planes;
-  daySales: Sales;
-  mounthSales: Sales;
+  daySales: DaySales;
+  mounthSales: DaySales;
 };
 
 type CellProps = {

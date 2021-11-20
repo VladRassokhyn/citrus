@@ -11,7 +11,7 @@ import {
   daySalesDeleted,
 } from './daySales.slice';
 import { daySalesWatcher } from './daySales.saga';
-import { Sales } from './daySales.type';
+import { DaySales } from './daySales.type';
 
 export const daySalesActions = {
   getDaySales,
@@ -24,6 +24,6 @@ export const daySalesActions = {
   daySalesDeleted,
 };
 export const daySalesSelectors = { selectDaySalesStatuses, selectAllDaySales };
-export type { Sales };
+export type { DaySales };
 export { daySalesReducer };
 export { daySalesWatcher };
