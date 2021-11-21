@@ -8,6 +8,7 @@ import {
   salesUpdated,
   deleteSales,
   salesDeleted,
+  sortSales,
 } from './sales.slice';
 import { salesWatcher } from './sales.saga';
 import { selectAllSales, selectSalesStatuses, selectSalesByDate } from './sales.selectors';
@@ -22,6 +23,7 @@ export const salesActions = {
   salesUpdated,
   deleteSales,
   salesDeleted,
+  sortSales,
 };
 export { salesReducer };
 export { salesWatcher };

@@ -1,18 +1,19 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Redirect, useParams } from 'react-router';
 import styled from 'styled-components';
 import { Salesman } from '../../../lib/globalTypes';
 import { useTypedSelector } from '../../../lib/hooks';
 import { DaySales } from '../../../lib/slices/daySales';
 import { planesSelectors } from '../../../lib/slices/planes';
-import { salesSelectors } from '../../../lib/slices/sales';
-import { Sales } from '../../../lib/slices/sales/sales.type';
+import { Planes } from '../../../lib/slices/planes/planes.type';
+import { salesActions, salesSelectors } from '../../../lib/slices/sales';
 import { Circle } from '../Calendar/Circles';
 import { calcMounthSales } from '../EveningReport/EveningReport';
-import { TableRow } from './TableRow';
+import { DetailTable } from './DetailTable';
 
 type Props = {
-  allSales: any;
+  allSales: DaySales[] | null;
   tt: { label: string; value: string };
   salesmans: Salesman[] | null;
 };
@@ -53,49 +54,17 @@ const Circles = styled.div`
 `;
 
 export const DayDetail = (props: Props) => {
-  const salesmans = props.salesmans && [
-    ...props.salesmans,
-    { id: 0, name: props.tt.label, tt: props.tt.value },
-  ];
-  const salesmansNames = salesmans?.map((salesman) => salesman.name);
-  const { salesDate } = useParams<{ salesDate: string }>();
-  const sales = useTypedSelector(
-    salesSelectors.selectSalesByDate(salesDate.replace(/[^0-9]/g, '.')),
-  );
-
-  if (!sales) {
-    return <Redirect to={'/analytics/main'} />;
-  }
-
-  console.log(props.allSales);
-
+  const salesDate = useParams<{ salesDate: string }>().salesDate.replace(/[^0-9]/g, '.');
+  const thisDay = useTypedSelector(salesSelectors.selectSalesByDate(salesDate));
   const planes = useTypedSelector(planesSelectors.selectPlanes);
+  const dispatch = useDispatch();
+
   const dayCount = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate();
   const day = new Date().getDate();
 
-  function getCmLag(sales: string[]) {
-    return (getCm(sales) - (getTo(sales) / 100) * planes.to_cm).toFixed(0);
-  }
-
-  function getCzLag(sales: string[]) {
-    return (getCm(sales) - (getTo(sales) / 100) * planes.to_cz).toFixed(0);
-  }
-
-  const [columns, setColumns] = useState([
-    getName,
-    getTo,
-    getCm,
-    getCmRatio,
-    getCmLag,
-    getCz,
-    getCzRatio,
-    getCzLag,
-    getCa,
-  ]);
-
-  const cmDaySales = parseInt(sales!.sales[3][8].replace(/\s/g, ''));
-  const czDaySales = parseInt(sales!.sales[3][10].replace(/\s/g, ''));
-  const caDaySales = parseInt(sales!.sales[3][12].replace(/\s/g, ''));
+  const cmDaySales = thisDay?.ttSales[0][8];
+  const czDaySales = thisDay?.ttSales[0][10];
+  const caDaySales = thisDay?.ttSales[0][12];
 
   const mounthSales = calcMounthSales(props.allSales);
   const to_cmFact = +((mounthSales.cm / mounthSales.to) * 100).toFixed(2);
@@ -105,90 +74,70 @@ export const DayDetail = (props: Props) => {
   const czDayPlane = (planes.cz - mounthSales.ca) / (dayCount - day);
   const caDayPlane = (planes.cz - mounthSales.ca) / (dayCount - day);
 
+  const [columns, setColumns] = useState(getColumns(planes));
+
+  if (!thisDay || !cmDaySales) {
+    return <Redirect to={'/analytics/main'} />;
+  }
+
   return (
     <Wrapper>
-      <H1>{salesDate.replace(/[^0-9]/g, '.')}</H1>
+      <H1>{salesDate}</H1>
 
       <CirclesContainer>
         <CircleContent>
           <Circles>
-            <Circle color={'green'} sale={cmDaySales} plane={cmDayPlane} title={'ЦМ'} />
-            <Circle color={'red'} sale={czDaySales} plane={czDayPlane} title={'ЦЗ'} />
-            <Circle color={'#9018ad'} sale={caDaySales} plane={caDayPlane} title={'ЦА'} />
+            <Circle color={'green'} sale={cmDaySales!} plane={cmDayPlane} title={'ЦМ'} />
+            <Circle color={'red'} sale={czDaySales!} plane={czDayPlane} title={'ЦЗ'} />
+            <Circle color={'#9018ad'} sale={caDaySales!} plane={caDayPlane} title={'ЦА'} />
             <Circle color={'green'} sale={to_cmFact} plane={planes.to_cm} title={'ЦМ%'} showFact />
             <Circle color={'red'} sale={to_czFact} plane={planes.to_cz} title={'ЦЗ%'} showFact />
           </Circles>
         </CircleContent>
       </CirclesContainer>
 
-      <TableRow
-        isMainTable
-        isTT={false}
-        isHeader
-        cells={[
-          'ФИО',
-          'Устройства',
-          'ЦМ',
-          'Доля ЦМ',
-          'Отставание',
-          'ЦЗ',
-          'Доля ЦЗ',
-          'Отставание',
-          'ЦА',
-        ]}
-      />
-      {sales?.sales.map((daySales, i) => {
-        if (salesmansNames?.includes(daySales[0])) {
-          return (
-            <TableRow
-              isMainTable
-              key={i}
-              isTT={i === 3}
-              cells={columns.map((columnFn) => columnFn(daySales))}
-            />
-          );
-        }
-      })}
+      <DetailTable thisDay={thisDay} columns={columns} ttSales={thisDay.ttSales} />
     </Wrapper>
   );
 };
 
-function getName(sales: string[]) {
-  return `${sales[0].split(' ')[0]} ${sales[0].split(' ')[1]}`;
-}
-
-function getTo(sales: string[]) {
-  const cell = parseInt(sales[1].replace(/\s/g, ''));
-  return isNaN(+cell) ? 0 : cell;
-}
-
-function getCm(sales: string[]) {
-  const cell = parseInt(sales[8].replace(/\s/g, ''));
-  return isNaN(+cell) ? 0 : cell;
-}
-
-function getCz(sales: string[]) {
-  const cell = parseInt(sales[10].replace(/\s/g, ''));
-  return isNaN(+cell) ? 0 : cell;
-}
-
-function getCa(sales: string[]) {
-  const cell = parseInt(sales[12].replace(/\s/g, ''));
-  return isNaN(+cell) ? 0 : cell;
-}
-
-function getCmRatio(sales: string[]) {
-  const cell = (
-    (parseInt(sales[8].replace(/\s/g, '')) / parseInt(sales[1].replace(/\s/g, ''))) *
-    100
-  ).toFixed(2);
-  return isNaN(+cell) ? 0 : cell;
-}
-
-function getCzRatio(sales: string[]) {
-  const cell = (
-    (parseInt(sales[10].replace(/\s/g, '')) / parseInt(sales[1].replace(/\s/g, ''))) *
-    100
-  ).toFixed(2);
-  return isNaN(+cell) ? 0 : cell;
+function getColumns(planes: Planes) {
+  return [
+    {
+      label: 'ФИО',
+      fn: (sale: any) => sale[0],
+    },
+    {
+      label: 'Устройства',
+      fn: (sale: any) => sale[1],
+    },
+    {
+      label: 'ЦМ',
+      fn: (sale: any) => sale[8],
+    },
+    {
+      label: 'Доля ЦМ',
+      fn: (sale: any) => ((sale[8] / sale[1]) * 100).toFixed(2),
+    },
+    {
+      label: 'Отставание',
+      fn: (sale: any) => (sale[8] - (planes.to_cm / 100) * sale[1]).toFixed(0),
+    },
+    {
+      label: 'ЦЗ',
+      fn: (sale: any) => sale[10],
+    },
+    {
+      label: 'Доля ЦЗ',
+      fn: (sale: any) => ((sale[10] / sale[1]) * 100).toFixed(2),
+    },
+    {
+      label: 'Отставание',
+      fn: (sale: any) => (sale[10] - (planes.to_cz / 100) * sale[1]).toFixed(0),
+    },
+    {
+      label: 'ЦА',
+      fn: (sale: any) => sale[12],
+    },
+  ];
 }

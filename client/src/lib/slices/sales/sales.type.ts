@@ -4,7 +4,38 @@ export type Sales = {
   id?: number;
   tt?: { label: string; value: string };
   day: string;
-  sales: string[][];
+  ttSales: [
+    string,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+  ][];
+  sales: [
+    string,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+  ][];
 };
 
 export type SalesState = {

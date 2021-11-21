@@ -42,6 +42,12 @@ export const salesSlice = createSlice({
     salesDeleted(state) {
       state.deleteStatus = LoadingStatuses.SUCCESS;
     },
+    sortSales(state, action) {
+      const id = action.payload.id;
+      const newSales = action.payload.sales;
+      const index = state.daySales?.findIndex((item) => item.id === id);
+      state.daySales![index!].sales = newSales;
+    },
   },
 });
 
@@ -54,6 +60,7 @@ export const {
   salesUpdated,
   deleteSales,
   salesDeleted,
+  sortSales,
 } = salesSlice.actions;
 
 export const salesReducer = salesSlice.reducer;

@@ -76,17 +76,9 @@ export const EveningReport = (props: Props): JSX.Element => {
   );
 };
 
-export function calcMounthSales(sales: DaySales[]) {
-  if (sales.length === 0) {
-    return {
-      cm: 0,
-      cz: 0,
-      ca: 0,
-      to: 0,
-      tt: { value: 'no tt', label: 'no tt' },
-      id: 0,
-      day: '',
-    };
+export function calcMounthSales(sales: DaySales[] | null) {
+  if (!sales || sales.length === 0) {
+    return { cm: 0, ca: 0, cz: 0, to: 0, tt: { value: 'no tt', label: 'no tt' }, id: 0, day: '' };
   }
   const mounthSales: DaySales = {
     cm: 0,
