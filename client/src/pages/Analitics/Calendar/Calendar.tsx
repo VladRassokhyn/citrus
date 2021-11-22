@@ -208,12 +208,18 @@ export const Calendar = (props: Props): JSX.Element => {
             const isHollyDay = day.split(' ')[0] === 'Saturday' || day.split(' ')[0] === 'Sunday';
             const daySales = sales?.find((salesItem) => salesItem.day === day.split(' ')[1]);
             const newSale = newSales?.find((salesItem: any) => salesItem.day === day.split(' ')[1]);
+            const salesByToday = sales?.filter(
+              (sale) => parseInt(sale.day) < parseInt(day.split(' ')[1]),
+            );
+            const mounthSales = calcMounthSales(salesByToday);
             return (
               <CalendarDay
                 isHollyDay={isHollyDay}
                 delay={i}
                 daySales={daySales}
+                mounthSales={mounthSales}
                 tt={authUser.tt}
+                planes={planes}
                 title={day.split(' ')[1]}
                 key={i}
                 sales={newSale}

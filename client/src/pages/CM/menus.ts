@@ -53,14 +53,12 @@ export const menus: Menus[] = [
               {
                 id: uuid(),
                 title: 'Первоначальная настройка',
-                description:
-                  'Активация, настройка языка, даты, времени, интернета',
+                description: 'Активация, настройка языка, даты, времени, интернета',
               },
               {
                 id: uuid(),
                 title: 'Обновление ПО',
-                description:
-                  'Обновление систем безопасности, добавление новых функций',
+                description: 'Обновление систем безопасности, добавление новых функций',
               },
               {
                 id: uuid(),
@@ -95,8 +93,7 @@ export const menus: Menus[] = [
               {
                 id: uuid(),
                 title: 'Файловые менеджеры',
-                description:
-                  'Установка архиватоа и альтернативных файовых менеджеров',
+                description: 'Установка архиватоа и альтернативных файовых менеджеров',
               },
               {
                 id: uuid(),
@@ -130,8 +127,7 @@ export const menus: Menus[] = [
               {
                 id: uuid(),
                 title: 'Електронная коммерция',
-                description:
-                  'Настройка GooglePay, банкингов и других платежных систем',
+                description: 'Настройка GooglePay, банкингов и других платежных систем',
               },
               {
                 id: uuid(),
@@ -148,8 +144,7 @@ export const menus: Menus[] = [
               {
                 id: uuid(),
                 title: 'Антивирус',
-                description:
-                  'Лицензионный антивирус Avast Mobile Security 12мес',
+                description: 'Лицензионный антивирус Avast Mobile Security 12мес',
               },
               {
                 id: uuid(),
@@ -173,8 +168,7 @@ export const menus: Menus[] = [
               {
                 id: uuid(),
                 title: 'Синхронизация всех устройств',
-                description:
-                  'Данные клиента всегда будут доступны на любом из его устройств',
+                description: 'Данные клиента всегда будут доступны на любом из его устройств',
               },
               {
                 id: uuid(),
@@ -211,14 +205,12 @@ export const menus: Menus[] = [
               {
                 id: uuid(),
                 title: 'Первоначальная настройка',
-                description:
-                  'Активация, настройка языка, даты, времени, интернета',
+                description: 'Активация, настройка языка, даты, времени, интернета',
               },
               {
                 id: uuid(),
                 title: 'Обновление ПО',
-                description:
-                  'Обновление систем безопасности, добавление новых функций',
+                description: 'Обновление систем безопасности, добавление новых функций',
               },
               {
                 id: uuid(),
@@ -253,8 +245,7 @@ export const menus: Menus[] = [
               {
                 id: uuid(),
                 title: 'Файловые менеджеры',
-                description:
-                  'Установка архиватоа и альтернативных файовых менеджеров',
+                description: 'Установка архиватоа и альтернативных файовых менеджеров',
               },
               {
                 id: uuid(),
@@ -288,8 +279,7 @@ export const menus: Menus[] = [
               {
                 id: uuid(),
                 title: 'Електронная коммерция',
-                description:
-                  'Настройка GooglePay, банкингов и других платежных систем',
+                description: 'Настройка GooglePay, банкингов и других платежных систем',
               },
               {
                 id: uuid(),
@@ -325,8 +315,7 @@ export const menus: Menus[] = [
               {
                 id: uuid(),
                 title: 'Синхронизация всех устройств',
-                description:
-                  'Данные клиента всегда будут доступны на любом из его устройств',
+                description: 'Данные клиента всегда будут доступны на любом из его устройств',
               },
               {
                 id: uuid(),
@@ -364,14 +353,12 @@ export const menus: Menus[] = [
               {
                 id: uuid(),
                 title: 'Первоначальная настройка',
-                description:
-                  'Активация, настройка языка, даты, времени, интернета',
+                description: 'Активация, настройка языка, даты, времени, интернета',
               },
               {
                 id: uuid(),
                 title: 'Обновление ПО',
-                description:
-                  'Обновление систем безопасности, добавление новых функций',
+                description: 'Обновление систем безопасности, добавление новых функций',
               },
               {
                 id: uuid(),
@@ -406,8 +393,7 @@ export const menus: Menus[] = [
               {
                 id: uuid(),
                 title: 'Файловые менеджеры',
-                description:
-                  'Установка архиватоа и альтернативных файовых менеджеров',
+                description: 'Установка архиватоа и альтернативных файовых менеджеров',
               },
               {
                 id: uuid(),
@@ -431,8 +417,7 @@ export const menus: Menus[] = [
               {
                 id: uuid(),
                 title: 'Електронная коммерция',
-                description:
-                  'Настройка GooglePay, банкингов и других платежных систем',
+                description: 'Настройка GooglePay, банкингов и других платежных систем',
               },
               {
                 id: uuid(),
@@ -467,8 +452,7 @@ export const menus: Menus[] = [
               {
                 id: uuid(),
                 title: 'Синхронизация всех устройств',
-                description:
-                  'Данные клиента всегда будут доступны на любом из его устройств',
+                description: 'Данные клиента всегда будут доступны на любом из его устройств',
               },
               {
                 id: uuid(),
@@ -511,14 +495,12 @@ export const menus: Menus[] = [
               {
                 id: uuid(),
                 title: 'Первоначальная настройка',
-                description:
-                  'Активация, настройка языка, даты, времени, интернета',
+                description: 'Активация, настройка языка, даты, времени, интернета',
               },
               {
                 id: uuid(),
                 title: 'Обновление ПО',
-                description:
-                  'Обновление систем безопасности, добавление новых функций',
+                description: 'Обновление систем безопасности, добавление новых функций',
               },
               {
                 id: uuid(),
@@ -559,8 +541,7 @@ export const menus: Menus[] = [
               {
                 id: uuid(),
                 title: 'Файловые менеджеры',
-                description:
-                  'Установка архиватоа и альтернативных файовых менеджеров',
+                description: 'Установка архиватоа и альтернативных файовых менеджеров',
               },
               {
                 id: uuid(),
@@ -584,8 +565,7 @@ export const menus: Menus[] = [
               {
                 id: uuid(),
                 title: 'Електронная коммерция',
-                description:
-                  'Настройка GooglePay, банкингов и других платежных систем',
+                description: 'Настройка GooglePay, банкингов и других платежных систем',
               },
               {
                 id: uuid(),
@@ -615,8 +595,7 @@ export const menus: Menus[] = [
               {
                 id: uuid(),
                 title: 'Синхронизация всех устройств',
-                description:
-                  'Данные клиента всегда будут доступны на любом из его устройств',
+                description: 'Данные клиента всегда будут доступны на любом из его устройств',
               },
               {
                 id: uuid(),
@@ -663,14 +642,12 @@ export const menus: Menus[] = [
               {
                 id: uuid(),
                 title: 'Первоначальная настройка',
-                description:
-                  'Активация, настройка языка, даты, времени, интернета',
+                description: 'Активация, настройка языка, даты, времени, интернета',
               },
               {
                 id: uuid(),
                 title: 'Обновление ПО до последней версии',
-                description:
-                  'Обновление систем безопасности, добавление новых функций',
+                description: 'Обновление систем безопасности, добавление новых функций',
               },
               {
                 id: uuid(),
@@ -705,8 +682,7 @@ export const menus: Menus[] = [
               {
                 id: uuid(),
                 title: 'Файловые менеджеры',
-                description:
-                  'Установка архиватоа и альтернативных файовых менеджеров',
+                description: 'Установка архиватоа и альтернативных файовых менеджеров',
               },
               {
                 id: uuid(),
@@ -772,14 +748,12 @@ export const menus: Menus[] = [
               {
                 id: uuid(),
                 title: 'Первоначальная настройка',
-                description:
-                  'Активация, настройка языка, даты, времени, интернета',
+                description: 'Активация, настройка языка, даты, времени, интернета',
               },
               {
                 id: uuid(),
                 title: 'Обновление ПО',
-                description:
-                  'Обновление систем безопасности, добавление новых функций',
+                description: 'Обновление систем безопасности, добавление новых функций',
               },
               {
                 id: uuid(),
@@ -818,8 +792,7 @@ export const menus: Menus[] = [
               {
                 id: uuid(),
                 title: 'Файловые менеджеры',
-                description:
-                  'Установка архиватоа и альтернативных файовых менеджеров',
+                description: 'Установка архиватоа и альтернативных файовых менеджеров',
               },
               {
                 id: uuid(),
@@ -843,14 +816,12 @@ export const menus: Menus[] = [
               {
                 id: uuid(),
                 title: 'Первоначальная настройка',
-                description:
-                  'Активация, настройка языка, даты, времени, интернета',
+                description: 'Активация, настройка языка, даты, времени, интернета',
               },
               {
                 id: uuid(),
                 title: 'Обновление ПО',
-                description:
-                  'Обновление систем безопасности, добавление новых функций',
+                description: 'Обновление систем безопасности, добавление новых функций',
               },
               {
                 id: uuid(),
@@ -889,14 +860,12 @@ export const menus: Menus[] = [
               {
                 id: uuid(),
                 title: 'Файловые менеджеры',
-                description:
-                  'Установка архиватоа и альтернативных файовых менеджеров',
+                description: 'Установка архиватоа и альтернативных файовых менеджеров',
               },
               {
                 id: uuid(),
                 title: 'Блокировщик рекламы',
-                description:
-                  'Лицензионный антибанер AdLock Windows/MacOS 12мес.',
+                description: 'Лицензионный антибанер AdLock Windows/MacOS 12мес.',
               },
             ],
           },
@@ -916,14 +885,12 @@ export const menus: Menus[] = [
               {
                 id: uuid(),
                 title: 'Первоначальная настройка',
-                description:
-                  'Активация, настройка языка, даты, времени, интернета',
+                description: 'Активация, настройка языка, даты, времени, интернета',
               },
               {
                 id: uuid(),
                 title: 'Обновление ПО',
-                description:
-                  'Обновление систем безопасности, добавление новых функций',
+                description: 'Обновление систем безопасности, добавление новых функций',
               },
               {
                 id: uuid(),
@@ -962,8 +929,7 @@ export const menus: Menus[] = [
               {
                 id: uuid(),
                 title: 'Файловые менеджеры',
-                description:
-                  'Установка архиватоа и альтернативных файовых менеджеров',
+                description: 'Установка архиватоа и альтернативных файовых менеджеров',
               },
               {
                 id: uuid(),
@@ -988,14 +954,12 @@ export const menus: Menus[] = [
               {
                 id: uuid(),
                 title: 'Первоначальная настройка',
-                description:
-                  'Активация, настройка языка, даты, времени, интернета',
+                description: 'Активация, настройка языка, даты, времени, интернета',
               },
               {
                 id: uuid(),
                 title: 'Обновление ПО до последней версии',
-                description:
-                  'Обновление систем безопасности, добавление новых функций',
+                description: 'Обновление систем безопасности, добавление новых функций',
               },
               {
                 id: uuid(),
@@ -1019,14 +983,12 @@ export const menus: Menus[] = [
               {
                 id: uuid(),
                 title: 'Первоначальная настройка',
-                description:
-                  'Активация, настройка языка, даты, времени, интернета',
+                description: 'Активация, настройка языка, даты, времени, интернета',
               },
               {
                 id: uuid(),
                 title: 'Обновление ПО до последней версии',
-                description:
-                  'Обновление систем безопасности, добавление новых функций',
+                description: 'Обновление систем безопасности, добавление новых функций',
               },
               {
                 id: uuid(),
@@ -1208,8 +1170,7 @@ export const licPO: LicPo = [
         period: '1 год',
       },
     ],
-    link:
-      'https://drive.google.com/file/d/1TqmKpnFc5YRHtZVJXLIgokW54URvhRZ0/view',
+    link: 'https://drive.google.com/file/d/1TqmKpnFc5YRHtZVJXLIgokW54URvhRZ0/view',
   },
   {
     id: uuid(),
@@ -1242,8 +1203,7 @@ export const licPO: LicPo = [
         period: '1 год',
       },
     ],
-    link:
-      'https://drive.google.com/file/d/1RcKE0LD9rWNgHi5rjBTH6fNna4royoB4/view',
+    link: 'https://drive.google.com/file/d/1RcKE0LD9rWNgHi5rjBTH6fNna4royoB4/view',
   },
   {
     id: uuid(),
@@ -1268,8 +1228,7 @@ export const licPO: LicPo = [
         period: 'lifetime',
       },
     ],
-    link:
-      'https://drive.google.com/file/d/1oOEm0NJqaq62j3pXZBY0GqLmQSlq1dXQ/view?usp=sharing',
+    link: 'https://drive.google.com/file/d/1oOEm0NJqaq62j3pXZBY0GqLmQSlq1dXQ/view?usp=sharing',
   },
   {
     id: uuid(),
@@ -1280,16 +1239,14 @@ export const licPO: LicPo = [
         title: 'Mobile',
         price: 149,
         period: '1 год',
-        link:
-          'https://drive.google.com/file/d/1Mx4852ouZrdM520hVpS0Bgxk8vZ-BBCw/view',
+        link: 'https://drive.google.com/file/d/1Mx4852ouZrdM520hVpS0Bgxk8vZ-BBCw/view',
       },
       {
         id: uuid(),
         title: 'Windows',
         price: 199,
         period: '1 год',
-        link:
-          'https://drive.google.com/file/d/1Mx4852ouZrdM520hVpS0Bgxk8vZ-BBCw/view',
+        link: 'https://drive.google.com/file/d/1Mx4852ouZrdM520hVpS0Bgxk8vZ-BBCw/view',
       },
     ],
     link: null,
@@ -1304,32 +1261,28 @@ export const licPO: LicPo = [
         title: 'Mobile',
         price: 244,
         period: '1 год',
-        link:
-          'https://drive.google.com/file/d/1zetiwCvTdqz5b-6NNJB0W5eY9LjUGwM0/view?usp=sharing',
+        link: 'https://drive.google.com/file/d/1zetiwCvTdqz5b-6NNJB0W5eY9LjUGwM0/view?usp=sharing',
       },
       {
         id: uuid(),
         title: 'NODE32',
         price: 399,
         period: '1 год',
-        link:
-          'https://drive.google.com/file/d/1uomRzv5vZeNBZ9GkJsk_eConRT6QQkVN/view?usp=sharing',
+        link: 'https://drive.google.com/file/d/1uomRzv5vZeNBZ9GkJsk_eConRT6QQkVN/view?usp=sharing',
       },
       {
         id: uuid(),
         title: 'Internet Security',
         price: 499,
         period: '1 год',
-        link:
-          'https://drive.google.com/file/d/1gOc137Hgjm53WgjEnKuvpwiqpJkMlQIx/view?usp=sharing',
+        link: 'https://drive.google.com/file/d/1gOc137Hgjm53WgjEnKuvpwiqpJkMlQIx/view?usp=sharing',
       },
       {
         id: uuid(),
         title: 'Parental Control',
         price: 479,
         period: '1 год',
-        link:
-          'https://drive.google.com/file/d/1SyqQj6d7rtnA1mHzmPEZVOtnphk9bEEa/view?usp=sharing',
+        link: 'https://drive.google.com/file/d/1SyqQj6d7rtnA1mHzmPEZVOtnphk9bEEa/view?usp=sharing',
       },
     ],
     link: null,
@@ -1387,8 +1340,7 @@ export const licPO: LicPo = [
         period: 'lifetime',
       },
     ],
-    link:
-      'https://docs.google.com/document/d/1Nt7O0xbZdcQRw8wSmhEE_ocC86C6BTAVPVNgJG2mPPo/edit',
+    link: 'https://docs.google.com/document/d/1Nt7O0xbZdcQRw8wSmhEE_ocC86C6BTAVPVNgJG2mPPo/edit',
   },
   {
     id: uuid(),
@@ -1401,8 +1353,7 @@ export const licPO: LicPo = [
         period: '3 мес',
       },
     ],
-    link:
-      'https://drive.google.com/file/d/19j0rRjCMfo1ET2pzuSxhcz_rkMiNuW-O/view',
+    link: 'https://drive.google.com/file/d/19j0rRjCMfo1ET2pzuSxhcz_rkMiNuW-O/view',
   },
   {
     id: uuid(),
@@ -1445,7 +1396,6 @@ export const licPO: LicPo = [
         period: '12 мес',
       },
     ],
-    link:
-      'https://drive.google.com/file/d/1fyO-1hlDleZxLWoOI4O6Ox_fR9uxQ62n/view',
+    link: 'https://drive.google.com/file/d/1fyO-1hlDleZxLWoOI4O6Ox_fR9uxQ62n/view',
   },
 ];

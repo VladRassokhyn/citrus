@@ -80,7 +80,7 @@ const Value = styled.h6``;
 const Buttons = styled.div`
   display: flex;
   height: 100%;
-  padding: 0 0 0 5px;
+  padding: 0 0 0 10px;
   border-left: 1px solid #dfdfdf;
   flex-direction: column;
   gap: 5px;
@@ -121,7 +121,7 @@ export const DayByDay = (props: Props) => {
             const isHollyDay =
               day!.split('.')[0].split(' ')[0] === 'Saturday' || day!.split(' ')[0] === 'Sunday';
             return (
-              <Day>
+              <Day key={day}>
                 {daySales && activeBar === 'ALL' ? (
                   <Bars>
                     <Bar barHeight={(daySales.cm / maxVaue) * 100} color={'green'} />

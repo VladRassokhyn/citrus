@@ -22,12 +22,7 @@ import {
   setError,
   setCRUDError,
 } from './users.slice';
-import {
-  oneUserReducer,
-  getOneUser,
-  getUserChecklists,
-  setUserChecklists,
-} from './oneUser.slice';
+import { oneUserReducer, getOneUser, getUserChecklists, setUserChecklists } from './oneUser.slice';
 import { usersWatcher } from './users.saga';
 
 export const userSelectors = {

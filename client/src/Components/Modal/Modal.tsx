@@ -15,7 +15,7 @@ const Wrapper = styled.div`
   top: 0;
   left: 0;
   width: 100vw;
-  height: 100%;
+  height: 100vh;
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -23,7 +23,6 @@ const Wrapper = styled.div`
   background-color: black;
   opacity: 0.6;
   z-index: 999;
-  overflow: hidden;
 `;
 
 const Content = styled.div`

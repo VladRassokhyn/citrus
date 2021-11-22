@@ -3,6 +3,7 @@ import { useTypedSelector } from '../../../lib/hooks';
 import { authSelectors } from '../../../lib/slices/auth';
 import { Planes } from '../../../lib/slices/planes/planes.type';
 import { DaySales } from '../../../lib/slices/daySales';
+import html2canvas from 'html2canvas';
 
 type Props = {
   planes: Planes;
@@ -99,9 +100,45 @@ const H4 = styled.h2`
   color: var(--color-stroke);
 `;
 
+const ScreenContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 0;
+  border: 1px solid #d7d7d7;
+  border-radius: 10px;
+  background-color: white;
+`;
+
+const Button = styled.button`
+  width:
+  background-color: var(--color-button);
+  color: white;
+  min-width: 100px;
+  height: 30px;
+  border: 0;
+  border-radius: 5px;
+  transition: linear 0.3s;
+  &:hover {
+    cursor: pointer;
+    background-color: #3d82eb;
+  }
+`;
+
 export const EveningReportTable = (props: Props): JSX.Element => {
   const { planes, daySales, mounthSales } = props;
   const authUser = useTypedSelector(authSelectors.selectAuthUser);
+
+  const onScreenshot = () => {
+    html2canvas(document.getElementById('evening-report')!).then((canvas) => {
+      canvas.toBlob(function (blob) {
+        //@ts-ignore
+        const item = new ClipboardItem({ 'image/png': blob });
+        navigator.clipboard.write([item]);
+      });
+    });
+  };
 
   const dayCount = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate();
   const day = new Date().getDate();
@@ -150,147 +187,152 @@ export const EveningReportTable = (props: Props): JSX.Element => {
 
   return (
     <Wrapper>
-      <H3>{authUser!.tt.label}</H3>
-      <Container>
-        <H1>МЕСЯЦ</H1>
-        <Row>
-          <Cell>
-            <H2>День</H2>
-          </Cell>
-          <Cell>
-            <H2>{day}</H2>
-          </Cell>
-        </Row>
+      <Button onClick={onScreenshot}>Сделать скрин</Button>
+      <div id={'evening-report'}>
+        <ScreenContainer>
+          <H3>{authUser!.tt.label}</H3>
+          <Container>
+            <H1>МЕСЯЦ</H1>
+            <Row>
+              <Cell>
+                <H2>День</H2>
+              </Cell>
+              <Cell>
+                <H2>{day}</H2>
+              </Cell>
+            </Row>
 
-        <Row>
-          <Cell>
-            <H2>Доля ЦМ</H2>
-            <H4>
-              <Growth grow={cmGrowthRatio >= 0}>{cmGrowthRatio}</Growth>
-            </H4>
-          </Cell>
-          <Cell>
-            <H2>{cmRatio}%</H2>
-          </Cell>
-        </Row>
+            <Row>
+              <Cell>
+                <H2>Доля ЦМ</H2>
+                <H4>
+                  <Growth grow={cmGrowthRatio >= 0}>{cmGrowthRatio}</Growth>
+                </H4>
+              </Cell>
+              <Cell>
+                <H2>{cmRatio}%</H2>
+              </Cell>
+            </Row>
 
-        <Row>
-          <Cell>
-            <H2>Прогноз ЦМ</H2>
-            <H4>
-              <Growth grow={cmGrowthForecast >= 0}>{cmGrowthForecast}</Growth>
-            </H4>
-          </Cell>
-          <Cell>
-            <H2>
-              <FilledCell width={cmForecast} color={cmForecastColor}>
-                <H2>{cmForecast}%</H2>
-              </FilledCell>
-            </H2>
-          </Cell>
-        </Row>
+            <Row>
+              <Cell>
+                <H2>Прогноз ЦМ</H2>
+                <H4>
+                  <Growth grow={cmGrowthForecast >= 0}>{cmGrowthForecast}</Growth>
+                </H4>
+              </Cell>
+              <Cell>
+                <H2>
+                  <FilledCell width={cmForecast} color={cmForecastColor}>
+                    <H2>{cmForecast}%</H2>
+                  </FilledCell>
+                </H2>
+              </Cell>
+            </Row>
 
-        <Row>
-          <Cell>
-            <H2>Доля ЦЗ</H2>
-            <H4>
-              <Growth grow={czGrowthRatio >= 0}>{czGrowthRatio}</Growth>
-            </H4>
-          </Cell>
-          <Cell>
-            <H2>{czRatio}%</H2>
-          </Cell>
-        </Row>
+            <Row>
+              <Cell>
+                <H2>Доля ЦЗ</H2>
+                <H4>
+                  <Growth grow={czGrowthRatio >= 0}>{czGrowthRatio}</Growth>
+                </H4>
+              </Cell>
+              <Cell>
+                <H2>{czRatio}%</H2>
+              </Cell>
+            </Row>
 
-        <Row>
-          <Cell>
-            <H2>Прогноз ЦЗ</H2>
-            <H4>
-              <Growth grow={czGrowthForecast >= 0}>{czGrowthForecast}</Growth>
-            </H4>
-          </Cell>
-          <Cell>
-            <FilledCell width={czForecast} color={czForecastColor}>
-              <H2>{czForecast}%</H2>
-            </FilledCell>
-          </Cell>
-        </Row>
-      </Container>
-      <Container>
-        <H1>ДЕНЬ</H1>
+            <Row>
+              <Cell>
+                <H2>Прогноз ЦЗ</H2>
+                <H4>
+                  <Growth grow={czGrowthForecast >= 0}>{czGrowthForecast}</Growth>
+                </H4>
+              </Cell>
+              <Cell>
+                <FilledCell width={czForecast} color={czForecastColor}>
+                  <H2>{czForecast}%</H2>
+                </FilledCell>
+              </Cell>
+            </Row>
+          </Container>
+          <Container>
+            <H1>ДЕНЬ</H1>
 
-        <Row>
-          <Cell>
-            <H2>Сумма Устройств</H2>
-          </Cell>
-          <Cell>
-            <H2>{daySales.to}</H2>
-          </Cell>
-        </Row>
-        <Row>
-          <Cell>
-            <H2>Сумма ЦМ</H2>
-          </Cell>
-          <Cell>
-            <H2>{daySales.cm}</H2>
-          </Cell>
-        </Row>
-        <Row>
-          <Cell>
-            <H2>Доля ЦМ</H2>
-          </Cell>
-          <Cell>
-            <H2>{cmDayRatio}%</H2>
-          </Cell>
-        </Row>
+            <Row>
+              <Cell>
+                <H2>Сумма Устройств</H2>
+              </Cell>
+              <Cell>
+                <H2>{daySales.to}</H2>
+              </Cell>
+            </Row>
+            <Row>
+              <Cell>
+                <H2>Сумма ЦМ</H2>
+              </Cell>
+              <Cell>
+                <H2>{daySales.cm}</H2>
+              </Cell>
+            </Row>
+            <Row>
+              <Cell>
+                <H2>Доля ЦМ</H2>
+              </Cell>
+              <Cell>
+                <H2>{cmDayRatio}%</H2>
+              </Cell>
+            </Row>
 
-        <Row>
-          <Cell>
-            <H2>Выполнение ЦМ</H2>
-          </Cell>
-          <Cell>
-            <FilledCell width={cmDayRate} color={cmDayRateColor}>
-              <H2>{cmDayRate}%</H2>
-            </FilledCell>
-          </Cell>
-        </Row>
+            <Row>
+              <Cell>
+                <H2>Выполнение ЦМ</H2>
+              </Cell>
+              <Cell>
+                <FilledCell width={cmDayRate} color={cmDayRateColor}>
+                  <H2>{cmDayRate}%</H2>
+                </FilledCell>
+              </Cell>
+            </Row>
 
-        <Row>
-          <Cell>
-            <H2>Сумма ЦЗ</H2>
-          </Cell>
-          <Cell>
-            <H2>{daySales.cz}</H2>
-          </Cell>
-        </Row>
-        <Row>
-          <Cell>
-            <H2>Доля ЦЗ</H2>
-          </Cell>
-          <Cell>
-            <H2>{czDayRatio}%</H2>
-          </Cell>
-        </Row>
+            <Row>
+              <Cell>
+                <H2>Сумма ЦЗ</H2>
+              </Cell>
+              <Cell>
+                <H2>{daySales.cz}</H2>
+              </Cell>
+            </Row>
+            <Row>
+              <Cell>
+                <H2>Доля ЦЗ</H2>
+              </Cell>
+              <Cell>
+                <H2>{czDayRatio}%</H2>
+              </Cell>
+            </Row>
 
-        <Row>
-          <Cell>
-            <H2>Выполнение ЦЗ</H2>{' '}
-          </Cell>
-          <Cell>
-            <FilledCell width={czDayRate} color={czDayRateColor}>
-              <H2>{czDayRate}%</H2>{' '}
-            </FilledCell>
-          </Cell>
-        </Row>
-        <Row>
-          <Cell>
-            <H2>Сумма ЦА</H2>
-          </Cell>
-          <Cell>
-            <H2>{daySales.ca}</H2>
-          </Cell>
-        </Row>
-      </Container>
+            <Row>
+              <Cell>
+                <H2>Выполнение ЦЗ</H2>{' '}
+              </Cell>
+              <Cell>
+                <FilledCell width={czDayRate} color={czDayRateColor}>
+                  <H2>{czDayRate}%</H2>{' '}
+                </FilledCell>
+              </Cell>
+            </Row>
+            <Row>
+              <Cell>
+                <H2>Сумма ЦА</H2>
+              </Cell>
+              <Cell>
+                <H2>{daySales.ca}</H2>
+              </Cell>
+            </Row>
+          </Container>
+        </ScreenContainer>
+      </div>
     </Wrapper>
   );
 };

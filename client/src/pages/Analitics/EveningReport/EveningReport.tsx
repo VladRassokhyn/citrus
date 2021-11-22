@@ -37,12 +37,6 @@ export const EveningReport = (props: Props): JSX.Element => {
     setMounthSales(sales);
   };
 
-  useEffect(() => {
-    if (daySales && mounthSales) {
-      console.log(daySales, mounthSales);
-    }
-  }, [daySales, mounthSales]);
-
   if (sales && sales.length > 1) {
     return (
       <EveningReportTable
@@ -76,7 +70,7 @@ export const EveningReport = (props: Props): JSX.Element => {
   );
 };
 
-export function calcMounthSales(sales: DaySales[] | null) {
+export function calcMounthSales(sales: DaySales[] | null | undefined) {
   if (!sales || sales.length === 0) {
     return { cm: 0, ca: 0, cz: 0, to: 0, tt: { value: 'no tt', label: 'no tt' }, id: 0, day: '' };
   }

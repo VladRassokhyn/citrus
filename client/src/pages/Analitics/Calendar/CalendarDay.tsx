@@ -10,12 +10,15 @@ import { LoadingStatuses } from '../../../lib/globalTypes';
 import { Confirm } from '../../../Components/Confirm';
 import { salesActions } from '../../../lib/slices/sales';
 import { useHistory } from 'react-router';
+import { Planes } from '../../../lib/slices/planes/planes.type';
 
 type Props = {
   isEmpty?: boolean;
   title: string;
   delay: number;
   daySales?: DaySales;
+  mounthSales?: DaySales;
+  planes?: Planes;
   sales?: any;
   tt: { label: string; value: string };
   isHollyDay?: boolean;
@@ -27,6 +30,7 @@ type StyleProps = {
   disabled?: boolean;
   isEmpty?: boolean;
   isHollyDay?: boolean;
+  isPositive?: boolean;
 };
 
 const animationIn = keyframes`${zoomIn}`;
@@ -49,6 +53,20 @@ const Button = styled.button<StyleProps>`
       cursor: pointer;
       background-color: #1890ff;
     }`}
+`;
+
+const ValueBlock = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background-color: white;
+  padding: 3px 5px;
+  border-radius: 5px;
+`;
+
+const Grow = styled.sup<StyleProps>`
+  font-size: 8pt;
+  color: ${(props) => (props.isPositive ? 'green' : 'red')};
 `;
 
 const Title = styled.h1<StyleProps>`
@@ -100,7 +118,7 @@ const Wrapper = styled.div<StyleProps>`
 `;
 
 export const CalendarDay = (props: Props): JSX.Element => {
-  const { isEmpty, title, delay, daySales, tt, isHollyDay, sales } = props;
+  const { isEmpty, title, delay, daySales, tt, isHollyDay, sales, planes, mounthSales } = props;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { postStatus, updateStatus } = useTypedSelector(daySalesSelectors.selectDaySalesStatuses);
   const dispatch = useDispatch();
@@ -108,6 +126,37 @@ export const CalendarDay = (props: Props): JSX.Element => {
 
   const disabled =
     postStatus === LoadingStatuses.LOADING || updateStatus === LoadingStatuses.LOADING;
+
+  const day = parseInt(title.split('.')[0]);
+  const dayCount = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate();
+
+  const cmRatio = +((mounthSales!.cm / mounthSales!.to) * 100).toFixed(2);
+  const cmForecast = +((((mounthSales!.cm / day) * dayCount) / planes!.cm) * 100).toFixed();
+  const czRatio = +((mounthSales!.cz / mounthSales!.to) * 100).toFixed(2);
+  const czForecast = +((((mounthSales!.cz / day) * dayCount) / planes!.cz) * 100).toFixed();
+  const caRatio = +((mounthSales!.ca / mounthSales!.to) * 100).toFixed(2);
+  const caForecast = +((((mounthSales!.ca / day) * dayCount) / planes!.ca) * 100).toFixed();
+
+  let cmGrowthForecast = 0;
+  let czGrowthForecast = 0;
+  let caGrowthForecast = 0;
+
+  if (mounthSales && daySales && planes && day !== 1) {
+    cmGrowthForecast = +(
+      cmForecast -
+      ((((mounthSales.cm - daySales.cm) / (day - 1)) * dayCount) / planes.cm) * 100
+    ).toFixed(2);
+    czGrowthForecast = +(
+      czForecast -
+      ((((mounthSales.cz - daySales.cz) / (day - 1)) * dayCount) / planes.cz) * 100
+    ).toFixed(2);
+    caGrowthForecast = +(
+      czForecast -
+      ((((mounthSales.ca - daySales.ca) / (day - 1)) * dayCount) / planes.ca) * 100
+    ).toFixed(2);
+  }
+
+  console.log(cmGrowthForecast);
 
   const modalToggle = useCallback(() => {
     setIsModalOpen((prev) => !prev);
@@ -154,10 +203,21 @@ export const CalendarDay = (props: Props): JSX.Element => {
     <Wrapper delay={delay} withData={!!daySales}>
       <Title isHollyDay={isHollyDay}>{title.split('.')[0]}</Title>
       <Content>
-        <H1 color={'gray'}>ТО: {daySales ? daySales.to : 'no data'}</H1>
-        <H1 color={'green'}>ЦМ: {daySales ? daySales.cm : 'no data'}</H1>
-        <H1 color={'red'}>ЦЗ: {daySales ? daySales.cz : 'no data'}</H1>
-        <H1 color={'#9018ad'}>ЦА: {daySales ? daySales.ca : 'no data'}</H1>
+        <ValueBlock>
+          <H1 color={'gray'}>ТО: {daySales ? daySales.to : 'no data'}</H1>
+        </ValueBlock>
+        <ValueBlock>
+          <H1 color={'green'}>ЦМ: {daySales ? daySales.cm : 'no data'}</H1>
+          <Grow isPositive={cmGrowthForecast > 0}>{cmGrowthForecast}</Grow>
+        </ValueBlock>
+        <ValueBlock>
+          <H1 color={'red'}>ЦЗ: {daySales ? daySales.cz : 'no data'}</H1>
+          <Grow isPositive={czGrowthForecast > 0}>{czGrowthForecast}</Grow>
+        </ValueBlock>
+        <ValueBlock>
+          <H1 color={'#9018ad'}>ЦА: {daySales ? daySales.ca : 'no data'}</H1>
+          <Grow isPositive={caGrowthForecast > 0}>{caGrowthForecast}</Grow>
+        </ValueBlock>
       </Content>
       {!!daySales ? (
         <>

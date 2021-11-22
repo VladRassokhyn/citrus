@@ -5,8 +5,13 @@ body {
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+#evening-report {
+  width: 50%;
+  padding: 10px;
+  background-color: #d7d7d7;
 }
 
 a {

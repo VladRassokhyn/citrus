@@ -97,24 +97,18 @@ const checklistSlice = createSlice({
       const categoryIndex = action.payload.categoryIndex;
       const fieldIndex = action.payload.fieldIndex;
       state.singleChecklist.maxMark -= 1;
-      state.singleChecklist.categories[categoryIndex].fields.splice(
-        fieldIndex,
-        1,
-      );
+      state.singleChecklist.categories[categoryIndex].fields.splice(fieldIndex, 1);
     },
     fieldTitleChanged(state, action) {
       const categoryIndex = action.payload.categoryIndex;
       const fieldIndex = action.payload.fieldIndex;
       const title = action.payload.title;
-      state.singleChecklist.categories[categoryIndex].fields[
-        fieldIndex
-      ].title = title;
+      state.singleChecklist.categories[categoryIndex].fields[fieldIndex].title = title;
     },
     fieldCheckedChanged(state, action) {
       const categoryIndex = action.payload.categoryIndex;
       const fieldIndex = action.payload.fieldIndex;
-      const field =
-        state.singleChecklist.categories[categoryIndex].fields[fieldIndex];
+      const field = state.singleChecklist.categories[categoryIndex].fields[fieldIndex];
       field.checked = !field.checked;
     },
     clearNewChecklist(state) {

@@ -2,13 +2,7 @@ import { FixLater } from './../../globalTypes';
 import { planesApi } from './../../api/planesApi';
 import { SagaIterator } from '@redux-saga/types';
 import { call, takeEvery, put } from 'redux-saga/effects';
-import {
-  getPlanes,
-  planesUpdated,
-  setError,
-  setPlanes,
-  updatePlanes,
-} from './planes.slice';
+import { getPlanes, planesUpdated, setError, setPlanes, updatePlanes } from './planes.slice';
 
 function* getPlanesWorker(action: FixLater): SagaIterator {
   try {

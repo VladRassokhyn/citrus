@@ -36,12 +36,6 @@ const planesSlice = createSlice({
   },
 });
 
-export const {
-  planesUpdated,
-  updatePlanes,
-  getPlanes,
-  setPlanes,
-  setError,
-} = planesSlice.actions;
+export const { planesUpdated, updatePlanes, getPlanes, setPlanes, setError } = planesSlice.actions;
 
 export const planesReducer = planesSlice.reducer;
