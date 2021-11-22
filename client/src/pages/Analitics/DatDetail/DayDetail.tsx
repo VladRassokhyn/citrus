@@ -121,7 +121,7 @@ export function getColumns(planes: Planes) {
     },
     {
       label: 'Отставание',
-      fn: (sale: any) => (sale[8] - (planes.to_cm / 100) * sale[1]).toFixed(0),
+      fn: (sale: any) => (sale[8] - (parseFloat(planes.to_cm + '') / 100) * sale[1]).toFixed(0),
     },
     {
       label: 'ЦЗ',
@@ -133,7 +133,10 @@ export function getColumns(planes: Planes) {
     },
     {
       label: 'Отставание',
-      fn: (sale: any) => (sale[10] - (planes.to_cz / 100) * sale[1]).toFixed(0),
+      fn: (sale: any) => {
+        console.log(sale[10], planes.to_cz, sale[1]);
+        return (sale[10] - (parseFloat(planes.to_cz + '') / 100) * sale[1]).toFixed(0);
+      },
     },
     {
       label: 'ЦА',
