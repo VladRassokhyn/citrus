@@ -7,6 +7,7 @@ import { Circle } from './Circles';
 import { Planes } from '../../../lib/slices/planes/planes.type';
 import { calcMounthSales } from '../EveningReport/EveningReport';
 import { useEffect, useState } from 'react';
+import { DayByDay } from '../DayByDay';
 
 type Props = {
   sales: DaySales[] | null;
@@ -190,6 +191,8 @@ export const Calendar = (props: Props): JSX.Element => {
           </Circles>
         </CircleContent>
       </CirclesContainer>
+
+      <DayByDay sales={sales} days={days.filter((day) => !!day)} />
       <WeekTitleWrapper>
         {weekDays.map((day) => (
           <WeekTitle key={day.value} day={day.value}>

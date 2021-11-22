@@ -96,12 +96,12 @@ export const DayDetail = (props: Props) => {
         </CircleContent>
       </CirclesContainer>
 
-      <DetailTable thisDay={thisDay} columns={columns} ttSales={thisDay.ttSales} />
+      <DetailTable planes={planes} thisDay={thisDay} columns={columns} ttSales={thisDay.ttSales} />
     </Wrapper>
   );
 };
 
-function getColumns(planes: Planes) {
+export function getColumns(planes: Planes) {
   return [
     {
       label: 'ФИО',
