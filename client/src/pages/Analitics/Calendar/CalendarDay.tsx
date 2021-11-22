@@ -130,18 +130,18 @@ export const CalendarDay = (props: Props): JSX.Element => {
   const day = parseInt(title.split('.')[0]);
   const dayCount = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate();
 
-  const cmRatio = +((mounthSales!.cm / mounthSales!.to) * 100).toFixed(2);
-  const cmForecast = +((((mounthSales!.cm / day) * dayCount) / planes!.cm) * 100).toFixed();
-  const czRatio = +((mounthSales!.cz / mounthSales!.to) * 100).toFixed(2);
-  const czForecast = +((((mounthSales!.cz / day) * dayCount) / planes!.cz) * 100).toFixed();
-  const caRatio = +((mounthSales!.ca / mounthSales!.to) * 100).toFixed(2);
-  const caForecast = +((((mounthSales!.ca / day) * dayCount) / planes!.ca) * 100).toFixed();
+  let cmForecast = 0;
+  let czForecast = 0;
+  let caForecast = 0;
 
   let cmGrowthForecast = 0;
   let czGrowthForecast = 0;
   let caGrowthForecast = 0;
 
   if (mounthSales && daySales && planes && day !== 1) {
+    cmForecast = +((((mounthSales!.cm / day) * dayCount) / planes!.cm) * 100).toFixed();
+    czForecast = +((((mounthSales!.cz / day) * dayCount) / planes!.cz) * 100).toFixed();
+    caForecast = +((((mounthSales!.ca / day) * dayCount) / planes!.ca) * 100).toFixed();
     cmGrowthForecast = +(
       cmForecast -
       ((((mounthSales.cm - daySales.cm) / (day - 1)) * dayCount) / planes.cm) * 100
@@ -151,12 +151,10 @@ export const CalendarDay = (props: Props): JSX.Element => {
       ((((mounthSales.cz - daySales.cz) / (day - 1)) * dayCount) / planes.cz) * 100
     ).toFixed(2);
     caGrowthForecast = +(
-      czForecast -
+      caForecast -
       ((((mounthSales.ca - daySales.ca) / (day - 1)) * dayCount) / planes.ca) * 100
     ).toFixed(2);
   }
-
-  console.log(cmGrowthForecast);
 
   const modalToggle = useCallback(() => {
     setIsModalOpen((prev) => !prev);
