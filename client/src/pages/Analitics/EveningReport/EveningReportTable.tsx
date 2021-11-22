@@ -104,6 +104,7 @@ const ScreenContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 20px;
   justify-content: center;
   padding: 30px 0;
   border: 1px solid #d7d7d7;
@@ -112,7 +113,7 @@ const ScreenContainer = styled.div`
 `;
 
 const Button = styled.button`
-  width:
+  width: 200px;
   background-color: var(--color-button);
   color: white;
   min-width: 100px;
