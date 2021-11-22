@@ -45,6 +45,9 @@ const WeekTitleWrapper = styled.div`
   border-radius: 10px;
   box-shadow: 0 0 5px #dfdfdf;
   background-color: #dfdfdf;
+  @media (max-width: 559px) {
+    display: none;
+  }
 `;
 
 const WeekTitle = styled.h1<StyleProps>`
@@ -76,6 +79,9 @@ const CircleContent = styled.div`
 const Circles = styled.div`
   display: flex;
   flex-direction: row;
+  @media (max-width: 559px) {
+    flex-direction: column;
+  }
 `;
 
 const Header = styled.div`

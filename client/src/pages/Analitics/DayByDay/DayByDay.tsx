@@ -24,6 +24,10 @@ const Wrapper = styled.div`
   padding: 15px 3%;
   display: grid;
   grid-template-columns: 30px 1fr 100px;
+
+  @media (max-width: 559px) {
+    display: none;
+  }
 `;
 
 const Container = styled.div<StyleProps>`
