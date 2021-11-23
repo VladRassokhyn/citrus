@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { LoadingStatuses, TTselectorOptions } from '../../globalTypes';
-import { SalesState } from './sales.type';
+import { Sales, SalesState } from './sales.type';
 
 const initialState: SalesState = {
   getStatus: LoadingStatuses.IDLE,
@@ -18,8 +18,8 @@ export const salesSlice = createSlice({
       state.getStatus = LoadingStatuses.LOADING;
     },
     setSales(state, action) {
-      state.daySales = action.payload.map((sales: any) => {
-        const tt = TTselectorOptions.find((tt) => tt.value === sales.tt);
+      state.daySales = action.payload.map((sales: Sales) => {
+        const tt = TTselectorOptions.find((tt) => tt.value === sales.tt.value);
         return { ...sales, tt };
       });
       state.getStatus = LoadingStatuses.SUCCESS;
@@ -45,8 +45,10 @@ export const salesSlice = createSlice({
     sortSales(state, action) {
       const id = action.payload.id;
       const newSales = action.payload.sales;
-      const index = state.daySales?.findIndex((item) => item.id === id);
-      state.daySales![index!].sales = newSales;
+      if (state.daySales) {
+        const index = state.daySales.findIndex((item) => item.id === id);
+        state.daySales[index].sales = newSales;
+      }
     },
   },
 });

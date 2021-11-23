@@ -7,7 +7,6 @@ import {
   FixLater,
   LoadingStatuses,
   UserRoles,
-  TT,
   User,
   TTselectorOptions,
 } from '../../lib/globalTypes';

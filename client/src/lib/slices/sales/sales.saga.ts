@@ -11,25 +11,26 @@ import {
   deleteSales,
   salesDeleted,
 } from './sales.slice';
-import { salesApi } from '../../api/sales.api';
-import { salesmanApi } from '../../api/salesman.api';
+import { salesApi } from './sales.api';
+import { salesmanApi } from '../salesman/salesman.api';
+import { Sales } from './sales.type';
 
 function* getSalesWorker(action: FixLater): SagaIterator {
   try {
     const salesRes = yield call(salesApi.getSales, action.payload);
     const salesmansRes = yield call(salesmanApi.getSalesmans, action.payload);
-    const salesmansNames = salesmansRes.data.map((salesman: any) => salesman.name);
-    const parsedSales: any = [];
-    salesRes.data.forEach((item: any) => {
-      parsedSales.push({ ...item, sales: parse(item.sales) });
+    const salesmansNames = salesmansRes.data.map((salesman: Salesman) => salesman.name);
+    const parsedSales: Sales[] = [];
+    salesRes.data.forEach((item: Sales) => {
+      parsedSales.push({ ...item, sales: parse(String(item.sales)) });
     });
-    const sales: any = [];
-    parsedSales.forEach((salesItem: any) => {
-      const items: any = [];
-      const ttSales: any = [];
-      salesItem.sales.forEach((item: any, index: number) => {
+    const sales: Sales[] = [];
+    parsedSales.forEach((salesItem) => {
+      const items: (string | number)[][] = [];
+      let ttSales: (string | number)[] = [];
+      salesItem.sales.forEach((item, index) => {
         if (index === 3) {
-          ttSales.push(item);
+          ttSales = item;
         }
         if (salesmansNames.includes(item[0])) {
           items.push(item);
@@ -87,7 +88,7 @@ export function* salesWatcher(): SagaIterator {
 
 function parse(input: string) {
   const inputToArray = input.split('+');
-  let result: any[][] = [];
+  let result: (string | number)[][] = [];
   let tmp: string[] = [];
 
   inputToArray.forEach((item, index) => {
@@ -103,7 +104,7 @@ function parse(input: string) {
     if (index !== 0 && index !== 1) {
       return (resItem = resItem.map((subres, i) => {
         if (i !== 0) {
-          const value = parseInt(subres.replace(/\s/g, ''));
+          const value = parseInt((subres as string).replace(/\s/g, ''));
           return isNaN(value) ? 0 : value;
         } else {
           return subres;

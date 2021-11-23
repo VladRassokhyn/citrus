@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { DaySales } from '../../../lib/slices/daySales';
-import { format } from 'date-fns';
 
 type Props = {
-  submitFn: (sales: any) => void;
+  submitFn: (sales: { sales: string; parsed: DaySales }) => void;
 };
 
 type StyleProps = {
@@ -105,7 +104,7 @@ export const SalesInput = (props: Props): JSX.Element => {
         )}
         <Button
           disabled={!parsedValue}
-          onClick={() => submitFn({ sales: value, parsed: parsedValue })}
+          onClick={() => parsedValue && submitFn({ sales: value, parsed: parsedValue })}
         >
           Сохранить
         </Button>
@@ -120,8 +119,8 @@ function parse(input: string) {
   let inputToArray = [];
   const a = input;
   inputToArray = a.replace(/\n/g, '\t').split('\t');
-  const result: any = [];
-  let tmp: any = [];
+  const result: string[][] = [];
+  let tmp: string[] = [];
 
   inputToArray.forEach((item, index) => {
     tmp.push(item);

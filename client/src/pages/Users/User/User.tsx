@@ -84,11 +84,11 @@ export const User = (): JSX.Element | null => {
           >
             <ChecklistContainer>
               <H1>{checklist.title}</H1>
-              {checklist.categories.map((category, categoryIndex) => (
+              {checklist.categories.map((category) => (
                 <CategoryContsiner key={category.id}>
                   <H2>{category.title}</H2>
                   <FieldsContainer>
-                    {category.fields.map((field, fieldIndex) => (
+                    {category.fields.map((field) => (
                       <Checkbox key={field.id} value={field.checked} fullSize label={field.title} />
                     ))}
                   </FieldsContainer>

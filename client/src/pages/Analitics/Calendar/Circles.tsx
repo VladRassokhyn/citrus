@@ -9,7 +9,7 @@ type Props = {
 };
 
 type StyleProps = {
-  progress?: number;
+  progress: number;
   animation: Keyframes;
   color: string;
 };
@@ -33,7 +33,7 @@ const CircleProgress = styled.circle<StyleProps>`
   stroke: ${(props) => props.color};
   stroke-linecap: round;
   stroke-dasharray: 326.56;
-  stroke-dashoffset: ${(props) => 326 - (props.progress! / 100) * 326};
+  stroke-dashoffset: ${(props) => 326 - (props.progress / 100) * 326};
   transform-origin: 50% 50%;
   transform: rotate(280deg);
   animation: ${(props) => props.animation} 1.5s ease-in-out;
@@ -60,7 +60,7 @@ const BidText = styled.span`
   font-size: 14pt;
 `;
 
-export const Circle = (props: Props) => {
+export const Circle = (props: Props): JSX.Element => {
   const { plane, sale, title, color, showFact } = props;
 
   const fact = +((sale / plane) * 100).toFixed(2);

@@ -7,9 +7,6 @@ import styled, { keyframes } from 'styled-components';
 import { bounceIn, bounceOutDown } from 'react-animations';
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
-import { useTypedSelector } from '../../lib/hooks';
-import { authSelectors } from '../../lib/slices/auth';
-import { UserRoles } from '../../lib/globalTypes';
 
 type ClosingProps = {
   isClosing: boolean;

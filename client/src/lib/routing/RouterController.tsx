@@ -3,7 +3,7 @@ import { useTypedSelector } from '../hooks';
 import { authSelectors } from '../slices/auth';
 import { RouteItem, routes } from './routes';
 
-export const RouterController = () => {
+export const RouterController = (): JSX.Element => {
   const authUser = useTypedSelector(authSelectors.selectAuthUser);
 
   const getRouteAction = (route: RouteItem) => {

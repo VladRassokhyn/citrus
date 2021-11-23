@@ -17,3 +17,9 @@ export type DaySalesState = {
   deleteStatus: LoadingStatuses;
   sales: DaySales[] | null;
 };
+
+export type DaySalesStatuses = {
+  getStatus: LoadingStatuses;
+  postStatus: LoadingStatuses;
+  updateStatus: LoadingStatuses;
+};

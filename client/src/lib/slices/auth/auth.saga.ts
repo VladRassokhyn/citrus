@@ -1,5 +1,5 @@
-import { usersApi } from './../../api/users.api';
-import { authApi } from './../../api/auth.api';
+import { usersApi } from '../users/users.api';
+import { authApi } from './auth.api';
 import { SagaIterator } from '@redux-saga/types';
 import { FixLater, LoadingErrors } from './../../globalTypes';
 import { takeEvery, call, put } from 'redux-saga/effects';
@@ -47,7 +47,7 @@ function* authWorker(): SagaIterator {
   }
 }
 
-export function* authWather() {
+export function* authWather(): SagaIterator {
   yield takeEvery(tryLogin.type, loginWorker);
   yield takeEvery(getAuth.type, authWorker);
 }

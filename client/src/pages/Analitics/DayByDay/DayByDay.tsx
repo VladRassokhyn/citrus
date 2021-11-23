@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import { DaySales } from '../../../lib/slices/daySales';
 
 type Props = {
-  days: (string | null)[];
-  sales: DaySales[] | null;
+  days: string[];
+  sales: DaySales[];
 };
 
 type StyleProps = {
@@ -105,10 +105,10 @@ const Btn = styled.button<StyleProps>`
   }
 `;
 
-export const DayByDay = (props: Props) => {
+export const DayByDay = (props: Props): JSX.Element => {
   const [activeBar, setActiveBar] = useState('ALL');
 
-  const maxVaue = props.sales ? getMaxValue(props.sales, activeBar) : 10000;
+  const maxVaue = props.sales? getMaxValue(props.sales, activeBar) : 10000;
 
   return (
     <Wrapper>
@@ -121,9 +121,9 @@ export const DayByDay = (props: Props) => {
       <Container daysCount={props.days.length}>
         {props.sales &&
           props.days.map((day) => {
-            const daySales = props.sales!.find((salesItem) => salesItem.day === day!.split(' ')[1]);
+            const daySales = props.sales.find((salesItem) => salesItem.day === day.split(' ')[1]);
             const isHollyDay =
-              day!.split('.')[0].split(' ')[0] === 'Saturday' || day!.split(' ')[0] === 'Sunday';
+              day.split('.')[0].split(' ')[0] === 'Saturday' || day.split(' ')[0] === 'Sunday';
             return (
               <Day key={day}>
                 {daySales && activeBar === 'ALL' ? (
@@ -147,7 +147,7 @@ export const DayByDay = (props: Props) => {
                     </>
                   )
                 )}
-                <DayNumber isHolyday={isHollyDay}>{day!.split('.')[0].split(' ')[1]}</DayNumber>
+                <DayNumber isHolyday={isHollyDay}>{day.split('.')[0].split(' ')[1]}</DayNumber>
               </Day>
             );
           })}

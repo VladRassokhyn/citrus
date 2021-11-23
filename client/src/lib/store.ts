@@ -1,6 +1,6 @@
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import createSagaMiddleware from 'redux-saga';
-import { rootSaga } from './sagas';
+import { rootSaga } from './rootSaga';
 import { authReducer } from './slices/auth';
 import { checklistReducer } from './slices/checklist';
 import { daySalesReducer } from './slices/daySales';

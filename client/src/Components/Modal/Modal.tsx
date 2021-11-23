@@ -51,6 +51,6 @@ export const Modal = (props: Props): JSX.Element => {
       <Wrapper onClick={onClose}></Wrapper>
       <Content>{children}</Content>
     </>,
-    modalRoot!,
+    modalRoot as Element,
   );
 };

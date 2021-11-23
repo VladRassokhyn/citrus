@@ -2,40 +2,10 @@ import { LoadingStatuses } from './../../globalTypes';
 
 export type Sales = {
   id?: number;
-  tt?: { label: string; value: string };
+  tt: { label: string; value: string };
   day: string;
-  ttSales: [
-    string,
-    number,
-    number,
-    number,
-    number,
-    number,
-    number,
-    number,
-    number,
-    number,
-    number,
-    number,
-    number,
-    number,
-  ][];
-  sales: [
-    string,
-    number,
-    number,
-    number,
-    number,
-    number,
-    number,
-    number,
-    number,
-    number,
-    number,
-    number,
-    number,
-    number,
-  ][];
+  ttSales: (string | number)[];
+  sales: (string | number)[][];
 };
 
 export type SalesState = {
@@ -44,4 +14,24 @@ export type SalesState = {
   updateStatus: LoadingStatuses;
   deleteStatus: LoadingStatuses;
   daySales: Sales[] | null;
+};
+
+export type SalesResponse = {
+  day: string;
+  id: number;
+  sales: string;
+  tt: string;
+}[];
+
+export type SalesStatuses = {
+  getStatus: LoadingStatuses;
+  postStatus: LoadingStatuses;
+  updateStatus: LoadingStatuses;
+};
+
+export type SalesPayload = {
+  id?: number;
+  day: string;
+  tt: string;
+  sales: string;
 };

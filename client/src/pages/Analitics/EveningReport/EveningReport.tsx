@@ -1,94 +1,344 @@
-import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { useTypedSelector } from '../../../lib/hooks';
-import { planesSelectors } from '../../../lib/slices/planes';
-import { SalesInput } from '../SalesInput';
-import { EveningReportTable } from './EveningReportTable';
+import { Planes } from '../../../lib/slices/planes/planes.type';
 import { DaySales } from '../../../lib/slices/daySales';
+import html2canvas from 'html2canvas';
+import { User } from '../../../lib/globalTypes';
 
 type Props = {
-  sales: DaySales[] | null;
+  planes: Planes;
+  daySales: DaySales;
+  mounthSales: DaySales;
+  authUser: User;
 };
+
+type CellProps = {
+  width?: number;
+  color?: string;
+  grow?: boolean;
+};
+
+enum FillColors {
+  RED = 'rgb(255, 0, 0, .3)',
+  YELLOW = 'rgb(255, 255, 0, .5)',
+  GREEN = 'rgb(0, 255, 0, .3)',
+}
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 50px;
+  gap: 15px;
+`;
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const Cell = styled.div`
+  width: 200px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid gray;
+  &:nth-child(2) {
+    border-left: 1px solid gray;
+  }
+  @media (max-width: 559px) {
+    width: 45%;
+  }
+`;
+
+const FilledCell = styled.div<CellProps>`
+  width: ${(props) => (props.width && props.width > 100 ? 100 : props.width)}%;
+  background-color: ${(props) => props.color};
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+`;
+
+const Growth = styled.sup<CellProps>`
+  background-color: ${(props) => (props.grow ? FillColors.GREEN : FillColors.RED)};
+  padding: 3px;
+  margin-left: 10px;
+  font-size: 8pt;
+  width: 24px;
+  border-radius: 5px;
+  &::after {
+    content: '%';
+  }
+`;
+
+const Row = styled.div`
+  display: flex;
+  flex-direction: row;
 `;
 
 const H1 = styled.h1`
-  font-size: 18pt;
-  margin: 10px;
+  width: 391px;
+  padding: 5px;
+  text-align: center;
+  font-size: 14pt;
+  color: white;
+  background-color: var(--color-button);
+  @media (max-width: 559px) {
+    width: 90vw;
+  }
+`;
+
+const H2 = styled.h2`
+  width: 100%;
+  text-align: center;
+  font-size: 12pt;
   color: var(--color-stroke);
+`;
+
+const H3 = styled.h3`
+  width: 391px;
+  height: 40px;
   text-align: center;
 `;
 
-export const EveningReport = (props: Props): JSX.Element => {
-  const { sales } = props;
-  const [daySales, setDaySales] = useState<DaySales | null>(null);
-  const [mounthSales, setMounthSales] = useState<DaySales | null>(null);
-  const planes = useTypedSelector(planesSelectors.selectPlanes);
+const H4 = styled.h2`
+  width: 35%;
+  text-align: center;
+  font-size: 12pt;
+  color: var(--color-stroke);
+`;
 
-  const handleDaySales = (sales: DaySales) => {
-    setDaySales(sales);
-  };
+const ScreenContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  justify-content: center;
+  padding: 30px 0;
+  border: 1px solid #d7d7d7;
+  border-radius: 10px;
+  background-color: white;
+`;
 
-  const handleMounthSales = (sales: DaySales) => {
-    setMounthSales(sales);
-  };
-
-  if (sales && sales.length > 1) {
-    return (
-      <EveningReportTable
-        planes={planes}
-        daySales={sales[sales.length - 1]}
-        mounthSales={calcMounthSales(sales)}
-      />
-    );
+const Button = styled.button`
+  width: 200px;
+  background-color: var(--color-button);
+  color: white;
+  min-width: 100px;
+  height: 30px;
+  border: 0;
+  border-radius: 5px;
+  transition: linear 0.3s;
+  &:hover {
+    cursor: pointer;
+    background-color: #3d82eb;
   }
+`;
+
+export const EveningReport = (props: Props): JSX.Element => {
+  const { planes, daySales, mounthSales, authUser } = props;
+
+  const onScreenshot = () => {
+    html2canvas(document.getElementById('evening-report') as HTMLElement).then((canvas) => {
+      canvas.toBlob(function (blob) {
+        //@ts-ignore
+        const item = new ClipboardItem({ 'image/png': blob });
+        navigator.clipboard.write([item]);
+      });
+    });
+  };
+
+  const dayCount = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate();
+  const day = new Date().getDate();
+
+  const cmRatio = +((mounthSales.cm / mounthSales.to) * 100).toFixed(2);
+  const cmForecast = +((((mounthSales.cm / day) * dayCount) / planes.cm) * 100).toFixed();
+  const czRatio = +((mounthSales.cz / mounthSales.to) * 100).toFixed(2);
+  const czForecast = +((((mounthSales.cz / day) * dayCount) / planes.cz) * 100).toFixed();
+
+  const cmDayPlane = +((planes.cm - mounthSales.cm) / (dayCount - day)).toFixed(0);
+  const czDayPlane = +((planes.cz - mounthSales.cz) / (dayCount - day)).toFixed(0);
+
+  const cmDayRatio = +((daySales.cm / daySales.to) * 100).toFixed(2);
+  const cmDayRate = +((daySales.cm / cmDayPlane) * 100).toFixed();
+  const czDayRatio = +((daySales.cz / daySales.to) * 100).toFixed(2);
+  const czDayRate = +((daySales.cz / czDayPlane) * 100).toFixed();
+
+  const cmGrowthRatio = +(
+    cmRatio -
+    ((mounthSales.cm - daySales.cm) / (mounthSales.to - daySales.to)) * 100
+  ).toFixed(2);
+
+  const cmGrowthForecast = +(
+    cmForecast -
+    ((((mounthSales.cm - daySales.cm) / (day - 1)) * dayCount) / planes.cm) * 100
+  ).toFixed(2);
+
+  const czGrowthRatio = +(
+    czRatio -
+    ((mounthSales.cz - daySales.cz) / (mounthSales.to - daySales.to)) * 100
+  ).toFixed(2);
+
+  const czGrowthForecast = +(
+    czForecast -
+    ((((mounthSales.cz - daySales.cz) / (day - 1)) * dayCount) / planes.cz) * 100
+  ).toFixed(2);
+
+  const cmForecastColor =
+    cmForecast > 90 ? FillColors.GREEN : cmForecast > 70 ? FillColors.YELLOW : FillColors.RED;
+  const czForecastColor =
+    czForecast > 90 ? FillColors.GREEN : czForecast > 70 ? FillColors.YELLOW : FillColors.RED;
+  const cmDayRateColor =
+    cmDayRate > 90 ? FillColors.GREEN : cmDayRate > 70 ? FillColors.YELLOW : FillColors.RED;
+  const czDayRateColor =
+    czDayRate > 90 ? FillColors.GREEN : czDayRate > 70 ? FillColors.YELLOW : FillColors.RED;
 
   return (
     <Wrapper>
-      <>
-        {!daySales && (
-          <div>
-            <H1>Продажи за день</H1>
-            <SalesInput submitFn={handleDaySales} />
-          </div>
-        )}
-        {!mounthSales && (
-          <div>
-            <H1>Продажи за месяц</H1>
-            <SalesInput submitFn={handleMounthSales} />
-          </div>
-        )}
-      </>
-      {daySales && mounthSales && (
-        <EveningReportTable planes={planes} daySales={daySales!} mounthSales={mounthSales!} />
-      )}
+      <Button onClick={onScreenshot}>Сделать скрин</Button>
+      <div id={'evening-report'}>
+        <ScreenContainer>
+          <H3>{authUser.tt.label}</H3>
+          <Container>
+            <H1>МЕСЯЦ</H1>
+            <Row>
+              <Cell>
+                <H2>День</H2>
+              </Cell>
+              <Cell>
+                <H2>{day}</H2>
+              </Cell>
+            </Row>
+
+            <Row>
+              <Cell>
+                <H2>Доля ЦМ</H2>
+                <H4>
+                  <Growth grow={cmGrowthRatio >= 0}>{cmGrowthRatio}</Growth>
+                </H4>
+              </Cell>
+              <Cell>
+                <H2>{cmRatio}%</H2>
+              </Cell>
+            </Row>
+
+            <Row>
+              <Cell>
+                <H2>Прогноз ЦМ</H2>
+                <H4>
+                  <Growth grow={cmGrowthForecast >= 0}>{cmGrowthForecast}</Growth>
+                </H4>
+              </Cell>
+              <Cell>
+                <H2>
+                  <FilledCell width={cmForecast} color={cmForecastColor}>
+                    <H2>{cmForecast}%</H2>
+                  </FilledCell>
+                </H2>
+              </Cell>
+            </Row>
+
+            <Row>
+              <Cell>
+                <H2>Доля ЦЗ</H2>
+                <H4>
+                  <Growth grow={czGrowthRatio >= 0}>{czGrowthRatio}</Growth>
+                </H4>
+              </Cell>
+              <Cell>
+                <H2>{czRatio}%</H2>
+              </Cell>
+            </Row>
+
+            <Row>
+              <Cell>
+                <H2>Прогноз ЦЗ</H2>
+                <H4>
+                  <Growth grow={czGrowthForecast >= 0}>{czGrowthForecast}</Growth>
+                </H4>
+              </Cell>
+              <Cell>
+                <FilledCell width={czForecast} color={czForecastColor}>
+                  <H2>{czForecast}%</H2>
+                </FilledCell>
+              </Cell>
+            </Row>
+          </Container>
+          <Container>
+            <H1>ДЕНЬ</H1>
+
+            <Row>
+              <Cell>
+                <H2>Сумма Устройств</H2>
+              </Cell>
+              <Cell>
+                <H2>{daySales.to}</H2>
+              </Cell>
+            </Row>
+            <Row>
+              <Cell>
+                <H2>Сумма ЦМ</H2>
+              </Cell>
+              <Cell>
+                <H2>{daySales.cm}</H2>
+              </Cell>
+            </Row>
+            <Row>
+              <Cell>
+                <H2>Доля ЦМ</H2>
+              </Cell>
+              <Cell>
+                <H2>{cmDayRatio}%</H2>
+              </Cell>
+            </Row>
+
+            <Row>
+              <Cell>
+                <H2>Выполнение ЦМ</H2>
+              </Cell>
+              <Cell>
+                <FilledCell width={cmDayRate} color={cmDayRateColor}>
+                  <H2>{cmDayRate}%</H2>
+                </FilledCell>
+              </Cell>
+            </Row>
+
+            <Row>
+              <Cell>
+                <H2>Сумма ЦЗ</H2>
+              </Cell>
+              <Cell>
+                <H2>{daySales.cz}</H2>
+              </Cell>
+            </Row>
+            <Row>
+              <Cell>
+                <H2>Доля ЦЗ</H2>
+              </Cell>
+              <Cell>
+                <H2>{czDayRatio}%</H2>
+              </Cell>
+            </Row>
+
+            <Row>
+              <Cell>
+                <H2>Выполнение ЦЗ</H2>{' '}
+              </Cell>
+              <Cell>
+                <FilledCell width={czDayRate} color={czDayRateColor}>
+                  <H2>{czDayRate}%</H2>{' '}
+                </FilledCell>
+              </Cell>
+            </Row>
+            <Row>
+              <Cell>
+                <H2>Сумма ЦА</H2>
+              </Cell>
+              <Cell>
+                <H2>{daySales.ca}</H2>
+              </Cell>
+            </Row>
+          </Container>
+        </ScreenContainer>
+      </div>
     </Wrapper>
   );
 };
-
-export function calcMounthSales(sales: DaySales[] | null | undefined) {
-  if (!sales || sales.length === 0) {
-    return { cm: 0, ca: 0, cz: 0, to: 0, tt: { value: 'no tt', label: 'no tt' }, id: 0, day: '' };
-  }
-  const mounthSales: DaySales = {
-    cm: 0,
-    cz: 0,
-    ca: 0,
-    to: 0,
-    tt: sales[0].tt,
-    id: sales[0].id,
-    day: '',
-  };
-  sales.forEach((sale) => {
-    mounthSales.cm += sale.cm;
-    mounthSales.cz += sale.cz;
-    mounthSales.to += sale.to;
-    mounthSales.ca += sale.ca;
-  });
-
-  return mounthSales;
-}

@@ -1,21 +1,18 @@
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { Redirect, useParams } from 'react-router';
+import { useParams } from 'react-router';
 import styled from 'styled-components';
-import { Salesman } from '../../../lib/globalTypes';
+import { Preloader } from '../../../Components/Preloader';
+import { calcFns } from '../../../lib/common';
 import { useTypedSelector } from '../../../lib/hooks';
 import { DaySales } from '../../../lib/slices/daySales';
 import { planesSelectors } from '../../../lib/slices/planes';
 import { Planes } from '../../../lib/slices/planes/planes.type';
-import { salesActions, salesSelectors } from '../../../lib/slices/sales';
+import { salesSelectors } from '../../../lib/slices/sales';
 import { Circle } from '../Calendar/Circles';
-import { calcMounthSales } from '../EveningReport/EveningReport';
 import { DetailTable } from './DetailTable';
 
 type Props = {
   allSales: DaySales[] | null;
   tt: { label: string; value: string };
-  salesmans: Salesman[] | null;
 };
 
 const Wrapper = styled.div``;
@@ -53,32 +50,29 @@ const Circles = styled.div`
   justify-content: space-around;
 `;
 
-export const DayDetail = (props: Props) => {
+export const DayDetail = (props: Props): JSX.Element => {
   const salesDate = useParams<{ salesDate: string }>().salesDate.replace(/[^0-9]/g, '.');
   const thisDay = useTypedSelector(salesSelectors.selectSalesByDate(salesDate));
   const planes = useTypedSelector(planesSelectors.selectPlanes);
-  const dispatch = useDispatch();
+  const columns = getColumns(planes);
 
+  if (!thisDay) {
+    return <Preloader />;
+  }
   const dayCount = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate();
   const day = new Date().getDate();
 
-  const cmDaySales = thisDay?.ttSales[0][8];
-  const czDaySales = thisDay?.ttSales[0][10];
-  const caDaySales = thisDay?.ttSales[0][12];
+  const cmDaySales = thisDay.ttSales[8] as number;
+  const czDaySales = thisDay.ttSales[10] as number;
+  const caDaySales = thisDay.ttSales[12] as number;
 
-  const mounthSales = calcMounthSales(props.allSales);
+  const mounthSales = calcFns.calcMounthSales(props.allSales);
   const to_cmFact = +((mounthSales.cm / mounthSales.to) * 100).toFixed(2);
   const to_czFact = +((mounthSales.cz / mounthSales.to) * 100).toFixed(2);
 
   const cmDayPlane = (planes.cm - mounthSales.cm) / (dayCount - day);
   const czDayPlane = (planes.cz - mounthSales.ca) / (dayCount - day);
   const caDayPlane = (planes.cz - mounthSales.ca) / (dayCount - day);
-
-  const [columns, setColumns] = useState(getColumns(planes));
-
-  if (!thisDay || !cmDaySales) {
-    return <Redirect to={'/analytics/main'} />;
-  }
 
   return (
     <Wrapper>
@@ -87,9 +81,9 @@ export const DayDetail = (props: Props) => {
       <CirclesContainer>
         <CircleContent>
           <Circles>
-            <Circle color={'green'} sale={cmDaySales!} plane={cmDayPlane} title={'ЦМ'} />
-            <Circle color={'red'} sale={czDaySales!} plane={czDayPlane} title={'ЦЗ'} />
-            <Circle color={'#9018ad'} sale={caDaySales!} plane={caDayPlane} title={'ЦА'} />
+            <Circle color={'green'} sale={cmDaySales} plane={cmDayPlane} title={'ЦМ'} />
+            <Circle color={'red'} sale={czDaySales} plane={czDayPlane} title={'ЦЗ'} />
+            <Circle color={'#9018ad'} sale={caDaySales} plane={caDayPlane} title={'ЦА'} />
             <Circle color={'green'} sale={to_cmFact} plane={planes.to_cm} title={'ЦМ%'} showFact />
             <Circle color={'red'} sale={to_czFact} plane={planes.to_cz} title={'ЦЗ%'} showFact />
           </Circles>
@@ -101,46 +95,63 @@ export const DayDetail = (props: Props) => {
   );
 };
 
-export function getColumns(planes: Planes) {
+type Column = {
+  label: string;
+  fn: (sale: (string | number)[]) => string | number;
+};
+
+export function getColumns(planes: Planes): Column[] {
   return [
     {
       label: 'ФИО',
-      fn: (sale: any) => sale[0],
+      fn: (sale: (string | number)[]) => sale[0],
     },
     {
       label: 'Устройства',
-      fn: (sale: any) => sale[1],
+      fn: (sale: (string | number)[]) => sale[1],
     },
     {
       label: 'ЦМ',
-      fn: (sale: any) => sale[8],
+      fn: (sale: (string | number)[]) => sale[8],
     },
     {
       label: 'Доля ЦМ',
-      fn: (sale: any) => ((sale[8] / sale[1]) * 100).toFixed(2),
+      fn: (sale: (string | number)[]) => {
+        if (+sale[1] === 0) {
+          return 100;
+        } else {
+          return ((+sale[8] / +sale[1]) * 100).toFixed(2);
+        }
+      },
     },
     {
       label: 'Отставание',
-      fn: (sale: any) => (sale[8] - (parseFloat(planes.to_cm + '') / 100) * sale[1]).toFixed(0),
+      fn: (sale: (string | number)[]) =>
+        (+sale[8] - (parseFloat(planes.to_cm + '') / 100) * +sale[1]).toFixed(0),
     },
     {
       label: 'ЦЗ',
-      fn: (sale: any) => sale[10],
+      fn: (sale: (string | number)[]) => sale[10],
     },
     {
       label: 'Доля ЦЗ',
-      fn: (sale: any) => ((sale[10] / sale[1]) * 100).toFixed(2),
+      fn: (sale: (string | number)[]) => {
+        if (+sale[1] === 0) {
+          return 100;
+        } else {
+          return ((+sale[10] / +sale[1]) * 100).toFixed(2);
+        }
+      },
     },
     {
       label: 'Отставание',
-      fn: (sale: any) => {
-        console.log(sale[10], planes.to_cz, sale[1]);
-        return (sale[10] - (parseFloat(planes.to_cz + '') / 100) * sale[1]).toFixed(0);
+      fn: (sale: (string | number)[]) => {
+        return (+sale[10] - (parseFloat(planes.to_cz + '') / 100) * +sale[1]).toFixed(0);
       },
     },
     {
       label: 'ЦА',
-      fn: (sale: any) => sale[12],
+      fn: (sale: (string | number)[]) => sale[12],
     },
   ];
 }

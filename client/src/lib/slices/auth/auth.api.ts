@@ -1,7 +1,7 @@
-import { axiosInstance } from './axiosInstance';
+import { axiosInstance } from '../../axiosInstance';
 
 export const authApi = {
-  getAuth() {
+  getAuth(): Promise<{ userId: number }> {
     return axiosInstance.get('/auth');
   },
   login(dto: { username: string; password: string }): Promise<{ data: string }> {

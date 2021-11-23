@@ -10,7 +10,7 @@ import { Accordion } from '../../Components/Accordion';
 import { NewUserForm } from './NewUserForm';
 import { UserSubMenu } from './UserSubMenu';
 import { authSelectors } from '../../lib/slices/auth';
-import { selectAllUsers, selectSalesmans } from '../../lib/slices/users/users.selectors';
+import { selectAllUsers } from '../../lib/slices/users/users.selectors';
 
 const Wrapper = styled.div`
   display: flex;

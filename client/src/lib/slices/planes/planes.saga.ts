@@ -1,5 +1,5 @@
 import { FixLater } from './../../globalTypes';
-import { planesApi } from './../../api/planesApi';
+import { planesApi } from './planes.api';
 import { SagaIterator } from '@redux-saga/types';
 import { call, takeEvery, put } from 'redux-saga/effects';
 import { getPlanes, planesUpdated, setError, setPlanes, updatePlanes } from './planes.slice';
@@ -23,7 +23,7 @@ function* updatePlanesWorker(action: FixLater): SagaIterator {
   }
 }
 
-export function* planewWatcher() {
+export function* planewWatcher(): SagaIterator {
   yield takeEvery(getPlanes.type, getPlanesWorker);
   yield takeEvery(updatePlanes.type, updatePlanesWorker);
 }

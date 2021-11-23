@@ -7,3 +7,5 @@ export type AuthInitial = {
   authError: LoadingErrors;
   authUser: User | null;
 };
+
+export type authStatuses = { authStatus: LoadingStatuses; loginStatus: LoadingStatuses };

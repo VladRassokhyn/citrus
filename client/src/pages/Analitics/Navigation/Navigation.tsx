@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 import { slideInLeft } from 'react-animations';
 import { NavItem } from './NavItem';

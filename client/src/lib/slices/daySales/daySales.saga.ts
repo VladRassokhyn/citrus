@@ -11,7 +11,7 @@ import {
   setDaySales,
   updateDaySales,
 } from './daySales.slice';
-import { daySalesApi } from '../../api/daySales.api';
+import { daySalesApi } from './daySales.api';
 
 function* daySalesWorker(action: FixLater): SagaIterator {
   try {

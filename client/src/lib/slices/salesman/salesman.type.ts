@@ -6,3 +6,9 @@ export type SalesmanState = {
   deleteStatus: LoadingStatuses;
   salesmans: Salesman[] | null;
 };
+
+export type SalesmanStatuses = {
+  getStatus: LoadingStatuses;
+  postStatus: LoadingStatuses;
+  deleteStatus: LoadingStatuses;
+};

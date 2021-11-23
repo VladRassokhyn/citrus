@@ -1,6 +1,6 @@
 import { call, put, takeEvery } from '@redux-saga/core/effects';
 import { SagaIterator } from '@redux-saga/types';
-import { salesmanApi } from '../../api/salesman.api';
+import { salesmanApi } from './salesman.api';
 import { FixLater } from '../../globalTypes';
 import {
   deleteSalesman,
@@ -32,7 +32,7 @@ function* postSalesmansWorker(action: FixLater): SagaIterator {
 
 function* deleteSalesmansWorker(action: FixLater): SagaIterator {
   try {
-    const res = yield call(salesmanApi.deleteSalesmans, action.payload.id);
+    yield call(salesmanApi.deleteSalesmans, action.payload.id);
     yield put({ type: salesmanDeleted.type });
     yield put({ type: getSalesmans.type, payload: action.payload.tt });
   } catch (err) {

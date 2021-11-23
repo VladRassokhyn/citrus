@@ -1,6 +1,5 @@
-import { FixLater, User } from '../globalTypes';
-import { getUserChecklists } from '../slices/users/oneUser.slice';
-import { axiosInstance } from './axiosInstance';
+import { FixLater, User } from '../../globalTypes';
+import { axiosInstance } from '../../axiosInstance';
 
 export const usersApi = {
   async getUsers(tt: string): Promise<{ data: User[] }> {
@@ -15,10 +14,10 @@ export const usersApi = {
   async updateUser({ id, dto }: { id: number; dto: User }): Promise<{ data: User }> {
     return await axiosInstance.put(`/users/${id}`, dto);
   },
-  async getUserById(id: number | string) {
+  async getUserById(id: number | string): Promise<string> {
     return await axiosInstance.get(`/users/${id}`);
   },
-  async getUserChecklists(userId: number) {
+  async getUserChecklists(userId: number): Promise<string> {
     return await axiosInstance.get(`/checklist?passerId=${userId}&passedOnly=true`);
   },
 };

@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Route } from 'react-router';
+import { Redirect, Route } from 'react-router';
 import styled from 'styled-components';
-import { EveningReport } from '.';
 import { Preloader } from '../../Components/Preloader';
 import { LoadingStatuses, TTselectorOptions } from '../../lib/globalTypes';
 import { useTypedSelector } from '../../lib/hooks';
@@ -15,8 +14,14 @@ import { PlanesPanel } from './PlanesPanel';
 import Selector from 'react-select';
 import { Salesmans } from './Salesmans';
 import { salesActions, salesSelectors } from '../../lib/slices/sales';
-import { DayDetail } from './DatDetail';
-import { salesmanActions, salesmanSelectors } from '../../lib/slices/salesman';
+import { DayDetail } from './DayDetail';
+import { EveningReport } from './EveningReport';
+import { calcFns } from '../../lib/common';
+
+type SelectionOption = {
+  label: string;
+  value: string;
+};
 
 const Wrapper = styled.div``;
 
@@ -44,43 +49,45 @@ export const Analitic = (): JSX.Element => {
   const authUser = useTypedSelector(authSelectors.selectAuthUser);
   const daySales = useTypedSelector(daySalesSelectors.selectAllDaySales);
   const sales = useTypedSelector(salesSelectors.selectAllSales);
-  const salesmans = useTypedSelector(salesmanSelectors.selectAllSalesmans);
 
-  const salesmansStatus = useTypedSelector(salesmanSelectors.selectSalesmanStatuses);
   const planesStatus = useTypedSelector(planesSelectors.selectStatus);
   const daySalesStatus = useTypedSelector(daySalesSelectors.selectDaySalesStatuses);
   const salesStatus = useTypedSelector(salesSelectors.selectSalesStatuses);
 
-  const [selectedTT, setSelectedTT] = useState(authUser!.tt);
+  const [selectedTT, setSelectedTT] = useState(authUser?.tt);
   const dispatch = useDispatch();
 
+  const handleChangeTT = (e: SelectionOption | null) => {
+    if (e) {
+      setSelectedTT(e);
+    }
+  };
+
   useEffect(() => {
-    if (authUser) {
+    if (authUser && selectedTT) {
       dispatch(daySalesActions.getDaySales(selectedTT.value));
       dispatch(planesActions.getPlanes(selectedTT.value));
       dispatch(salesActions.getSales(selectedTT.value));
-      dispatch(salesmanActions.getSalesmans(selectedTT.value));
     }
   }, [selectedTT]);
 
   if (
     planesStatus !== LoadingStatuses.SUCCESS ||
     daySalesStatus.getStatus !== LoadingStatuses.SUCCESS ||
-    salesStatus.getStatus !== LoadingStatuses.SUCCESS ||
-    salesmansStatus.getStatus !== LoadingStatuses.SUCCESS
+    salesStatus.getStatus !== LoadingStatuses.SUCCESS
   ) {
     return <Preloader />;
   }
 
+  if (!authUser) {
+    return <Redirect to={'/login'} />;
+  }
+
   return (
     <Wrapper>
-      {authUser!.role === 'ADMIN' && (
+      {authUser.role === 'ADMIN' && (
         <Filter>
-          <Selector
-            options={TTselectorOptions}
-            value={selectedTT}
-            onChange={(e: any) => setSelectedTT(e)}
-          />
+          <Selector options={TTselectorOptions} value={selectedTT} onChange={handleChangeTT} />
         </Filter>
       )}
       <PlanesPanel planes={planes} />
@@ -89,22 +96,34 @@ export const Analitic = (): JSX.Element => {
         <Content>
           <Route
             path={'/analytics/evening-report'}
-            render={() => <EveningReport sales={daySales!} />}
+            render={() => (
+              <>
+                {daySales && (
+                  <EveningReport
+                    planes={planes}
+                    daySales={daySales[daySales.length - 1]}
+                    mounthSales={calcFns.calcMounthSales(daySales)}
+                    authUser={authUser}
+                  />
+                )}
+              </>
+            )}
           />
           <Route
             path={'/analytics/main'}
             exact
             render={() => (
-              <Calendar newSales={sales} planes={planes} authUser={authUser!} sales={daySales} />
+              <>
+                {daySales && sales && (
+                  <Calendar newSales={sales} planes={planes} authUser={authUser} sales={daySales} />
+                )}
+              </>
             )}
           />
-          <Route
-            path={'/analytics/salesmans'}
-            render={() => <Salesmans authUser={authUser!} salesmans={salesmans} />}
-          />
+          <Route path={'/analytics/salesmans'} render={() => <Salesmans authUser={authUser} />} />
           <Route
             path={'/analytics/main/:salesDate'}
-            render={() => <DayDetail allSales={daySales} tt={authUser!.tt} salesmans={salesmans} />}
+            render={() => <DayDetail allSales={daySales} tt={authUser.tt} />}
           />
         </Content>
       </Container>

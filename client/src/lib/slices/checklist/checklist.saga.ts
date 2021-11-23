@@ -1,4 +1,4 @@
-import { checklistsApi } from './../../api/checklists.api';
+import { checklistsApi } from './checklist.api';
 import { FixLater } from './../../globalTypes';
 import { takeEvery, call, put } from 'redux-saga/effects';
 import { SagaIterator } from '@redux-saga/types';

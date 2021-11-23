@@ -1,17 +1,18 @@
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 import { format } from 'date-fns';
 import { CalendarDay } from './CalendarDay';
 import { DaySales } from '../../../lib/slices/daySales';
 import { User } from '../../../lib/globalTypes';
 import { Circle } from './Circles';
 import { Planes } from '../../../lib/slices/planes/planes.type';
-import { calcMounthSales } from '../EveningReport/EveningReport';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { DayByDay } from '../DayByDay';
+import { Sales } from '../../../lib/slices/sales/sales.type';
+import { calcFns } from '../../../lib/common';
 
 type Props = {
-  sales: DaySales[] | null;
-  newSales: any;
+  sales: DaySales[];
+  newSales: Sales[];
   authUser: User;
   planes: Planes;
 };
@@ -149,34 +150,38 @@ const mounthsRu = [
 export const Calendar = (props: Props): JSX.Element => {
   const { newSales, sales, authUser, planes } = props;
   const [mounth, setMounth] = useState(new Date().getMonth());
-  const [days, setDays] = useState(getDays(mounth));
+  const [days, setDays] = useState(getDaysFormated(mounth));
 
-  const salesSum = sales ? calcMounthSales(sales) : { cm: 0, ca: 0, cz: 0 };
+  const salesSum = useMemo(
+    () => (sales ? calcFns.calcMounthSales(sales) : { cm: 0, ca: 0, cz: 0 }),
+    [sales],
+  );
 
-  const dayCount = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate();
-  const day = new Date().getDate();
-  const cmForecast = (salesSum.cm / day) * dayCount;
-  const czForecast = (salesSum.cz / day) * dayCount;
-  const caForecast = (salesSum.ca / day) * dayCount;
+  const cmForecast = useMemo(() => calcFns.calcForecastSumm(salesSum.cm), [salesSum]);
+  const czForecast = useMemo(() => calcFns.calcForecastSumm(salesSum.cz), [salesSum]);
+  const caForecast = useMemo(() => calcFns.calcForecastSumm(salesSum.ca), [salesSum]);
+
+  const handleMounthIncrement = useCallback(() => setMounth((prev) => prev + 1), []);
+  const handleMounthDerement = useCallback(() => setMounth((prev) => prev - 1), []);
 
   useEffect(() => {
     if (mounth > 11) {
-      setDays(getDays(1));
+      setDays(getDaysFormated(1));
       setMounth(1);
     } else if (mounth < 1) {
-      setDays(getDays(11));
+      setDays(getDaysFormated(11));
       setMounth(11);
     } else {
-      setDays(getDays(mounth));
+      setDays(getDaysFormated(mounth));
     }
   }, [mounth]);
 
   return (
     <Wrapper>
       <Header>
-        <GoBtn onClick={() => setMounth((prev) => prev - 1)}>⟵</GoBtn>
+        <GoBtn onClick={handleMounthDerement}>⟵</GoBtn>
         <Mounth>{mounthsRu[mounth]} 2021г.</Mounth>
-        <GoBtn onClick={() => setMounth((prev) => prev + 1)}>⟶</GoBtn>
+        <GoBtn onClick={handleMounthIncrement}>⟶</GoBtn>
       </Header>
       <CirclesContainer>
         <CircleContent>
@@ -198,7 +203,9 @@ export const Calendar = (props: Props): JSX.Element => {
         </CircleContent>
       </CirclesContainer>
 
-      <DayByDay sales={sales} days={days.filter((day) => !!day)} />
+      {sales.length > 1 && (
+        <DayByDay sales={sales} days={days.filter((day) => !!day) as string[]} />
+      )}
       <WeekTitleWrapper>
         {weekDays.map((day) => (
           <WeekTitle key={day.value} day={day.value}>
@@ -209,17 +216,18 @@ export const Calendar = (props: Props): JSX.Element => {
       <CalendarWrapper>
         {days.map((day, i) => {
           if (!day) {
-            return <CalendarDay tt={authUser.tt} delay={0} key={i} isEmpty title={''} />;
+            return <CalendarDay ttSales={[]} tt={authUser.tt} delay={i} key={i} title={''} />;
           } else {
             const isHollyDay = day.split(' ')[0] === 'Saturday' || day.split(' ')[0] === 'Sunday';
-            const daySales = sales?.find((salesItem) => salesItem.day === day.split(' ')[1]);
-            const newSale = newSales?.find((salesItem: any) => salesItem.day === day.split(' ')[1]);
-            const salesByToday = sales?.filter(
+            const daySales = sales.find((salesItem) => salesItem.day === day.split(' ')[1]);
+            const newSale = newSales.find((salesItem) => salesItem.day === day.split(' ')[1]);
+            const salesByToday = sales.filter(
               (sale) => parseInt(sale.day) < parseInt(day.split(' ')[1]),
             );
-            const mounthSales = calcMounthSales(salesByToday);
+            const mounthSales = calcFns.calcMounthSales(salesByToday);
             return (
               <CalendarDay
+                ttSales={newSale?.ttSales}
                 isHollyDay={isHollyDay}
                 delay={i}
                 daySales={daySales}
@@ -238,7 +246,7 @@ export const Calendar = (props: Props): JSX.Element => {
   );
 };
 
-function getDays(mounth: number) {
+function getDaysFormated(mounth: number) {
   const daysCount = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate();
   const days = [];
 

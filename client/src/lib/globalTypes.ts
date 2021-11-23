@@ -89,13 +89,6 @@ export type Salesman = {
   tt: string;
 };
 
-export type SalesPayload = {
-  id?: number;
-  day: string;
-  tt: string;
-  sales: string;
-};
-
 export const TTselectorOptions = [
   { label: TTlabel.KR29, value: TT.KR29 },
   { label: TTlabel.KR52, value: TT.KR52 },

@@ -1,6 +1,6 @@
 import { FixLater } from '../../globalTypes';
-import { usersApi } from '../../api/users.api';
-import { takeEvery, call, put, delay } from 'redux-saga/effects';
+import { usersApi } from './users.api';
+import { takeEvery, call, put } from 'redux-saga/effects';
 import {
   getUsers,
   setError,

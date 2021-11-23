@@ -18,10 +18,6 @@ type Props = {
   user: User;
 };
 
-type ButtonProps = {
-  disabled?: boolean;
-};
-
 const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
@@ -44,16 +40,6 @@ const H1 = styled.h1`
   margin-right: 30px;
   font-size: 12pt;
   color: var(--color-stroke);
-`;
-
-const Button = styled.button<ButtonProps>`
-  width: 50%;
-  height: 30px;
-  background-color: ${(props) => (props.disabled ? 'lightgrey' : 'var(--color-button)')};
-  border: 1px solid #d1d1d1;
-  color: white;
-  font-size: 14pt;
-  border-radius: 5px;
 `;
 
 export const UserSubMenu = (props: Props): JSX.Element => {

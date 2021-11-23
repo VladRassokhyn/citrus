@@ -5,9 +5,12 @@ import { salesActions } from '../../../lib/slices/sales';
 import { Sales } from '../../../lib/slices/sales/sales.type';
 
 type Props = {
-  columns: { label: string; fn: (sales: any) => any }[];
+  columns: {
+    label: string;
+    fn: (sales: (string | number)[]) => string | number;
+  }[];
   thisDay: Sales;
-  ttSales: any;
+  ttSales: (string | number)[];
   planes: Planes;
 };
 
@@ -109,16 +112,17 @@ const NameCell = styled.div`
   padding-left: 10px;
 `;
 
-export const DetailTable = (props: Props) => {
+export const DetailTable = (props: Props): JSX.Element => {
   const { columns, thisDay, ttSales, planes } = props;
   const dispatch = useDispatch();
 
-  const sortByFn = (fn: any) => {
+  const sortByFn = (fn: (arg: (string | number)[]) => string | number) => {
     if (thisDay) {
-      const sortedSales = [...thisDay.sales].sort((a, b) => fn(b) - fn(a));
+      const sortedSales = [...thisDay.sales].sort((a, b) => +fn(b) - +fn(a));
       dispatch(salesActions.sortSales({ id: thisDay.id, sales: sortedSales }));
     }
   };
+
   return (
     <Wrapper>
       {columns.map((column, i) => {
@@ -131,19 +135,15 @@ export const DetailTable = (props: Props) => {
             </Head>
 
             <TTHead>
-              {ttSales.map((ttSale: any, i: number) => (
-                <Cell>
-                  <H2>{column.fn(ttSale)}</H2>
-                </Cell>
-              ))}
+              <Cell>
+                <H2>{column.fn(ttSales)}</H2>
+              </Cell>
             </TTHead>
             {thisDay.sales.map((salesman) => {
               if (i === 0) {
                 return (
                   <NameCell>
-                    <H2>{`${column.fn(salesman).split(' ')[0]} ${
-                      column.fn(salesman).split(' ')[1]
-                    }`}</H2>
+                    <H2>{getShortName(column.fn(salesman) as string)}</H2>
                   </NameCell>
                 );
               } else if (i === 3 || i === 6) {
@@ -152,8 +152,8 @@ export const DetailTable = (props: Props) => {
                     <FilledCell
                       width={
                         i === 3
-                          ? (column.fn(salesman) / planes.to_cm) * 100
-                          : (column.fn(salesman) / planes.to_cz) * 100
+                          ? (+column.fn(salesman) / planes.to_cm) * 100
+                          : (+column.fn(salesman) / planes.to_cz) * 100
                       }
                       color={'#b8f2c5'}
                     />
@@ -174,3 +174,7 @@ export const DetailTable = (props: Props) => {
     </Wrapper>
   );
 };
+
+function getShortName(fullName: string) {
+  return `${fullName.split(' ')[0]} ${fullName.split(' ')[1]}`;
+}

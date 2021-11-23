@@ -1,12 +1,17 @@
+import { LoadingStatuses } from './../../globalTypes';
+import { Checklist } from './checklist.types';
 import { RootState } from './../../store';
 
-export const selectAllChecklists = (state: RootState) => state.checklist.checklists;
+export const selectAllChecklists = (state: RootState): Checklist[] | null =>
+  state.checklist.checklists;
 
-export const selectChecklistsStatus = (state: RootState) => state.checklist.status;
+export const selectSingleChecklist = (state: RootState): Checklist =>
+  state.checklist.singleChecklist;
 
-export const selectPostChecklistStatus = (state: RootState) => state.checklist.postChecklistStatus;
+export const selectChecklistsStatus = (state: RootState): LoadingStatuses => state.checklist.status;
 
-export const selectSingleChecklist = (state: RootState) => state.checklist.singleChecklist;
+export const selectPostChecklistStatus = (state: RootState): LoadingStatuses =>
+  state.checklist.postChecklistStatus;
 
-export const selectSingleChecklistStatus = (state: RootState) =>
+export const selectSingleChecklistStatus = (state: RootState): LoadingStatuses =>
   state.checklist.singleChecklistStatus;

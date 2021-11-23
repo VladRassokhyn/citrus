@@ -1,5 +1,5 @@
-import { Checklist } from '../slices/checklist';
-import { axiosInstance } from './axiosInstance';
+import { Checklist } from './checklist.types';
+import { axiosInstance } from '../../axiosInstance';
 
 export const checklistsApi = {
   async getChecklists(): Promise<Checklist[]> {
@@ -11,7 +11,7 @@ export const checklistsApi = {
   async getChecklistById(id: string): Promise<Checklist> {
     return await axiosInstance.get(`/checklist/${id}`);
   },
-  async deleteChecklist(id: number) {
+  async deleteChecklist(id: number): Promise<string> {
     return await axiosInstance.delete(`/checklist/${id}`);
   },
 };

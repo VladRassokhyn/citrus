@@ -36,7 +36,7 @@ const H1 = styled.h1`
   font-size: 12pt;
 `;
 
-export const Confirm = (props: Props) => {
+export const Confirm = (props: Props): JSX.Element => {
   const { confirmFn, children, title } = props;
   const [isOpen, setIsOpen] = useState(false);
 

@@ -10,7 +10,7 @@ export type UsersState = {
 
 export type OneUserState = {
   status: LoadingStatuses;
-  passedChecklistsStatus: LoadingStatuses;
+  passedChecklistsStatus: LoadingStatuses
   user: User | null;
   passedChecklists: Checklist[] | null;
 };
