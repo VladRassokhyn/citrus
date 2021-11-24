@@ -202,9 +202,8 @@ export const Calendar = (props: Props): JSX.Element => {
         </CircleContent>
       </CirclesContainer>
 
-      {sales.length > 1 && (
-        <DayByDay sales={sales} days={days.filter((day) => !!day) as string[]} />
-      )}
+      <DayByDay sales={sales} days={days.filter((day) => !!day) as string[]} />
+
       <WeekTitleWrapper>
         {weekDays.map((day) => (
           <WeekTitle key={day.value} day={day.value}>

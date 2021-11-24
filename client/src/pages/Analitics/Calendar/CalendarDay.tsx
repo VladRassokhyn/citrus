@@ -103,10 +103,7 @@ const Wrapper = styled.div<StyleProps>`
     props.isEmpty ? '#dfdfdf' : props.withData ? '#ebffeb' : '#fff0f0'};
   box-shadow: 0 0 5px #909090;
   border-radius: 10px;
-  opacity: 0;
   min-width: 100px;
-  animation: ${opacityAnimation} 0.1s forwards, ${animationIn} 0.3s forwards;
-  animation-delay: ${(props) => props.delay && props.delay * 50}ms;
   &:hover {
     cursor: pointer;
   }

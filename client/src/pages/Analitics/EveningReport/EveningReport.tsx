@@ -38,7 +38,6 @@ const Container = styled.div`
 `;
 
 const Cell = styled.div`
-  margin: 1px;
   width: 200px;
   height: 30px;
   display: flex;

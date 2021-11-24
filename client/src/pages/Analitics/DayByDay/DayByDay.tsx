@@ -115,7 +115,7 @@ const Btn = styled.button<StyleProps>`
 export const DayByDay = (props: Props): JSX.Element => {
   const [activeBar, setActiveBar] = useState('ALL');
 
-  const maxVaue = props.sales ? getMaxValue(props.sales, activeBar) : 10000;
+  const maxVaue = props.sales.length > 0 ? getMaxValue(props.sales, activeBar) : 10000;
 
   return (
     <Wrapper>
