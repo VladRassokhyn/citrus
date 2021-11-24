@@ -69,7 +69,7 @@ export const Circle = (props: Props): JSX.Element => {
     stroke-dashoffset: 326.56;
   }
   to {
-    stroke-dashoffset: ${326 - (fact / 100) * 326};
+    stroke-dashoffset: ${326 - ((fact > 100 ? 100 : fact) / 100) * 326};
   }`;
 
   return (
@@ -84,7 +84,7 @@ export const Circle = (props: Props): JSX.Element => {
           <CircleProgress
             color={color}
             animation={animation}
-            progress={fact}
+            progress={fact > 100 ? 100 : fact}
             cx="75"
             cy="75"
             r="52"

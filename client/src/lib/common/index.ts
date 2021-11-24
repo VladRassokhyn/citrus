@@ -1,3 +1,3 @@
-import { calcMounthSales, calcForecastSumm, calcForecastPercent } from './calcFns';
+import { mounthSales, forecastSumm, forecastPercent, ratio, growthForecast } from './calcFns';
 
-export const calcFns = { calcMounthSales, calcForecastSumm, calcForecastPercent };
+export const calcFns = { mounthSales, forecastSumm, ratio, forecastPercent, growthForecast };

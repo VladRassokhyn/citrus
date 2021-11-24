@@ -28,9 +28,18 @@ const H1 = styled.h1`
   border-radius: 5px;
 `;
 
+const H2 = styled.h1`
+  margin-top: 20px;
+  font-size: 16pt;
+  width: 100%;
+  text-align: center;
+  color: var(--color-stroke);
+`;
+
 const CirclesContainer = styled.div`
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: 63% 33%;
+  gap: 3%;
 `;
 
 const CircleContent = styled.div`
@@ -66,9 +75,9 @@ export const DayDetail = (props: Props): JSX.Element => {
   const czDaySales = thisDay.ttSales[10] as number;
   const caDaySales = thisDay.ttSales[12] as number;
 
-  const mounthSales = calcFns.calcMounthSales(props.allSales);
-  const to_cmFact = +((mounthSales.cm / mounthSales.to) * 100).toFixed(2);
-  const to_czFact = +((mounthSales.cz / mounthSales.to) * 100).toFixed(2);
+  const mounthSales = calcFns.mounthSales(props.allSales);
+  const to_cmFact = calcFns.ratio(+thisDay.ttSales[8], +thisDay.ttSales[1]);
+  const to_czFact = calcFns.ratio(+thisDay.ttSales[10], +thisDay.ttSales[1]);
 
   const cmDayPlane = (planes.cm - mounthSales.cm) / (dayCount - day);
   const czDayPlane = (planes.cz - mounthSales.ca) / (dayCount - day);
@@ -80,12 +89,18 @@ export const DayDetail = (props: Props): JSX.Element => {
 
       <CirclesContainer>
         <CircleContent>
+          <H2>Выполнение планов</H2>
           <Circles>
             <Circle color={'green'} sale={cmDaySales} plane={cmDayPlane} title={'ЦМ'} />
             <Circle color={'red'} sale={czDaySales} plane={czDayPlane} title={'ЦЗ'} />
             <Circle color={'#9018ad'} sale={caDaySales} plane={caDayPlane} title={'ЦА'} />
-            <Circle color={'green'} sale={to_cmFact} plane={planes.to_cm} title={'ЦМ%'} showFact />
-            <Circle color={'red'} sale={to_czFact} plane={planes.to_cz} title={'ЦЗ%'} showFact />
+          </Circles>
+        </CircleContent>
+        <CircleContent>
+          <H2>Выполнение доли</H2>
+          <Circles>
+            <Circle color={'green'} sale={to_cmFact} plane={planes.to_cm} title={'ЦМ%'} />
+            <Circle color={'red'} sale={to_czFact} plane={planes.to_cz} title={'ЦЗ%'} />
           </Circles>
         </CircleContent>
       </CirclesContainer>

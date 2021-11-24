@@ -22,6 +22,7 @@ const daySalesSlice = createSlice({
         const tt = TTselectorOptions.find((tt) => sales.tt && tt.value === sales.tt.value);
         return { ...sales, tt };
       });
+      state.sales?.sort((a, b) => parseInt(a.day.split('.')[0]) - parseInt(b.day.split('.')[0]));
       state.getStatus = LoadingStatuses.SUCCESS;
     },
     postDaySales(state, action) {

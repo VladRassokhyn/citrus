@@ -102,7 +102,7 @@ export const Analitic = (): JSX.Element => {
                   <EveningReport
                     planes={planes}
                     daySales={daySales[daySales.length - 1]}
-                    mounthSales={calcFns.calcMounthSales(daySales)}
+                    mounthSales={calcFns.mounthSales(daySales)}
                     authUser={authUser}
                   />
                 )}

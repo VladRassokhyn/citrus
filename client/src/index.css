@@ -10,6 +10,7 @@ code {
 
 #evening-report {
   width: 46%;
+  max-width: 420px;
   padding: 10px;
   background: linear-gradient(
     135deg,

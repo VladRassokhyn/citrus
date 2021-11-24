@@ -152,14 +152,13 @@ export const Calendar = (props: Props): JSX.Element => {
   const [mounth, setMounth] = useState(new Date().getMonth());
   const [days, setDays] = useState(getDaysFormated(mounth));
 
-  const salesSum = useMemo(
-    () => (sales ? calcFns.calcMounthSales(sales) : { cm: 0, ca: 0, cz: 0 }),
-    [sales],
-  );
+  const salesSum = useMemo(() => (sales ? calcFns.mounthSales(sales) : { cm: 0, ca: 0, cz: 0 }), [
+    sales,
+  ]);
 
-  const cmForecast = useMemo(() => calcFns.calcForecastSumm(salesSum.cm), [salesSum]);
-  const czForecast = useMemo(() => calcFns.calcForecastSumm(salesSum.cz), [salesSum]);
-  const caForecast = useMemo(() => calcFns.calcForecastSumm(salesSum.ca), [salesSum]);
+  const cmForecast = useMemo(() => calcFns.forecastSumm(salesSum.cm), [salesSum]);
+  const czForecast = useMemo(() => calcFns.forecastSumm(salesSum.cz), [salesSum]);
+  const caForecast = useMemo(() => calcFns.forecastSumm(salesSum.ca), [salesSum]);
 
   const handleMounthIncrement = useCallback(() => setMounth((prev) => prev + 1), []);
   const handleMounthDerement = useCallback(() => setMounth((prev) => prev - 1), []);
@@ -224,7 +223,7 @@ export const Calendar = (props: Props): JSX.Element => {
             const salesByToday = sales.filter(
               (sale) => parseInt(sale.day) < parseInt(day.split(' ')[1]),
             );
-            const mounthSales = calcFns.calcMounthSales(salesByToday);
+            const mounthSales = calcFns.mounthSales(salesByToday);
             return (
               <CalendarDay
                 ttSales={newSale?.ttSales}

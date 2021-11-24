@@ -1,7 +1,7 @@
 import styled, { keyframes } from 'styled-components';
 import { zoomIn } from 'react-animations';
 import { daySalesActions, daySalesSelectors, DaySales } from '../../../lib/slices/daySales';
-import { memo, useCallback, useEffect, useState } from 'react';
+import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { Modal } from '../../../Components/Modal';
 import { SalesInput } from '../SalesInput';
 import { useDispatch } from 'react-redux';
@@ -128,6 +128,10 @@ export const CalendarDay = memo(
     const dispatch = useDispatch();
     const history = useHistory();
 
+    const cmSales = ttSales ? ttSales[8] : 0;
+    const czSales = ttSales ? ttSales[10] : 0;
+    const caSales = ttSales ? ttSales[12] : 0;
+
     useEffect(() => {
       if (postStatus === LoadingStatuses.SUCCESS || updateStatus === LoadingStatuses.SUCCESS) {
         setIsModalOpen(false);
@@ -137,31 +141,14 @@ export const CalendarDay = memo(
     const disabled =
       postStatus === LoadingStatuses.LOADING || updateStatus === LoadingStatuses.LOADING;
 
-    const day = parseInt(title.split('.')[0]);
-    const dayCount = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate();
-
-    const cmForecast = calcFns.calcForecastPercent(mounthSales?.cm, planes?.cm);
-    const czForecast = calcFns.calcForecastPercent(mounthSales?.cz, planes?.cz);
-    const caForecast = calcFns.calcForecastPercent(mounthSales?.ca, planes?.ca);
-
-    let cmGrowthForecast = 0;
-    let czGrowthForecast = 0;
-    let caGrowthForecast = 0;
-
-    if (mounthSales && daySales && planes && day !== 1 && ttSales) {
-      cmGrowthForecast = +(
-        cmForecast -
-        ((((mounthSales.cm - +ttSales[8]) / (day - 1)) * dayCount) / planes.cm) * 100
-      ).toFixed(2);
-      czGrowthForecast = +(
-        czForecast -
-        ((((mounthSales.cz - +ttSales[10]) / (day - 1)) * dayCount) / planes.cz) * 100
-      ).toFixed(2);
-      caGrowthForecast = +(
-        caForecast -
-        ((((mounthSales.ca - +ttSales[12]) / (day - 1)) * dayCount) / planes.ca) * 100
-      ).toFixed(2);
-    }
+    const growths = useMemo(
+      () => ({
+        cm: calcFns.growthForecast(planes?.cm, +cmSales, mounthSales?.cm),
+        cz: calcFns.growthForecast(planes?.cz, +czSales, mounthSales?.cz),
+        ca: calcFns.growthForecast(planes?.ca, +caSales, mounthSales?.ca),
+      }),
+      [],
+    );
 
     const modalToggle = useCallback(() => {
       setIsModalOpen((prev) => !prev);
@@ -201,6 +188,7 @@ export const CalendarDay = memo(
     const handleInfo = () => {
       history.push(`/analytics/main/${title.replace(/[^0-9]/g, '-')}`);
     };
+
     if (!planes) {
       return <Wrapper withData={false} />;
     }
@@ -214,17 +202,17 @@ export const CalendarDay = memo(
           </ValueBlock>
           <ValueBlock>
             <H1 color={'green'}>ЦМ: {ttSales ? ttSales[8] : daySales ? daySales.cm : 'no data'}</H1>
-            <Grow isPositive={cmGrowthForecast > 0}>{cmGrowthForecast}</Grow>
+            <Grow isPositive={growths.cm > 0}>{growths.cm}</Grow>
           </ValueBlock>
           <ValueBlock>
             <H1 color={'red'}>ЦЗ: {ttSales ? ttSales[10] : daySales ? daySales.ca : 'no data'}</H1>
-            <Grow isPositive={czGrowthForecast > 0}>{czGrowthForecast}</Grow>
+            <Grow isPositive={growths.cz > 0}>{growths.cz}</Grow>
           </ValueBlock>
           <ValueBlock>
             <H1 color={'#9018ad'}>
               ЦА: {ttSales ? ttSales[12] : daySales ? daySales.ca : 'no data'}
             </H1>
-            <Grow isPositive={caGrowthForecast > 0}>{caGrowthForecast}</Grow>
+            <Grow isPositive={growths.ca > 0}>{growths.ca}</Grow>
           </ValueBlock>
         </Content>
         {!!daySales ? (
