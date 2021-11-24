@@ -1,5 +1,7 @@
 import { DaySales } from '../slices/daySales';
 
+type Arg = number | undefined | null;
+
 function getDays() {
   const dayCount = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate();
   const day = new Date().getDate();
@@ -29,27 +31,22 @@ export function mounthSales(sales: DaySales[] | null | undefined): DaySales {
   return mounthSales;
 }
 
-export function forecastSumm(currentSales: number, d?: number): number {
+export function forecastSumm(currentSales: Arg, d?: Arg): number {
+  if (!currentSales) {
+    return 0;
+  }
   const { dayCount, day } = getDays();
   return (currentSales / (d ? d : day)) * dayCount;
 }
 
-export function forecastPercent(
-  sales: number | null | undefined,
-  plane: number | null | undefined,
-  d?: number,
-): number {
+export function forecastPercent(sales: Arg, plane: Arg, d?: number): number {
   if (!sales || !plane) {
     return 0;
   }
   return +((forecastSumm(sales, d) / plane) * 100).toFixed(2);
 }
 
-export function growthForecast(
-  plane: number | null | undefined,
-  salesByDay: number | null | undefined,
-  salesByMounth: number | null | undefined,
-): number {
+export function growthForecast(plane: Arg, salesByDay: Arg, salesByMounth: Arg): number {
   if (!plane || !salesByDay || !salesByMounth) {
     return 0;
   }
@@ -60,9 +57,24 @@ export function growthForecast(
   ).toFixed(2);
 }
 
-export function ratio(from: number | null | undefined, to: number | null | undefined): number {
+export function ratio(from: Arg, to: Arg): number {
   if (!from || !to) {
     return 0;
   }
   return +((from / to) * 100).toFixed(2);
+}
+
+export function growthRatio(dayFrom: Arg, perFrom: Arg, dayTo: Arg, perTo: Arg): number {
+  if (!dayFrom || !perFrom || !dayTo || !perTo) {
+    return 0;
+  }
+  return +(ratio(perFrom, perTo) - ratio(perFrom - dayFrom, perTo - dayTo)).toFixed(2);
+}
+
+export function dayPlane(sales: Arg, plane: Arg): number {
+  if (!sales || !plane) {
+    return 0;
+  }
+  const { dayCount, day } = getDays();
+  return +((plane - sales) / (dayCount - day)).toFixed(0);
 }
