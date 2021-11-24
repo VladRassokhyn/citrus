@@ -28,6 +28,7 @@ enum FillColors {
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 15px;
 `;
 
@@ -37,6 +38,7 @@ const Container = styled.div`
 `;
 
 const Cell = styled.div`
+  margin: 1px;
   width: 200px;
   height: 30px;
   display: flex;
@@ -48,6 +50,13 @@ const Cell = styled.div`
   @media (max-width: 559px) {
     width: 45%;
   }
+`;
+
+const H2 = styled.h2`
+  width: 100%;
+  text-align: center;
+  font-size: 12pt;
+  color: var(--color-stroke);
 `;
 
 const DayCell = styled.div`
@@ -62,6 +71,9 @@ const DayCell = styled.div`
   }
   @media (max-width: 559px) {
     width: 45%;
+  }
+  & ${H2} {
+    text-align: right;
   }
 `;
 
@@ -104,13 +116,6 @@ const H1 = styled.h1`
   @media (max-width: 559px) {
     width: 90vw;
   }
-`;
-
-const H2 = styled.h2`
-  width: 100%;
-  text-align: center;
-  font-size: 12pt;
-  color: var(--color-stroke);
 `;
 
 const H3 = styled.h3`

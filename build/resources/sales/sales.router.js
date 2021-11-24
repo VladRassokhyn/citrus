@@ -8,7 +8,28 @@ const router = (0, express_1.Router)();
 router.route('/').get(async (req, res) => {
     const tt = String(req.query['tt']);
     const salesRepo = (0, typeorm_1.getRepository)(entities_1.Sales);
-    const sales = await salesRepo.find({ tt });
+    const salesmanRepo = (0, typeorm_1.getRepository)(entities_1.Salesman);
+    const salesByTT = await salesRepo.find({ tt });
+    const salesmans = await salesmanRepo.find({ tt });
+    const salesmansNames = salesmans.map((salesman) => salesman.name);
+    const parsedSales = [];
+    salesByTT.forEach((item) => {
+        parsedSales.push({ ...item, sales: parse(String(item.sales)) });
+    });
+    const sales = [];
+    parsedSales.forEach((salesItem) => {
+        const items = [];
+        let ttSales = [];
+        salesItem.sales.forEach((item, index) => {
+            if (index === 3) {
+                ttSales = item;
+            }
+            if (salesmansNames.includes(item[0])) {
+                items.push(item);
+            }
+        });
+        sales.push({ ...salesItem, sales: items, ttSales });
+    });
     res.status(200).send(sales);
 });
 router.route('/').post(async (req, res) => {
@@ -47,3 +68,32 @@ router.route('/:id').delete(async (req, res) => {
     }
 });
 exports.salesRouter = router;
+function parse(input) {
+    const inputToArray = input.split('+');
+    let result = [];
+    let tmp = [];
+    inputToArray.forEach((item, index) => {
+        tmp.push(item.substring(0, item.length - 1));
+        if ((index + 1) % 17 === 0) {
+            result.push(tmp);
+            tmp = [];
+        }
+    });
+    result = result.map((resItem, index) => {
+        if (index !== 0 && index !== 1) {
+            return (resItem = resItem.map((subres, i) => {
+                if (i !== 0) {
+                    const value = parseInt(subres.replace(/\s/g, ''));
+                    return isNaN(value) ? 0 : value;
+                }
+                else {
+                    return subres;
+                }
+            }));
+        }
+        else {
+            return resItem;
+        }
+    });
+    return result;
+}

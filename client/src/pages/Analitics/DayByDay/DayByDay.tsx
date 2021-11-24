@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { DaySales } from '../../../lib/slices/daySales';
 
 type Props = {
@@ -17,7 +17,20 @@ type StyleProps = {
   active?: boolean;
 };
 
+const barAnimation = keyframes`
+  from {height: 0}
+  to {heifht: 100%}
+`;
+
+const Bar = styled.div<StyleProps>`
+  width: ${(props) => (props.salfe ? '100%' : '33%')};
+  height: ${(props) => props.barHeight}px;
+  background-color: ${(props) => props.color};
+  animation: ${barAnimation} linear 0.5s;
+`;
+
 const Wrapper = styled.div`
+  min-height: 130px;
   border-radius: 5px;
   box-shadow: 0 0 5px #dfdfdf;
   margin-bottom: 15px;
@@ -63,12 +76,6 @@ const Day = styled.div`
   background-color: white;
 `;
 
-const Bar = styled.div<StyleProps>`
-  width: ${(props) => (props.salfe ? '100%' : '33%')};
-  height: ${(props) => props.barHeight}px;
-  background-color: ${(props) => props.color};
-`;
-
 const Values = styled.div`
   display: flex;
   height: 100%;
@@ -108,7 +115,7 @@ const Btn = styled.button<StyleProps>`
 export const DayByDay = (props: Props): JSX.Element => {
   const [activeBar, setActiveBar] = useState('ALL');
 
-  const maxVaue = props.sales? getMaxValue(props.sales, activeBar) : 10000;
+  const maxVaue = props.sales ? getMaxValue(props.sales, activeBar) : 10000;
 
   return (
     <Wrapper>
