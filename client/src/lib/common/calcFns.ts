@@ -1,4 +1,5 @@
 import { DaySales } from '../slices/daySales';
+import { Sales } from '../slices/sales/sales.type';
 
 type Arg = number | undefined | null;
 
@@ -6,6 +7,58 @@ function getDays() {
   const dayCount = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate();
   const day = new Date().getDate();
   return { dayCount, day };
+}
+
+export function mounthSalesNew(sales: Sales[]): Sales {
+  const newSales: Sales = { id: 0, tt: { value: '', label: '' }, day: '', ttSales: [], sales: [] };
+  if (!sales) return newSales;
+
+  sales.forEach((salesItem) => {
+    salesItem.ttSales.forEach((ttSales, i) => {
+      if (i !== 0) {
+        newSales.ttSales[i] = newSales.ttSales[i]
+          ? parseInt(newSales.ttSales[i] as string) + parseInt(ttSales as string)
+          : parseInt(ttSales as string);
+      } else {
+        newSales.ttSales[i] = ttSales;
+      }
+    });
+
+    salesItem.sales.forEach((salesman, i) => {
+      newSales.sales = [...newSales.sales, [...salesman]];
+      salesman.forEach((manSales, j) => {
+        if (j !== 0) {
+          newSales.sales[i][j] = newSales.sales[i][j]
+            ? parseInt(newSales.sales[i][j] as string) + parseInt(manSales as string)
+            : parseInt(manSales as string);
+        } else {
+          newSales.sales[i][j] = manSales;
+        }
+      });
+    });
+  });
+
+  const namesBufer: string[] = [];
+  const salesBufer: (string | number)[][] = [];
+
+  newSales.sales.forEach((salesman) => {
+    if (!namesBufer.includes(salesman[0] as string)) {
+      namesBufer.push(salesman[0] as string);
+      salesBufer.push(salesman);
+    } else {
+      salesBufer.forEach((buferItem, i) => {
+        if (buferItem[0] === salesman[0] && i !== 0) {
+          buferItem[i] = buferItem[i]
+            ? parseInt(buferItem[i] as string) + parseInt(salesman[i] as string)
+            : parseInt(salesman[i] as string);
+        }
+      });
+    }
+  });
+
+  newSales.sales = salesBufer;
+
+  return newSales;
 }
 
 export function mounthSales(sales: DaySales[] | null | undefined): DaySales {

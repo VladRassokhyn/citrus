@@ -39,6 +39,10 @@ const Wrapper = styled.div`
 const Column = styled.div`
   display: flex;
   flex-direction: column;
+  border-right: 1px solid #dfdfdf;
+  &:last-child {
+    border: 0;
+  }
 `;
 
 const Cell = styled.div<CellProps>`
@@ -47,14 +51,12 @@ const Cell = styled.div<CellProps>`
   justify-content: flex-end;
   padding-right: 10px;
   height: 30px;
-  border-right: 1px solid #dfdfdf;
   transition: linear 0.3s;
   background-color: ${(props) => props.isZeroOrNegative && '#ffcccc'};
 `;
 
 const CellWithFill = styled.div`
   height: 30px;
-  border-right: 1px solid #dfdfdf;
   transition: linear 0.3s;
 `;
 
@@ -112,13 +114,13 @@ const NameCell = styled.div`
   align-items: center;
   justify-content: flex-start;
   height: 30px;
-  border-right: 1px solid #dfdfdf;
   padding-left: 10px;
 `;
 
 export const DetailTable = (props: Props): JSX.Element => {
   const { columns, thisDay, ttSales, planes } = props;
   const [sortReverse, setSortReverse] = useState(false);
+  const [sales, setSales] = useState(thisDay);
   const dispatch = useDispatch();
 
   const sortByFn = (fn: (arg: (string | number)[]) => string | number) => {
@@ -127,7 +129,7 @@ export const DetailTable = (props: Props): JSX.Element => {
       if (sortReverse) {
         sortedSales.reverse();
       }
-      dispatch(salesActions.sortSales({ id: thisDay.id, sales: sortedSales }));
+      setSales({ ...sales, sales: sortedSales });
       setSortReverse((prev) => !prev);
     }
   };
@@ -148,7 +150,7 @@ export const DetailTable = (props: Props): JSX.Element => {
                 <H2>{column.fn(ttSales)}</H2>
               </Cell>
             </TTHead>
-            {thisDay.sales.map((salesman) => {
+            {sales.sales.map((salesman) => {
               if (i === 0) {
                 return (
                   <NameCell>

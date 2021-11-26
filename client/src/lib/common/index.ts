@@ -6,6 +6,7 @@ import {
   ratio,
   growthForecast,
   growthRatio,
+  mounthSalesNew,
 } from './calcFns';
 
 export const calcFns = {
@@ -16,4 +17,5 @@ export const calcFns = {
   forecastPercent,
   growthForecast,
   growthRatio,
+  mounthSalesNew,
 };

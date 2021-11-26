@@ -9,6 +9,8 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { DayByDay } from '../DayByDay';
 import { Sales } from '../../../lib/slices/sales/sales.type';
 import { calcFns } from '../../../lib/common';
+import { DetailTable } from '../DayDetail/DetailTable';
+import { getColumns } from '../DayDetail/DayDetail';
 
 type Props = {
   sales: DaySales[];
@@ -122,6 +124,13 @@ const Mounth = styled.h1`
   color: var(--color-stroke);
 `;
 
+const DetailContainer = styled.div`
+  border-radius: 10px;
+  box-shadow: 0 0 5px #dfdfdf;
+  padding: 15px;
+  margin: 15px 0;
+`;
+
 const weekDays = [
   { value: 'Monday', label: 'Пн' },
   { value: 'Tuesday', label: 'Вт' },
@@ -155,6 +164,8 @@ export const Calendar = (props: Props): JSX.Element => {
   const salesSum = useMemo(() => (sales ? calcFns.mounthSales(sales) : { cm: 0, ca: 0, cz: 0 }), [
     sales,
   ]);
+
+  const mountSales = calcFns.mounthSalesNew(newSales);
 
   const cmForecast = useMemo(() => calcFns.forecastSumm(salesSum.cm), [salesSum]);
   const czForecast = useMemo(() => calcFns.forecastSumm(salesSum.cz), [salesSum]);
@@ -203,6 +214,15 @@ export const Calendar = (props: Props): JSX.Element => {
       </CirclesContainer>
 
       <DayByDay sales={sales} days={days.filter((day) => !!day) as string[]} />
+
+      <DetailContainer>
+        <DetailTable
+          thisDay={mountSales}
+          columns={getColumns(planes)}
+          planes={planes}
+          ttSales={mountSales.ttSales}
+        />
+      </DetailContainer>
 
       <WeekTitleWrapper>
         {weekDays.map((day) => (

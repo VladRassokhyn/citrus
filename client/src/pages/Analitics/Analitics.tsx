@@ -72,9 +72,9 @@ export const Analitic = (): JSX.Element => {
   }, [selectedTT]);
 
   if (
-    planesStatus !== LoadingStatuses.SUCCESS ||
-    daySalesStatus.getStatus !== LoadingStatuses.SUCCESS ||
-    salesStatus.getStatus !== LoadingStatuses.SUCCESS
+    planesStatus === LoadingStatuses.LOADING ||
+    daySalesStatus.getStatus === LoadingStatuses.LOADING ||
+    salesStatus.getStatus === LoadingStatuses.LOADING
   ) {
     return <Preloader />;
   }
