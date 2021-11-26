@@ -1,5 +1,4 @@
-import styled, { keyframes } from 'styled-components';
-import { zoomIn } from 'react-animations';
+import styled from 'styled-components';
 import { daySalesActions, daySalesSelectors, DaySales } from '../../../lib/slices/daySales';
 import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { Modal } from '../../../Components/Modal';
@@ -34,9 +33,6 @@ type StyleProps = {
   isHollyDay?: boolean;
   isPositive?: boolean;
 };
-
-const animationIn = keyframes`${zoomIn}`;
-const opacityAnimation = keyframes`0% {opacity: 0;} 100% {opacity: 1;}`;
 
 const Button = styled.button<StyleProps>`
   background-color: ${(props) => (props.disabled ? '#aaa' : 'var(--color-button)')};
@@ -94,7 +90,7 @@ const Content = styled.div`
 `;
 
 const H1 = styled.h1`
-  font-size: 10pt;
+  font-size: 8pt;
   color: ${(props) => props.color};
 `;
 

@@ -26,6 +26,21 @@ type StyleProps = {
 const Wrapper = styled.div``;
 
 const CalendarWrapper = styled.div`
+  display: flex;
+  flex-dirrection: row;
+  gap: 5px;
+  padding: 15px;
+  border-radius: 5px;
+  box-shadow: 0 0 5px #dfdfdf;
+`;
+
+const CalendarContent = styled.div`
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+`;
+
+const CalendarContainer = styled.div`
   display: grid;
   gap: 15px 7px;
   grid-template-columns: repeat(7, 1fr);
@@ -37,6 +52,38 @@ const CalendarWrapper = styled.div`
     align-items: center;
     justify-content: center;
   }
+`;
+
+const WeekToWeek = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 15px 7px;
+  margin-top: 115px;
+  align-items: center;
+`;
+
+const WeekToWeekItem = styled.div`
+  width: 80px;
+  height: 150px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+`;
+
+const WeekToWeekArrow = styled.div`
+  width: 15px;
+  height: 144px;
+  border-radius: 0 25px 25px 0;
+  border-top: 3px solid var(--color-button);
+  border-bottom: 3px solid var(--color-button);
+  border-right: 3px solid var(--color-button);
+`;
+
+const WeekToWeekValues = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
 `;
 
 const WeekTitleWrapper = styled.div`
@@ -125,7 +172,7 @@ const Mounth = styled.h1`
 `;
 
 const DetailContainer = styled.div`
-  border-radius: 10px;
+  border-radius: 5px;
   box-shadow: 0 0 5px #dfdfdf;
   padding: 15px;
   margin: 15px 0;
@@ -160,6 +207,9 @@ export const Calendar = (props: Props): JSX.Element => {
   const { newSales, sales, authUser, planes } = props;
   const [mounth, setMounth] = useState(new Date().getMonth());
   const [days, setDays] = useState(getDaysFormated(mounth));
+  const [weekSales, setWeekSales] = useState<Sales[]>([]);
+
+  console.log(weekSales);
 
   const salesSum = useMemo(() => (sales ? calcFns.mounthSales(sales) : { cm: 0, ca: 0, cz: 0 }), [
     sales,
@@ -216,49 +266,100 @@ export const Calendar = (props: Props): JSX.Element => {
       <DayByDay sales={sales} days={days.filter((day) => !!day) as string[]} />
 
       <DetailContainer>
-        <DetailTable
-          thisDay={mountSales}
-          columns={getColumns(planes)}
-          planes={planes}
-          ttSales={mountSales.ttSales}
-        />
+        {false && (
+          <DetailTable
+            thisDay={mountSales}
+            columns={getColumns(planes)}
+            planes={planes}
+            ttSales={mountSales.ttSales}
+          />
+        )}
       </DetailContainer>
 
-      <WeekTitleWrapper>
-        {weekDays.map((day) => (
-          <WeekTitle key={day.value} day={day.value}>
-            {day.label}
-          </WeekTitle>
-        ))}
-      </WeekTitleWrapper>
       <CalendarWrapper>
-        {days.map((day, i) => {
-          if (!day) {
-            return <CalendarDay ttSales={[]} tt={authUser.tt} delay={i} key={i} title={''} />;
-          } else {
-            const isHollyDay = day.split(' ')[0] === 'Saturday' || day.split(' ')[0] === 'Sunday';
-            const daySales = sales.find((salesItem) => salesItem.day === day.split(' ')[1]);
-            const newSale = newSales.find((salesItem) => salesItem.day === day.split(' ')[1]);
-            const salesByToday = sales.filter(
-              (sale) => parseInt(sale.day) < parseInt(day.split(' ')[1]),
-            );
-            const mounthSales = calcFns.mounthSales(salesByToday);
-            return (
-              <CalendarDay
-                ttSales={newSale?.ttSales}
-                isHollyDay={isHollyDay}
-                delay={i}
-                daySales={daySales}
-                mounthSales={mounthSales}
-                tt={authUser.tt}
-                planes={planes}
-                title={day.split(' ')[1]}
-                key={i}
-                sales={newSale}
-              />
-            );
-          }
-        })}
+        <CalendarContent>
+          <WeekTitleWrapper>
+            {weekDays.map((day) => (
+              <WeekTitle key={day.value} day={day.value}>
+                {day.label}
+              </WeekTitle>
+            ))}
+          </WeekTitleWrapper>
+          <CalendarContainer>
+            {days.map((day, i) => {
+              if (!day) {
+                return <CalendarDay ttSales={[]} tt={authUser.tt} delay={i} key={i} title={''} />;
+              } else {
+                const isHollyDay =
+                  day.split(' ')[0] === 'Saturday' || day.split(' ')[0] === 'Sunday';
+                const daySales = sales.find((salesItem) => salesItem.day === day.split(' ')[1]);
+                const newSale = newSales.find((salesItem) => salesItem.day === day.split(' ')[1]);
+                const salesByToday = sales.filter(
+                  (sale) => parseInt(sale.day) < parseInt(day.split(' ')[1]),
+                );
+                const mounthSales = calcFns.mounthSales(salesByToday);
+                if (day.split(' ')[0] === 'Sunday') {
+                  setWeekSales((prev) => [
+                    ...prev,
+                    calcFns.mounthSalesNew(
+                      newSales.filter((sale) => parseInt(sale.day) < parseInt(day.split(' ')[1])),
+                    ),
+                  ]);
+                }
+                return (
+                  <CalendarDay
+                    ttSales={newSale?.ttSales}
+                    isHollyDay={isHollyDay}
+                    delay={i}
+                    daySales={daySales}
+                    mounthSales={mounthSales}
+                    tt={authUser.tt}
+                    planes={planes}
+                    title={day.split(' ')[1]}
+                    key={i}
+                    sales={newSale}
+                  />
+                );
+              }
+            })}
+          </CalendarContainer>
+        </CalendarContent>
+        <WeekToWeek>
+          <WeekToWeekItem>
+            <WeekToWeekArrow />
+            <WeekToWeekValues>
+              <h5>CM</h5>
+              <h5>CZ</h5>
+              <h5>CA</h5>
+            </WeekToWeekValues>
+          </WeekToWeekItem>
+
+          <WeekToWeekItem>
+            <WeekToWeekArrow />
+            <WeekToWeekValues>
+              <h5>CM</h5>
+              <h5>CZ</h5>
+              <h5>CA</h5>
+            </WeekToWeekValues>
+          </WeekToWeekItem>
+
+          <WeekToWeekItem>
+            <WeekToWeekArrow />
+            <WeekToWeekValues>
+              <h5>CM</h5>
+              <h5>CZ</h5>
+              <h5>CA</h5>
+            </WeekToWeekValues>
+          </WeekToWeekItem>
+          <WeekToWeekItem>
+            <WeekToWeekArrow />
+            <WeekToWeekValues>
+              <h5>CM</h5>
+              <h5>CZ</h5>
+              <h5>CA</h5>
+            </WeekToWeekValues>
+          </WeekToWeekItem>
+        </WeekToWeek>
       </CalendarWrapper>
     </Wrapper>
   );

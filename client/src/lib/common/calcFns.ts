@@ -9,7 +9,7 @@ function getDays() {
   return { dayCount, day };
 }
 
-export function mounthSalesNew(sales: Sales[]): Sales {
+export function mounthSalesNew(sales: Sales[] | null | undefined): Sales {
   const newSales: Sales = { id: 0, tt: { value: '', label: '' }, day: '', ttSales: [], sales: [] };
   if (!sales) return newSales;
 
