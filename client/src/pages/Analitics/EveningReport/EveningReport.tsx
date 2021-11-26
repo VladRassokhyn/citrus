@@ -133,6 +133,7 @@ const H4 = styled.h2`
 `;
 
 const ScreenContainer = styled.div`
+  min-width: 401px;
   display: flex;
   flex-direction: column;
   align-items: center;

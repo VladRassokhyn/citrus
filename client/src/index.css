@@ -9,6 +9,7 @@ code {
 }
 
 #evening-report {
+  min-width: 402px;
   width: 46%;
   max-width: 420px;
   padding: 5px;

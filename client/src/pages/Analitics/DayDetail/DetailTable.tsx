@@ -1,3 +1,5 @@
+import { reverse } from 'dns';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { Planes } from '../../../lib/slices/planes/planes.type';
@@ -17,6 +19,7 @@ type Props = {
 type CellProps = {
   width?: number;
   color?: string;
+  isZeroOrNegative?: boolean;
 };
 
 const FilledCell = styled.div<CellProps>`
@@ -38,7 +41,7 @@ const Column = styled.div`
   flex-direction: column;
 `;
 
-const Cell = styled.div`
+const Cell = styled.div<CellProps>`
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -46,6 +49,7 @@ const Cell = styled.div`
   height: 30px;
   border-right: 1px solid #dfdfdf;
   transition: linear 0.3s;
+  background-color: ${(props) => props.isZeroOrNegative && '#ffcccc'};
 `;
 
 const CellWithFill = styled.div`
@@ -114,12 +118,17 @@ const NameCell = styled.div`
 
 export const DetailTable = (props: Props): JSX.Element => {
   const { columns, thisDay, ttSales, planes } = props;
+  const [sortReverse, setSortReverse] = useState(false);
   const dispatch = useDispatch();
 
   const sortByFn = (fn: (arg: (string | number)[]) => string | number) => {
     if (thisDay) {
       const sortedSales = [...thisDay.sales].sort((a, b) => +fn(b) - +fn(a));
+      if (sortReverse) {
+        sortedSales.reverse();
+      }
       dispatch(salesActions.sortSales({ id: thisDay.id, sales: sortedSales }));
+      setSortReverse((prev) => !prev);
     }
   };
 
@@ -129,8 +138,8 @@ export const DetailTable = (props: Props): JSX.Element => {
         return (
           <Column>
             <Head>
-              <Cell>
-                <H1 onClick={() => sortByFn(column.fn)}>{column.label}</H1>
+              <Cell onClick={() => sortByFn(column.fn)}>
+                <H1>{column.label}</H1>
               </Cell>
             </Head>
 
@@ -160,9 +169,15 @@ export const DetailTable = (props: Props): JSX.Element => {
                     <H3>{column.fn(salesman)}</H3>
                   </CellWithFill>
                 );
-              } else {
+              } else if (i === 4 || i === 7) {
                 return (
                   <Cell>
+                    <H4>{column.fn(salesman) >= 0 ? 'В доле' : column.fn(salesman)}</H4>
+                  </Cell>
+                );
+              } else {
+                return (
+                  <Cell isZeroOrNegative={column.fn(salesman) === 0 || column.fn(salesman) < 0}>
                     <H4>{column.fn(salesman)}</H4>
                   </Cell>
                 );
