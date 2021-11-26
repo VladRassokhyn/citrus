@@ -4,7 +4,9 @@ import { DaySales } from '../../../lib/slices/daySales';
 import html2canvas from 'html2canvas';
 import { User } from '../../../lib/globalTypes';
 import { calcFns } from '../../../lib/common';
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { Modal } from '../../../Components/Modal';
+import { Screenshot } from '../../../Components/Screenshot';
 
 type Props = {
   planes: Planes;
@@ -159,6 +161,7 @@ const Button = styled.button`
 
 export const EveningReport = (props: Props): JSX.Element => {
   const { planes, daySales, mounthSales, authUser } = props;
+  const [screenshot, setScreenshot] = useState<string | null>(null);
 
   const onScreenshot = () => {
     html2canvas(document.getElementById('evening-report') as HTMLElement).then((canvas) => {
@@ -167,6 +170,8 @@ export const EveningReport = (props: Props): JSX.Element => {
         const item = new ClipboardItem({ 'image/png': blob });
         navigator.clipboard.write([item]);
       });
+      const base64 = canvas.toDataURL();
+      setScreenshot(base64);
     });
   };
 
@@ -217,6 +222,7 @@ export const EveningReport = (props: Props): JSX.Element => {
 
   return (
     <Wrapper>
+      {screenshot && <Screenshot onClose={setScreenshot} image={screenshot} />}
       <Button onClick={onScreenshot}>Сделать скрин</Button>
       <div id={'evening-report'}>
         <ScreenContainer>
