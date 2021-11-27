@@ -8,6 +8,7 @@ import {
   growthRatio,
   mounthSalesNew,
 } from './calcFns';
+import { getDaysFormated } from './getDaysFormated';
 
 export const calcFns = {
   dayPlane,
@@ -19,3 +20,4 @@ export const calcFns = {
   growthRatio,
   mounthSalesNew,
 };
+export { getDaysFormated };

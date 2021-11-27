@@ -22,7 +22,7 @@ type Props = {
   planes?: Planes;
   sales?: Sales;
   tt: { label: string; value: string };
-  isHollyDay?: boolean;
+  isWeekend?: boolean;
 };
 
 type StyleProps = {
@@ -30,7 +30,7 @@ type StyleProps = {
   withData?: boolean;
   disabled?: boolean;
   isEmpty?: boolean;
-  isHollyDay?: boolean;
+  isWeekend?: boolean;
   isPositive?: boolean;
 };
 
@@ -74,7 +74,7 @@ const Title = styled.h1<StyleProps>`
   font-size: 14pt;
   color: white;
   box-shadow: 0 0 5px #909090;
-  background-color: ${(props) => (props.isHollyDay ? '#b3405b' : 'var(--color-button)')};
+  background-color: ${(props) => (props.isWeekend ? '#b3405b' : 'var(--color-button)')};
   text-align: center;
 `;
 
@@ -115,7 +115,7 @@ const Wrapper = styled.div<StyleProps>`
 
 export const CalendarDay = memo(
   (props: Props): JSX.Element => {
-    const { title, delay, daySales, tt, isHollyDay, sales, planes, mounthSales, ttSales } = props;
+    const { title, delay, daySales, tt, isWeekend, sales, planes, mounthSales, ttSales } = props;
     const [isModalOpen, setIsModalOpen] = useState(false);
     const { postStatus, updateStatus } = useTypedSelector(daySalesSelectors.selectDaySalesStatuses);
     const dispatch = useDispatch();
@@ -188,7 +188,7 @@ export const CalendarDay = memo(
 
     return (
       <Wrapper delay={delay} withData={!!daySales}>
-        <Title isHollyDay={isHollyDay}>{title.split('.')[0]}</Title>
+        <Title isWeekend={isWeekend}>{title.split('.')[0]}</Title>
         <Content>
           <ValueBlock>
             <H1 color={'gray'}>ТО: {ttSales ? ttSales[1] : daySales ? daySales.to : 'no data'}</H1>

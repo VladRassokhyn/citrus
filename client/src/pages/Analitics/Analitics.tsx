@@ -17,6 +17,7 @@ import { salesActions, salesSelectors } from '../../lib/slices/sales';
 import { DayDetail } from './DayDetail';
 import { EveningReport } from './EveningReport';
 import { calcFns } from '../../lib/common';
+import { MainAnalitics } from './Main';
 
 type SelectionOption = {
   label: string;
@@ -115,7 +116,7 @@ export const Analitic = (): JSX.Element => {
             render={() => (
               <>
                 {daySales && sales && (
-                  <Calendar newSales={sales} planes={planes} authUser={authUser} sales={daySales} />
+                  <MainAnalitics newSales={sales} planes={planes} authUser={authUser} sales={daySales} />
                 )}
               </>
             )}
