@@ -24,33 +24,25 @@ export function mounthSalesNew(sales: Sales[] | null | undefined): Sales {
       }
     });
 
-    salesItem.sales.forEach((salesman, i) => {
-      newSales.sales = [...newSales.sales, [...salesman]];
-      salesman.forEach((manSales, j) => {
-        if (j !== 0) {
-          newSales.sales[i][j] = newSales.sales[i][j]
-            ? parseInt(newSales.sales[i][j] as string) + parseInt(manSales as string)
-            : parseInt(manSales as string);
-        } else {
-          newSales.sales[i][j] = manSales;
-        }
-      });
+    salesItem.sales.forEach((salesman) => {
+      newSales.sales.push(salesman);
     });
   });
 
   const namesBufer: string[] = [];
   const salesBufer: (string | number)[][] = [];
+  const newBufer = [];
 
-  newSales.sales.forEach((salesman) => {
+  newSales.sales.forEach((salesman, j) => {
     if (!namesBufer.includes(salesman[0] as string)) {
       namesBufer.push(salesman[0] as string);
       salesBufer.push(salesman);
     } else {
+      const newArr = [salesman[0]];
       salesBufer.forEach((buferItem, i) => {
         if (buferItem[0] === salesman[0] && i !== 0) {
-          buferItem[i] = buferItem[i]
-            ? parseInt(buferItem[i] as string) + parseInt(salesman[i] as string)
-            : parseInt(salesman[i] as string);
+          //console.log(j, i);
+          newArr.push(+salesman[i] + +buferItem[i]);
         }
       });
     }

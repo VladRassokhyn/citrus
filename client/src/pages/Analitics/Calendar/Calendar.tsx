@@ -266,14 +266,12 @@ export const Calendar = (props: Props): JSX.Element => {
       <DayByDay sales={sales} days={days.filter((day) => !!day) as string[]} />
 
       <DetailContainer>
-        {false && (
-          <DetailTable
-            thisDay={mountSales}
-            columns={getColumns(planes)}
-            planes={planes}
-            ttSales={mountSales.ttSales}
-          />
-        )}
+        <DetailTable
+          thisDay={mountSales}
+          columns={getColumns(planes)}
+          planes={planes}
+          ttSales={mountSales.ttSales}
+        />
       </DetailContainer>
 
       <CalendarWrapper>
@@ -298,14 +296,7 @@ export const Calendar = (props: Props): JSX.Element => {
                   (sale) => parseInt(sale.day) < parseInt(day.split(' ')[1]),
                 );
                 const mounthSales = calcFns.mounthSales(salesByToday);
-                if (day.split(' ')[0] === 'Sunday') {
-                  setWeekSales((prev) => [
-                    ...prev,
-                    calcFns.mounthSalesNew(
-                      newSales.filter((sale) => parseInt(sale.day) < parseInt(day.split(' ')[1])),
-                    ),
-                  ]);
-                }
+
                 return (
                   <CalendarDay
                     ttSales={newSale?.ttSales}

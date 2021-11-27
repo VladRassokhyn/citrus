@@ -7,6 +7,7 @@ import { calcFns } from '../../../lib/common';
 import { useEffect, useMemo, useState } from 'react';
 import { Modal } from '../../../Components/Modal';
 import { Screenshot } from '../../../Components/Screenshot';
+import { Redirect } from 'react-router';
 
 type Props = {
   planes: Planes;
@@ -163,6 +164,10 @@ const Button = styled.button`
 export const EveningReport = (props: Props): JSX.Element => {
   const { planes, daySales, mounthSales, authUser } = props;
   const [screenshot, setScreenshot] = useState<string | null>(null);
+
+  if (!daySales || !mounthSales || !planes) {
+    return <Redirect to={'/analytics/main'} />;
+  }
 
   const onScreenshot = () => {
     html2canvas(document.getElementById('evening-report') as HTMLElement).then((canvas) => {
