@@ -92,7 +92,6 @@ export const Checklist = (): JSX.Element => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log(postChecklistStatus);
     if (postChecklistStatus === LoadingStatuses.SUCCESS) {
       history.push('/checklist');
     }

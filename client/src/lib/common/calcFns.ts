@@ -31,18 +31,21 @@ export function mounthSalesNew(sales: Sales[] | null | undefined): Sales {
 
   const namesBufer: string[] = [];
   const salesBufer: (string | number)[][] = [];
-  const newBufer = [];
 
   newSales.sales.forEach((salesman, j) => {
     if (!namesBufer.includes(salesman[0] as string)) {
       namesBufer.push(salesman[0] as string);
       salesBufer.push(salesman);
     } else {
-      const newArr = [salesman[0]];
-      salesBufer.forEach((buferItem, i) => {
-        if (buferItem[0] === salesman[0] && i !== 0) {
-          //console.log(j, i);
-          newArr.push(+salesman[i] + +buferItem[i]);
+      salesBufer.forEach((buferItem, itemIndex) => {
+        if (buferItem[0] === salesman[0]) {
+          const newItem = [buferItem[0]];
+          buferItem.forEach((item, i) => {
+            if (i !== 0) {
+              newItem.push(+salesman[i] + +item);
+            }
+          });
+          salesBufer[itemIndex] = newItem;
         }
       });
     }

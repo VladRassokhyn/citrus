@@ -209,6 +209,7 @@ export const Calendar = (props: Props): JSX.Element => {
   const [days, setDays] = useState(getDaysFormated(mounth));
   //const [weekSales, setWeekSales] = useState<Sales[]>([]);
 
+
   const salesSum = useMemo(() => (sales ? calcFns.mounthSales(sales) : { cm: 0, ca: 0, cz: 0 }), [
     sales,
   ]);
@@ -263,14 +264,14 @@ export const Calendar = (props: Props): JSX.Element => {
 
       <DayByDay sales={sales} days={days.filter((day) => !!day) as string[]} />
 
-      {/* <DetailContainer>
+      <DetailContainer>
         <DetailTable
           thisDay={mountSales}
           columns={getColumns(planes)}
           planes={planes}
           ttSales={mountSales.ttSales}
         />
-      </DetailContainer> */}
+      </DetailContainer>
 
       <CalendarWrapper>
         <CalendarContent>
