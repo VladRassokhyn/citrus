@@ -6,6 +6,7 @@ import { logout, authSelectors } from '../../lib/slices/auth';
 import { slideInRight } from 'react-animations';
 import { useDispatch } from 'react-redux';
 import home from '../../static/home.svg';
+import { paths } from '../../lib/routing';
 
 type H1Props = {
   goLeft?: boolean;
@@ -96,7 +97,7 @@ export const Header = (): JSX.Element => {
 
   return (
     <Wrapper>
-      <Link to={'/'}>
+      <Link to={paths.BASE()}>
         <Img src={home} />
       </Link>
       {authUser ? (
@@ -106,7 +107,7 @@ export const Header = (): JSX.Element => {
           </H1>
           {isOpen && (
             <LoginMenu onClick={handleOpen}>
-              <Link to={`/users/${authUser.id}`}>
+              <Link to={paths.USERS.BY_ID({ userId: authUser.id })}>
                 <H2>Профиль</H2>
               </Link>
               <H2 onClick={handleLogout}>Выйти</H2>
@@ -114,7 +115,7 @@ export const Header = (): JSX.Element => {
           )}
         </>
       ) : (
-        <Link to={'/login'}>
+        <Link to={paths.LOGIN.BASE()}>
           <H1>Login</H1>
         </Link>
       )}

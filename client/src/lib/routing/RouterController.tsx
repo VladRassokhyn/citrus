@@ -1,27 +1,33 @@
 import { Redirect, Route, Switch } from 'react-router';
+import { paths } from '.';
+import { User } from '../globalTypes';
 import { useTypedSelector } from '../hooks';
 import { authSelectors } from '../slices/auth';
-import { RouteItem, routes } from './routes';
+import { RouteItem } from './routes';
 
-export const RouterController = (): JSX.Element => {
+type Props = {
+  routes: RouteItem[];
+};
+
+export const RouterController = (props: Props): JSX.Element => {
   const authUser = useTypedSelector(authSelectors.selectAuthUser);
 
   const getRouteAction = (route: RouteItem) => {
     if (route.private) {
       if (authUser) {
-        return <route.component />;
+        return <route.component authUser={authUser} routes={route.routes} />;
       } else {
-        return <Redirect to={'/login'} />;
+        return <Redirect to={paths.LOGIN.BASE()} />;
       }
     } else {
-      return <route.component />;
+      return <route.component authUser={authUser as User} routes={route.routes} />;
     }
   };
 
   return (
     <Switch>
-      {routes.map((route) => (
-        <Route path={route.path} exact={route.exact} key={route.path}>
+      {props.routes.map((route) => (
+        <Route {...route} key={route.path}>
           {getRouteAction(route)}
         </Route>
       ))}

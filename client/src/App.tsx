@@ -5,6 +5,7 @@ import { Preloader } from './Components/Preloader';
 import { LoadingStatuses } from './lib/globalTypes';
 import { useTypedSelector } from './lib/hooks';
 import { RouterController } from './lib/routing/RouterController';
+import { routes } from './lib/routing/routes';
 import { getAuth, authSelectors } from './lib/slices/auth';
 
 export const App = (): JSX.Element => {
@@ -22,7 +23,7 @@ export const App = (): JSX.Element => {
   return (
     <>
       <Header />
-      <RouterController />
+      <RouterController routes={routes} />
     </>
   );
 };

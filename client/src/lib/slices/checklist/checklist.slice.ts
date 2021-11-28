@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { Checklist, ChecklistState } from './checklist.types';
 
 const newChecklist: Checklist = {
+  id: 0,
   title: '',
   passed: false,
   managerId: 0,

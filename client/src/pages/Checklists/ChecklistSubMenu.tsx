@@ -9,6 +9,7 @@ import { deleteChecklist } from '../../lib/slices/checklist/checklist.slice';
 import { Confirm } from '../../Components/Confirm';
 import { useTypedSelector } from '../../lib/hooks';
 import { authSelectors } from '../../lib/slices/auth';
+import { paths } from '../../lib/routing';
 
 type Props = {
   checklist: Checklist;
@@ -50,7 +51,7 @@ export const ChecklistSubMenu = (props: Props): JSX.Element => {
   return (
     <Wrapper>
       <H1>Действия:</H1>
-      <Link to={`/checklist/${checklist.id}`}>
+      <Link to={paths.CHECKLISTS.BY_ID({ checklistId: checklist.id })}>
         <Img style={{ marginTop: '15px' }} src={viewList} alt={'view'} />
       </Link>
       {aythUser?.id === checklist.creatorId && (

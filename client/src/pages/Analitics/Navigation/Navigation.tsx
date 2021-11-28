@@ -1,6 +1,7 @@
 import styled, { keyframes } from 'styled-components';
 import { slideInLeft } from 'react-animations';
 import { NavItem } from './NavItem';
+import { paths } from '../../../lib/routing';
 
 const animationIn = keyframes`${slideInLeft}`;
 
@@ -24,13 +25,13 @@ const H1 = styled.h1`
 export const Navigation = (): JSX.Element => {
   return (
     <Wrapper>
-      <NavItem path={'/analytics/main'}>
+      <NavItem path={paths.ANALYTICS.MAIN.BASE()}>
         <H1>Главная</H1>
       </NavItem>
-      <NavItem path={'/analytics/salesmans'}>
+      <NavItem path={paths.ANALYTICS.SALESMANS.BASE()}>
         <H1>Продавцы</H1>
       </NavItem>
-      <NavItem path={'/analytics/evening-report'}>
+      <NavItem path={paths.ANALYTICS.EVENING_REPORT.BASE()}>
         <H1>Вечерний отчет</H1>
       </NavItem>
     </Wrapper>

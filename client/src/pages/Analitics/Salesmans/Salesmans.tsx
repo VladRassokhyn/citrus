@@ -8,10 +8,7 @@ import { Confirm } from '../../../Components/Confirm';
 import { useEffect } from 'react';
 import { useTypedSelector } from '../../../lib/hooks';
 import { Preloader } from '../../../Components/Preloader';
-
-type Props = {
-  authUser: User;
-};
+import { authSelectors } from '../../../lib/slices/auth';
 
 const Wrapper = styled.div``;
 
@@ -63,8 +60,8 @@ const Img = styled.img`
   width: 15px;
 `;
 
-export const Salesmans = (props: Props): JSX.Element => {
-  const { authUser } = props;
+export const Salesmans = (): JSX.Element => {
+  const authUser = useTypedSelector(authSelectors.selectAuthUser);
   const salesmans = useTypedSelector(salesmanSelectors.selectAllSalesmans);
   const { getStatus } = useTypedSelector(salesmanSelectors.selectSalesmanStatuses);
   const dispatch = useDispatch();
@@ -74,10 +71,10 @@ export const Salesmans = (props: Props): JSX.Element => {
   };
 
   useEffect(() => {
-    dispatch(salesmanActions.getSalesmans(authUser.tt.value));
+    if (authUser) dispatch(salesmanActions.getSalesmans(authUser.tt.value));
   }, []);
 
-  if (getStatus === LoadingStatuses.LOADING) {
+  if (getStatus === LoadingStatuses.LOADING || !authUser) {
     return <Preloader />;
   }
 

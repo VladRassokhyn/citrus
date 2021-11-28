@@ -138,7 +138,7 @@ export const DetailTable = (props: Props): JSX.Element => {
     <Wrapper>
       {columns.map((column, i) => {
         return (
-          <Column>
+          <Column key={i}>
             <Head>
               <Cell onClick={() => sortByFn(column.fn)}>
                 <H1>{column.label}</H1>
@@ -153,13 +153,13 @@ export const DetailTable = (props: Props): JSX.Element => {
             {sales.sales.map((salesman) => {
               if (i === 0) {
                 return (
-                  <NameCell>
+                  <NameCell key={salesman[0]}>
                     <H2>{getShortName(column.fn(salesman) as string)}</H2>
                   </NameCell>
                 );
               } else if (i === 3 || i === 6) {
                 return (
-                  <CellWithFill>
+                  <CellWithFill key={salesman[0]}>
                     <FilledCell
                       width={
                         i === 3
@@ -173,13 +173,16 @@ export const DetailTable = (props: Props): JSX.Element => {
                 );
               } else if (i === 4 || i === 7) {
                 return (
-                  <Cell>
+                  <Cell key={salesman[0]}>
                     <H4>{column.fn(salesman) >= 0 ? 'В доле' : column.fn(salesman)}</H4>
                   </Cell>
                 );
               } else {
                 return (
-                  <Cell isZeroOrNegative={column.fn(salesman) === 0 || column.fn(salesman) < 0}>
+                  <Cell
+                    key={salesman[0]}
+                    isZeroOrNegative={column.fn(salesman) === 0 || column.fn(salesman) < 0}
+                  >
                     <H4>{column.fn(salesman)}</H4>
                   </Cell>
                 );

@@ -3,18 +3,13 @@ import styled from 'styled-components';
 import { Preloader } from '../../../Components/Preloader';
 import { calcFns } from '../../../lib/common';
 import { useTypedSelector } from '../../../lib/hooks';
-import { DaySales } from '../../../lib/slices/daySales';
+import { DaySales, daySalesSelectors } from '../../../lib/slices/daySales';
 import { planesSelectors } from '../../../lib/slices/planes';
 import { Planes } from '../../../lib/slices/planes/planes.type';
 import { salesSelectors } from '../../../lib/slices/sales';
 import { Circle } from '../Circle/Circle';
 import { DetailTable } from './DetailTable';
 import { getColumns } from './getColumns';
-
-type Props = {
-  allSales: DaySales[] | null;
-  tt: { label: string; value: string };
-};
 
 const Wrapper = styled.div``;
 
@@ -60,15 +55,17 @@ const Circles = styled.div`
   justify-content: space-around;
 `;
 
-export const DayDetail = (props: Props): JSX.Element => {
+export const DayDetail = (): JSX.Element => {
   const salesDate = useParams<{ salesDate: string }>().salesDate.replace(/[^0-9]/g, '.');
   const thisDay = useTypedSelector(salesSelectors.selectSalesByDate(salesDate));
   const planes = useTypedSelector(planesSelectors.selectPlanes);
+  const allSales = useTypedSelector(daySalesSelectors.selectAllDaySales);
   const columns = getColumns(planes);
 
   if (!thisDay) {
     return <Preloader />;
   }
+
   const dayCount = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate();
   const day = new Date().getDate();
 
@@ -76,7 +73,7 @@ export const DayDetail = (props: Props): JSX.Element => {
   const czDaySales = thisDay.ttSales[10] as number;
   const caDaySales = thisDay.ttSales[12] as number;
 
-  const mounthSales = calcFns.mounthSales(props.allSales);
+  const mounthSales = calcFns.mounthSales(allSales);
   const to_cmFact = calcFns.ratio(+thisDay.ttSales[8], +thisDay.ttSales[1]);
   const to_czFact = calcFns.ratio(+thisDay.ttSales[10], +thisDay.ttSales[1]);
 

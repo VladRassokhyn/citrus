@@ -7,6 +7,7 @@ import styled, { keyframes } from 'styled-components';
 import { bounceIn, bounceOutDown } from 'react-animations';
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
+import { paths } from '../../lib/routing';
 
 type ClosingProps = {
   isClosing: boolean;
@@ -65,19 +66,19 @@ export const Main = (): JSX.Element => {
 
   return (
     <Wrapper>
-      <MenuItem isClosing={isClosing} onClick={() => handleClose('cm')}>
+      <MenuItem isClosing={isClosing} onClick={() => handleClose(paths.CM.BASE())}>
         <Img src={cmImage} alt="cm image" />
         <H1>Наполнение</H1>
       </MenuItem>
-      <MenuItem isClosing={isClosing} onClick={() => handleClose('analytics/main')}>
+      <MenuItem isClosing={isClosing} onClick={() => handleClose(paths.ANALYTICS.MAIN.BASE())}>
         <Img src={analitic} alt="anslyics image" />
         <H1>Аналитика</H1>
       </MenuItem>
-      <MenuItem isClosing={isClosing} onClick={() => handleClose('users')}>
+      <MenuItem isClosing={isClosing} onClick={() => handleClose(paths.USERS.BASE())}>
         <Img src={employee} alt="salesmans image" />
         <H1>Продавцы</H1>
       </MenuItem>
-      <MenuItem isClosing={isClosing} onClick={() => handleClose('checklist')}>
+      <MenuItem isClosing={isClosing} onClick={() => handleClose(paths.CHECKLISTS.BASE())}>
         <Img src={checklist} alt="chacklist image" />
         <H1>Чеклист</H1>
       </MenuItem>

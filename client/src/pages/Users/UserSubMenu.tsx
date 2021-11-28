@@ -13,6 +13,7 @@ import { NewUserForm } from './NewUserForm';
 import { Link } from 'react-router-dom';
 import { authSelectors } from '../../lib/slices/auth';
 import { Confirm } from '../../Components/Confirm';
+import { paths } from '../../lib/routing';
 
 type Props = {
   user: User;
@@ -85,7 +86,7 @@ export const UserSubMenu = (props: Props): JSX.Element => {
         <>
           <H1>Действия:</H1>
           <Img src={edit} alt={'edit'} onClick={handleEdit} />
-          <Link to={`/users/${user.id}`}>
+          <Link to={paths.USERS.BY_ID({ userId: user.id })}>
             <Img src={viewList} alt={'view'} />
           </Link>
           <Confirm confirmFn={handleDelete} title={'Удалить пользователя ?'}>

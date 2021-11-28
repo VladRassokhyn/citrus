@@ -1,9 +1,14 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
+import { Preloader } from '../../../Components/Preloader';
 import { calcFns, getDaysFormated } from '../../../lib/common';
 import { User } from '../../../lib/globalTypes';
-import { DaySales } from '../../../lib/slices/daySales';
+import { useTypedSelector } from '../../../lib/hooks';
+import { authSelectors } from '../../../lib/slices/auth';
+import { DaySales, daySalesSelectors } from '../../../lib/slices/daySales';
+import { planesSelectors } from '../../../lib/slices/planes';
 import { Planes } from '../../../lib/slices/planes/planes.type';
+import { salesSelectors } from '../../../lib/slices/sales';
 import { Sales } from '../../../lib/slices/sales/sales.type';
 import { Calendar } from '../Calendar';
 import { Circle } from '../Circle';
@@ -11,13 +16,6 @@ import { DayByDay } from '../DayByDay';
 import { getColumns } from '../DayDetail';
 import { DetailTable } from '../DayDetail/DetailTable';
 import { MounthHeader } from './MounthHeader';
-
-type Props = {
-  sales: DaySales[];
-  newSales: Sales[];
-  authUser: User;
-  planes: Planes;
-};
 
 const Wrapper = styled.div``;
 
@@ -58,12 +56,24 @@ const DetailContainer = styled.div`
   margin: 15px 0;
 `;
 
-export const MainAnalitics = (props: Props): JSX.Element => {
-  const { newSales, sales, authUser, planes } = props;
+export const MainAnalitics = (): JSX.Element => {
+  const planes = useTypedSelector(planesSelectors.selectPlanes);
+  const authUser = useTypedSelector(authSelectors.selectAuthUser);
+  const sales = useTypedSelector(daySalesSelectors.selectAllDaySales);
+  const newSales = useTypedSelector(salesSelectors.selectAllSales);
+
   const [mounth, setMounth] = useState(new Date().getMonth());
   const [year, setYear] = useState(new Date().getFullYear());
   const [days, setDays] = useState(getDaysFormated(mounth).days);
   const { weekDays } = getDaysFormated(mounth);
+
+  useEffect(() => {
+    setDays(getDaysFormated(mounth).days);
+  }, [mounth]);
+
+  if (!sales || !newSales || !authUser) {
+    return <Preloader />;
+  }
 
   const mountSales = useMemo(() => calcFns.mounthSalesNew(newSales), [newSales]);
   const salesSum = useMemo(() => calcFns.mounthSales(sales), [sales]);
@@ -75,10 +85,6 @@ export const MainAnalitics = (props: Props): JSX.Element => {
     setMounth(mounthNumber);
     setYear(yearNumber);
   }, []);
-
-  useEffect(() => {
-    setDays(getDaysFormated(mounth).days);
-  }, [mounth]);
 
   return (
     <Wrapper>

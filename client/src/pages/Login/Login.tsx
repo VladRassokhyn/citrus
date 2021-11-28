@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { InputField } from '../../Components/InputField';
 import { FixLater, LoadingStatuses } from '../../lib/globalTypes';
 import { useTypedSelector } from '../../lib/hooks';
+import { paths } from '../../lib/routing';
 import { authSelectors, tryLogin } from '../../lib/slices/auth';
 
 const Wrapper = styled.form`
@@ -43,7 +44,7 @@ export const Login = (): JSX.Element => {
   const isError = loginStatus === LoadingStatuses.ERROR;
 
   if (authUser) {
-    return <Redirect to={'/'} />;
+    return <Redirect to={paths.BASE()} />;
   }
 
   const handleLogin = (e: FixLater) => {

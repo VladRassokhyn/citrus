@@ -49,7 +49,7 @@ const H2 = styled.h1`
   color: var(--color-stroke);
 `;
 
-export const User = (): JSX.Element | null => {
+export const User = (): JSX.Element => {
   const { userId } = useParams<{ userId: string }>();
   const user = useTypedSelector(userSelectors.selectOneUser);
   const userStatus = useTypedSelector(userSelectors.selectOneUserStatus);

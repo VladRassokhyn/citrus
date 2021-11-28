@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Planes } from '../../../lib/slices/planes/planes.type';
-import { DaySales } from '../../../lib/slices/daySales';
+import { DaySales, daySalesSelectors } from '../../../lib/slices/daySales';
 import html2canvas from 'html2canvas';
 import { User } from '../../../lib/globalTypes';
 import { calcFns } from '../../../lib/common';
@@ -8,12 +8,13 @@ import { useEffect, useMemo, useState } from 'react';
 import { Modal } from '../../../Components/Modal';
 import { Screenshot } from '../../../Components/Screenshot';
 import { Redirect } from 'react-router';
+import { useTypedSelector } from '../../../lib/hooks';
+import { planesSelectors } from '../../../lib/slices/planes';
+import { authSelectors } from '../../../lib/slices/auth';
+import { paths } from '../../../lib/routing';
 
 type Props = {
-  planes: Planes;
-  daySales: DaySales;
-  mounthSales: DaySales;
-  authUser: User;
+  authUser?: User;
 };
 
 type CellProps = {
@@ -162,12 +163,18 @@ const Button = styled.button`
 `;
 
 export const EveningReport = (props: Props): JSX.Element => {
-  const { planes, daySales, mounthSales, authUser } = props;
   const [screenshot, setScreenshot] = useState<string | null>(null);
 
-  if (!daySales || !mounthSales || !planes) {
-    return <Redirect to={'/analytics/main'} />;
+  const planes = useTypedSelector(planesSelectors.selectPlanes);
+  const allSales = useTypedSelector(daySalesSelectors.selectAllDaySales);
+  const authUser = useTypedSelector(authSelectors.selectAuthUser);
+
+  if (!allSales || !planes || !authUser) {
+    return <Redirect to={paths.ANALYTICS.MAIN.BASE()} />;
   }
+
+  const mounthSales = useMemo(() => calcFns.mounthSales(allSales), [allSales]);
+  const daySales = allSales[allSales?.length - 1];
 
   const onScreenshot = () => {
     html2canvas(document.getElementById('evening-report') as HTMLElement).then((canvas) => {

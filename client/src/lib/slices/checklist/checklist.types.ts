@@ -8,7 +8,7 @@ export type Checklist = {
   passerId: number;
   mark: number;
   maxMark: number;
-  id?: number;
+  id: number;
   categories: Category[];
 };
 
