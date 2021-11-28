@@ -58,7 +58,7 @@ const WeekToWeek = styled.div`
   display: flex;
   flex-direction: column;
   gap: 15px 7px;
-  margin-top: 115px;
+  margin-top: 40px;
   align-items: center;
 `;
 
