@@ -154,7 +154,15 @@ export const CalendarDay = memo(
     }, []);
 
     const postDaySales = (payload: { parsed: DaySales; sales: string }) => {
-      dispatch(salesActions.postSales({ sales: payload.sales, tt: tt.value, day: title }));
+      dispatch(
+        salesActions.postSales({
+          sales: payload.sales,
+          tt: tt.value,
+          day: title,
+          mounth: parseInt(title.split('.')[1]) - 1,
+          year: title.split('.')[2],
+        }),
+      );
       dispatch(daySalesActions.postDaySales({ ...payload.parsed, day: title, tt: tt.value }));
     };
 

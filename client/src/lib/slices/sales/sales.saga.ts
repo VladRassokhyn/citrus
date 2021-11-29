@@ -29,7 +29,7 @@ function* salesPostWorker(action: FixLater): SagaIterator {
     const payload = { ...action.payload, sales };
     yield call(salesApi.postSales, payload);
     yield put({ type: salesPosted.type });
-    yield put({ type: getSales.type, payload: action.payload.tt });
+    yield put({ type: getSales.type, payload: action.payload });
   } catch (err) {
     console.log(err);
   }

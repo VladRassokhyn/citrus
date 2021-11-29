@@ -38,9 +38,7 @@ router.route('/').post(async (req, res) => {
     const dto = req.body;
     const salesRepo = (0, typeorm_1.getRepository)(entities_1.Sales);
     try {
-        const mounth = dto.day.split('.')[1];
-        const year = dto.day.split('.')[2];
-        const newDaySales = salesRepo.create({ ...dto, mounth, year });
+        const newDaySales = salesRepo.create(dto);
         await salesRepo.save(newDaySales);
         res.status(201).send('created');
     }
