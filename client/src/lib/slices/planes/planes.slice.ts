@@ -1,6 +1,6 @@
 import { Action, LoadingStatuses } from './../../globalTypes';
 import { createSlice } from '@reduxjs/toolkit';
-import { Planes } from './planes.type';
+import { GetPlanesPayload, Planes } from './planes.type';
 
 const initialState = {
   status: LoadingStatuses.IDLE,
@@ -13,6 +13,8 @@ const initialState = {
     ca: 0,
     to_cm: 0,
     to_cz: 0,
+    mounth: new Date().getMonth(),
+    year: new Date().getFullYear(),
   },
 };
 
@@ -20,7 +22,7 @@ const planesSlice = createSlice({
   name: 'planes',
   initialState,
   reducers: {
-    getPlanes(state, action: Action<string>) {
+    getPlanes(state, action: Action<GetPlanesPayload>) {
       state.status = LoadingStatuses.LOADING;
     },
     setPlanes(state, action: Action<Planes>) {

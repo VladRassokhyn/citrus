@@ -9,10 +9,10 @@ import { planesActions, planesSelectors } from '../../lib/slices/planes';
 import { Navigation } from './Navigation';
 import { PlanesPanel } from './PlanesPanel';
 import Selector from 'react-select';
-import { salesActions, salesSelectors } from '../../lib/slices/sales';
 import { RouterController } from '../../lib/routing/RouterController';
 import { RouteItem } from '../../lib/routing/routes';
 import { User } from '../../lib/slices/users';
+import { salesSelectors } from '../../lib/slices/sales';
 
 type Props = {
   routes: RouteItem[];
@@ -38,9 +38,9 @@ const Filter = styled.div`
 
 export const Analitic = (props: Props): JSX.Element => {
   const planes = useTypedSelector(planesSelectors.selectPlanes);
-  const planesStatus = useTypedSelector(planesSelectors.selectStatus);
   const daySalesStatus = useTypedSelector(daySalesSelectors.selectDaySalesStatuses);
 
+  const { mounth, year } = useTypedSelector(salesSelectors.selectMounth);
   const [selectedTT, setSelectedTT] = useState(props.authUser.tt);
   const dispatch = useDispatch();
 
@@ -48,13 +48,9 @@ export const Analitic = (props: Props): JSX.Element => {
 
   useEffect(() => {
     dispatch(daySalesActions.getDaySales(selectedTT.value));
-    dispatch(planesActions.getPlanes(selectedTT.value));
   }, [selectedTT]);
 
-  if (
-    planesStatus === LoadingStatuses.LOADING ||
-    daySalesStatus.getStatus === LoadingStatuses.LOADING
-  ) {
+  if (daySalesStatus.getStatus === LoadingStatuses.LOADING) {
     return <Preloader />;
   }
 

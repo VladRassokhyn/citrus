@@ -15,6 +15,7 @@ import { DayByDay } from '../DayByDay';
 import { getColumns } from '../DayDetail';
 import { DetailTable } from '../DayDetail/DetailTable';
 import { MounthHeader } from './MounthHeader';
+import { planesActions } from '../../../lib/slices/planes';
 
 const Wrapper = styled.div``;
 
@@ -65,11 +66,13 @@ export const MainAnalitics = (): JSX.Element => {
   const [days, setDays] = useState(getDaysFormated(mounth).days);
   const { weekDays } = getDaysFormated(mounth);
   const salesStatus = useTypedSelector(salesSelectors.selectSalesStatuses);
+  const planesStatus = useTypedSelector(planesSelectors.selectStatus);
 
   const isSalesLoading = salesStatus.getStatus === LoadingStatuses.LOADING;
 
   useEffect(() => {
     dispatch(salesActions.getSales({ tt: authUser!.tt.value, mounth, year }));
+    dispatch(planesActions.getPlanes({ tt: authUser!.tt.value, mounth, year }));
   }, [mounth, year]);
 
   if (!sales || !newSales || !authUser) {
@@ -90,7 +93,7 @@ export const MainAnalitics = (): JSX.Element => {
     dispatch(salesActions.setMounth({ year: yearNumber, mounth: mounthNumber }));
   }, []);
 
-  if (isSalesLoading) {
+  if (isSalesLoading || planesStatus === LoadingStatuses.LOADING) {
     return <Preloader />;
   }
 
