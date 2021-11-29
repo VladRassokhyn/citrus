@@ -1,13 +1,20 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { InputField } from '../../Components/InputField';
 import { useTypedSelector } from '../../lib/hooks';
-import { checklistActions, checklistSelectors } from '../../lib/slices/checklist';
+import {
+  checklistActions,
+  checklistSelectors,
+  checklistEditActions,
+} from '../../lib/slices/checklist';
 import trash from '../../static/trash.svg';
 import { LoadingStatuses } from '../../lib/globalTypes';
-import { authSelectors } from '../../lib/slices/auth';
 import { Confirm } from '../../Components/Confirm';
+
+type Props = {
+  authUserId: number;
+};
 
 const Wrapper = styled.div`
   padding: 15px 5%;
@@ -84,12 +91,11 @@ const BottomBtns = styled.div`
   gap: 20px;
 `;
 
-export const NewChecklistForm = (): JSX.Element => {
+export const NewChecklistForm = (props: Props): JSX.Element => {
+  const dispatch = useDispatch();
+  const [disabled, setDisabled] = useState(false);
   const checklist = useTypedSelector(checklistSelectors.selectSingleChecklist);
   const postStatus = useTypedSelector(checklistSelectors.selectPostChecklistStatus);
-  const authUser = useTypedSelector(authSelectors.selectAuthUser);
-  const [disabled, setDisabled] = useState(false);
-  const dispatch = useDispatch();
 
   useEffect(() => {
     if (postStatus === LoadingStatuses.LOADING) {
@@ -99,39 +105,43 @@ export const NewChecklistForm = (): JSX.Element => {
       setDisabled(false);
     }
     return () => {
-      dispatch(checklistActions.clearNewChecklist());
+      dispatch(checklistEditActions.clearNewChecklist());
     };
   }, [postStatus]);
 
-  const handleSubmit = () => {
+  const handleSubmit = useCallback(() => {
     dispatch(
       checklistActions.postNewChecklist({
         ...checklist,
-        creatorId: authUser?.id,
+        creatorId: props.authUserId,
       }),
     );
-  };
+  }, [checklist, props.authUserId]);
 
-  const appendCategory = () => {
-    dispatch(checklistActions.categoryAdded());
-  };
+  const appendCategory = useCallback(() => {
+    dispatch(checklistEditActions.categoryAdded());
+  }, []);
 
   const removeCategory = (index: number) => {
-    dispatch(checklistActions.categoryRemoved(index));
+    dispatch(checklistEditActions.categoryRemoved(index));
   };
 
   const appendField = (categoryIndex: number) => {
-    dispatch(checklistActions.fieldAdded(categoryIndex));
+    dispatch(checklistEditActions.fieldAdded(categoryIndex));
   };
 
   const removeField = (categoryIndex: number, fieldIndex: number) => {
-    dispatch(checklistActions.fieldRemoved({ categoryIndex, fieldIndex }));
+    dispatch(checklistEditActions.fieldRemoved({ categoryIndex, fieldIndex }));
   };
 
-  const resetForm = () => dispatch(checklistActions.clearNewChecklist());
+  const resetForm = useCallback(() => dispatch(checklistEditActions.clearNewChecklist()), []);
+
+  const handleChecklistTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    dispatch(checklistEditActions.checklistTitleChanged(e.target.value));
+  };
 
   const handleCategoryTitleChange = (e: ChangeEvent<HTMLInputElement>, index: number) => {
-    dispatch(checklistActions.categoryTitleChanged({ title: e.target.value, index }));
+    dispatch(checklistEditActions.categoryTitleChanged({ title: e.target.value, index }));
   };
 
   const handleFieldTitleChange = (
@@ -140,7 +150,7 @@ export const NewChecklistForm = (): JSX.Element => {
     fieldIndex: number,
   ) => {
     dispatch(
-      checklistActions.fieldTitleChanged({
+      checklistEditActions.fieldTitleChanged({
         title: e.target.value,
         categoryIndex,
         fieldIndex,
@@ -155,7 +165,7 @@ export const NewChecklistForm = (): JSX.Element => {
         label={'Тема'}
         vertical
         value={checklist.title}
-        onChange={(e) => dispatch(checklistActions.checklistTitleChanged(e.target.value))}
+        onChange={handleChecklistTitleChange}
       />
       <HR />
       {checklist.categories.map((category, categoryIndex) => (

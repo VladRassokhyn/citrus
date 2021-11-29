@@ -5,11 +5,14 @@ import { Accordion } from '../../Components/Accordion';
 import { NewChecklistForm } from './NewChecklistForm';
 import { userActions, userSelectors } from '../../lib/slices/users';
 import { useTypedSelector } from '../../lib/hooks';
-import { LoadingStatuses } from '../../lib/globalTypes';
+import { LoadingStatuses, User } from '../../lib/globalTypes';
 import { Preloader } from '../../Components/Preloader';
 import { checklistSelectors, checklistActions } from '../../lib/slices/checklist';
 import { ChecklistSubMenu } from './ChecklistSubMenu';
-import { authSelectors } from '../../lib/slices/auth';
+
+type Props = {
+  authUser: User;
+};
 
 const Wrapper = styled.div`
   padding: 20px 5vw;
@@ -34,18 +37,17 @@ const H1 = styled.h1`
   color: var(--color-stroke);
 `;
 
-export const Checklists = (): JSX.Element => {
-  const usersStatus = useTypedSelector(userSelectors.selectUsersStatus);
+export const Checklists = (props: Props): JSX.Element => {
   const dispatch = useDispatch();
+  const usersStatus = useTypedSelector(userSelectors.selectUsersStatus);
   const checklists = useTypedSelector(checklistSelectors.selectAllChecklists);
   const checklistStatus = useTypedSelector(checklistSelectors.selectChecklistsStatus);
-  const authUser = useTypedSelector(authSelectors.selectAuthUser);
 
   const isChecklistsLoading = checklistStatus === LoadingStatuses.LOADING;
   const isUsersLoading = usersStatus === LoadingStatuses.LOADING;
 
   useEffect(() => {
-    authUser && dispatch(userActions.getUsers(authUser.tt));
+    dispatch(userActions.getUsers(props.authUser.tt.value));
     dispatch(checklistActions.getChecklists());
   }, []);
 
@@ -60,7 +62,7 @@ export const Checklists = (): JSX.Element => {
         titleColor={'white'}
         titleBgColor={'var(--color-button)'}
       >
-        <NewChecklistForm />
+        <NewChecklistForm authUserId={props.authUser.id} />
       </Accordion>
       <ChecklistsList>
         <H1>Доступные чек-листы</H1>
@@ -70,7 +72,7 @@ export const Checklists = (): JSX.Element => {
             key={checklist.id}
             title={index + 1 + '. ' + checklist.title}
           >
-            <ChecklistSubMenu checklist={checklist} />
+            <ChecklistSubMenu checklist={checklist} authUserId={props.authUser.id} />
           </Accordion>
         ))}
       </ChecklistsList>

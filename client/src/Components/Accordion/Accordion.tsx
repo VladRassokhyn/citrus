@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useEffect, useState } from 'react';
 import styled, { Keyframes, keyframes } from 'styled-components';
 import { zoomIn, zoomOut } from 'react-animations';
@@ -28,7 +28,7 @@ type TitleProps = {
 const openAnimation = keyframes`${zoomIn}`;
 const closeAnimation = keyframes`${zoomOut}`;
 const heightOn = keyframes`0%{height: 30px} 100% {height: 100%}`;
-const heightClose = keyframes`0%{height: 110px} 100% {height: 30px}`;
+const heigthClose = keyframes`0%{height: 110px} 100% {height: 30px}`;
 
 const Wrapper = styled.div<ContentProps>`
   min-height: 30px;
@@ -74,13 +74,13 @@ export const Accordion = (props: Props): JSX.Element => {
   const [isOpen, setIsOpen] = useState(isOpenAll);
   const [isClosing, setIsClosing] = useState(false);
 
-  const handleClick = () => {
+  const handleClick = useCallback(() => {
     if (isOpen) {
       setIsClosing(true);
     } else {
       setIsOpen(true);
     }
-  };
+  }, [isOpen]);
 
   useEffect(() => {
     setIsOpen(isOpenAll);
@@ -97,7 +97,7 @@ export const Accordion = (props: Props): JSX.Element => {
   }, [isClosing]);
 
   return (
-    <Wrapper animation={!isOpen || isClosing ? heightClose : heightOn}>
+    <Wrapper animation={!isOpen || isClosing ? heigthClose : heightOn}>
       <Title bgColor={titleBgColor && titleBgColor}>
         <H1
           titleColor={titleColor && titleColor}

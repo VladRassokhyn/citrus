@@ -1,4 +1,4 @@
-import { LoadingStatuses } from './../../globalTypes';
+import { Action, LoadingStatuses } from './../../globalTypes';
 import { createSlice } from '@reduxjs/toolkit';
 import { Checklist, ChecklistState } from './checklist.types';
 
@@ -40,24 +40,24 @@ const checklistSlice = createSlice({
     getChecklists(state) {
       state.status = LoadingStatuses.LOADING;
     },
-    setChecklists(state, action) {
+    setChecklists(state, action: Action<Checklist[]>) {
       state.checklists = action.payload;
       state.status = LoadingStatuses.SUCCESS;
     },
-    getSingleChecklist(state, action) {
+    getSingleChecklist(state, action: Action<string>) {
       state.singleChecklistStatus = LoadingStatuses.LOADING;
     },
-    setSingleChecklist(state, action) {
+    setSingleChecklist(state, action: Action<Checklist>) {
       state.singleChecklist = action.payload;
       state.singleChecklistStatus = LoadingStatuses.SUCCESS;
     },
-    postNewChecklist(state, action) {
+    postNewChecklist(state, action: Action<Checklist>) {
       state.postChecklistStatus = LoadingStatuses.LOADING;
     },
     newChecklistPosted(state) {
       state.postChecklistStatus = LoadingStatuses.SUCCESS;
     },
-    deleteChecklist(state, action) {
+    deleteChecklist(state, action: Action<number>) {
       state.deleteStatus = LoadingStatuses.LOADING;
     },
     checklistDeleted(state) {
@@ -66,7 +66,7 @@ const checklistSlice = createSlice({
     setError(state) {
       state.status = LoadingStatuses.ERROR;
     },
-    checklistTitleChanged(state, action) {
+    checklistTitleChanged(state, action: Action<string>) {
       state.singleChecklist.title = action.payload;
     },
     categoryAdded(state) {
@@ -76,17 +76,17 @@ const checklistSlice = createSlice({
         fields: [{ title: '', checked: false }],
       });
     },
-    categoryRemoved(state, action) {
+    categoryRemoved(state, action: Action<number>) {
       const index = action.payload;
       state.singleChecklist.maxMark -= 1;
       state.singleChecklist.categories.splice(index, 1);
     },
-    categoryTitleChanged(state, action) {
+    categoryTitleChanged(state, action: Action<{ index: number; title: string }>) {
       const index = action.payload.index;
       const title = action.payload.title;
       state.singleChecklist.categories[index].title = title;
     },
-    fieldAdded(state, action) {
+    fieldAdded(state, action: Action<number>) {
       const categoryIndex = action.payload;
       state.singleChecklist.maxMark += 1;
       state.singleChecklist.categories[categoryIndex].fields.push({
@@ -94,19 +94,22 @@ const checklistSlice = createSlice({
         checked: false,
       });
     },
-    fieldRemoved(state, action) {
+    fieldRemoved(state, action: Action<{ categoryIndex: number; fieldIndex: number }>) {
       const categoryIndex = action.payload.categoryIndex;
       const fieldIndex = action.payload.fieldIndex;
       state.singleChecklist.maxMark -= 1;
       state.singleChecklist.categories[categoryIndex].fields.splice(fieldIndex, 1);
     },
-    fieldTitleChanged(state, action) {
+    fieldTitleChanged(
+      state,
+      action: Action<{ categoryIndex: number; fieldIndex: number; title: string }>,
+    ) {
       const categoryIndex = action.payload.categoryIndex;
       const fieldIndex = action.payload.fieldIndex;
       const title = action.payload.title;
       state.singleChecklist.categories[categoryIndex].fields[fieldIndex].title = title;
     },
-    fieldCheckedChanged(state, action) {
+    fieldCheckedChanged(state, action: Action<{ categoryIndex: number; fieldIndex: number }>) {
       const categoryIndex = action.payload.categoryIndex;
       const fieldIndex = action.payload.fieldIndex;
       const field = state.singleChecklist.categories[categoryIndex].fields[fieldIndex];

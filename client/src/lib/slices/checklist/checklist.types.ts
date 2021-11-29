@@ -2,7 +2,7 @@ import { LoadingStatuses } from './../../globalTypes';
 
 export type Checklist = {
   title: string;
-  passed: false;
+  passed: boolean;
   creatorId: number;
   managerId: number;
   passerId: number;

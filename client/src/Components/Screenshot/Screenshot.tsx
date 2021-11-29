@@ -4,7 +4,7 @@ import { slideInLeft, slideOutLeft } from 'react-animations';
 import { useEffect, useState } from 'react';
 
 type Props = {
-  image: string;
+  image: string; //base64
   onClose: (img: string | null) => void;
 };
 

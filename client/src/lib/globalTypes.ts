@@ -115,3 +115,8 @@ export const TTselectorOptions = [
   { label: TTlabel.SKYPARK, value: TT.SKYPARK },
   { label: TTlabel.FRANKOVSK, value: TT.FRANKOVSK },
 ];
+
+export type Action<T> = {
+  type: string;
+  payload: T;
+};

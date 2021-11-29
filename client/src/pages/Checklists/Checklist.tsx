@@ -5,11 +5,20 @@ import styled from 'styled-components';
 import Select from 'react-select';
 import { Checkbox } from '../../Components/Checkbox';
 import { Preloader } from '../../Components/Preloader';
-import { FixLater, LoadingStatuses, UserRoles } from '../../lib/globalTypes';
+import { FixLater, LoadingStatuses, User, UserRoles } from '../../lib/globalTypes';
 import { useTypedSelector } from '../../lib/hooks';
-import { Category, checklistActions, checklistSelectors } from '../../lib/slices/checklist/';
+import {
+  Category,
+  checklistActions,
+  checklistSelectors,
+  checklistEditActions,
+} from '../../lib/slices/checklist/';
 import { userActions, userSelectors } from '../../lib/slices/users';
 import { authSelectors } from '../../lib/slices/auth';
+
+type Props = {
+  authUser: User;
+};
 
 const Wrapper = styled.form`
   display: flex;
@@ -77,10 +86,10 @@ const Button = styled.button`
   font-size: 14pt;
 `;
 
-export const Checklist = (): JSX.Element => {
+export const Checklist = (props: Props): JSX.Element => {
   const { checklistId } = useParams<{ checklistId: string }>();
-  const [salesmanId, setSalesmanId] = useState<number | null>(null);
-  const [managerId, setManagerId] = useState<number | null>(null);
+  const [salesmanId, setSalesmanId] = useState<number>(0);
+  const [managerId, setManagerId] = useState<number>(0);
   const [showChecklist, setShowChecklist] = useState(false);
   const authUser = useTypedSelector(authSelectors.selectAuthUser);
   const users = useTypedSelector(userSelectors.selectAllUsers);
@@ -99,10 +108,10 @@ export const Checklist = (): JSX.Element => {
 
   useEffect(() => {
     dispatch(checklistActions.getSingleChecklist(checklistId));
-    authUser && dispatch(userActions.getUsers(authUser.tt));
+    dispatch(userActions.getUsers(props.authUser.tt.value));
 
     return () => {
-      dispatch(checklistActions.clearNewChecklist());
+      dispatch(checklistEditActions.clearNewChecklist());
     };
   }, []);
 
@@ -160,7 +169,7 @@ export const Checklist = (): JSX.Element => {
   };
 
   const handleCheckedChange = (fieldIndex: number, categoryIndex: number) => {
-    dispatch(checklistActions.fieldCheckedChanged({ fieldIndex, categoryIndex }));
+    dispatch(checklistEditActions.fieldCheckedChanged({ fieldIndex, categoryIndex }));
   };
 
   const handleChangeSalesman = (e: FixLater) => {

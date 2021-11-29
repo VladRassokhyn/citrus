@@ -42,15 +42,11 @@ const Input = styled.input`
 
 export const Checkbox = (props: Props): JSX.Element => {
   const { handleChange, value, label, fullSize, register } = props;
-  const handleClick = () => {
-    handleChange && handleChange();
-  };
+
   return (
-    <Wrapper fullSize={fullSize} value={value}>
+    <Wrapper fullSize={fullSize} value={value} onClick={handleChange}>
       <Input {...register} type="checkbox" checked={value} onChange={handleChange} />
-      <H1 value={value} onClick={handleClick}>
-        {label}
-      </H1>
+      <H1 value={value}>{label}</H1>
     </Wrapper>
   );
 };

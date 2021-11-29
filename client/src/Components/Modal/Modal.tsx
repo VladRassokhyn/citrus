@@ -25,12 +25,12 @@ const Wrapper = styled.div`
   z-index: 999;
 `;
 
-const Content = styled.div`
+const Content = styled.div<{ top: number }>`
   position: absolute;
-  left: 5%;
-  top: 30%;
+  left: 30%;
+  top: ${(props) => props.top + 100}px;
   padding: 5%;
-  width: 80%;
+  width: 40%;
   min-height: 100px;
   background-color: white;
   opacity: 1;
@@ -49,7 +49,7 @@ export const Modal = (props: Props): JSX.Element => {
   return ReactDOM.createPortal(
     <>
       <Wrapper onClick={onClose}></Wrapper>
-      <Content>{children}</Content>
+      <Content top={window.pageYOffset}>{children}</Content>
     </>,
     modalRoot as Element,
   );

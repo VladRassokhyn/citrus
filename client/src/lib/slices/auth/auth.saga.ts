@@ -11,7 +11,7 @@ import {
   getAuth,
   setAuth,
   setAuthUser,
-} from '../auth';
+} from './auth.slice';
 
 function* loginWorker(action: FixLater): SagaIterator {
   try {

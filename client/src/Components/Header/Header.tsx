@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 import { useTypedSelector } from '../../lib/hooks';
-import { logout, authSelectors } from '../../lib/slices/auth';
+import { authActions, authSelectors } from '../../lib/slices/auth';
 import { slideInRight } from 'react-animations';
 import { useDispatch } from 'react-redux';
 import home from '../../static/home.svg';
@@ -86,14 +86,14 @@ export const Header = (): JSX.Element => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const handleOpen = () => {
+  const openToggle = useCallback(() => {
     setIsOpen((prev) => !prev);
-  };
+  }, []);
 
-  const handleLogout = () => {
-    dispatch(logout());
-    history.push('/');
-  };
+  const handleLogout = useCallback(() => {
+    dispatch(authActions.logout());
+    history.push(paths.BASE());
+  }, []);
 
   return (
     <Wrapper>
@@ -102,11 +102,11 @@ export const Header = (): JSX.Element => {
       </Link>
       {authUser ? (
         <>
-          <H1 onClick={handleOpen} goLeft={isOpen}>
+          <H1 onClick={openToggle} goLeft={isOpen}>
             {`${authUser.lastName} ${authUser.name[0]}.`}
           </H1>
           {isOpen && (
-            <LoginMenu onClick={handleOpen}>
+            <LoginMenu onClick={openToggle}>
               <Link to={paths.USERS.BY_ID({ userId: authUser.id })}>
                 <H2>Профиль</H2>
               </Link>

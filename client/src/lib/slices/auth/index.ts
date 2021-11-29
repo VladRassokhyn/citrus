@@ -13,9 +13,7 @@ import { selectAuthUser, selectAuthStatuses } from './auth.selectors';
 import { authWather } from './auth.saga';
 
 export const authSelectors = { selectAuthUser, selectAuthStatuses };
-export {
-  authWather,
-  authReducer,
+export const authActions = {
   tryLogin,
   setLogin,
   setAuthError,
@@ -25,3 +23,4 @@ export {
   setAuthUser,
   logout,
 };
+export { authWather, authReducer };

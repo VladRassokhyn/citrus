@@ -6,18 +6,18 @@ type Props = {
   options: { value: string | number; label: string }[];
   name: string;
   handleChange?: (...args: FixLater) => void;
-  dirColumn?: boolean;
+  directionColumn?: boolean;
   label: string;
 };
 
 type StyleProps = {
-  dirColumn?: boolean;
+  directionColumn?: boolean;
 };
 
 const Wrapper = styled.div<StyleProps>`
   padding: 10px 5%;
   display: flex;
-  flex-direction: ${(props) => (props.dirColumn ? 'column' : 'row')};
+  flex-direction: ${(props) => (props.directionColumn ? 'column' : 'row')};
   justify-content: space-between;
   align-items: center;
   gap: 10px;
@@ -32,10 +32,10 @@ const Label = styled.h1`
 `;
 
 export const SelectField = (props: Props): JSX.Element => {
-  const { dirColumn, options, name, handleChange, label } = props;
+  const { directionColumn, options, name, handleChange, label } = props;
 
   return (
-    <Wrapper dirColumn={dirColumn}>
+    <Wrapper directionColumn={directionColumn}>
       <Label>{label}</Label>
       <div style={{ width: '100%' }}>
         <Select placeholder={'Выбор'} name={name} options={options} onChange={handleChange} />

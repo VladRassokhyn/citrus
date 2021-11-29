@@ -1,6 +1,6 @@
 import { UsersState } from './users.types';
 import { createSlice } from '@reduxjs/toolkit';
-import { LoadingStatuses } from '../../globalTypes';
+import { Action, LoadingStatuses } from '../../globalTypes';
 
 const initialState: UsersState = {
   items: [],
@@ -13,7 +13,7 @@ const usersSlice = createSlice({
   name: 'salesmans',
   initialState,
   reducers: {
-    getUsers(state, action) {
+    getUsers(state, action: Action<string>) {
       state.status = LoadingStatuses.LOADING;
     },
     setUsers(state, action) {

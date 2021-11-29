@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { TouchEvent } from 'react';
 import { useCallback, useEffect, useState } from 'react';
 import styled, { keyframes, Keyframes } from 'styled-components';
-import { FixLater } from '../../lib/globalTypes';
 import arrowLeft from '../../static/arrowLeft.svg';
 import arrowRight from '../../static/arrowRight.svg';
 
@@ -28,24 +27,20 @@ const createAnimation = (prevIndex: number, index: number) => {
     `;
 };
 
-const NavBtnLeft = styled.button`
+const NavBtn = styled.button<{ isLeft?: boolean }>`
   position: fixed;
-  left: 0;
+  ${(props) => (props.isLeft ? 'left: 0' : 'right: 0')};
   top: 40%;
   width: 7vw;
   height: 170px;
   border: 1px solid #f0f0f0;
   border-radius: 5px;
-`;
-
-const NavBtnRight = styled.button`
-  position: fixed;
-  right: 0;
-  top: 40%;
-  width: 7vw;
-  height: 170px;
-  border: 1px solid #f0f0f0;
-  border-radius: 5px;
+  @media (min-width: 559px) {
+    width: 50px;
+    &:hover {
+      cursor: pointer;
+    }
+  }
 `;
 
 const Img = styled.img`
@@ -62,25 +57,25 @@ export const Slider = ({ children }: Props): JSX.Element => {
   const [isClick, setIsClick] = useState(false);
 
   const handleTouchStart = useCallback(
-    (e: FixLater) => {
+    (e: TouchEvent<HTMLDivElement>) => {
       setTouchStart(e.touches[0].clientX);
     },
     [touchStart],
   );
 
-  const handleBtnLeft = () => {
+  const handleBtnLeft = useCallback(() => {
     setIsClick(true);
     setSwipeDir(0);
     setSliderIndex((prev) => prev - 1);
-  };
+  }, []);
 
-  const handleBtnRight = () => {
+  const handleBtnRight = useCallback(() => {
     setIsClick(true);
     setSwipeDir(1);
     setSliderIndex((prev) => prev + 1);
-  };
+  }, []);
 
-  const handleTouchEnd = (e: FixLater, length: number) => {
+  const handleTouchEnd = (e: TouchEvent<HTMLDivElement>, length: number) => {
     const end = e.changedTouches[0].clientX;
     setTouchEnd(e.changedTouches[0].clientX);
     if (touchStart > end && sliderIndex < length && touchStart - end > 50) {
@@ -95,27 +90,23 @@ export const Slider = ({ children }: Props): JSX.Element => {
 
   useEffect(() => {
     if ((touchEnd !== 0 && (touchEnd - touchStart > 50 || touchStart - touchEnd > 50)) || isClick) {
-      if (swipeDir === 1) {
-        const animation = createAnimation(sliderIndex - 1, sliderIndex);
-        setSwapAnimation(animation);
-      } else {
-        const animation = createAnimation(sliderIndex + 1, sliderIndex);
-        setSwapAnimation(animation);
-      }
+      const direction = swipeDir === 1 ? sliderIndex - 1 : sliderIndex + 1;
+      const animation = createAnimation(direction, sliderIndex);
+      setSwapAnimation(animation);
     }
   }, [sliderIndex]);
 
   return (
     <>
       {sliderIndex > 0 && (
-        <NavBtnLeft onClick={handleBtnLeft}>
+        <NavBtn isLeft onClick={handleBtnLeft}>
           <Img src={arrowLeft} />
-        </NavBtnLeft>
+        </NavBtn>
       )}
       {sliderIndex !== children.length - 1 && (
-        <NavBtnRight onClick={handleBtnRight}>
+        <NavBtn onClick={handleBtnRight}>
           <Img src={arrowRight} />
-        </NavBtnRight>
+        </NavBtn>
       )}
       <SlideBar
         animation={swipeAnimation}

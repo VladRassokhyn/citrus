@@ -7,7 +7,7 @@ import { InputField } from '../../Components/InputField';
 import { FixLater, LoadingStatuses } from '../../lib/globalTypes';
 import { useTypedSelector } from '../../lib/hooks';
 import { paths } from '../../lib/routing';
-import { authSelectors, tryLogin } from '../../lib/slices/auth';
+import { authSelectors, authActions } from '../../lib/slices/auth';
 
 const Wrapper = styled.form`
   padding: 20px 5vw;
@@ -48,7 +48,7 @@ export const Login = (): JSX.Element => {
   }
 
   const handleLogin = (e: FixLater) => {
-    dispatch(tryLogin(e));
+    dispatch(authActions.tryLogin(e));
   };
 
   return (
