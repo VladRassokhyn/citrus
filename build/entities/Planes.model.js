@@ -41,6 +41,14 @@ __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
 ], Planes.prototype, "to_cz", void 0);
+__decorate([
+    (0, typeorm_1.Column)('text'),
+    __metadata("design:type", String)
+], Planes.prototype, "mounth", void 0);
+__decorate([
+    (0, typeorm_1.Column)('text'),
+    __metadata("design:type", String)
+], Planes.prototype, "year", void 0);
 Planes = __decorate([
     (0, typeorm_1.Entity)()
 ], Planes);

@@ -6,10 +6,12 @@ const router = Router();
 
 router.route('/').get(async (req, res) => {
   const tt = String(req.query['tt']);
+  const mounth = String(req.query['mounth']);
+  const year = String(req.query['year']);
 
   const salesRepo = getRepository(Sales);
   const salesmanRepo = getRepository(Salesman);
-  const salesByTT = await salesRepo.find({ tt });
+  const salesByTT = await salesRepo.find({ tt, mounth, year });
   const salesmans = await salesmanRepo.find({ tt });
   const salesmansNames = salesmans.map((salesman: Salesman) => salesman.name);
 
@@ -17,7 +19,7 @@ router.route('/').get(async (req, res) => {
   salesByTT.forEach((item: any) => {
     parsedSales.push({ ...item, sales: parse(String(item.sales)) });
   });
-  
+
   const sales: any[] = [];
   parsedSales.forEach((salesItem) => {
     const items: (string | number)[][] = [];

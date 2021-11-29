@@ -8,10 +8,10 @@ const connectToDb = async () => {
         await (0, typeorm_1.createConnection)({
             type: 'postgres',
             port: +process.env['DB_PORT'],
-            username: process.env['DB_USERNAME'] + '',
-            database: process.env['DB_USERNAME'] + '',
-            password: process.env['DB_PASSWORD'] + '',
-            host: process.env['DB_HOSTNAME'] + '',
+            username: process.env['DB_USERNAME'],
+            database: process.env['DB_USERNAME'],
+            password: process.env['DB_PASSWORD'],
+            host: process.env['DB_HOSTNAME'],
             entities: [
                 entities_1.User,
                 entities_1.Planes,

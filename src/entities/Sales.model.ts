@@ -13,4 +13,10 @@ export class Sales {
 
   @Column()
   tt: string;
+
+  @Column('text')
+  mounth: string;
+
+  @Column('text')
+  year: string;
 }

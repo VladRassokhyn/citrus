@@ -143,7 +143,6 @@ export const Calendar = (props: Props): JSX.Element => {
     }
   });
 
-  console.log(weekSales);
   return (
     <Wrapper>
       <CalendarContent>

@@ -39,24 +39,21 @@ const Filter = styled.div`
 export const Analitic = (props: Props): JSX.Element => {
   const planes = useTypedSelector(planesSelectors.selectPlanes);
   const planesStatus = useTypedSelector(planesSelectors.selectStatus);
-  const salesStatus = useTypedSelector(salesSelectors.selectSalesStatuses);
   const daySalesStatus = useTypedSelector(daySalesSelectors.selectDaySalesStatuses);
 
   const [selectedTT, setSelectedTT] = useState(props.authUser.tt);
   const dispatch = useDispatch();
-  console.log(planes);
+
   const handleChangeTT = (e: FixLater) => setSelectedTT(e);
 
   useEffect(() => {
     dispatch(daySalesActions.getDaySales(selectedTT.value));
     dispatch(planesActions.getPlanes(selectedTT.value));
-    dispatch(salesActions.getSales(selectedTT.value));
   }, [selectedTT]);
 
   if (
     planesStatus === LoadingStatuses.LOADING ||
-    daySalesStatus.getStatus === LoadingStatuses.LOADING ||
-    salesStatus.getStatus === LoadingStatuses.LOADING
+    daySalesStatus.getStatus === LoadingStatuses.LOADING
   ) {
     return <Preloader />;
   }

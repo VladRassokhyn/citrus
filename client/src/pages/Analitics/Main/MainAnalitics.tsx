@@ -1,12 +1,14 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { Preloader } from '../../../Components/Preloader';
 import { calcFns, getDaysFormated } from '../../../lib/common';
+import { LoadingStatuses } from '../../../lib/globalTypes';
 import { useTypedSelector } from '../../../lib/hooks';
 import { authSelectors } from '../../../lib/slices/auth';
 import { daySalesSelectors } from '../../../lib/slices/daySales';
 import { planesSelectors } from '../../../lib/slices/planes';
-import { salesSelectors } from '../../../lib/slices/sales';
+import { salesActions, salesSelectors } from '../../../lib/slices/sales';
 import { Calendar } from '../Calendar';
 import { Circle } from '../Circle';
 import { DayByDay } from '../DayByDay';
@@ -54,19 +56,21 @@ const DetailContainer = styled.div`
 `;
 
 export const MainAnalitics = (): JSX.Element => {
+  const dispatch = useDispatch();
   const planes = useTypedSelector(planesSelectors.selectPlanes);
   const authUser = useTypedSelector(authSelectors.selectAuthUser);
   const sales = useTypedSelector(daySalesSelectors.selectAllDaySales);
   const newSales = useTypedSelector(salesSelectors.selectAllSales);
-
-  const [mounth, setMounth] = useState(new Date().getMonth());
-  const [year, setYear] = useState(new Date().getFullYear());
+  const { mounth, year } = useTypedSelector(salesSelectors.selectMounth);
   const [days, setDays] = useState(getDaysFormated(mounth).days);
   const { weekDays } = getDaysFormated(mounth);
+  const salesStatus = useTypedSelector(salesSelectors.selectSalesStatuses);
+
+  const isSalesLoading = salesStatus.getStatus === LoadingStatuses.LOADING;
 
   useEffect(() => {
-    setDays(getDaysFormated(mounth).days);
-  }, [mounth]);
+    dispatch(salesActions.getSales({ tt: authUser!.tt.value, mounth, year }));
+  }, [mounth, year]);
 
   if (!sales || !newSales || !authUser) {
     return <Preloader />;
@@ -78,10 +82,17 @@ export const MainAnalitics = (): JSX.Element => {
   const czForecast = useMemo(() => calcFns.forecastSumm(salesSum.cz), [salesSum]);
   const caForecast = useMemo(() => calcFns.forecastSumm(salesSum.ca), [salesSum]);
 
+  useEffect(() => {
+    setDays(getDaysFormated(mounth).days);
+  }, [mounth]);
+
   const handleDateChange = useCallback((mounthNumber: number, yearNumber: number) => {
-    setMounth(mounthNumber);
-    setYear(yearNumber);
+    dispatch(salesActions.setMounth({ year: yearNumber, mounth: mounthNumber }));
   }, []);
+
+  if (isSalesLoading) {
+    return <Preloader />;
+  }
 
   return (
     <Wrapper>

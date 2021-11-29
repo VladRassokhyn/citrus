@@ -9,11 +9,22 @@ import {
   deleteSales,
   salesDeleted,
   sortSales,
+  setMounth,
 } from './sales.slice';
 import { salesWatcher } from './sales.saga';
-import { selectAllSales, selectSalesStatuses, selectSalesByDate } from './sales.selectors';
+import {
+  selectAllSales,
+  selectSalesStatuses,
+  selectSalesByDate,
+  selectMounth,
+} from './sales.selectors';
 
-export const salesSelectors = { selectAllSales, selectSalesStatuses, selectSalesByDate };
+export const salesSelectors = {
+  selectAllSales,
+  selectSalesStatuses,
+  selectSalesByDate,
+  selectMounth,
+};
 export const salesActions = {
   getSales,
   setSales,
@@ -24,6 +35,7 @@ export const salesActions = {
   deleteSales,
   salesDeleted,
   sortSales,
+  setMounth,
 };
 export { salesReducer };
 export { salesWatcher };

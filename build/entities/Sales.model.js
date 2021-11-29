@@ -29,6 +29,14 @@ __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
 ], Sales.prototype, "tt", void 0);
+__decorate([
+    (0, typeorm_1.Column)('text'),
+    __metadata("design:type", String)
+], Sales.prototype, "mounth", void 0);
+__decorate([
+    (0, typeorm_1.Column)('text'),
+    __metadata("design:type", String)
+], Sales.prototype, "year", void 0);
 Sales = __decorate([
     (0, typeorm_1.Entity)()
 ], Sales);

@@ -7,9 +7,11 @@ const express_1 = require("express");
 const router = (0, express_1.Router)();
 router.route('/').get(async (req, res) => {
     const tt = String(req.query['tt']);
+    const mounth = String(req.query['mounth']);
+    const year = String(req.query['year']);
     const salesRepo = (0, typeorm_1.getRepository)(entities_1.Sales);
     const salesmanRepo = (0, typeorm_1.getRepository)(entities_1.Salesman);
-    const salesByTT = await salesRepo.find({ tt });
+    const salesByTT = await salesRepo.find({ tt, mounth, year });
     const salesmans = await salesmanRepo.find({ tt });
     const salesmansNames = salesmans.map((salesman) => salesman.name);
     const parsedSales = [];

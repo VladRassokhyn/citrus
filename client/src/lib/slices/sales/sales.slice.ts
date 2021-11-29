@@ -1,12 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { LoadingStatuses, TTselectorOptions } from '../../globalTypes';
-import { Sales, SalesState } from './sales.type';
+import { Action, LoadingStatuses, TTselectorOptions } from '../../globalTypes';
+import { GetSalesPayload, Sales, SalesState } from './sales.type';
 
 const initialState: SalesState = {
   getStatus: LoadingStatuses.IDLE,
   postStatus: LoadingStatuses.IDLE,
   updateStatus: LoadingStatuses.IDLE,
   deleteStatus: LoadingStatuses.IDLE,
+  mounth: new Date().getMonth(),
+  year: new Date().getFullYear(),
   daySales: null,
 };
 
@@ -14,7 +16,7 @@ export const salesSlice = createSlice({
   name: 'sales',
   initialState,
   reducers: {
-    getSales(state, action) {
+    getSales(state, action: Action<GetSalesPayload>) {
       state.getStatus = LoadingStatuses.LOADING;
     },
     setSales(state, action) {
@@ -50,6 +52,10 @@ export const salesSlice = createSlice({
         state.daySales[index].sales = newSales;
       }
     },
+    setMounth(state, action: Action<{ mounth: number; year: number }>) {
+      state.mounth = action.payload.mounth;
+      state.year = action.payload.year;
+    },
   },
 });
 
@@ -63,6 +69,7 @@ export const {
   deleteSales,
   salesDeleted,
   sortSales,
+  setMounth,
 } = salesSlice.actions;
 
 export const salesReducer = salesSlice.reducer;

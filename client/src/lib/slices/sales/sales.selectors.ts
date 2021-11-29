@@ -11,3 +11,8 @@ export const selectSalesStatuses = (state: RootState): SalesStatuses => ({
 
 export const selectSalesByDate = (day: string) => (state: RootState): Sales | null =>
   state.sales.daySales?.filter((sales) => sales.day === day)[0] || null;
+
+export const selectMounth = (state: RootState): { mounth: number; year: number } => ({
+  year: state.sales.year,
+  mounth: state.sales.mounth,
+});

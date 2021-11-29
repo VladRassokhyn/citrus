@@ -1,9 +1,9 @@
 import { axiosInstance } from '../../axiosInstance';
-import { SalesResponse, SalesPayload } from './sales.type';
+import { SalesResponse, SalesPayload, GetSalesPayload } from './sales.type';
 
 export const salesApi = {
-  async getSales(tt: string): Promise<{ data: SalesResponse }> {
-    return await axiosInstance.get(`/sales?tt=${tt}`);
+  async getSales(dto: GetSalesPayload): Promise<{ data: SalesResponse }> {
+    return await axiosInstance.get(`/sales?tt=${dto.tt}&mounth=${dto.mounth}&year=${dto.year}`);
   },
   async postSales(dto: SalesPayload): Promise<string> {
     return await axiosInstance.post('/sales', dto);

@@ -1,4 +1,4 @@
-import { FixLater } from './../../globalTypes';
+import { Action, FixLater } from './../../globalTypes';
 import { takeEvery, call, put } from 'redux-saga/effects';
 import { SagaIterator } from '@redux-saga/types';
 import {
@@ -12,8 +12,9 @@ import {
   salesDeleted,
 } from './sales.slice';
 import { salesApi } from './sales.api';
+import { GetSalesPayload } from './sales.type';
 
-function* getSalesWorker(action: FixLater): SagaIterator {
+function* getSalesWorker(action: Action<GetSalesPayload>): SagaIterator {
   try {
     const res = yield call(salesApi.getSales, action.payload);
     yield put({ type: setSales.type, payload: res.data });
