@@ -12,7 +12,7 @@ import Selector from 'react-select';
 import { RouterController } from '../../lib/routing/RouterController';
 import { RouteItem } from '../../lib/routing/routes';
 import { User } from '../../lib/slices/users';
-import { salesSelectors } from '../../lib/slices/sales';
+import { salesActions, salesSelectors } from '../../lib/slices/sales';
 
 type Props = {
   routes: RouteItem[];
@@ -40,17 +40,26 @@ export const Analitic = (props: Props): JSX.Element => {
   const planes = useTypedSelector(planesSelectors.selectPlanes);
   const daySalesStatus = useTypedSelector(daySalesSelectors.selectDaySalesStatuses);
 
+  const salesStatus = useTypedSelector(salesSelectors.selectSalesStatuses);
+  const planesStatus = useTypedSelector(planesSelectors.selectStatus);
+
   const { mounth, year } = useTypedSelector(salesSelectors.selectMounth);
   const [selectedTT, setSelectedTT] = useState(props.authUser.tt);
   const dispatch = useDispatch();
+
+  const isSalesLoading = salesStatus.getStatus === LoadingStatuses.LOADING;
+  const isDaySalesLoading = daySalesStatus.getStatus === LoadingStatuses.LOADING;
+  const isPlanesLoading = planesStatus === LoadingStatuses.LOADING;
 
   const handleChangeTT = (e: FixLater) => setSelectedTT(e);
 
   useEffect(() => {
     dispatch(daySalesActions.getDaySales(selectedTT.value));
-  }, [selectedTT]);
+    dispatch(salesActions.getSales({ tt: props.authUser.tt.value, mounth, year }));
+    dispatch(planesActions.getPlanes({ tt: props.authUser.tt.value, mounth, year }));
+  }, [selectedTT, mounth, year]);
 
-  if (daySalesStatus.getStatus === LoadingStatuses.LOADING) {
+  if (isSalesLoading || isDaySalesLoading || isPlanesLoading) {
     return <Preloader />;
   }
 

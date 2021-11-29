@@ -3,7 +3,6 @@ import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { Preloader } from '../../../Components/Preloader';
 import { calcFns, getDaysFormated } from '../../../lib/common';
-import { LoadingStatuses } from '../../../lib/globalTypes';
 import { useTypedSelector } from '../../../lib/hooks';
 import { authSelectors } from '../../../lib/slices/auth';
 import { daySalesSelectors } from '../../../lib/slices/daySales';
@@ -15,7 +14,6 @@ import { DayByDay } from '../DayByDay';
 import { getColumns } from '../DayDetail';
 import { DetailTable } from '../DayDetail/DetailTable';
 import { MounthHeader } from './MounthHeader';
-import { planesActions } from '../../../lib/slices/planes';
 
 const Wrapper = styled.div``;
 
@@ -65,15 +63,6 @@ export const MainAnalitics = (): JSX.Element => {
   const { mounth, year } = useTypedSelector(salesSelectors.selectMounth);
   const [days, setDays] = useState(getDaysFormated(mounth).days);
   const { weekDays } = getDaysFormated(mounth);
-  const salesStatus = useTypedSelector(salesSelectors.selectSalesStatuses);
-  const planesStatus = useTypedSelector(planesSelectors.selectStatus);
-
-  const isSalesLoading = salesStatus.getStatus === LoadingStatuses.LOADING;
-
-  useEffect(() => {
-    dispatch(salesActions.getSales({ tt: authUser!.tt.value, mounth, year }));
-    dispatch(planesActions.getPlanes({ tt: authUser!.tt.value, mounth, year }));
-  }, [mounth, year]);
 
   if (!sales || !newSales || !authUser) {
     return <Preloader />;
@@ -92,10 +81,6 @@ export const MainAnalitics = (): JSX.Element => {
   const handleDateChange = useCallback((mounthNumber: number, yearNumber: number) => {
     dispatch(salesActions.setMounth({ year: yearNumber, mounth: mounthNumber }));
   }, []);
-
-  if (isSalesLoading || planesStatus === LoadingStatuses.LOADING) {
-    return <Preloader />;
-  }
 
   return (
     <Wrapper>
