@@ -336,7 +336,10 @@ export const EveningReport = (props: Props): JSX.Element => {
                 <H2>Выполнение ЦМ</H2>
               </Cell>
               <Cell>
-                <FilledCell width={calcs.cmDayRate} color={cmDayRateColor}>
+                <FilledCell
+                  width={calcs.cmDayRate > 0 ? calcs.cmDayRate : 100}
+                  color={cmDayRateColor}
+                >
                   <H2>{calcs.cmDayRate > 0 ? calcs.cmDayRate : 100}%</H2>
                 </FilledCell>
               </Cell>
@@ -364,7 +367,10 @@ export const EveningReport = (props: Props): JSX.Element => {
                 <H2>Выполнение ЦЗ</H2>{' '}
               </Cell>
               <Cell>
-                <FilledCell width={calcs.czDayRate} color={czDayRateColor}>
+                <FilledCell
+                  width={calcs.czDayRate > 0 ? calcs.czDayRate : 100}
+                  color={czDayRateColor}
+                >
                   <H2>{calcs.czDayRate > 0 ? calcs.czDayRate : 100}%</H2>
                 </FilledCell>
               </Cell>
