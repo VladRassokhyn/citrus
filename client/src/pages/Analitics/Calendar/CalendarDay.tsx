@@ -121,6 +121,12 @@ export const CalendarDay = memo(
     const dispatch = useDispatch();
     const history = useHistory();
 
+    if (title === '29.11.2021') {
+      console.log(props);
+      console.log('daySales', daySales);
+      console.log('sales', ttSales);
+    }
+
     const cmSales = ttSales ? ttSales[8] : 0;
     const czSales = ttSales ? ttSales[10] : 0;
     const caSales = ttSales ? ttSales[12] : 0;
@@ -198,7 +204,7 @@ export const CalendarDay = memo(
             <Grow isPositive={growths.cm > 0}>{growths.cm}</Grow>
           </ValueBlock>
           <ValueBlock>
-            <H1 color={'red'}>ЦЗ: {ttSales ? ttSales[10] : daySales ? daySales.ca : 'no data'}</H1>
+            <H1 color={'red'}>ЦЗ: {ttSales ? ttSales[10] : daySales ? daySales.cz : 'no data'}</H1>
             <Grow isPositive={growths.cz > 0}>{growths.cz}</Grow>
           </ValueBlock>
           <ValueBlock>
