@@ -1,6 +1,8 @@
 import { LoadingStatuses } from './../../globalTypes';
 
 export type Planes = {
+  id: number;
+  tt: { label: string; value: string };
   cm: number;
   cz: number;
   ca: number;

@@ -8,6 +8,7 @@ import { User as UserType, UserRoles } from '../globalTypes';
 import { MainAnalitics } from '../../pages/Analitics/Main';
 import { Salesmans } from '../../pages/Analitics/Salesmans';
 import { DayDetail } from '../../pages/Analitics/DayDetail';
+import { paths } from '.';
 
 type Props = {
   authUser: UserType;
@@ -25,7 +26,7 @@ export type RouteItem = {
 
 export const routes: RouteItem[] = [
   {
-    path: '/',
+    path: paths.BASE(),
     component: Main,
     exact: true,
     private: false,
@@ -33,7 +34,7 @@ export const routes: RouteItem[] = [
     routes: [],
   },
   {
-    path: '/cm',
+    path: paths.CM.BASE(),
     component: CmMenu,
     exact: true,
     private: false,
@@ -41,14 +42,14 @@ export const routes: RouteItem[] = [
     routes: [],
   },
   {
-    path: '/analytics',
+    path: paths.ANALYTICS.BASE(),
     component: Analitic,
     exact: false,
     private: true,
     roles: null,
     routes: [
       {
-        path: '/analytics/evening-report',
+        path: paths.ANALYTICS.EVENING_REPORT.BASE(),
         component: EveningReport,
         exact: false,
         private: true,
@@ -56,7 +57,7 @@ export const routes: RouteItem[] = [
         routes: [],
       },
       {
-        path: '/analytics/main',
+        path: paths.ANALYTICS.MAIN.BASE(),
         component: MainAnalitics,
         exact: true,
         private: true,
@@ -64,7 +65,7 @@ export const routes: RouteItem[] = [
         routes: [],
       },
       {
-        path: '/analytics/salesmans',
+        path: paths.ANALYTICS.SALESMANS.BASE(),
         component: Salesmans,
         exact: false,
         private: true,
@@ -72,7 +73,7 @@ export const routes: RouteItem[] = [
         routes: [],
       },
       {
-        path: '/analytics/main/:salesDate',
+        path: paths.ANALYTICS.MAIN.BY_SALES_DATE(),
         component: DayDetail,
         exact: false,
         private: true,
@@ -82,7 +83,7 @@ export const routes: RouteItem[] = [
     ],
   },
   {
-    path: '/users',
+    path: paths.USERS.BASE(),
     component: Users,
     private: true,
     exact: true,
@@ -90,7 +91,7 @@ export const routes: RouteItem[] = [
     routes: [],
   },
   {
-    path: '/users/:userId',
+    path: paths.USERS.BY_ID(),
     component: User,
     exact: true,
     private: true,
@@ -98,7 +99,7 @@ export const routes: RouteItem[] = [
     routes: [],
   },
   {
-    path: '/checklist',
+    path: paths.CHECKLISTS.BASE(),
     component: Checklists,
     exact: true,
     private: true,
@@ -106,7 +107,7 @@ export const routes: RouteItem[] = [
     routes: [],
   },
   {
-    path: '/checklist/:checklistId',
+    path: paths.CHECKLISTS.BY_ID(),
     component: Checklist,
     exact: true,
     private: true,
@@ -114,7 +115,7 @@ export const routes: RouteItem[] = [
     routes: [],
   },
   {
-    path: '/login',
+    path: paths.LOGIN.BASE(),
     component: Login,
     exact: true,
     private: false,

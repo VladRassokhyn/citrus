@@ -42,16 +42,14 @@ const Filter = styled.div`
 `;
 
 export const Analitic = (props: Props): JSX.Element => {
-  const { authUser, routes } = props;
-
   const planes = useTypedSelector(planesSelectors.selectPlanes);
   const planesStatus = useTypedSelector(planesSelectors.selectStatus);
   const salesStatus = useTypedSelector(salesSelectors.selectSalesStatuses);
   const daySalesStatus = useTypedSelector(daySalesSelectors.selectDaySalesStatuses);
 
-  const [selectedTT, setSelectedTT] = useState(authUser.tt);
+  const [selectedTT, setSelectedTT] = useState(props.authUser.tt);
   const dispatch = useDispatch();
-
+  console.log(planes);
   const handleChangeTT = (e: FixLater) => setSelectedTT(e);
 
   useEffect(() => {
@@ -70,7 +68,7 @@ export const Analitic = (props: Props): JSX.Element => {
 
   return (
     <>
-      {authUser.role === UserRoles.ADMIN && (
+      {props.authUser.role === UserRoles.ADMIN && (
         <Filter>
           <Selector options={TTselectorOptions} value={selectedTT} onChange={handleChangeTT} />
         </Filter>
@@ -78,7 +76,7 @@ export const Analitic = (props: Props): JSX.Element => {
       <PlanesPanel planes={planes} />
       <Container>
         <Navigation />
-        <RouterController routes={routes} />
+        <RouterController routes={props.routes} />
       </Container>
     </>
   );

@@ -1,4 +1,10 @@
-import { LoadingErrors, LoadingStatuses, TTselectorOptions } from './../../globalTypes';
+import {
+  Action,
+  LoadingErrors,
+  LoadingStatuses,
+  TTselectorOptions,
+  User,
+} from './../../globalTypes';
 import { createSlice } from '@reduxjs/toolkit';
 import { AuthInitial } from './auth.types';
 
@@ -14,26 +20,26 @@ export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    tryLogin(state, action) {
+    tryLogin(state, action: Action<{ username: string; password: string }>) {
       state.loginStatus = LoadingStatuses.LOADING;
     },
-    setLogin(state, action) {
+    setLogin(state, action: Action<string>) {
       localStorage.setItem('token', action.payload);
       state.loginStatus = LoadingStatuses.SUCCESS;
     },
-    setLoginError(state, action) {
+    setLoginError(state, action: Action<LoadingErrors>) {
       state.loginError = action.payload;
       state.loginStatus = LoadingStatuses.ERROR;
     },
     getAuth(state) {
       state.authStatus = LoadingStatuses.LOADING;
     },
-    setAuth(state, action) {
+    setAuth(state) {
       state.authStatus = LoadingStatuses.SUCCESS;
     },
-    setAuthUser(state, action) {
+    setAuthUser(state, action: Action<User>) {
       state.authUser = action.payload;
-      const tt = TTselectorOptions.find((tt) => tt.value === action.payload.tt);
+      const tt = TTselectorOptions.find((tt) => tt.value === String(action.payload.tt));
       if (state.authUser && tt) {
         state.authUser.tt = tt;
       }

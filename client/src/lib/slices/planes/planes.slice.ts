@@ -1,10 +1,13 @@
-import { LoadingStatuses } from './../../globalTypes';
+import { Action, LoadingStatuses } from './../../globalTypes';
 import { createSlice } from '@reduxjs/toolkit';
+import { Planes } from './planes.type';
 
 const initialState = {
   status: LoadingStatuses.IDLE,
   updateStatus: LoadingStatuses.IDLE,
   planes: {
+    id: 0,
+    tt: { label: '', value: '' },
     cm: 0,
     cz: 0,
     ca: 0,
@@ -17,17 +20,17 @@ const planesSlice = createSlice({
   name: 'planes',
   initialState,
   reducers: {
-    getPlanes(state, action) {
+    getPlanes(state, action: Action<string>) {
       state.status = LoadingStatuses.LOADING;
     },
-    setPlanes(state, action) {
+    setPlanes(state, action: Action<Planes>) {
       state.planes = action.payload;
       state.status = LoadingStatuses.SUCCESS;
     },
-    updatePlanes(state, action) {
+    updatePlanes(state, action: Action<Planes>) {
       state.updateStatus = LoadingStatuses.LOADING;
     },
-    planesUpdated(state, action) {
+    planesUpdated(state) {
       state.updateStatus = LoadingStatuses.SUCCESS;
     },
     setError(state) {
