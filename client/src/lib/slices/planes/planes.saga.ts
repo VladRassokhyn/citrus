@@ -14,14 +14,14 @@ function* getPlanesWorker(action: Action<GetPlanesPayload>): SagaIterator {
   }
 }
 
-function* updatePlanesWorker(action: Action<Planes>): SagaIterator {
+function* updatePlanesWorker(action: Action<{ planes: Planes; tt: string }>): SagaIterator {
   try {
-    yield call(planesApi.updatePlanes, action.payload);
+    yield call(planesApi.updatePlanes, action.payload.planes);
     yield put(
       planesActions.getPlanes({
-        tt: action.payload.tt.value,
-        mounth: action.payload.mounth,
-        year: action.payload.year,
+        tt: action.payload.tt,
+        mounth: action.payload.planes.mounth,
+        year: action.payload.planes.year,
       }),
     );
     yield put(planesActions.planesUpdated());
@@ -30,7 +30,25 @@ function* updatePlanesWorker(action: Action<Planes>): SagaIterator {
   }
 }
 
+function* postPlanesWorker(action: Action<{ planes: Planes; tt: string }>): SagaIterator {
+  console.log(action.payload);
+  try {
+    yield call(planesApi.postPlanes, action.payload.planes);
+    yield put(
+      planesActions.getPlanes({
+        tt: action.payload.tt,
+        mounth: action.payload.planes.mounth,
+        year: action.payload.planes.year,
+      }),
+    );
+    yield put(planesActions.planesPosted());
+  } catch (err) {
+    yield put(planesActions.setError());
+  }
+}
+
 export function* planewWatcher(): SagaIterator {
   yield takeEvery(planesActions.getPlanes.type, getPlanesWorker);
   yield takeEvery(planesActions.updatePlanes.type, updatePlanesWorker);
+  yield takeEvery(planesActions.postPlanes.type, postPlanesWorker);
 }

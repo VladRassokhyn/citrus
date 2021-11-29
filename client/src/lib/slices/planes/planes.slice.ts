@@ -6,7 +6,6 @@ const initialState = {
   status: LoadingStatuses.IDLE,
   updateStatus: LoadingStatuses.IDLE,
   planes: {
-    id: 0,
     tt: { label: '', value: '' },
     cm: 0,
     cz: 0,
@@ -29,10 +28,16 @@ const planesSlice = createSlice({
       state.planes = action.payload;
       state.status = LoadingStatuses.SUCCESS;
     },
-    updatePlanes(state, action: Action<Planes>) {
+    updatePlanes(state, action: Action<{ planes: Planes; tt: string }>) {
       state.updateStatus = LoadingStatuses.LOADING;
     },
     planesUpdated(state) {
+      state.updateStatus = LoadingStatuses.SUCCESS;
+    },
+    postPlanes(state, action: Action<{ planes: Planes; tt: string }>) {
+      state.updateStatus = LoadingStatuses.LOADING;
+    },
+    planesPosted(state) {
       state.updateStatus = LoadingStatuses.SUCCESS;
     },
     setError(state) {
@@ -41,6 +46,14 @@ const planesSlice = createSlice({
   },
 });
 
-export const { planesUpdated, updatePlanes, getPlanes, setPlanes, setError } = planesSlice.actions;
+export const {
+  postPlanes,
+  planesPosted,
+  planesUpdated,
+  updatePlanes,
+  getPlanes,
+  setPlanes,
+  setError,
+} = planesSlice.actions;
 
 export const planesReducer = planesSlice.reducer;

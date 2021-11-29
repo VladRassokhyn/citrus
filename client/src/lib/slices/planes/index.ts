@@ -5,6 +5,8 @@ import {
   planesUpdated,
   setError,
   setPlanes,
+  planesPosted,
+  postPlanes,
 } from './planes.slice';
 import { planewWatcher } from './planes.saga';
 import { selectPlanes, selectStatus, selectUpdateStatus } from './planes.selectors';
@@ -20,5 +22,7 @@ export const planesActions = {
   planesUpdated,
   setError,
   setPlanes,
+  planesPosted,
+  postPlanes,
 };
 export { planesReducer, planewWatcher };

@@ -8,6 +8,8 @@ import { planesActions, planesSelectors } from '../../../lib/slices/planes';
 import { Planes } from '../../../lib/slices/planes/planes.type';
 import edit from '../../../static/edit.svg';
 import { slideInDown } from 'react-animations';
+import { salesSelectors } from '../../../lib/slices/sales';
+import { authSelectors } from '../../../lib/slices/auth';
 
 type Props = {
   planes: Planes;
@@ -126,6 +128,8 @@ const Button = styled.button`
 export const PlanesPanel = (props: Props): JSX.Element => {
   const { planes } = props;
   const updateStatus = useTypedSelector(planesSelectors.selectUpdateStatus);
+  const { mounth, year } = useTypedSelector(salesSelectors.selectMounth);
+  const authUser = useTypedSelector(authSelectors.selectAuthUser);
   const [isEditMode, setIsEditMode] = useState(false);
   const dispatch = useDispatch();
 
@@ -140,13 +144,27 @@ export const PlanesPanel = (props: Props): JSX.Element => {
   }, []);
 
   const onSubmit = (e: FixLater) => {
-    const newPlanes: Planes = {
+    const newPlanes = {
       ...e,
       cm: parseInt(String(e.cm).replace(/\s/g, '')),
       ca: parseInt(String(e.ca).replace(/\s/g, '')),
       cz: parseInt(String(e.cz).replace(/\s/g, '')),
     };
-    dispatch(planesActions.updatePlanes(newPlanes));
+    if (!!planes.id) {
+      dispatch(
+        planesActions.updatePlanes({
+          planes: { id: planes.id, ...newPlanes },
+          tt: authUser!.tt.value,
+        }),
+      );
+    } else {
+      dispatch(
+        planesActions.postPlanes({
+          planes: { ...newPlanes, mounth, year, tt: authUser!.tt.value },
+          tt: authUser!.tt.value,
+        }),
+      );
+    }
   };
 
   return (

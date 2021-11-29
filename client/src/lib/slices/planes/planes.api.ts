@@ -1,4 +1,3 @@
-import { TT } from '../../globalTypes';
 import { GetPlanesPayload, Planes } from './planes.type';
 import { axiosInstance } from '../../axiosInstance';
 
@@ -7,6 +6,9 @@ export const planesApi = {
     return await axiosInstance.get(`/planes?tt=${dto.tt}&mounth=${dto.mounth}&year=${dto.year}`);
   },
   async updatePlanes(planes: Planes): Promise<string> {
-    return await axiosInstance.post(`/planes`, planes);
+    return await axiosInstance.put(`/planes/${planes.id}`, planes);
   },
+  async postPlanes(planes: Planes): Promise<string> {
+    return await axiosInstance.post(`/planes`, planes)
+  }
 };
