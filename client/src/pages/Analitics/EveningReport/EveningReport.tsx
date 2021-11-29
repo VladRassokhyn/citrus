@@ -1,17 +1,15 @@
 import styled from 'styled-components';
-import { Planes } from '../../../lib/slices/planes/planes.type';
-import { DaySales, daySalesSelectors } from '../../../lib/slices/daySales';
+import { daySalesSelectors } from '../../../lib/slices/daySales';
 import html2canvas from 'html2canvas';
-import { User } from '../../../lib/globalTypes';
 import { calcFns } from '../../../lib/common';
-import { useEffect, useMemo, useState } from 'react';
-import { Modal } from '../../../Components/Modal';
+import { useMemo, useState } from 'react';
 import { Screenshot } from '../../../Components/Screenshot';
 import { Redirect } from 'react-router';
 import { useTypedSelector } from '../../../lib/hooks';
 import { planesSelectors } from '../../../lib/slices/planes';
 import { authSelectors } from '../../../lib/slices/auth';
 import { paths } from '../../../lib/routing';
+import { User } from '../../../lib/slices/users';
 
 type Props = {
   authUser?: User;
@@ -339,7 +337,7 @@ export const EveningReport = (props: Props): JSX.Element => {
               </Cell>
               <Cell>
                 <FilledCell width={calcs.cmDayRate} color={cmDayRateColor}>
-                  <H2>{calcs.cmDayRate}%</H2>
+                  <H2>{calcs.cmDayRate > 0 ? calcs.cmDayRate : 100}%</H2>
                 </FilledCell>
               </Cell>
             </Row>
@@ -367,7 +365,7 @@ export const EveningReport = (props: Props): JSX.Element => {
               </Cell>
               <Cell>
                 <FilledCell width={calcs.czDayRate} color={czDayRateColor}>
-                  <H2>{calcs.czDayRate}%</H2>{' '}
+                  <H2>{calcs.czDayRate > 0 ? calcs.czDayRate : 100}%</H2>
                 </FilledCell>
               </Cell>
             </Row>

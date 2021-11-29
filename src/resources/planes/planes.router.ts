@@ -6,10 +6,12 @@ const router = Router();
 
 router.route('/').get(async (req, res) => {
   const tt = String(req.query['tt']);
+  const mounth = String(req.query['mounth']);
+  const year = String(req.query['year']);
 
   try {
     const planesRepo = getRepository(Planes);
-    const planes = await planesRepo.findOne({ tt });
+    const planes = await planesRepo.findOne({ tt, mounth, year });
 
     res.status(200).send(planes);
   } catch (err) {
@@ -21,15 +23,26 @@ router.route('/').post(async (req, res) => {
   const dto = req.body;
 
   const planesRepo = getRepository(Planes);
-  const planes = await planesRepo.find({ tt: dto.tt });
-
-  if (planes.length === 0) {
+  try {
     const newPlanes = planesRepo.create(dto);
     await planesRepo.save(newPlanes);
     res.status(201).send('created');
-  } else {
-    await planesRepo.update({ tt: dto.tt }, dto);
-    res.status(201).send('updated');
+  } catch (err) {
+    res.status(500).send('cannot create');
+  }
+});
+
+router.route('/:id').put(async (req, res) => {
+  const id = +req.params['id'];
+  const dto = req.body;
+
+  const planesRepo = getRepository(Planes);
+
+  try {
+    await planesRepo.update(id, dto);
+    res.status(201).send('created');
+  } catch (err) {
+    res.status(500).send('cannot update');
   }
 });
 

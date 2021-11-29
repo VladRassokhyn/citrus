@@ -22,8 +22,16 @@ import {
   setError,
   setCRUDError,
 } from './users.slice';
-import { oneUserReducer, getOneUser, getUserChecklists, setUserChecklists } from './oneUser.slice';
+import {
+  oneUserReducer,
+  getOneUser,
+  getUserChecklists,
+  setUserChecklists,
+  setOneUserError,
+  setOneUser,
+} from './oneUser.slice';
 import { usersWatcher } from './users.saga';
+import { User } from './users.types';
 
 export const userSelectors = {
   selectAllUsers,
@@ -43,6 +51,8 @@ export const userActions = {
   newUserPosted,
   deleteUser,
   userDeleted,
+  setOneUserError,
+  setOneUser,
   updateUser,
   userUpdated,
   statusesResets,
@@ -52,5 +62,5 @@ export const userActions = {
   getUserChecklists,
   setUserChecklists,
 };
-
+export type { User };
 export { usersReducer, oneUserReducer, usersWatcher };

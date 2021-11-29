@@ -2,13 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { Preloader } from '../../Components/Preloader';
-import {
-  FixLater,
-  LoadingStatuses,
-  TTselectorOptions,
-  User,
-  UserRoles,
-} from '../../lib/globalTypes';
+import { FixLater, LoadingStatuses, TTselectorOptions, UserRoles } from '../../lib/globalTypes';
 import { useTypedSelector } from '../../lib/hooks';
 import { daySalesActions, daySalesSelectors } from '../../lib/slices/daySales';
 import { planesActions, planesSelectors } from '../../lib/slices/planes';
@@ -18,6 +12,7 @@ import Selector from 'react-select';
 import { salesActions, salesSelectors } from '../../lib/slices/sales';
 import { RouterController } from '../../lib/routing/RouterController';
 import { RouteItem } from '../../lib/routing/routes';
+import { User } from '../../lib/slices/users';
 
 type Props = {
   routes: RouteItem[];

@@ -12,10 +12,12 @@ router.route('/').get(async (req, res) => {
   const salesByTT = await salesRepo.find({ tt });
   const salesmans = await salesmanRepo.find({ tt });
   const salesmansNames = salesmans.map((salesman: Salesman) => salesman.name);
+
   const parsedSales: any[] = [];
   salesByTT.forEach((item: any) => {
     parsedSales.push({ ...item, sales: parse(String(item.sales)) });
   });
+  
   const sales: any[] = [];
   parsedSales.forEach((salesItem) => {
     const items: (string | number)[][] = [];

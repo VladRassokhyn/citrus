@@ -1,4 +1,4 @@
-import { User } from '../../globalTypes';
+import { User } from '../users';
 import { RootState } from './../../store';
 import { authStatuses } from './auth.types';
 

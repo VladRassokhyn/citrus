@@ -59,7 +59,7 @@ export const User = (): JSX.Element => {
 
   useEffect(() => {
     dispatch(userActions.getOneUser(userId));
-    dispatch(userActions.getUserChecklists(userId));
+    dispatch(userActions.getUserChecklists(+userId));
   }, []);
 
   if (userStatus === LoadingStatuses.LOADING || userChecklistStatus === LoadingStatuses.LOADING) {

@@ -1,6 +1,7 @@
-import { LoadingStatuses } from './../../globalTypes';
+import { Action, LoadingStatuses } from './../../globalTypes';
 import { createSlice } from '@reduxjs/toolkit';
-import { OneUserState } from './users.types';
+import { OneUserState, User } from './users.types';
+import { Checklist } from '../checklist';
 
 const initialState: OneUserState = {
   user: null,
@@ -13,17 +14,17 @@ export const oneUserSlice = createSlice({
   name: 'oneUser',
   initialState,
   reducers: {
-    getOneUser(state, action) {
+    getOneUser(state, action: Action<string>) {
       state.status = LoadingStatuses.LOADING;
     },
-    setOneUser(state, action) {
+    setOneUser(state, action: Action<User>) {
       state.status = LoadingStatuses.SUCCESS;
       state.user = action.payload;
     },
-    getUserChecklists(state, action) {
+    getUserChecklists(state, action: Action<number>) {
       state.passedChecklistsStatus = LoadingStatuses.LOADING;
     },
-    setUserChecklists(state, action) {
+    setUserChecklists(state, action: Action<Checklist[]>) {
       state.passedChecklists = action.payload;
       state.passedChecklistsStatus = LoadingStatuses.SUCCESS;
     },

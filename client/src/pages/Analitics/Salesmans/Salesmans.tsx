@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { LoadingStatuses, Salesman, User } from '../../../lib/globalTypes';
+import { LoadingStatuses, Salesman } from '../../../lib/globalTypes';
 import { salesmanActions, salesmanSelectors } from '../../../lib/slices/salesman';
 import { NewSalesman } from './NewSalesman';
 import trash from '../../../static/trash.svg';

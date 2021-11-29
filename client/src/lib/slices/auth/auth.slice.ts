@@ -1,12 +1,7 @@
-import {
-  Action,
-  LoadingErrors,
-  LoadingStatuses,
-  TTselectorOptions,
-  User,
-} from './../../globalTypes';
+import { Action, LoadingErrors, LoadingStatuses, TTselectorOptions } from './../../globalTypes';
 import { createSlice } from '@reduxjs/toolkit';
 import { AuthInitial } from './auth.types';
+import { User } from '../users';
 
 const initialState: AuthInitial = {
   loginStatus: LoadingStatuses.IDLE,

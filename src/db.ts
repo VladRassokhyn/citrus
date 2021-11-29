@@ -15,10 +15,10 @@ export const connectToDb = async () => {
     await createConnection({
       type: 'postgres',
       port: +process.env['DB_PORT']!,
-      username: process.env['DB_USERNAME'] + '',
-      database: process.env['DB_USERNAME'] + '',
-      password: process.env['DB_PASSWORD'] + '',
-      host: process.env['DB_HOSTNAME'] + '',
+      username: process.env['DB_USERNAME'] as string,
+      database: process.env['DB_USERNAME'] as string,
+      password: process.env['DB_PASSWORD'] as string,
+      host: process.env['DB_HOSTNAME'] as string,
       entities: [
         User,
         Planes,

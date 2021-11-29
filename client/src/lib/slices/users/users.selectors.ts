@@ -1,6 +1,7 @@
-import { LoadingStatuses, User, UserRoles } from '../../globalTypes';
+import { LoadingStatuses, UserRoles } from '../../globalTypes';
 import { RootState } from '../../store';
 import { Checklist } from '../checklist';
+import { User } from './users.types';
 
 export const selectAllUsers = (state: RootState): User[] => state.users.items;
 

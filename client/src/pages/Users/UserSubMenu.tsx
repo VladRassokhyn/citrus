@@ -6,8 +6,8 @@ import viewList from '../../static/viewList.svg';
 import { useDispatch } from 'react-redux';
 import { Modal } from '../../Components/Modal';
 import { useTypedSelector } from '../../lib/hooks';
-import { userActions } from '../../lib/slices/users';
-import { User, UserRoles } from '../../lib/globalTypes';
+import { User, userActions } from '../../lib/slices/users';
+import { UserRoles } from '../../lib/globalTypes';
 import { useState } from 'react';
 import { NewUserForm } from './NewUserForm';
 import { Link } from 'react-router-dom';
@@ -63,7 +63,7 @@ export const UserSubMenu = (props: Props): JSX.Element => {
 
   const handleDelete = () => {
     if (isAdminAuth) {
-      dispatch(userActions.deleteUser(user.id));
+      dispatch(userActions.deleteUser(user));
     } else {
       setAccesError(true);
     }

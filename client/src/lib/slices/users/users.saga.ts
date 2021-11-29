@@ -1,84 +1,71 @@
 import { Action, FixLater } from '../../globalTypes';
 import { usersApi } from './users.api';
 import { takeEvery, call, put } from 'redux-saga/effects';
-import {
-  getUsers,
-  setError,
-  setCRUDError,
-  setUsers,
-  postNewUser,
-  newUserPosted,
-  deleteUser,
-  userDeleted,
-  userUpdated,
-  updateUser,
-} from './users.slice';
+import { User, userActions } from '../users';
 import { SagaIterator } from '@redux-saga/types';
-import { getOneUser, setOneUser, setOneUserError } from './oneUser.slice';
-import { getUserChecklists, setUserChecklists } from './oneUser.slice';
 
 function* getUsersWorker(action: Action<string>): SagaIterator {
   try {
     const { data } = yield call(usersApi.getUsers, action.payload);
-    yield put({ type: setUsers.type, payload: data });
+    yield put(userActions.setUsers(data));
   } catch (error) {
-    yield put({ type: setError.type });
+    yield put(userActions.setError());
   }
 }
 
-function* postUsersWorker(action: FixLater): SagaIterator {
+function* postUsersWorker(action: Action<User>): SagaIterator {
   try {
     yield call(usersApi.postNewUser, action.payload);
-    yield put({ type: newUserPosted.type });
-    yield put({ type: getUsers.type, payload: action.payload.tt });
+    yield put(userActions.newUserPosted());
+    yield put(userActions.getUsers(action.payload.tt.value));
   } catch (error) {
-    yield put({ type: setCRUDError.type });
+    yield put(userActions.setCRUDError());
   }
 }
 
-function* deleteUserWorker(action: FixLater): SagaIterator {
+function* deleteUserWorker(action: Action<User>): SagaIterator {
   try {
-    yield call(usersApi.deleteUser, action.payload);
-    yield put({ type: userDeleted.type });
-    yield put({ type: getUsers.type });
+    yield call(usersApi.deleteUser, action.payload.id);
+    yield put(userActions.userDeleted());
+    yield put(userActions.getUsers(action.payload.tt.value));
   } catch (error) {
-    yield put({ type: setCRUDError.type });
+    yield put(userActions.setCRUDError());
   }
 }
 
-function* updateUserWorker(action: FixLater): SagaIterator {
+function* updateUserWorker(action: Action<User>): SagaIterator {
   try {
     yield call(usersApi.updateUser, action.payload);
-    yield put({ type: userUpdated.type });
-    yield put({ type: getUsers.type });
+    yield put(userActions.userUpdated());
+    yield put(userActions.getUsers(action.payload.tt.value));
   } catch (error) {
-    yield put({ type: setCRUDError.type });
+    yield put(userActions.setCRUDError());
   }
 }
 
-function* getUserByIdWorker(action: FixLater): SagaIterator {
+function* getUserByIdWorker(action: Action<number>): SagaIterator {
   try {
     const res = yield call(usersApi.getUserById, action.payload);
-    yield put({ type: setOneUser.type, payload: res.data });
+    yield put(userActions.setOneUser(res.data));
   } catch (err) {
-    yield put({ type: setOneUserError.type });
+    yield put(userActions.setOneUserError());
   }
 }
 
-function* getUsersChecklistsWorker(action: FixLater): SagaIterator {
+function* getUsersChecklistsWorker(action: Action<number>): SagaIterator {
   try {
     const res = yield call(usersApi.getUserChecklists, action.payload);
-    yield put({ type: setUserChecklists.type, payload: res.data });
+    yield put(userActions.setUserChecklists(res.data));
   } catch (err) {
-    yield put({ type: setOneUserError.type });
+    yield put(userActions.setOneUserError());
   }
 }
 
 export function* usersWatcher(): SagaIterator {
-  yield takeEvery(getUsers.type, getUsersWorker);
-  yield takeEvery(postNewUser.type, postUsersWorker);
-  yield takeEvery(deleteUser.type, deleteUserWorker);
-  yield takeEvery(updateUser.type, updateUserWorker);
-  yield takeEvery(getOneUser.type, getUserByIdWorker);
-  yield takeEvery(getUserChecklists, getUsersChecklistsWorker);
+  yield takeEvery(userActions.getUsers.type, getUsersWorker);
+  yield takeEvery(userActions.postNewUser.type, postUsersWorker);
+  yield takeEvery(userActions.deleteUser.type, deleteUserWorker);
+  yield takeEvery(userActions.updateUser.type, updateUserWorker);
+  yield takeEvery(userActions.getOneUser.type, getUserByIdWorker);
+  yield takeEvery(userActions.getUserChecklists.type, getUsersChecklistsWorker);
 }

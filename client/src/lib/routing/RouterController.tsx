@@ -1,6 +1,6 @@
 import { Redirect, Route, Switch } from 'react-router';
 import { paths } from '.';
-import { User } from '../globalTypes';
+import { User } from '../slices/users';
 import { useTypedSelector } from '../hooks';
 import { authSelectors } from '../slices/auth';
 import { RouteItem } from './routes';

@@ -1,4 +1,4 @@
-import { LoadingStatuses, User } from '../../globalTypes';
+import { LoadingStatuses, UserRoles } from '../../globalTypes';
 import { Checklist } from '../checklist';
 
 export type UsersState = {
@@ -10,7 +10,16 @@ export type UsersState = {
 
 export type OneUserState = {
   status: LoadingStatuses;
-  passedChecklistsStatus: LoadingStatuses
+  passedChecklistsStatus: LoadingStatuses;
   user: User | null;
   passedChecklists: Checklist[] | null;
+};
+
+export type User = {
+  username: string;
+  name: string;
+  lastName: string;
+  role: UserRoles;
+  id: number;
+  tt: { label: string; value: string };
 };

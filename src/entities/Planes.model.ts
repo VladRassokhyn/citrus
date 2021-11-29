@@ -1,3 +1,4 @@
+import { stringify } from 'querystring';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
@@ -22,4 +23,10 @@ export class Planes {
 
   @Column()
   to_cz: string;
+
+  @Column('text')
+  mounth: string;
+
+  @Column('text')
+  year: string;
 }

@@ -74,15 +74,6 @@ export enum LoadingErrors {
   NOT_FOUND = 'NOT_FOUND',
 }
 
-export type User = {
-  username: string;
-  name: string;
-  lastName: string;
-  role: UserRoles;
-  id: number;
-  tt: { label: string; value: string };
-};
-
 export type Salesman = {
   name: string;
   id: number;

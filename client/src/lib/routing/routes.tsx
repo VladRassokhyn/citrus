@@ -4,11 +4,12 @@ import { Main } from '../../pages/Main';
 import { Analitic, EveningReport } from '../../pages/Analitics';
 import { User, Users } from '../../pages/Users';
 import { Checklist, Checklists } from '../../pages/Checklists';
-import { User as UserType, UserRoles } from '../globalTypes';
+import { UserRoles } from '../globalTypes';
 import { MainAnalitics } from '../../pages/Analitics/Main';
 import { Salesmans } from '../../pages/Analitics/Salesmans';
 import { DayDetail } from '../../pages/Analitics/DayDetail';
 import { paths } from '.';
+import { User as UserType } from '../slices/users';
 
 type Props = {
   authUser: UserType;

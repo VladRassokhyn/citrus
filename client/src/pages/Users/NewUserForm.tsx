@@ -3,14 +3,8 @@ import styled from 'styled-components';
 import Selector from 'react-select';
 import { useDispatch } from 'react-redux';
 import { Controller, useForm } from 'react-hook-form';
-import {
-  FixLater,
-  LoadingStatuses,
-  UserRoles,
-  User,
-  TTselectorOptions,
-} from '../../lib/globalTypes';
-import { userActions, userSelectors } from '../../lib/slices/users';
+import { FixLater, LoadingStatuses, UserRoles, TTselectorOptions } from '../../lib/globalTypes';
+import { User, userActions, userSelectors } from '../../lib/slices/users';
 import { useTypedSelector } from '../../lib/hooks';
 import { InputField } from '../../Components/InputField';
 
@@ -56,9 +50,11 @@ export const NewUserForm = (props: Props): JSX.Element => {
 
   const handleSave = (e: FixLater) => {
     if (user) {
-      dispatch(userActions.updateUser({ id: user.id, dto: e }));
+      const newUser = { ...user, ...e, tt: e.tt.value, role: e.role.value };
+      dispatch(userActions.updateUser(newUser));
     } else {
-      dispatch(userActions.postNewUser({ ...e, role: e.role.value, tt: e.tt.value }));
+      const newUser = { ...e, tt: e.tt.value, role: e.role.value };
+      dispatch(userActions.postNewUser(newUser));
     }
   };
 

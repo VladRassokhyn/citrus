@@ -1,16 +1,10 @@
 import styled from 'styled-components';
-import { format } from 'date-fns';
 import { CalendarDay } from './CalendarDay';
 import { DaySales } from '../../../lib/slices/daySales';
-import { User } from '../../../lib/globalTypes';
-import { Circle } from '../Circle/Circle';
 import { Planes } from '../../../lib/slices/planes/planes.type';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { DayByDay } from '../DayByDay';
 import { Sales } from '../../../lib/slices/sales/sales.type';
 import { calcFns } from '../../../lib/common';
-import { DetailTable } from '../DayDetail/DetailTable';
-import { getColumns } from '../DayDetail';
+import { User } from '../../../lib/slices/users';
 
 type Props = {
   sales: DaySales[];

@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import Select from 'react-select';
 import { Checkbox } from '../../Components/Checkbox';
 import { Preloader } from '../../Components/Preloader';
-import { FixLater, LoadingStatuses, User, UserRoles } from '../../lib/globalTypes';
+import { FixLater, LoadingStatuses, UserRoles } from '../../lib/globalTypes';
 import { useTypedSelector } from '../../lib/hooks';
 import {
   Category,
@@ -13,7 +13,7 @@ import {
   checklistSelectors,
   checklistEditActions,
 } from '../../lib/slices/checklist/';
-import { userActions, userSelectors } from '../../lib/slices/users';
+import { User, userActions, userSelectors } from '../../lib/slices/users';
 import { authSelectors } from '../../lib/slices/auth';
 
 type Props = {

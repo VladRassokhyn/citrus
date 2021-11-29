@@ -1,4 +1,4 @@
-import { UsersState } from './users.types';
+import { User, UsersState } from './users.types';
 import { createSlice } from '@reduxjs/toolkit';
 import { Action, LoadingStatuses } from '../../globalTypes';
 
@@ -16,23 +16,23 @@ const usersSlice = createSlice({
     getUsers(state, action: Action<string>) {
       state.status = LoadingStatuses.LOADING;
     },
-    setUsers(state, action) {
+    setUsers(state, action: Action<User[]>) {
       state.items = action.payload;
       state.status = LoadingStatuses.SUCCESS;
     },
-    postNewUser(state, action) {
+    postNewUser(state, action: Action<User>) {
       state.CRUDstatus = LoadingStatuses.LOADING;
     },
     newUserPosted(state) {
       state.CRUDstatus = LoadingStatuses.SUCCESS;
     },
-    deleteUser(state, action) {
+    deleteUser(state, action: Action<User>) {
       state.CRUDstatus = LoadingStatuses.LOADING;
     },
     userDeleted(state) {
       state.CRUDstatus = LoadingStatuses.SUCCESS;
     },
-    updateUser(state, action) {
+    updateUser(state, action: Action<User>) {
       state.CRUDstatus = LoadingStatuses.LOADING;
     },
     userUpdated(state) {
