@@ -219,13 +219,13 @@ export const EveningReport = (props: Props): JSX.Element => {
       ? FillColors.YELLOW
       : FillColors.RED;
   const cmDayRateColor =
-    calcs.cmDayRate > 90
+    calcs.cmDayRate > 90 || calcs.cmDayRate < 0
       ? FillColors.GREEN
       : calcs.cmDayRate > 70
       ? FillColors.YELLOW
       : FillColors.RED;
   const czDayRateColor =
-    calcs.czDayRate > 90
+    calcs.czDayRate > 90 || calcs.czDayRate < 0
       ? FillColors.GREEN
       : calcs.czDayRate > 70
       ? FillColors.YELLOW
