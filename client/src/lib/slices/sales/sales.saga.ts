@@ -12,7 +12,12 @@ import {
   salesDeleted,
 } from './sales.slice';
 import { salesApi } from './sales.api';
-import { GetSalesPayload } from './sales.type';
+import {
+  DeleteSalesPayload,
+  GetSalesPayload,
+  PostSalesPayload,
+  PutSalesPayload,
+} from './sales.type';
 
 function* getSalesWorker(action: Action<GetSalesPayload>): SagaIterator {
   try {
@@ -23,7 +28,7 @@ function* getSalesWorker(action: Action<GetSalesPayload>): SagaIterator {
   }
 }
 
-function* salesPostWorker(action: FixLater): SagaIterator {
+function* salesPostWorker(action: Action<PostSalesPayload>): SagaIterator {
   try {
     const sales = action.payload.sales.replace(/\n/g, '*+').replace(/\t/g, '*+').split('*').join();
     const payload = { ...action.payload, sales };
@@ -35,23 +40,23 @@ function* salesPostWorker(action: FixLater): SagaIterator {
   }
 }
 
-function* salesUpdateWorker(action: FixLater): SagaIterator {
+function* salesUpdateWorker(action: Action<PutSalesPayload>): SagaIterator {
   try {
     const sales = action.payload.sales.replace(/\n/g, '*+').replace(/\t/g, '*+').split('*').join();
     const payload = { ...action.payload, sales };
     yield call(salesApi.putSales, payload);
     yield put({ type: salesUpdated.type });
-    yield put({ type: getSales.type, payload: action.payload.tt });
+    yield put({ type: getSales.type, payload: action.payload });
   } catch (err) {
     console.log(err);
   }
 }
 
-function* salesDeleteWorker(action: FixLater): SagaIterator {
+function* salesDeleteWorker(action: Action<DeleteSalesPayload>): SagaIterator {
   try {
     yield call(salesApi.deleteSales, action.payload.id);
+    yield put({ type: getSales.type, payload: action.payload });
     yield put({ type: salesDeleted.type });
-    yield put({ type: getSales.type, payload: action.payload.tt.value });
   } catch (err) {
     console.log(err);
   }

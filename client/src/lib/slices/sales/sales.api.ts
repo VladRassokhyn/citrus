@@ -9,7 +9,7 @@ export const salesApi = {
     return await axiosInstance.post('/sales', dto);
   },
   async putSales(dto: SalesPayload): Promise<string> {
-    return await axiosInstance.put('/sales', dto);
+    return await axiosInstance.put(`/sales`, dto);
   },
   async deleteSales(id: number): Promise<string> {
     return await axiosInstance.delete(`/sales/${id}`);

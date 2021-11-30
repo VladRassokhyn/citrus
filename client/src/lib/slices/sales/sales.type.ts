@@ -1,7 +1,7 @@
 import { LoadingStatuses } from './../../globalTypes';
 
 export type Sales = {
-  id?: number;
+  id: number;
   tt: { label: string; value: string };
   day: string;
   ttSales: (string | number)[];
@@ -38,8 +38,23 @@ export type SalesPayload = {
   sales: string;
 };
 
-export type GetSalesPayload = {
+export interface GetSalesPayload {
   tt: string;
-  mounth: number;
-  year: number;
-};
+  mounth: string | number;
+  year: string | number;
+}
+
+export interface PostSalesPayload extends GetSalesPayload {
+  day: string;
+  sales: string;
+}
+
+export interface PutSalesPayload extends GetSalesPayload {
+  day: string;
+  sales: string;
+  id: number;
+}
+
+export interface DeleteSalesPayload extends GetSalesPayload {
+  id: number;
+}

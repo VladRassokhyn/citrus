@@ -1,6 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { Action, LoadingStatuses, TTselectorOptions } from '../../globalTypes';
-import { GetSalesPayload, Sales, SalesState } from './sales.type';
+import {
+  GetSalesPayload,
+  Sales,
+  SalesState,
+  PostSalesPayload,
+  PutSalesPayload,
+} from './sales.type';
 
 const initialState: SalesState = {
   getStatus: LoadingStatuses.IDLE,
@@ -26,13 +32,13 @@ export const salesSlice = createSlice({
       });
       state.getStatus = LoadingStatuses.SUCCESS;
     },
-    postSales(state, action) {
+    postSales(state, action: Action<PostSalesPayload>) {
       state.postStatus = LoadingStatuses.LOADING;
     },
     salesPosted(state) {
       state.postStatus = LoadingStatuses.SUCCESS;
     },
-    updateSales(state, action) {
+    updateSales(state, action: Action<PutSalesPayload>) {
       state.updateStatus = LoadingStatuses.LOADING;
     },
     salesUpdated(state) {

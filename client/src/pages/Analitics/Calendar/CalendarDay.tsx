@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 import { useTypedSelector } from '../../../lib/hooks';
 import { LoadingStatuses } from '../../../lib/globalTypes';
 import { Confirm } from '../../../Components/Confirm';
-import { salesActions } from '../../../lib/slices/sales';
+import { salesActions, salesSelectors } from '../../../lib/slices/sales';
 import { useHistory } from 'react-router';
 import { Planes } from '../../../lib/slices/planes/planes.type';
 import { Sales } from '../../../lib/slices/sales/sales.type';
@@ -121,12 +121,6 @@ export const CalendarDay = memo(
     const dispatch = useDispatch();
     const history = useHistory();
 
-    if (title === '29.11.2021') {
-      console.log(props);
-      console.log('daySales', daySales);
-      console.log('sales', ttSales);
-    }
-
     const cmSales = ttSales ? ttSales[8] : 0;
     const czSales = ttSales ? ttSales[10] : 0;
     const caSales = ttSales ? ttSales[12] : 0;
@@ -170,6 +164,8 @@ export const CalendarDay = memo(
       sales &&
         dispatch(
           salesActions.updateSales({
+            mounth: parseInt(title.split('.')[1]) - 1,
+            year: title.split('.')[2],
             sales: payload.sales,
             id: sales.id,
             tt: tt.value,
@@ -188,8 +184,8 @@ export const CalendarDay = memo(
     };
 
     const handleDaleteDaySales = () => {
-      sales && dispatch(salesActions.deleteSales(sales));
-      daySales && dispatch(daySalesActions.deleteDaySales(daySales));
+      sales && dispatch(salesActions.deleteSales({ ...sales, tt: tt.value }));
+      daySales && dispatch(daySalesActions.deleteDaySales({ id: daySales.id, tt: tt.value }));
     };
 
     const handleInfo = () => {
