@@ -69,10 +69,10 @@ export const MainAnalitics = (): JSX.Element => {
   }
 
   const mountSales = useMemo(() => calcFns.mounthSalesNew(newSales), [newSales]);
-  const salesSum = useMemo(() => calcFns.mounthSales(sales), [sales]);
-  const cmForecast = useMemo(() => calcFns.forecastSumm(salesSum.cm), [salesSum]);
-  const czForecast = useMemo(() => calcFns.forecastSumm(salesSum.cz), [salesSum]);
-  const caForecast = useMemo(() => calcFns.forecastSumm(salesSum.ca), [salesSum]);
+  const salesSum = useMemo(() => calcFns.mounthSalesNew(newSales), [newSales]);
+  const cmForecast = useMemo(() => calcFns.forecastSumm(salesSum.ttSales[8]), [salesSum]);
+  const czForecast = useMemo(() => calcFns.forecastSumm(salesSum.ttSales[10]), [salesSum]);
+  const caForecast = useMemo(() => calcFns.forecastSumm(salesSum.ttSales[12]), [salesSum]);
 
   useEffect(() => {
     setDays(getDaysFormated(mounth).days);
@@ -90,9 +90,9 @@ export const MainAnalitics = (): JSX.Element => {
         <CircleContent>
           <CirclesTitle>Факт</CirclesTitle>
           <Circles>
-            <Circle color={'green'} sale={salesSum.cm} plane={planes.cm} title={'ЦМ'} />
-            <Circle color={'red'} sale={salesSum.cz} plane={planes.cz} title={'ЦЗ'} />
-            <Circle color={'#9018ad'} sale={salesSum.ca} plane={planes.ca} title={'ЦА'} />
+            <Circle color={'green'} sale={+salesSum.ttSales[8]} plane={planes.cm} title={'ЦМ'} />
+            <Circle color={'red'} sale={+salesSum.ttSales[10]} plane={planes.cz} title={'ЦЗ'} />
+            <Circle color={'#9018ad'} sale={+salesSum.ttSales[12]} plane={planes.ca} title={'ЦА'} />
           </Circles>
         </CircleContent>
 
@@ -106,7 +106,7 @@ export const MainAnalitics = (): JSX.Element => {
         </CircleContent>
       </CirclesContainer>
 
-      <DayByDay sales={sales} days={days.filter((day) => !!day) as string[]} />
+      <DayByDay sales={newSales} days={days.filter((day) => !!day) as string[]} />
 
       <DetailContainer>
         <DetailTable

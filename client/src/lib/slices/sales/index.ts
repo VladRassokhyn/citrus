@@ -18,6 +18,7 @@ import {
   selectSalesByDate,
   selectMounth,
 } from './sales.selectors';
+import { Sales } from './sales.type';
 
 export const salesSelectors = {
   selectAllSales,
@@ -37,5 +38,5 @@ export const salesActions = {
   sortSales,
   setMounth,
 };
-export { salesReducer };
-export { salesWatcher };
+export { salesReducer, salesWatcher };
+export type { Sales };

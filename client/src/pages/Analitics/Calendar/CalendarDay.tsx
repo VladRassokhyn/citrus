@@ -18,11 +18,12 @@ type Props = {
   title: string;
   delay: number;
   daySales?: DaySales;
-  mounthSales?: DaySales;
+  mounthSales: Sales;
   planes?: Planes;
-  sales?: Sales;
+  sales: Sales | undefined;
   tt: { label: string; value: string };
   isWeekend?: boolean;
+  isEmpty: boolean;
 };
 
 type StyleProps = {
@@ -115,7 +116,18 @@ const Wrapper = styled.div<StyleProps>`
 
 export const CalendarDay = memo(
   (props: Props): JSX.Element => {
-    const { title, delay, daySales, tt, isWeekend, sales, planes, mounthSales, ttSales } = props;
+    const {
+      title,
+      delay,
+      daySales,
+      tt,
+      isEmpty,
+      isWeekend,
+      sales,
+      planes,
+      mounthSales,
+      ttSales,
+    } = props;
     const [isModalOpen, setIsModalOpen] = useState(false);
     const { postStatus, updateStatus } = useTypedSelector(daySalesSelectors.selectDaySalesStatuses);
     const dispatch = useDispatch();
@@ -136,9 +148,9 @@ export const CalendarDay = memo(
 
     const growths = useMemo(
       () => ({
-        cm: calcFns.growthForecast(planes?.cm, +cmSales, mounthSales?.cm),
-        cz: calcFns.growthForecast(planes?.cz, +czSales, mounthSales?.cz),
-        ca: calcFns.growthForecast(planes?.ca, +caSales, mounthSales?.ca),
+        cm: calcFns.growthForecast(planes?.cm, +cmSales, mounthSales.ttSales[8]),
+        cz: calcFns.growthForecast(planes?.cz, +czSales, mounthSales.ttSales[10]),
+        ca: calcFns.growthForecast(planes?.ca, +caSales, mounthSales.ttSales[12]),
       }),
       [],
     );
@@ -192,33 +204,31 @@ export const CalendarDay = memo(
       history.push(`/analytics/main/${title.replace(/[^0-9]/g, '-')}`);
     };
 
-    if (!planes) {
+    if (isEmpty) {
       return <Wrapper withData={false} />;
     }
 
     return (
-      <Wrapper delay={delay} withData={!!daySales}>
+      <Wrapper delay={delay} withData={!!sales}>
         <Title isWeekend={isWeekend}>{title.split('.')[0]}</Title>
         <Content>
           <ValueBlock>
-            <H1 color={'gray'}>ТО: {ttSales ? ttSales[1] : daySales ? daySales.to : 'no data'}</H1>
+            <H1 color={'gray'}>ТО: {ttSales ? ttSales[1] : 'no data'}</H1>
           </ValueBlock>
           <ValueBlock>
-            <H1 color={'green'}>ЦМ: {ttSales ? ttSales[8] : daySales ? daySales.cm : 'no data'}</H1>
+            <H1 color={'green'}>ЦМ: {ttSales ? ttSales[8] : 'no data'}</H1>
             <Grow isPositive={growths.cm > 0}>{growths.cm}</Grow>
           </ValueBlock>
           <ValueBlock>
-            <H1 color={'red'}>ЦЗ: {ttSales ? ttSales[10] : daySales ? daySales.cz : 'no data'}</H1>
+            <H1 color={'red'}>ЦЗ: {ttSales ? ttSales[10] : 'no data'}</H1>
             <Grow isPositive={growths.cz > 0}>{growths.cz}</Grow>
           </ValueBlock>
           <ValueBlock>
-            <H1 color={'#9018ad'}>
-              ЦА: {ttSales ? ttSales[12] : daySales ? daySales.ca : 'no data'}
-            </H1>
+            <H1 color={'#9018ad'}>ЦА: {ttSales ? ttSales[12] : 'no data'}</H1>
             <Grow isPositive={growths.ca > 0}>{growths.ca}</Grow>
           </ValueBlock>
         </Content>
-        {!!daySales ? (
+        {!!sales ? (
           <>
             <Confirm title={'Очистить продажи за день ?'} confirmFn={handleDaleteDaySales}>
               <Button>Очистить</Button>
@@ -226,11 +236,9 @@ export const CalendarDay = memo(
             <Button disabled={disabled} onClick={modalToggle}>
               Обновить
             </Button>
-            {sales && (
-              <Button disabled={disabled} onClick={handleInfo}>
-                Детально
-              </Button>
-            )}
+            <Button disabled={disabled} onClick={handleInfo}>
+              Детально
+            </Button>
           </>
         ) : (
           <Button disabled={disabled} onClick={modalToggle}>
@@ -239,7 +247,7 @@ export const CalendarDay = memo(
         )}
         {isModalOpen && (
           <Modal onClose={modalToggle}>
-            {!!daySales ? (
+            {!!sales ? (
               <SalesInput submitFn={updateDaySales} />
             ) : (
               <SalesInput submitFn={postDaySales} />

@@ -55,8 +55,8 @@ export const Analitic = (props: Props): JSX.Element => {
 
   useEffect(() => {
     dispatch(daySalesActions.getDaySales(selectedTT.value));
-    dispatch(salesActions.getSales({ tt: props.authUser.tt.value, mounth, year }));
-    dispatch(planesActions.getPlanes({ tt: props.authUser.tt.value, mounth, year }));
+    dispatch(salesActions.getSales({ tt: selectedTT.value, mounth, year }));
+    dispatch(planesActions.getPlanes({ tt: selectedTT.value, mounth, year }));
   }, [selectedTT, mounth, year]);
 
   if (isSalesLoading || isDaySalesLoading || isPlanesLoading) {

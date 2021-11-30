@@ -111,36 +111,35 @@ const H1 = styled.h1<{ color: string }>`
 export const Calendar = (props: Props): JSX.Element => {
   const { newSales, sales, authUser, planes, days, weekDays } = props;
 
-  const weekSales: DaySales[] = [];
+  const weekSales: Sales[] = [];
 
   const calendarDays = days.map((day, i) => {
-    if (!day) {
-      return <CalendarDay ttSales={[]} tt={authUser.tt} delay={i} key={i} title={''} />;
-    } else {
-      const isWeekend = day.split(' ')[0] === 'Saturday' || day.split(' ')[0] === 'Sunday';
-      const daySales = sales.find((salesItem) => salesItem.day === day.split(' ')[1]);
-      const newSale = newSales.find((salesItem) => salesItem.day === day.split(' ')[1]);
-      const salesByToday = sales.filter((sale) => parseInt(sale.day) < parseInt(day.split(' ')[1]));
-      const mounthSales = calcFns.mounthSales(salesByToday);
-      if (i % 7 === 0 && i !== 0) {
-        weekSales.push(mounthSales);
-      }
-
-      return (
-        <CalendarDay
-          ttSales={newSale?.ttSales}
-          isWeekend={isWeekend}
-          delay={i}
-          daySales={daySales}
-          mounthSales={mounthSales}
-          tt={authUser.tt}
-          planes={planes}
-          title={day.split(' ')[1]}
-          key={i}
-          sales={newSale}
-        />
-      );
+    const isWeekend = day?.split(' ')[0] === 'Saturday' || day?.split(' ')[0] === 'Sunday';
+    const daySales = sales.find((salesItem) => salesItem.day === day?.split(' ')[1]);
+    const newSale = newSales.find((salesItem) => salesItem.day === day?.split(' ')[1]);
+    const salesByToday = newSales.filter(
+      (sale) => parseInt(sale.day) < (day ? parseInt(day.split(' ')[1]) : 0),
+    );
+    const mounthSales = calcFns.mounthSalesNew(salesByToday);
+    if (i % 7 === 0 && i !== 0) {
+      weekSales.push(mounthSales);
     }
+
+    return (
+      <CalendarDay
+        isEmpty={!day}
+        ttSales={newSale?.ttSales}
+        isWeekend={isWeekend}
+        delay={i}
+        daySales={daySales}
+        mounthSales={mounthSales}
+        tt={authUser.tt}
+        planes={planes}
+        title={day ? day.split(' ')[1] : ''}
+        key={i}
+        sales={newSale}
+      />
+    );
   });
 
   return (
@@ -157,19 +156,19 @@ export const Calendar = (props: Props): JSX.Element => {
       </CalendarContent>
       <WeekToWeek>
         {weekSales.map((week, i) => {
-          const currentCm = calcFns.forecastPercent(week.cm, planes.cm);
+          const currentCm = calcFns.forecastPercent(week.ttSales[8], planes.cm);
           const prevCm = calcFns.forecastPercent(
-            weekSales[i - 1] ? weekSales[i - 1].cm : 0,
+            weekSales[i - 1] ? weekSales[i - 1].ttSales[8] : 0,
             planes.cm,
           );
-          const currentCz = calcFns.forecastPercent(week.cz, planes.cz);
+          const currentCz = calcFns.forecastPercent(week.ttSales[10], planes.cz);
           const prevCz = calcFns.forecastPercent(
-            weekSales[i - 1] ? weekSales[i - 1].cz : 0,
+            weekSales[i - 1] ? weekSales[i - 1].ttSales[10] : 0,
             planes.cz,
           );
-          const currentCa = calcFns.forecastPercent(week.ca, planes.ca);
+          const currentCa = calcFns.forecastPercent(week.ttSales[12], planes.ca);
           const prevCa = calcFns.forecastPercent(
-            weekSales[i - 1] ? weekSales[i - 1].ca : 0,
+            weekSales[i - 1] ? weekSales[i - 1].ttSales[12] : 0,
             planes.ca,
           );
 

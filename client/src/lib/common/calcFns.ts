@@ -1,7 +1,7 @@
 import { DaySales } from '../slices/daySales';
 import { Sales } from '../slices/sales/sales.type';
 
-type Arg = number | undefined | null;
+type Arg = number | string | undefined | null;
 
 function getDays() {
   const dayCount = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate();
@@ -80,7 +80,7 @@ export function mounthSales(sales: DaySales[] | null | undefined): DaySales {
 }
 
 export function forecastSumm(currentSales: Arg, d?: Arg): number {
-  if (!currentSales) {
+  if (!currentSales || typeof currentSales === 'string' || typeof d === 'string') {
     return 0;
   }
   const { dayCount, day } = getDays();
@@ -88,14 +88,20 @@ export function forecastSumm(currentSales: Arg, d?: Arg): number {
 }
 
 export function forecastPercent(sales: Arg, plane: Arg, d?: number): number {
-  if (!sales || !plane) {
+  if (!sales || !plane || typeof plane === 'string') {
     return 0;
   }
   return +((forecastSumm(sales, d) / plane) * 100).toFixed(2);
 }
 
 export function growthForecast(plane: Arg, salesByDay: Arg, salesByMounth: Arg): number {
-  if (!plane || !salesByDay || !salesByMounth) {
+  if (
+    !plane ||
+    !salesByDay ||
+    !salesByMounth ||
+    typeof salesByDay === 'string' ||
+    typeof salesByMounth === 'string'
+  ) {
     return 0;
   }
   const { day } = getDays();
@@ -106,21 +112,30 @@ export function growthForecast(plane: Arg, salesByDay: Arg, salesByMounth: Arg):
 }
 
 export function ratio(from: Arg, to: Arg): number {
-  if (!from || !to) {
+  if (!from || !to || typeof from === 'string' || typeof to === 'string') {
     return 0;
   }
   return +((from / to) * 100).toFixed(2);
 }
 
 export function growthRatio(dayFrom: Arg, perFrom: Arg, dayTo: Arg, perTo: Arg): number {
-  if (!dayFrom || !perFrom || !dayTo || !perTo) {
+  if (
+    !dayFrom ||
+    !perFrom ||
+    !dayTo ||
+    !perTo ||
+    typeof dayTo === 'string' ||
+    typeof perFrom === 'string' ||
+    typeof dayFrom === 'string' ||
+    typeof perTo === 'string'
+  ) {
     return 0;
   }
   return +(ratio(perFrom, perTo) - ratio(perFrom - dayFrom, perTo - dayTo)).toFixed(2);
 }
 
 export function dayPlane(sales: Arg, plane: Arg): number {
-  if (!sales || !plane) {
+  if (!sales || !plane || typeof plane === 'string' || typeof sales === 'string') {
     return 0;
   }
   const { dayCount, day } = getDays();

@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { DaySales } from '../../../lib/slices/daySales';
+import { Sales } from '../../../lib/slices/sales';
 
 type Props = {
   days: string[];
-  sales: DaySales[];
+  sales: Sales[];
 };
 
 type StyleProps = {
@@ -135,21 +136,33 @@ export const DayByDay = (props: Props): JSX.Element => {
               <Day key={day}>
                 {daySales && activeBar === 'ALL' ? (
                   <Bars>
-                    <Bar barHeight={(daySales.cm / maxVaue) * 100} color={'green'} />
-                    <Bar barHeight={(daySales.cz / maxVaue) * 100} color={'red'} />
-                    <Bar barHeight={(daySales.ca / maxVaue) * 100} color={'#9018ad'} />
+                    <Bar barHeight={(+daySales.ttSales[8] / maxVaue) * 100} color={'green'} />
+                    <Bar barHeight={(+daySales.ttSales[10] / maxVaue) * 100} color={'red'} />
+                    <Bar barHeight={(+daySales.ttSales[12] / maxVaue) * 100} color={'#9018ad'} />
                   </Bars>
                 ) : (
                   daySales && (
                     <>
                       {activeBar === 'CM' && (
-                        <Bar salfe barHeight={(daySales.cm / maxVaue) * 100} color={'green'} />
+                        <Bar
+                          salfe
+                          barHeight={(+daySales.ttSales[8] / maxVaue) * 100}
+                          color={'green'}
+                        />
                       )}
                       {activeBar === 'CZ' && (
-                        <Bar salfe barHeight={(daySales.cz / maxVaue) * 100} color={'red'} />
+                        <Bar
+                          salfe
+                          barHeight={(+daySales.ttSales[10] / maxVaue) * 100}
+                          color={'red'}
+                        />
                       )}
                       {activeBar === 'CA' && (
-                        <Bar salfe barHeight={(daySales.ca / maxVaue) * 100} color={'#9018ad'} />
+                        <Bar
+                          salfe
+                          barHeight={(+daySales.ttSales[12] / maxVaue) * 100}
+                          color={'#9018ad'}
+                        />
                       )}
                     </>
                   )
@@ -197,21 +210,30 @@ export const DayByDay = (props: Props): JSX.Element => {
   );
 };
 
-function getMaxValue(sales: DaySales[], activeBar: string) {
-  const sortedByCm = [...sales].sort((a, b) => b.cm - a.cm);
-  const sortedByCz = [...sales].sort((a, b) => b.cz - a.cz);
-  const sortedByCa = [...sales].sort((a, b) => b.ca - a.ca);
+function getMaxValue(sales: Sales[], activeBar: string) {
+  const sortedByCm = [...sales].sort((a, b) => +b.ttSales[8] - +a.ttSales[8]);
+  const sortedByCz = [...sales].sort((a, b) => +b.ttSales[10] - +a.ttSales[10]);
+  const sortedByCa = [...sales].sort((a, b) => +b.ttSales[12] - +a.ttSales[12]);
 
-  if (activeBar === 'CM') return sortedByCm[0].cm;
-  if (activeBar === 'CZ') return sortedByCz[0].cz;
-  if (activeBar === 'CA') return sortedByCa[0].ca;
+  if (activeBar === 'CM') return +sortedByCm[0].ttSales[8];
+  if (activeBar === 'CZ') return +sortedByCz[0].ttSales[10];
+  if (activeBar === 'CA') return +sortedByCa[0].ttSales[12];
 
-  if (sortedByCm[0].cm > sortedByCz[0].cz || sortedByCm[0].cm > sortedByCa[0].ca) {
-    return sortedByCm[0].cm;
-  } else if (sortedByCz[0].cz > sortedByCz[0].cm || sortedByCz[0].cz > sortedByCa[0].ca) {
-    return sortedByCz[0].cz;
-  } else if (sortedByCa[0].ca > sortedByCz[0].cm || sortedByCa[0].ca > sortedByCa[0].cz) {
-    return sortedByCa[0].ca;
+  if (
+    sortedByCm[0].ttSales[8] > sortedByCz[0].ttSales[10] ||
+    sortedByCm[0].ttSales[8] > sortedByCa[0].ttSales[12]
+  ) {
+    return +sortedByCm[0].ttSales[8];
+  } else if (
+    sortedByCz[0].ttSales[10] > sortedByCz[0].ttSales[8] ||
+    sortedByCz[0].ttSales[10] > sortedByCa[0].ttSales[12]
+  ) {
+    return +sortedByCz[0].ttSales[10];
+  } else if (
+    sortedByCa[0].ttSales[12] > sortedByCz[0].ttSales[8] ||
+    sortedByCa[0].ttSales[12] > sortedByCa[0].ttSales[10]
+  ) {
+    return +sortedByCa[0].ttSales[12];
   } else {
     return 10000;
   }

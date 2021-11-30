@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { daySalesSelectors } from '../../../lib/slices/daySales';
 import html2canvas from 'html2canvas';
 import { calcFns } from '../../../lib/common';
 import { useMemo, useState } from 'react';
@@ -7,12 +6,12 @@ import { Screenshot } from '../../../Components/Screenshot';
 import { Redirect } from 'react-router';
 import { useTypedSelector } from '../../../lib/hooks';
 import { planesSelectors } from '../../../lib/slices/planes';
-import { authSelectors } from '../../../lib/slices/auth';
 import { paths } from '../../../lib/routing';
 import { User } from '../../../lib/slices/users';
+import { salesSelectors } from '../../../lib/slices/sales';
 
 type Props = {
-  authUser?: User;
+  authUser: User;
 };
 
 type CellProps = {
@@ -164,15 +163,14 @@ export const EveningReport = (props: Props): JSX.Element => {
   const [screenshot, setScreenshot] = useState<string | null>(null);
 
   const planes = useTypedSelector(planesSelectors.selectPlanes);
-  const allSales = useTypedSelector(daySalesSelectors.selectAllDaySales);
-  const authUser = useTypedSelector(authSelectors.selectAuthUser);
+  const sales = useTypedSelector(salesSelectors.selectAllSales);
 
-  if (!allSales || !planes || !authUser) {
+  if (!planes || !sales || sales?.length === 0) {
     return <Redirect to={paths.ANALYTICS.MAIN.BASE()} />;
   }
 
-  const mounthSales = useMemo(() => calcFns.mounthSales(allSales), [allSales]);
-  const daySales = allSales[allSales?.length - 1];
+  const mounthSales = useMemo(() => calcFns.mounthSalesNew(sales), [sales]);
+  const daySales = sales[sales.length - 1];
 
   const onScreenshot = () => {
     html2canvas(document.getElementById('evening-report') as HTMLElement).then((canvas) => {
@@ -188,20 +186,44 @@ export const EveningReport = (props: Props): JSX.Element => {
 
   const day = new Date().getDate();
 
-  const calcs: any = useMemo(
+  const calcs = useMemo(
     () => ({
-      cmDayRatio: calcFns.ratio(daySales.cm, daySales.to),
-      czDayRatio: calcFns.ratio(daySales.cz, daySales.to),
-      cmRatio: calcFns.ratio(mounthSales.cm, mounthSales.to),
-      czRatio: calcFns.ratio(mounthSales.cz, mounthSales.to),
-      cmForecast: calcFns.forecastPercent(mounthSales.cm, planes.cm),
-      czForecast: calcFns.forecastPercent(mounthSales.cz, planes.cz),
-      cmGrowthForecast: calcFns.growthForecast(planes.cm, daySales.cm, mounthSales.cm),
-      czGrowthForecast: calcFns.growthForecast(planes.cz, daySales.cz, mounthSales.cz),
-      cmDayRate: calcFns.ratio(daySales.cm, calcFns.dayPlane(mounthSales.cm, planes.cm)),
-      czDayRate: calcFns.ratio(daySales.cz, calcFns.dayPlane(mounthSales.cz, planes.cz)),
-      cmGrowthRatio: calcFns.growthRatio(daySales.cm, daySales.to, mounthSales.cm, mounthSales.to),
-      czGrowthRatio: calcFns.growthRatio(daySales.cz, daySales.to, mounthSales.cz, mounthSales.to),
+      cmDayRatio: calcFns.ratio(daySales.ttSales[8], daySales.ttSales[1]),
+      czDayRatio: calcFns.ratio(daySales.ttSales[10], daySales.ttSales[1]),
+      cmRatio: calcFns.ratio(mounthSales.ttSales[8], mounthSales.ttSales[1]),
+      czRatio: calcFns.ratio(mounthSales.ttSales[10], mounthSales.ttSales[1]),
+      cmForecast: calcFns.forecastPercent(mounthSales.ttSales[8], planes.cm),
+      czForecast: calcFns.forecastPercent(mounthSales.ttSales[10], planes.cz),
+      cmGrowthForecast: calcFns.growthForecast(
+        planes.cm,
+        daySales.ttSales[8],
+        mounthSales.ttSales[8],
+      ),
+      czGrowthForecast: calcFns.growthForecast(
+        planes.cz,
+        daySales.ttSales[10],
+        mounthSales.ttSales[10],
+      ),
+      cmDayRate: calcFns.ratio(
+        daySales.ttSales[8],
+        calcFns.dayPlane(mounthSales.ttSales[8], planes.cm),
+      ),
+      czDayRate: calcFns.ratio(
+        daySales.ttSales[10],
+        calcFns.dayPlane(mounthSales.ttSales[10], planes.cz),
+      ),
+      cmGrowthRatio: calcFns.growthRatio(
+        daySales.ttSales[8],
+        daySales.ttSales[1],
+        mounthSales.ttSales[8],
+        mounthSales.ttSales[1],
+      ),
+      czGrowthRatio: calcFns.growthRatio(
+        daySales.ttSales[10],
+        daySales.ttSales[1],
+        mounthSales.ttSales[10],
+        mounthSales.ttSales[1],
+      ),
     }),
     [],
   );
@@ -237,7 +259,7 @@ export const EveningReport = (props: Props): JSX.Element => {
       <Button onClick={onScreenshot}>Сделать скрин</Button>
       <div id={'evening-report'}>
         <ScreenContainer>
-          <H3>{authUser.tt.label}</H3>
+          <H3>{props.authUser.tt.label}</H3>
           <Container>
             <H1>МЕСЯЦ</H1>
             <Row>
@@ -311,7 +333,7 @@ export const EveningReport = (props: Props): JSX.Element => {
                 <H2>Сумма Устройств</H2>
               </Cell>
               <Cell>
-                <H2>{daySales.to}</H2>
+                <H2>{daySales.ttSales[1]}</H2>
               </Cell>
             </Row>
             <Row>
@@ -319,7 +341,7 @@ export const EveningReport = (props: Props): JSX.Element => {
                 <H2>Сумма ЦМ</H2>
               </Cell>
               <Cell>
-                <H2>{daySales.cm}</H2>
+                <H2>{daySales.ttSales[8]}</H2>
               </Cell>
             </Row>
             <Row>
@@ -350,7 +372,7 @@ export const EveningReport = (props: Props): JSX.Element => {
                 <H2>Сумма ЦЗ</H2>
               </Cell>
               <Cell>
-                <H2>{daySales.cz}</H2>
+                <H2>{daySales.ttSales[10]}</H2>
               </Cell>
             </Row>
             <Row>
@@ -364,7 +386,7 @@ export const EveningReport = (props: Props): JSX.Element => {
 
             <Row>
               <Cell>
-                <H2>Выполнение ЦЗ</H2>{' '}
+                <H2>Выполнение ЦЗ</H2>
               </Cell>
               <Cell>
                 <FilledCell
@@ -380,7 +402,7 @@ export const EveningReport = (props: Props): JSX.Element => {
                 <H2>Сумма ЦА</H2>
               </Cell>
               <Cell>
-                <H2>{daySales.ca}</H2>
+                <H2>{daySales.ttSales[12]}</H2>
               </Cell>
             </Row>
           </Container>
