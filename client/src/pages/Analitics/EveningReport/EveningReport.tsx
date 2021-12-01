@@ -16,18 +16,23 @@ export const EveningReport = (props: Props): JSX.Element => {
   const salesLength = useTypedSelector(salesSelectors.selectSalesLength);
   const [dayFrom, setDayFrom] = useState(1);
   const [dayTo, setDayTo] = useState(salesLength);
+  const sales = useTypedSelector(salesSelectors.selectSalsesByRange(dayFrom, dayTo));
 
   const handleChangeFrom = (day: number) => {
     setDayFrom(day);
   };
-
+  console.log(sales);
   const handleChangeTo = (day: number) => {
     setDayTo(day);
   };
   return (
     <Wrapper>
       <DayRange from={dayFrom} to={dayTo} changeFrom={handleChangeFrom} changeTo={handleChangeTo} />
-      <EveningReportTable authUser={props.authUser} />
+      {sales && sales.length !== 0 ? (
+        <EveningReportTable sales={sales} authUser={props.authUser} />
+      ) : (
+        <h1>no sales for this range</h1>
+      )}
     </Wrapper>
   );
 };

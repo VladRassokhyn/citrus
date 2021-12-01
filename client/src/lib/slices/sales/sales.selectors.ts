@@ -24,3 +24,12 @@ export const selectSalesLength = (state: RootState): number => {
     return state.sales.daySales.length;
   }
 };
+
+export const selectSalsesByRange = (from: number, to: number) => (state: RootState): Sales[] => {
+  return state.sales.daySales?.filter((salesItem) => {
+    const salesDay = parseInt(salesItem.day.split('.')[0]);
+    if (salesDay >= from && salesDay <= to) {
+      return true;
+    }
+  }) as Sales[];
+};

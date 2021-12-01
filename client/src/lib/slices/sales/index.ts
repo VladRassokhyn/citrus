@@ -18,6 +18,7 @@ import {
   selectSalesStatuses,
   selectSalesByDate,
   selectMounth,
+  selectSalsesByRange,
 } from './sales.selectors';
 import { Sales } from './sales.type';
 
@@ -27,6 +28,7 @@ export const salesSelectors = {
   selectSalesByDate,
   selectSalesLength,
   selectMounth,
+  selectSalsesByRange,
 };
 export const salesActions = {
   getSales,

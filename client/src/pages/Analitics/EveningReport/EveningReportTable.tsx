@@ -13,6 +13,7 @@ import { Planes } from '../../../lib/slices/planes/planes.type';
 
 type Props = {
   authUser: User;
+  sales: Sales[];
 };
 
 type CellProps = {
@@ -163,10 +164,9 @@ const Button = styled.button`
 export const EveningReportTable = (props: Props): JSX.Element => {
   const [screenshot, setScreenshot] = useState<string | null>(null);
   const planes = useTypedSelector<Planes | null>(planesSelectors.selectPlanes);
-  const sales = useTypedSelector<Sales[] | null>(salesSelectors.selectAllSales);
+  const sales = props.sales;
 
-
-  if (!planes || !sales || sales.length === 0) {
+  if (!planes) {
     return <Redirect to={paths.ANALYTICS.MAIN.BASE()} />;
   }
 
@@ -226,7 +226,7 @@ export const EveningReportTable = (props: Props): JSX.Element => {
         mounthSales.ttSales[1],
       ),
     }),
-    [],
+    [sales],
   );
 
   const cmForecastColor =
