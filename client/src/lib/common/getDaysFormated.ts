@@ -10,8 +10,8 @@ const weekDays = [
   { value: 'Sunday', label: 'Вс' },
 ];
 
-export function getDaysFormated(mounth: number) {
-  const daysCount = new Date(new Date().getFullYear(), mounth - 1, 0).getDate();
+export function getDaysFormated(mounth: number, year: number) {
+  const daysCount = new Date(year, mounth - 1, 0).getDate();
   const days = [];
 
   for (let i = 1; i <= daysCount; i++) {

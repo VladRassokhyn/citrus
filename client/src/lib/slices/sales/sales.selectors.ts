@@ -16,3 +16,11 @@ export const selectMounth = (state: RootState): { mounth: number; year: number }
   year: state.sales.year,
   mounth: state.sales.mounth,
 });
+
+export const selectSalesLength = (state: RootState): number => {
+  if (!state.sales.daySales) {
+    return 1;
+  } else {
+    return state.sales.daySales.length;
+  }
+};

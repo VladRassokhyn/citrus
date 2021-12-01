@@ -14,6 +14,7 @@ import {
 import { salesWatcher } from './sales.saga';
 import {
   selectAllSales,
+  selectSalesLength,
   selectSalesStatuses,
   selectSalesByDate,
   selectMounth,
@@ -24,6 +25,7 @@ export const salesSelectors = {
   selectAllSales,
   selectSalesStatuses,
   selectSalesByDate,
+  selectSalesLength,
   selectMounth,
 };
 export const salesActions = {

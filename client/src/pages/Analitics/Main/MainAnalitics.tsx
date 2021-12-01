@@ -61,8 +61,8 @@ export const MainAnalitics = (): JSX.Element => {
   const sales = useTypedSelector(daySalesSelectors.selectAllDaySales);
   const newSales = useTypedSelector(salesSelectors.selectAllSales);
   const { mounth, year } = useTypedSelector(salesSelectors.selectMounth);
-  const [days, setDays] = useState(getDaysFormated(mounth).days);
-  const { weekDays } = getDaysFormated(mounth);
+  const [days, setDays] = useState(getDaysFormated(mounth, year).days);
+  const { weekDays } = getDaysFormated(mounth, year);
 
   if (!sales || !newSales || !authUser) {
     return <Preloader />;
@@ -75,7 +75,7 @@ export const MainAnalitics = (): JSX.Element => {
   const caForecast = useMemo(() => calcFns.forecastSumm(salesSum.ttSales[12]), [salesSum]);
 
   useEffect(() => {
-    setDays(getDaysFormated(mounth).days);
+    setDays(getDaysFormated(mounth, year).days);
   }, [mounth]);
 
   const handleDateChange = useCallback((mounthNumber: number, yearNumber: number) => {
