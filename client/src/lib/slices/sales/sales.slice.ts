@@ -13,7 +13,7 @@ const initialState: SalesState = {
   postStatus: LoadingStatuses.IDLE,
   updateStatus: LoadingStatuses.IDLE,
   deleteStatus: LoadingStatuses.IDLE,
-  mounth: new Date().getMonth(),
+  month: new Date().getMonth(),
   year: new Date().getFullYear(),
   daySales: null,
 };
@@ -58,8 +58,8 @@ export const salesSlice = createSlice({
         state.daySales[index].sales = newSales;
       }
     },
-    setMounth(state, action: Action<{ mounth: number; year: number }>) {
-      state.mounth = action.payload.mounth;
+    setmonth(state, action: Action<{ month: number; year: number }>) {
+      state.month = action.payload.month;
       state.year = action.payload.year;
     },
   },
@@ -75,7 +75,7 @@ export const {
   deleteSales,
   salesDeleted,
   sortSales,
-  setMounth,
+  setmonth,
 } = salesSlice.actions;
 
 export const salesReducer = salesSlice.reducer;

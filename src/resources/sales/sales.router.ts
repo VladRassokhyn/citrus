@@ -6,12 +6,12 @@ const router = Router();
 
 router.route('/').get(async (req, res) => {
   const tt = String(req.query['tt']);
-  const mounth = String(req.query['mounth']);
+  const month = String(req.query['month']);
   const year = String(req.query['year']);
 
   const salesRepo = getRepository(Sales);
   const salesmanRepo = getRepository(Salesman);
-  const salesByTT = await salesRepo.find({ tt, mounth, year });
+  const salesByTT = await salesRepo.find({ tt, month, year });
   const salesmans = await salesmanRepo.find({ tt });
   const salesmansNames = salesmans.map((salesman: Salesman) => salesman.name);
 

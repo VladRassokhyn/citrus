@@ -13,7 +13,7 @@ export type SalesState = {
   postStatus: LoadingStatuses;
   updateStatus: LoadingStatuses;
   deleteStatus: LoadingStatuses;
-  mounth: number;
+  month: number;
   year: number;
   daySales: Sales[] | null;
 };
@@ -40,7 +40,7 @@ export type SalesPayload = {
 
 export interface GetSalesPayload {
   tt: string;
-  mounth: string | number;
+  month: string | number;
   year: string | number;
 }
 

@@ -20,7 +20,7 @@ function* updatePlanesWorker(action: Action<{ planes: Planes; tt: string }>): Sa
     yield put(
       planesActions.getPlanes({
         tt: action.payload.tt,
-        mounth: action.payload.planes.mounth,
+        month: action.payload.planes.month,
         year: action.payload.planes.year,
       }),
     );
@@ -37,7 +37,7 @@ function* postPlanesWorker(action: Action<{ planes: Planes; tt: string }>): Saga
     yield put(
       planesActions.getPlanes({
         tt: action.payload.tt,
-        mounth: action.payload.planes.mounth,
+        month: action.payload.planes.month,
         year: action.payload.planes.year,
       }),
     );

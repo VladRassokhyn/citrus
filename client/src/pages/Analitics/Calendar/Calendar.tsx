@@ -3,8 +3,9 @@ import { CalendarDay } from './CalendarDay';
 import { DaySales } from '../../../lib/slices/daySales';
 import { Planes } from '../../../lib/slices/planes/planes.type';
 import { Sales } from '../../../lib/slices/sales/sales.type';
-import { calcFns } from '../../../lib/common';
+import { getCalcFns } from '../../../lib/common';
 import { User } from '../../../lib/slices/users';
+import { WeekTitle } from './WeekTitle';
 
 type Props = {
   sales: DaySales[];
@@ -12,11 +13,6 @@ type Props = {
   authUser: User;
   planes: Planes;
   days: (string | null)[];
-  weekDays: { label: string; value: string }[];
-};
-
-type StyleProps = {
-  day?: string;
 };
 
 const Wrapper = styled.div`
@@ -79,38 +75,14 @@ const WeekToWeekValues = styled.div`
   gap: 10px;
 `;
 
-const WeekTitleWrapper = styled.div`
-  display: grid;
-  gap: 0 1px;
-  grid-template-columns: repeat(7, 1fr);
-  grid-template-rows: 1fr;
-  margin-bottom: 10px;
-  border-radius: 10px;
-  box-shadow: 0 0 5px #dfdfdf;
-  background-color: #dfdfdf;
-  @media (max-width: 559px) {
-    display: none;
-  }
-`;
-
-const WeekTitle = styled.h1<StyleProps>`
-  padding: 5px;
-  background-color: white;
-  height: 20px;
-  font-size: 12pt;
-  text-align: center;
-  color: ${(props) =>
-    props.day === 'Saturday' || props.day === 'Sunday' ? '#b3405b' : 'var (--color-stroke)'};
-`;
-
 const H1 = styled.h1<{ color: string }>`
   font-size: 8pt;
   color: ${(props) => props.color};
 `;
 
 export const Calendar = (props: Props): JSX.Element => {
-  const { newSales, sales, authUser, planes, days, weekDays } = props;
-
+  const { newSales, sales, authUser, planes, days } = props;
+  const calcFns = getCalcFns();
   const weekSales: Sales[] = [];
 
   const calendarDays = days.map((day, i) => {
@@ -120,9 +92,10 @@ export const Calendar = (props: Props): JSX.Element => {
     const salesByToday = newSales.filter(
       (sale) => parseInt(sale.day) < (day ? parseInt(day.split(' ')[1]) : 0),
     );
-    const mounthSales = calcFns.mounthSalesNew(salesByToday);
+
+    const monthSales = calcFns.monthSalesNew(salesByToday);
     if (i % 7 === 0 && i !== 0) {
-      weekSales.push(mounthSales);
+      weekSales.push(monthSales);
     }
 
     return (
@@ -132,7 +105,7 @@ export const Calendar = (props: Props): JSX.Element => {
         isWeekend={isWeekend}
         delay={i}
         daySales={daySales}
-        mounthSales={mounthSales}
+        monthSales={monthSales}
         tt={authUser.tt}
         planes={planes}
         title={day ? day.split(' ')[1] : ''}
@@ -145,13 +118,6 @@ export const Calendar = (props: Props): JSX.Element => {
   return (
     <Wrapper>
       <CalendarContent>
-        <WeekTitleWrapper>
-          {weekDays.map((day) => (
-            <WeekTitle key={day.value} day={day.value}>
-              {day.label}
-            </WeekTitle>
-          ))}
-        </WeekTitleWrapper>
         <CalendarContainer>{calendarDays}</CalendarContainer>
       </CalendarContent>
       <WeekToWeek>

@@ -10,12 +10,12 @@ const weekDays = [
   { value: 'Sunday', label: 'Вс' },
 ];
 
-export function getDaysFormated(mounth: number, year: number) {
-  const daysCount = new Date(year, mounth - 1, 0).getDate();
+export function getDaysFormated(month: number, year: number) {
+  const daysCount = new Date(year, month - 1, 0).getDate();
   const days = [];
 
   for (let i = 1; i <= daysCount; i++) {
-    const day = new Date(new Date().getFullYear(), mounth, i);
+    const day = new Date(new Date().getFullYear(), month, i);
     const formatedDay = format(day, 'iiii dd.MM.yyyy');
     days.push(formatedDay);
   }

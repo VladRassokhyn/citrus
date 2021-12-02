@@ -128,7 +128,7 @@ const Button = styled.button`
 export const PlanesPanel = (props: Props): JSX.Element => {
   const { planes } = props;
   const updateStatus = useTypedSelector(planesSelectors.selectUpdateStatus);
-  const { mounth, year } = useTypedSelector(salesSelectors.selectMounth);
+  const { month, year } = useTypedSelector(salesSelectors.selectMonth);
   const authUser = useTypedSelector(authSelectors.selectAuthUser);
   const [isEditMode, setIsEditMode] = useState(false);
   const dispatch = useDispatch();
@@ -160,7 +160,7 @@ export const PlanesPanel = (props: Props): JSX.Element => {
     } else {
       dispatch(
         planesActions.postPlanes({
-          planes: { ...newPlanes, mounth, year, tt: authUser!.tt.value },
+          planes: { ...newPlanes, month, year, tt: authUser!.tt.value },
           tt: authUser!.tt.value,
         }),
       );

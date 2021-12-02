@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { Preloader } from '../../../Components/Preloader';
-import { calcFns, getDaysFormated } from '../../../lib/common';
+import { getCalcFns, getDaysFormated } from '../../../lib/common';
 import { useTypedSelector } from '../../../lib/hooks';
 import { authSelectors } from '../../../lib/slices/auth';
 import { daySalesSelectors } from '../../../lib/slices/daySales';
@@ -13,7 +13,7 @@ import { Circle } from '../Circle';
 import { DayByDay } from '../DayByDay';
 import { getColumns } from '../DayDetail';
 import { DetailTable } from '../DayDetail/DetailTable';
-import { MounthHeader } from './MounthHeader';
+import { MonthHeader } from './MonthHeader';
 
 const Wrapper = styled.div``;
 
@@ -60,31 +60,43 @@ export const MainAnalitics = (): JSX.Element => {
   const authUser = useTypedSelector(authSelectors.selectAuthUser);
   const sales = useTypedSelector(daySalesSelectors.selectAllDaySales);
   const newSales = useTypedSelector(salesSelectors.selectAllSales);
-  const { mounth, year } = useTypedSelector(salesSelectors.selectMounth);
-  const [days, setDays] = useState(getDaysFormated(mounth, year).days);
-  const { weekDays } = getDaysFormated(mounth, year);
+  const { month, year } = useTypedSelector(salesSelectors.selectMonth);
+  const [days, setDays] = useState(getDaysFormated(month, year).days);
 
   if (!sales || !newSales || !authUser) {
     return <Preloader />;
   }
 
-  const mountSales = useMemo(() => calcFns.mounthSalesNew(newSales), [newSales]);
-  const salesSum = useMemo(() => calcFns.mounthSalesNew(newSales), [newSales]);
+  const calcFns = getCalcFns(sales[sales.length - 1].day.split('.')[1], month);
+
+  const mountSales = useMemo(() => calcFns.monthSalesNew(newSales), [newSales]);
+  const salesSum = useMemo(() => calcFns.monthSalesNew(newSales), [newSales]);
   const cmForecast = useMemo(() => calcFns.forecastSumm(salesSum.ttSales[8]), [salesSum]);
   const czForecast = useMemo(() => calcFns.forecastSumm(salesSum.ttSales[10]), [salesSum]);
   const caForecast = useMemo(() => calcFns.forecastSumm(salesSum.ttSales[12]), [salesSum]);
 
-  useEffect(() => {
-    setDays(getDaysFormated(mounth, year).days);
-  }, [mounth]);
+  console.log(
+    salesSum.ttSales[8],
+    new Date(
+      new Date().getFullYear(),
+      +sales[sales.length - 1].day.split('.')[1],
+      month + 1,
+      0,
+    ).getDate(),
+    month,
+  );
 
-  const handleDateChange = useCallback((mounthNumber: number, yearNumber: number) => {
-    dispatch(salesActions.setMounth({ year: yearNumber, mounth: mounthNumber }));
+  useEffect(() => {
+    setDays(getDaysFormated(month, year).days);
+  }, [month]);
+
+  const handleDateChange = useCallback((monthNumber: number, yearNumber: number) => {
+    dispatch(salesActions.setmonth({ year: yearNumber, month: monthNumber }));
   }, []);
 
   return (
     <Wrapper>
-      <MounthHeader dateChange={handleDateChange} mounth={mounth} year={year} />
+      <MonthHeader dateChange={handleDateChange} month={month} year={year} />
 
       <CirclesContainer>
         <CircleContent>
@@ -117,14 +129,7 @@ export const MainAnalitics = (): JSX.Element => {
         />
       </DetailContainer>
 
-      <Calendar
-        newSales={newSales}
-        planes={planes}
-        authUser={authUser}
-        sales={sales}
-        days={days}
-        weekDays={weekDays}
-      />
+      <Calendar newSales={newSales} planes={planes} authUser={authUser} sales={sales} days={days} />
     </Wrapper>
   );
 };

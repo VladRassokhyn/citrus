@@ -44,7 +44,7 @@ __decorate([
 __decorate([
     (0, typeorm_1.Column)('text'),
     __metadata("design:type", String)
-], Planes.prototype, "mounth", void 0);
+], Planes.prototype, "month", void 0);
 __decorate([
     (0, typeorm_1.Column)('text'),
     __metadata("design:type", String)

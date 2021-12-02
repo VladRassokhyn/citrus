@@ -6,12 +6,12 @@ const router = Router();
 
 router.route('/').get(async (req, res) => {
   const tt = String(req.query['tt']);
-  const mounth = String(req.query['mounth']);
+  const month = String(req.query['month']);
   const year = String(req.query['year']);
 
   try {
     const planesRepo = getRepository(Planes);
-    const planes = await planesRepo.findOne({ tt, mounth, year });
+    const planes = await planesRepo.findOne({ tt, month, year });
 
     res.status(200).send(planes);
   } catch (err) {

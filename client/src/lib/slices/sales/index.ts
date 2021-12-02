@@ -9,7 +9,7 @@ import {
   deleteSales,
   salesDeleted,
   sortSales,
-  setMounth,
+  setmonth,
 } from './sales.slice';
 import { salesWatcher } from './sales.saga';
 import {
@@ -17,7 +17,7 @@ import {
   selectSalesLength,
   selectSalesStatuses,
   selectSalesByDate,
-  selectMounth,
+  selectMonth,
   selectSalsesByRange,
 } from './sales.selectors';
 import { Sales } from './sales.type';
@@ -27,7 +27,7 @@ export const salesSelectors = {
   selectSalesStatuses,
   selectSalesByDate,
   selectSalesLength,
-  selectMounth,
+  selectMonth,
   selectSalsesByRange,
 };
 export const salesActions = {
@@ -40,7 +40,7 @@ export const salesActions = {
   deleteSales,
   salesDeleted,
   sortSales,
-  setMounth,
+  setmonth,
 };
 export { salesReducer, salesWatcher };
 export type { Sales };

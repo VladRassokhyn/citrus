@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import html2canvas from 'html2canvas';
-import { calcFns } from '../../../lib/common';
+import { getCalcFns } from '../../../lib/common';
 import { useMemo, useState } from 'react';
 import { Screenshot } from '../../../Components/Screenshot';
 import { Redirect } from 'react-router';
@@ -8,12 +8,14 @@ import { useTypedSelector } from '../../../lib/hooks';
 import { planesSelectors } from '../../../lib/slices/planes';
 import { paths } from '../../../lib/routing';
 import { User } from '../../../lib/slices/users';
-import { Sales, salesSelectors } from '../../../lib/slices/sales';
+import { Sales } from '../../../lib/slices/sales';
 import { Planes } from '../../../lib/slices/planes/planes.type';
 
 type Props = {
   authUser: User;
   sales: Sales[];
+  day: number;
+  month: number;
 };
 
 type CellProps = {
@@ -162,15 +164,17 @@ const Button = styled.button`
 `;
 
 export const EveningReportTable = (props: Props): JSX.Element => {
+  const { day, month, sales, authUser } = props;
   const [screenshot, setScreenshot] = useState<string | null>(null);
   const planes = useTypedSelector<Planes | null>(planesSelectors.selectPlanes);
-  const sales = props.sales;
 
   if (!planes) {
     return <Redirect to={paths.ANALYTICS.MAIN.BASE()} />;
   }
 
-  const mounthSales = useMemo(() => calcFns.mounthSalesNew(sales), [sales]);
+  const calcFns = getCalcFns(day, month);
+
+  const monthSales = useMemo(() => calcFns.monthSalesNew(sales), [sales]);
   const daySales = sales[sales.length - 1];
 
   const onScreenshot = () => {
@@ -185,45 +189,43 @@ export const EveningReportTable = (props: Props): JSX.Element => {
     });
   };
 
-  const day = new Date().getDate();
-
   const calcs = useMemo(
     () => ({
       cmDayRatio: calcFns.ratio(daySales.ttSales[8], daySales.ttSales[1]),
       czDayRatio: calcFns.ratio(daySales.ttSales[10], daySales.ttSales[1]),
-      cmRatio: calcFns.ratio(mounthSales.ttSales[8], mounthSales.ttSales[1]),
-      czRatio: calcFns.ratio(mounthSales.ttSales[10], mounthSales.ttSales[1]),
-      cmForecast: calcFns.forecastPercent(mounthSales.ttSales[8], planes.cm),
-      czForecast: calcFns.forecastPercent(mounthSales.ttSales[10], planes.cz),
+      cmRatio: calcFns.ratio(monthSales.ttSales[8], monthSales.ttSales[1]),
+      czRatio: calcFns.ratio(monthSales.ttSales[10], monthSales.ttSales[1]),
+      cmForecast: calcFns.forecastPercent(monthSales.ttSales[8], planes.cm),
+      czForecast: calcFns.forecastPercent(monthSales.ttSales[10], planes.cz),
       cmGrowthForecast: calcFns.growthForecast(
         planes.cm,
         daySales.ttSales[8],
-        mounthSales.ttSales[8],
+        monthSales.ttSales[8],
       ),
       czGrowthForecast: calcFns.growthForecast(
         planes.cz,
         daySales.ttSales[10],
-        mounthSales.ttSales[10],
+        monthSales.ttSales[10],
       ),
       cmDayRate: calcFns.ratio(
         daySales.ttSales[8],
-        calcFns.dayPlane(mounthSales.ttSales[8], planes.cm),
+        calcFns.dayPlane(monthSales.ttSales[8], planes.cm),
       ),
       czDayRate: calcFns.ratio(
         daySales.ttSales[10],
-        calcFns.dayPlane(mounthSales.ttSales[10], planes.cz),
+        calcFns.dayPlane(monthSales.ttSales[10], planes.cz),
       ),
       cmGrowthRatio: calcFns.growthRatio(
         daySales.ttSales[8],
         daySales.ttSales[1],
-        mounthSales.ttSales[8],
-        mounthSales.ttSales[1],
+        monthSales.ttSales[8],
+        monthSales.ttSales[1],
       ),
       czGrowthRatio: calcFns.growthRatio(
         daySales.ttSales[10],
         daySales.ttSales[1],
-        mounthSales.ttSales[10],
-        mounthSales.ttSales[1],
+        monthSales.ttSales[10],
+        monthSales.ttSales[1],
       ),
     }),
     [sales],
@@ -260,7 +262,7 @@ export const EveningReportTable = (props: Props): JSX.Element => {
       <Button onClick={onScreenshot}>Сделать скрин</Button>
       <div id={'evening-report'}>
         <ScreenContainer>
-          <H3>{props.authUser.tt.label}</H3>
+          <H3>{authUser.tt.label}</H3>
           <Container>
             <H1>МЕСЯЦ</H1>
             <Row>
@@ -268,7 +270,7 @@ export const EveningReportTable = (props: Props): JSX.Element => {
                 <H2>День</H2>
               </DayCell>
               <Cell>
-                <H2>{day}</H2>
+                <H2>{props.day}</H2>
               </Cell>
             </Row>
 

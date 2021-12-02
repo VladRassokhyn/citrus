@@ -12,7 +12,7 @@ const initialState = {
     ca: 0,
     to_cm: 0,
     to_cz: 0,
-    mounth: new Date().getMonth(),
+    month: new Date().getMonth(),
     year: new Date().getFullYear(),
   },
 };

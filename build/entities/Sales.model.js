@@ -32,7 +32,7 @@ __decorate([
 __decorate([
     (0, typeorm_1.Column)('text'),
     __metadata("design:type", String)
-], Sales.prototype, "mounth", void 0);
+], Sales.prototype, "month", void 0);
 __decorate([
     (0, typeorm_1.Column)('text'),
     __metadata("design:type", String)

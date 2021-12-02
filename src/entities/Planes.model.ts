@@ -25,7 +25,7 @@ export class Planes {
   to_cz: string;
 
   @Column('text')
-  mounth: string;
+  month: string;
 
   @Column('text')
   year: string;

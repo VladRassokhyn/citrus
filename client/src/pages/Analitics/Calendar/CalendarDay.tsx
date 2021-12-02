@@ -7,18 +7,18 @@ import { useDispatch } from 'react-redux';
 import { useTypedSelector } from '../../../lib/hooks';
 import { LoadingStatuses } from '../../../lib/globalTypes';
 import { Confirm } from '../../../Components/Confirm';
-import { salesActions, salesSelectors } from '../../../lib/slices/sales';
+import { salesActions } from '../../../lib/slices/sales';
 import { useHistory } from 'react-router';
 import { Planes } from '../../../lib/slices/planes/planes.type';
 import { Sales } from '../../../lib/slices/sales/sales.type';
-import { calcFns } from '../../../lib/common';
+import { getCalcFns } from '../../../lib/common';
 
 type Props = {
   ttSales: (string | number)[] | undefined;
   title: string;
   delay: number;
   daySales?: DaySales;
-  mounthSales: Sales;
+  monthSales: Sales;
   planes?: Planes;
   sales: Sales | undefined;
   tt: { label: string; value: string };
@@ -125,7 +125,7 @@ export const CalendarDay = memo(
       isWeekend,
       sales,
       planes,
-      mounthSales,
+      monthSales,
       ttSales,
     } = props;
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -136,6 +136,8 @@ export const CalendarDay = memo(
     const cmSales = ttSales ? ttSales[8] : 0;
     const czSales = ttSales ? ttSales[10] : 0;
     const caSales = ttSales ? ttSales[12] : 0;
+
+    const calcFns = getCalcFns();
 
     useEffect(() => {
       if (postStatus === LoadingStatuses.SUCCESS || updateStatus === LoadingStatuses.SUCCESS) {
@@ -148,9 +150,9 @@ export const CalendarDay = memo(
 
     const growths = useMemo(
       () => ({
-        cm: calcFns.growthForecast(planes?.cm, +cmSales, mounthSales.ttSales[8]),
-        cz: calcFns.growthForecast(planes?.cz, +czSales, mounthSales.ttSales[10]),
-        ca: calcFns.growthForecast(planes?.ca, +caSales, mounthSales.ttSales[12]),
+        cm: calcFns.growthForecast(planes?.cm, +cmSales, monthSales.ttSales[8]),
+        cz: calcFns.growthForecast(planes?.cz, +czSales, monthSales.ttSales[10]),
+        ca: calcFns.growthForecast(planes?.ca, +caSales, monthSales.ttSales[12]),
       }),
       [],
     );
@@ -165,7 +167,7 @@ export const CalendarDay = memo(
           sales: payload.sales,
           tt: tt.value,
           day: title,
-          mounth: parseInt(title.split('.')[1]) - 1,
+          month: parseInt(title.split('.')[1]) - 1,
           year: title.split('.')[2],
         }),
       );
@@ -176,7 +178,7 @@ export const CalendarDay = memo(
       sales &&
         dispatch(
           salesActions.updateSales({
-            mounth: parseInt(title.split('.')[1]) - 1,
+            month: parseInt(title.split('.')[1]) - 1,
             year: title.split('.')[2],
             sales: payload.sales,
             id: sales.id,

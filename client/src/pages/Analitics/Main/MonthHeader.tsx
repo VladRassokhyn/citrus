@@ -1,11 +1,10 @@
 import { memo, useCallback, useEffect } from 'react';
 import styled from 'styled-components';
-import { getDaysFormated } from '../../../lib/common';
 
 type Props = {
-  mounth: number;
+  month: number;
   year: number;
-  dateChange: (mounth: number, year: number) => void;
+  dateChange: (month: number, year: number) => void;
 };
 
 const Wrapper = styled.div`
@@ -34,40 +33,40 @@ const GoBtn = styled.button`
   }
 `;
 
-const Mounth = styled.h1`
+const Month = styled.h1`
   font-size: 14pt;
   color: var(--color-stroke);
 `;
 
-export const MounthHeader = memo(
+export const MonthHeader = memo(
   (props: Props): JSX.Element => {
-    const { dateChange, mounth, year } = props;
+    const { dateChange, month, year } = props;
 
-    const handleMounthIncrement = useCallback(() => dateChange(mounth + 1, year), [mounth, year]);
-    const handleMounthDerement = useCallback(() => dateChange(mounth - 1, year), [mounth, year]);
+    const handlemonthIncrement = useCallback(() => dateChange(month + 1, year), [month, year]);
+    const handlemonthDerement = useCallback(() => dateChange(month - 1, year), [month, year]);
 
     useEffect(() => {
-      if (mounth > 11) {
+      if (month > 11) {
         dateChange(0, year + 1);
       }
-      if (mounth < 0) {
+      if (month < 0) {
         dateChange(11, year - 1);
       }
-    }, [mounth]);
+    }, [month]);
 
     return (
       <Wrapper>
-        <GoBtn onClick={handleMounthDerement}>⟵</GoBtn>
-        <Mounth>
-          {mounthsRu[mounth]} {year}г.
-        </Mounth>
-        <GoBtn onClick={handleMounthIncrement}>⟶</GoBtn>
+        <GoBtn onClick={handlemonthDerement}>⟵</GoBtn>
+        <Month>
+          {monthsRu[month]} {year}г.
+        </Month>
+        <GoBtn onClick={handlemonthIncrement}>⟶</GoBtn>
       </Wrapper>
     );
   },
 );
 
-const mounthsRu = [
+const monthsRu = [
   'Январь',
   'Февраль',
   'Март',

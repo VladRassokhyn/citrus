@@ -43,7 +43,7 @@ export const Analitic = (props: Props): JSX.Element => {
   const salesStatus = useTypedSelector(salesSelectors.selectSalesStatuses);
   const planesStatus = useTypedSelector(planesSelectors.selectStatus);
 
-  const { mounth, year } = useTypedSelector(salesSelectors.selectMounth);
+  const { month, year } = useTypedSelector(salesSelectors.selectMonth);
   const [selectedTT, setSelectedTT] = useState(props.authUser.tt);
   const dispatch = useDispatch();
 
@@ -55,9 +55,9 @@ export const Analitic = (props: Props): JSX.Element => {
 
   useEffect(() => {
     dispatch(daySalesActions.getDaySales(selectedTT.value));
-    dispatch(salesActions.getSales({ tt: selectedTT.value, mounth, year }));
-    dispatch(planesActions.getPlanes({ tt: selectedTT.value, mounth, year }));
-  }, [selectedTT, mounth, year]);
+    dispatch(salesActions.getSales({ tt: selectedTT.value, month, year }));
+    dispatch(planesActions.getPlanes({ tt: selectedTT.value, month, year }));
+  }, [selectedTT, month, year]);
 
   if (isSalesLoading || isDaySalesLoading || isPlanesLoading) {
     return <Preloader />;

@@ -10,7 +10,11 @@ type Props = {
   authUser: User;
 };
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 50px;
+`;
 
 export const EveningReport = (props: Props): JSX.Element => {
   const salesLength = useTypedSelector(salesSelectors.selectSalesLength);
@@ -21,7 +25,7 @@ export const EveningReport = (props: Props): JSX.Element => {
   const handleChangeFrom = (day: number) => {
     setDayFrom(day);
   };
-  console.log(sales);
+
   const handleChangeTo = (day: number) => {
     setDayTo(day);
   };
@@ -29,7 +33,12 @@ export const EveningReport = (props: Props): JSX.Element => {
     <Wrapper>
       <DayRange from={dayFrom} to={dayTo} changeFrom={handleChangeFrom} changeTo={handleChangeTo} />
       {sales && sales.length !== 0 ? (
-        <EveningReportTable sales={sales} authUser={props.authUser} />
+        <EveningReportTable
+          sales={sales}
+          authUser={props.authUser}
+          day={dayTo}
+          month={parseInt(sales[0].day.split('.')[1])}
+        />
       ) : (
         <h1>no sales for this range</h1>
       )}
