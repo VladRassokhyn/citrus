@@ -30,6 +30,7 @@ export const salesSlice = createSlice({
         const tt = TTselectorOptions.find((tt) => tt.value === sales.tt.value);
         return { ...sales, tt };
       });
+      state.daySales?.sort((a, b) => parseInt(a.day.split('.')[0]) - parseInt(b.day.split('.')[0]));
       state.getStatus = LoadingStatuses.SUCCESS;
     },
     postSales(state, action: Action<PostSalesPayload>) {

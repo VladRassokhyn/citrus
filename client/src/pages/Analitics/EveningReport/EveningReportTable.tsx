@@ -176,6 +176,7 @@ export const EveningReportTable = (props: Props): JSX.Element => {
 
   const monthSales = useMemo(() => calcFns.monthSalesNew(sales), [sales]);
   const daySales = sales[sales.length - 1];
+  console.log(sales, daySales);
 
   const onScreenshot = () => {
     html2canvas(document.getElementById('evening-report') as HTMLElement).then((canvas) => {
@@ -228,7 +229,7 @@ export const EveningReportTable = (props: Props): JSX.Element => {
         monthSales.ttSales[1],
       ),
     }),
-    [sales],
+    [sales, day],
   );
 
   const cmForecastColor =

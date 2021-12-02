@@ -29,6 +29,8 @@ export const EveningReport = (props: Props): JSX.Element => {
   const handleChangeTo = (day: number) => {
     setDayTo(day);
   };
+
+  console.log(dayFrom, dayTo)
   return (
     <Wrapper>
       <DayRange from={dayFrom} to={dayTo} changeFrom={handleChangeFrom} changeTo={handleChangeTo} />
