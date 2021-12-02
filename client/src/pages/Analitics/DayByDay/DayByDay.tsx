@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
-import { DaySales } from '../../../lib/slices/daySales';
 import { Sales } from '../../../lib/slices/sales';
 
 type Props = {

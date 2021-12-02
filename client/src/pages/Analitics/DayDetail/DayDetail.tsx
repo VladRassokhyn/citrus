@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { Preloader } from '../../../Components/Preloader';
 import { getCalcFns } from '../../../lib/common';
 import { useTypedSelector } from '../../../lib/hooks';
-import { daySalesSelectors } from '../../../lib/slices/daySales';
 import { planesSelectors } from '../../../lib/slices/planes';
 import { salesSelectors } from '../../../lib/slices/sales';
 import { Circle } from '../Circle/Circle';
@@ -57,8 +56,8 @@ const Circles = styled.div`
 export const DayDetail = (): JSX.Element => {
   const salesDate = useParams<{ salesDate: string }>().salesDate.replace(/[^0-9]/g, '.');
   const thisDay = useTypedSelector(salesSelectors.selectSalesByDate(salesDate));
+  const sales = useTypedSelector(salesSelectors.selectAllSales);
   const planes = useTypedSelector(planesSelectors.selectPlanes);
-  const allSales = useTypedSelector(daySalesSelectors.selectAllDaySales);
   const columns = getColumns(planes);
 
   if (!thisDay) {
@@ -74,13 +73,13 @@ export const DayDetail = (): JSX.Element => {
   const czDaySales = thisDay.ttSales[10] as number;
   const caDaySales = thisDay.ttSales[12] as number;
 
-  const monthSales = calcFns.monthSales(allSales);
+  const monthSales = calcFns.monthSalesNew(sales);
   const to_cmFact = calcFns.ratio(+thisDay.ttSales[8], +thisDay.ttSales[1]);
   const to_czFact = calcFns.ratio(+thisDay.ttSales[10], +thisDay.ttSales[1]);
 
-  const cmDayPlane = (planes.cm - monthSales.cm) / (dayCount - day);
-  const czDayPlane = (planes.cz - monthSales.ca) / (dayCount - day);
-  const caDayPlane = (planes.cz - monthSales.ca) / (dayCount - day);
+  const cmDayPlane = (planes.cm - +monthSales.ttSales[8]) / (dayCount - day);
+  const czDayPlane = (planes.cz - +monthSales.ttSales[10]) / (dayCount - day);
+  const caDayPlane = (planes.cz - +monthSales.ttSales[12]) / (dayCount - day);
 
   return (
     <Wrapper>

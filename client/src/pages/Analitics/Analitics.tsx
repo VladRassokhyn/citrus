@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { Preloader } from '../../Components/Preloader';
 import { FixLater, LoadingStatuses, TTselectorOptions, UserRoles } from '../../lib/globalTypes';
 import { useTypedSelector } from '../../lib/hooks';
-import { daySalesActions, daySalesSelectors } from '../../lib/slices/daySales';
 import { planesActions, planesSelectors } from '../../lib/slices/planes';
 import { Navigation } from './Navigation';
 import { PlanesPanel } from './PlanesPanel';
@@ -38,7 +37,6 @@ const Filter = styled.div`
 
 export const Analitic = (props: Props): JSX.Element => {
   const planes = useTypedSelector(planesSelectors.selectPlanes);
-  const daySalesStatus = useTypedSelector(daySalesSelectors.selectDaySalesStatuses);
 
   const salesStatus = useTypedSelector(salesSelectors.selectSalesStatuses);
   const planesStatus = useTypedSelector(planesSelectors.selectStatus);
@@ -48,18 +46,16 @@ export const Analitic = (props: Props): JSX.Element => {
   const dispatch = useDispatch();
 
   const isSalesLoading = salesStatus.getStatus === LoadingStatuses.LOADING;
-  const isDaySalesLoading = daySalesStatus.getStatus === LoadingStatuses.LOADING;
   const isPlanesLoading = planesStatus === LoadingStatuses.LOADING;
 
   const handleChangeTT = (e: FixLater) => setSelectedTT(e);
 
   useEffect(() => {
-    dispatch(daySalesActions.getDaySales(selectedTT.value));
     dispatch(salesActions.getSales({ tt: selectedTT.value, month, year }));
     dispatch(planesActions.getPlanes({ tt: selectedTT.value, month, year }));
   }, [selectedTT, month, year]);
 
-  if (isSalesLoading || isDaySalesLoading || isPlanesLoading) {
+  if (isSalesLoading || isPlanesLoading) {
     return <Preloader />;
   }
 

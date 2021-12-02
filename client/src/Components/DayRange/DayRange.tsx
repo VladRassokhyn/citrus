@@ -94,13 +94,13 @@ export const DayRange = (props: Props): JSX.Element => {
         <Days>
           {days.days.map((day, i) => {
             if (!day) {
-              return <EmptyDay />;
+              return <EmptyDay key={i} />;
             }
             const dayNumber = day?.split(' ')[1].split('.')[0];
             const thisDay = dayNumber ? parseInt(dayNumber) : 0;
             const chosen = thisDay <= to && thisDay >= from;
             return (
-              <Day chosen={chosen} onClick={() => handleChange(thisDay)}>
+              <Day key={i} chosen={chosen} onClick={() => handleChange(thisDay)}>
                 <H1 chosen={chosen}>{dayNumber ? dayNumber : ' '}</H1>
               </Day>
             );

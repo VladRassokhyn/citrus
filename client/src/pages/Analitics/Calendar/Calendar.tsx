@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { CalendarDay } from './CalendarDay';
-import { DaySales } from '../../../lib/slices/daySales';
 import { Planes } from '../../../lib/slices/planes/planes.type';
 import { Sales } from '../../../lib/slices/sales/sales.type';
 import { getCalcFns } from '../../../lib/common';
@@ -8,8 +7,7 @@ import { User } from '../../../lib/slices/users';
 import { WeekTitle } from './WeekTitle';
 
 type Props = {
-  sales: DaySales[];
-  newSales: Sales[];
+  sales: Sales[];
   authUser: User;
   planes: Planes;
   days: (string | null)[];
@@ -81,21 +79,21 @@ const H1 = styled.h1<{ color: string }>`
 `;
 
 export const Calendar = (props: Props): JSX.Element => {
-  const { newSales, sales, authUser, planes, days } = props;
+  const { sales, authUser, planes, days } = props;
   const calcFns = getCalcFns();
   const weekSales: Sales[] = [];
+  const month = parseInt(sales[0].day.split('.')[1]);
 
   const calendarDays = days.map((day, i) => {
     const isWeekend = day?.split(' ')[0] === 'Saturday' || day?.split(' ')[0] === 'Sunday';
-    const daySales = sales.find((salesItem) => salesItem.day === day?.split(' ')[1]);
-    const newSale = newSales.find((salesItem) => salesItem.day === day?.split(' ')[1]);
-    const salesByToday = newSales.filter(
+    const newSale = sales.find((salesItem) => salesItem.day === day?.split(' ')[1]);
+    const salesByToday = sales.filter(
       (sale) => parseInt(sale.day) < (day ? parseInt(day.split(' ')[1]) : 0),
     );
 
     const monthSales = calcFns.monthSalesNew(salesByToday);
     if (i % 7 === 0 && i !== 0) {
-      weekSales.push(monthSales);
+      weekSales.push({ ...monthSales, day: String(i) });
     }
 
     return (
@@ -104,7 +102,6 @@ export const Calendar = (props: Props): JSX.Element => {
         ttSales={newSale?.ttSales}
         isWeekend={isWeekend}
         delay={i}
-        daySales={daySales}
         monthSales={monthSales}
         tt={authUser.tt}
         planes={planes}
@@ -123,30 +120,42 @@ export const Calendar = (props: Props): JSX.Element => {
       </CalendarContent>
       <WeekToWeek>
         {weekSales.map((week, i) => {
-          const weeFns = getCalcFns(week.day.split('.')[0], week.day.split('.')[1]);
+          const weeFns = getCalcFns(week.day, month);
           const currentCm = weeFns.forecastPercent(week.ttSales[8], planes.cm);
           const prevCm = weeFns.forecastPercent(
-            weekSales[i - 1] ? weekSales[i - 1].ttSales[8] : 0,
+            weekSales[i - 1]?.ttSales[8],
             planes.cm,
+            +week.day - 7,
           );
           const currentCz = weeFns.forecastPercent(week.ttSales[10], planes.cz);
           const prevCz = weeFns.forecastPercent(
-            weekSales[i - 1] ? weekSales[i - 1].ttSales[10] : 0,
+            weekSales[i - 1]?.ttSales[10],
             planes.cz,
+            +week.day - 7,
           );
           const currentCa = weeFns.forecastPercent(week.ttSales[12], planes.ca);
           const prevCa = weeFns.forecastPercent(
-            weekSales[i - 1] ? weekSales[i - 1].ttSales[12] : 0,
+            weekSales[i - 1]?.ttSales[12],
             planes.ca,
+            +week.day - 7,
           );
 
           return (
             <WeekToWeekItem key={i}>
               <WeekToWeekArrow />
               <WeekToWeekValues>
-                <H1 color={'green'}>+{(currentCm - prevCm).toFixed(2)}</H1>
-                <H1 color={'red'}>+{(currentCz - prevCz).toFixed(2)}</H1>
-                <H1 color={'#9018ad'}>+{(currentCa - prevCa).toFixed(2)}</H1>
+                <H1 color={'green'}>
+                  {currentCm - prevCm > 0 && '+'}
+                  {(currentCm - prevCm).toFixed(2)}
+                </H1>
+                <H1 color={'red'}>
+                  {currentCz - prevCz > 0 && '+'}
+                  {(currentCz - prevCz).toFixed(2)}
+                </H1>
+                <H1 color={'#9018ad'}>
+                  {currentCa - prevCa > 0 && '+'}
+                  {(currentCa - prevCa).toFixed(2)}
+                </H1>
               </WeekToWeekValues>
             </WeekToWeekItem>
           );

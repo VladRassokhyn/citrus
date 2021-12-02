@@ -1,4 +1,3 @@
-import { DaySales } from '../slices/daySales';
 import { Sales } from '../slices/sales/sales.type';
 
 type Arg = number | string | undefined | null;
@@ -61,37 +60,6 @@ export const getCalcFns = (argDay?: number | string, argMonth?: number | string)
       return newSales;
     },
 
-    monthSales: function (sales: DaySales[] | null | undefined): DaySales {
-      if (!sales || sales.length === 0) {
-        return {
-          cm: 0,
-          ca: 0,
-          cz: 0,
-          to: 0,
-          tt: { value: 'no tt', label: 'no tt' },
-          id: 0,
-          day: '',
-        };
-      }
-      const monthSales: DaySales = {
-        cm: 0,
-        cz: 0,
-        ca: 0,
-        to: 0,
-        tt: sales[0].tt,
-        id: sales[0].id,
-        day: '',
-      };
-      sales.forEach((sale) => {
-        monthSales.cm += sale.cm;
-        monthSales.cz += sale.cz;
-        monthSales.to += sale.to;
-        monthSales.ca += sale.ca;
-      });
-
-      return monthSales;
-    },
-
     forecastSumm: function (currentSales: Arg, d?: Arg): number {
       if (!currentSales || typeof currentSales === 'string' || typeof d === 'string') {
         return 0;
@@ -103,7 +71,7 @@ export const getCalcFns = (argDay?: number | string, argMonth?: number | string)
       if (!sales || !plane || typeof plane === 'string') {
         return 0;
       }
-      return +((this.forecastSumm(sales, d) / plane) * 100).toFixed(2);
+      return +((this.forecastSumm(sales, d ? d : day) / plane) * 100).toFixed(2);
     },
 
     growthForecast: function (plane: Arg, salesByDay: Arg, salesBymonth: Arg, d?: number): number {

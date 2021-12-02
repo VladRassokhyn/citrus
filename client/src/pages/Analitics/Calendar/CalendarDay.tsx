@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { daySalesActions, daySalesSelectors, DaySales } from '../../../lib/slices/daySales';
 import { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { Modal } from '../../../Components/Modal';
 import { SalesInput } from '../SalesInput';
@@ -7,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import { useTypedSelector } from '../../../lib/hooks';
 import { LoadingStatuses } from '../../../lib/globalTypes';
 import { Confirm } from '../../../Components/Confirm';
-import { salesActions } from '../../../lib/slices/sales';
+import { salesActions, salesSelectors } from '../../../lib/slices/sales';
 import { useHistory } from 'react-router';
 import { Planes } from '../../../lib/slices/planes/planes.type';
 import { Sales } from '../../../lib/slices/sales/sales.type';
@@ -17,7 +16,6 @@ type Props = {
   ttSales: (string | number)[] | undefined;
   title: string;
   delay: number;
-  daySales?: DaySales;
   monthSales: Sales;
   planes?: Planes;
   sales: Sales | undefined;
@@ -116,37 +114,20 @@ const Wrapper = styled.div<StyleProps>`
 
 export const CalendarDay = memo(
   (props: Props): JSX.Element => {
-    const {
-      title,
-      delay,
-      daySales,
-      tt,
-      isEmpty,
-      isWeekend,
-      sales,
-      planes,
-      monthSales,
-      ttSales,
-    } = props;
+    const { title, delay, tt, isEmpty, isWeekend, sales, planes, monthSales, ttSales } = props;
+    const { postStatus, updateStatus } = useTypedSelector(salesSelectors.selectSalesStatuses);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const { postStatus, updateStatus } = useTypedSelector(daySalesSelectors.selectDaySalesStatuses);
     const dispatch = useDispatch();
     const history = useHistory();
+
+    const disabled =
+      postStatus === LoadingStatuses.LOADING || updateStatus === LoadingStatuses.LOADING;
 
     const cmSales = ttSales ? ttSales[8] : 0;
     const czSales = ttSales ? ttSales[10] : 0;
     const caSales = ttSales ? ttSales[12] : 0;
 
     const calcFns = getCalcFns(sales?.day.split('.')[0], sales?.day.split('.')[1]);
-
-    useEffect(() => {
-      if (postStatus === LoadingStatuses.SUCCESS || updateStatus === LoadingStatuses.SUCCESS) {
-        setIsModalOpen(false);
-      }
-    }, [postStatus, updateStatus]);
-
-    const disabled =
-      postStatus === LoadingStatuses.LOADING || updateStatus === LoadingStatuses.LOADING;
 
     const growths = useMemo(
       () => ({
@@ -161,7 +142,7 @@ export const CalendarDay = memo(
       setIsModalOpen((prev) => !prev);
     }, []);
 
-    const postDaySales = (payload: { parsed: DaySales; sales: string }) => {
+    const postDaySales = (payload: { sales: string }) => {
       dispatch(
         salesActions.postSales({
           sales: payload.sales,
@@ -171,10 +152,9 @@ export const CalendarDay = memo(
           year: title.split('.')[2],
         }),
       );
-      dispatch(daySalesActions.postDaySales({ ...payload.parsed, day: title, tt: tt.value }));
     };
 
-    const updateDaySales = (payload: { parsed: DaySales; sales: string }) => {
+    const updateDaySales = (payload: { sales: string }) => {
       sales &&
         dispatch(
           salesActions.updateSales({
@@ -186,20 +166,10 @@ export const CalendarDay = memo(
             day: title,
           }),
         );
-      daySales &&
-        dispatch(
-          daySalesActions.updateDaySales({
-            ...payload.parsed,
-            id: daySales.id,
-            day: title,
-            tt: tt.value,
-          }),
-        );
     };
 
     const handleDaleteDaySales = () => {
       sales && dispatch(salesActions.deleteSales({ ...sales, tt: tt.value }));
-      daySales && dispatch(daySalesActions.deleteDaySales({ id: daySales.id, tt: tt.value }));
     };
 
     const handleInfo = () => {

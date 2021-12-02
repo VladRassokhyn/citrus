@@ -1,25 +1,16 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
-export class DaySales {
+export class Shop {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
-  tt: string;
+  name_1c: string;
 
   @Column()
-  day: string;
+  name: string;
 
   @Column()
-  to: number;
-
-  @Column()
-  cm: number;
-
-  @Column()
-  cz: number;
-
-  @Column()
-  ca: number;
+  shortName: string;
 }

@@ -5,7 +5,6 @@ import { Preloader } from '../../../Components/Preloader';
 import { getCalcFns, getDaysFormated } from '../../../lib/common';
 import { useTypedSelector } from '../../../lib/hooks';
 import { authSelectors } from '../../../lib/slices/auth';
-import { daySalesSelectors } from '../../../lib/slices/daySales';
 import { planesSelectors } from '../../../lib/slices/planes';
 import { salesActions, salesSelectors } from '../../../lib/slices/sales';
 import { Calendar } from '../Calendar';
@@ -58,19 +57,18 @@ export const MainAnalitics = (): JSX.Element => {
   const dispatch = useDispatch();
   const planes = useTypedSelector(planesSelectors.selectPlanes);
   const authUser = useTypedSelector(authSelectors.selectAuthUser);
-  const sales = useTypedSelector(daySalesSelectors.selectAllDaySales);
-  const newSales = useTypedSelector(salesSelectors.selectAllSales);
+  const sales = useTypedSelector(salesSelectors.selectAllSales);
   const { month, year } = useTypedSelector(salesSelectors.selectMonth);
   const [days, setDays] = useState(getDaysFormated(month, year).days);
 
-  if (!sales || !newSales || !authUser) {
+  if (!sales || !authUser) {
     return <Preloader />;
   }
 
   const calcFns = getCalcFns(+sales[sales.length - 1].day.split('.')[0], month);
 
-  const mountSales = useMemo(() => calcFns.monthSalesNew(newSales), [newSales]);
-  const salesSum = useMemo(() => calcFns.monthSalesNew(newSales), [newSales]);
+  const mountSales = useMemo(() => calcFns.monthSalesNew(sales), [sales]);
+  const salesSum = useMemo(() => calcFns.monthSalesNew(sales), [sales]);
   const cmForecast = useMemo(() => calcFns.forecastSumm(salesSum.ttSales[8]), [salesSum]);
   const czForecast = useMemo(() => calcFns.forecastSumm(salesSum.ttSales[10]), [salesSum]);
   const caForecast = useMemo(() => calcFns.forecastSumm(salesSum.ttSales[12]), [salesSum]);
@@ -107,7 +105,7 @@ export const MainAnalitics = (): JSX.Element => {
         </CircleContent>
       </CirclesContainer>
 
-      <DayByDay sales={newSales} days={days.filter((day) => !!day) as string[]} />
+      <DayByDay sales={sales} days={days.filter((day) => !!day) as string[]} />
 
       <DetailContainer>
         <DetailTable
@@ -118,7 +116,7 @@ export const MainAnalitics = (): JSX.Element => {
         />
       </DetailContainer>
 
-      <Calendar newSales={newSales} planes={planes} authUser={authUser} sales={sales} days={days} />
+      <Calendar sales={sales} planes={planes} authUser={authUser} days={days} />
     </Wrapper>
   );
 };

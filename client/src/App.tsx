@@ -7,13 +7,16 @@ import { useTypedSelector } from './lib/hooks';
 import { RouterController } from './lib/routing/RouterController';
 import { routes } from './lib/routing/routes';
 import { authActions, authSelectors } from './lib/slices/auth';
+import { shopActions, shopSelectors } from './lib/slices/shop';
 
 export const App = (): JSX.Element => {
   const { authStatus } = useTypedSelector(authSelectors.selectAuthStatuses);
+  const shops = useTypedSelector(shopSelectors.allShops);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(authActions.getAuth());
+    dispatch(shopActions.getShops());
   }, []);
 
   if (authStatus === LoadingStatuses.LOADING || authStatus == LoadingStatuses.IDLE) {

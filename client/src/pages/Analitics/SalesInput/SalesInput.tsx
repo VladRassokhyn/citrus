@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { DaySales } from '../../../lib/slices/daySales';
 
 type Props = {
-  submitFn: (sales: { sales: string; parsed: DaySales }) => void;
+  submitFn: (sales: { sales: string }) => void;
 };
 
 type StyleProps = {
@@ -62,7 +61,7 @@ const H1 = styled.h1`
 export const SalesInput = (props: Props): JSX.Element => {
   const { submitFn } = props;
   const [value, setValue] = useState('');
-  const [parsedValue, setParsedValue] = useState<DaySales | null>(null);
+  const [parsedValue, setParsedValue] = useState<any | null>(null);
 
   useEffect(() => {
     if (value && value.length > 100) {
@@ -102,10 +101,7 @@ export const SalesInput = (props: Props): JSX.Element => {
             <H1>ЦА: {parsedValue.ca}</H1>
           </Container>
         )}
-        <Button
-          disabled={!parsedValue}
-          onClick={() => parsedValue && submitFn({ sales: value, parsed: parsedValue })}
-        >
+        <Button disabled={!parsedValue} onClick={() => parsedValue && submitFn({ sales: value })}>
           Сохранить
         </Button>
 

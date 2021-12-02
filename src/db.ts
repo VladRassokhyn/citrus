@@ -6,8 +6,8 @@ import {
   Field,
   Planes,
   Sales,
-  DaySales,
   Salesman,
+  Shop,
 } from './entities';
 
 export const connectToDb = async () => {
@@ -25,9 +25,9 @@ export const connectToDb = async () => {
         Checklist,
         Category,
         Field,
-        DaySales,
         Salesman,
         Sales,
+        Shop,
       ],
       synchronize: true,
       logging: false,

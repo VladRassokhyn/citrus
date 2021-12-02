@@ -9,10 +9,10 @@ import {
   authRouter,
   checklistRouter,
   planesRouter,
-  daySalesRouter,
   salesmanRouter,
   salesRouter,
 } from './resources';
+import { shopRouter } from './resources/Shop';
 
 envConfig();
 
@@ -27,11 +27,15 @@ const rootUrls = [
   '/',
   '/cm',
   '/users',
+  '/users/:userId',
   '/login',
   '/analytics',
   '/checklist',
+  '/checklist/:checklistId',
   '/analytics/main',
+  '/analytics/main/:salesDay',
   '/analytics/evening-report',
+  '/analytics/salesmans',
 ];
 
 app.use('/', (req: Request, res: Response, next: NextFunction) => {
@@ -42,11 +46,11 @@ app.use('/', (req: Request, res: Response, next: NextFunction) => {
   next();
 });
 
+app.use('/api/shop', shopRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/users', userRouter);
 app.use('/api/sales', salesRouter);
 app.use('/api/planes', planesRouter);
-app.use('/api/daySales', daySalesRouter);
 app.use('/api/salesman', salesmanRouter);
 app.use('/api/checklist', checklistRouter);
 
