@@ -137,7 +137,7 @@ export const CalendarDay = memo(
     const czSales = ttSales ? ttSales[10] : 0;
     const caSales = ttSales ? ttSales[12] : 0;
 
-    const calcFns = getCalcFns();
+    const calcFns = getCalcFns(sales?.day.split('.')[0], sales?.day.split('.')[1]);
 
     useEffect(() => {
       if (postStatus === LoadingStatuses.SUCCESS || updateStatus === LoadingStatuses.SUCCESS) {

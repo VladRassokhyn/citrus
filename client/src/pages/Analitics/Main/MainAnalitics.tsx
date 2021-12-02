@@ -67,24 +67,13 @@ export const MainAnalitics = (): JSX.Element => {
     return <Preloader />;
   }
 
-  const calcFns = getCalcFns(sales[sales.length - 1].day.split('.')[1], month);
+  const calcFns = getCalcFns(+sales[sales.length - 1].day.split('.')[0], month);
 
   const mountSales = useMemo(() => calcFns.monthSalesNew(newSales), [newSales]);
   const salesSum = useMemo(() => calcFns.monthSalesNew(newSales), [newSales]);
   const cmForecast = useMemo(() => calcFns.forecastSumm(salesSum.ttSales[8]), [salesSum]);
   const czForecast = useMemo(() => calcFns.forecastSumm(salesSum.ttSales[10]), [salesSum]);
   const caForecast = useMemo(() => calcFns.forecastSumm(salesSum.ttSales[12]), [salesSum]);
-
-  console.log(
-    salesSum.ttSales[8],
-    new Date(
-      new Date().getFullYear(),
-      +sales[sales.length - 1].day.split('.')[1],
-      month + 1,
-      0,
-    ).getDate(),
-    month,
-  );
 
   useEffect(() => {
     setDays(getDaysFormated(month, year).days);

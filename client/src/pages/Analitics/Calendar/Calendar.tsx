@@ -118,22 +118,24 @@ export const Calendar = (props: Props): JSX.Element => {
   return (
     <Wrapper>
       <CalendarContent>
+        <WeekTitle />
         <CalendarContainer>{calendarDays}</CalendarContainer>
       </CalendarContent>
       <WeekToWeek>
         {weekSales.map((week, i) => {
-          const currentCm = calcFns.forecastPercent(week.ttSales[8], planes.cm);
-          const prevCm = calcFns.forecastPercent(
+          const weeFns = getCalcFns(week.day.split('.')[0], week.day.split('.')[1]);
+          const currentCm = weeFns.forecastPercent(week.ttSales[8], planes.cm);
+          const prevCm = weeFns.forecastPercent(
             weekSales[i - 1] ? weekSales[i - 1].ttSales[8] : 0,
             planes.cm,
           );
-          const currentCz = calcFns.forecastPercent(week.ttSales[10], planes.cz);
-          const prevCz = calcFns.forecastPercent(
+          const currentCz = weeFns.forecastPercent(week.ttSales[10], planes.cz);
+          const prevCz = weeFns.forecastPercent(
             weekSales[i - 1] ? weekSales[i - 1].ttSales[10] : 0,
             planes.cz,
           );
-          const currentCa = calcFns.forecastPercent(week.ttSales[12], planes.ca);
-          const prevCa = calcFns.forecastPercent(
+          const currentCa = weeFns.forecastPercent(week.ttSales[12], planes.ca);
+          const prevCa = weeFns.forecastPercent(
             weekSales[i - 1] ? weekSales[i - 1].ttSales[12] : 0,
             planes.ca,
           );
