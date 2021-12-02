@@ -46,7 +46,7 @@ app.use('/', (req: Request, res: Response, next: NextFunction) => {
   next();
 });
 
-app.use('/api/shop', shopRouter);
+app.use('/api/shops', shopRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/users', userRouter);
 app.use('/api/sales', salesRouter);

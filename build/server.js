@@ -39,7 +39,7 @@ exports.app.use('/', (req, res, next) => {
     }
     next();
 });
-exports.app.use('/api/shop', Shop_1.shopRouter);
+exports.app.use('/api/shops', Shop_1.shopRouter);
 exports.app.use('/api/auth', resources_1.authRouter);
 exports.app.use('/api/users', resources_1.userRouter);
 exports.app.use('/api/sales', resources_1.salesRouter);
