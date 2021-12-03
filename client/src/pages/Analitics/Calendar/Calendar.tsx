@@ -5,6 +5,8 @@ import { Sales } from '../../../lib/slices/sales/sales.type';
 import { getCalcFns } from '../../../lib/common';
 import { User } from '../../../lib/slices/users';
 import { WeekTitle } from './WeekTitle';
+import { useTypedSelector } from '../../../lib/hooks';
+import { salesSelectors } from '../../../lib/slices/sales';
 
 type Props = {
   sales: Sales[];
@@ -82,7 +84,7 @@ export const Calendar = (props: Props): JSX.Element => {
   const { sales, authUser, planes, days } = props;
   const calcFns = getCalcFns();
   const weekSales: Sales[] = [];
-  const month = parseInt(sales[0].day.split('.')[1]);
+  const { month } = useTypedSelector(salesSelectors.selectMonth);
 
   const calendarDays = days.map((day, i) => {
     const isWeekend = day?.split(' ')[0] === 'Saturday' || day?.split(' ')[0] === 'Sunday';

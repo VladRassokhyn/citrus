@@ -7,12 +7,17 @@ import { useTypedSelector } from '../../../lib/hooks';
 import { authSelectors } from '../../../lib/slices/auth';
 import { planesSelectors } from '../../../lib/slices/planes';
 import { salesActions, salesSelectors } from '../../../lib/slices/sales';
+import { User } from '../../../lib/slices/users';
 import { Calendar } from '../Calendar';
 import { Circle } from '../Circle';
 import { DayByDay } from '../DayByDay';
 import { getColumns } from '../DayDetail';
 import { DetailTable } from '../DayDetail/DetailTable';
 import { MonthHeader } from './MonthHeader';
+
+type Props = {
+  authUser: User;
+};
 
 const Wrapper = styled.div``;
 
@@ -53,19 +58,18 @@ const DetailContainer = styled.div`
   margin: 15px 0;
 `;
 
-export const MainAnalitics = (): JSX.Element => {
+export const MainAnalitics = (props: Props): JSX.Element => {
   const dispatch = useDispatch();
   const planes = useTypedSelector(planesSelectors.selectPlanes);
-  const authUser = useTypedSelector(authSelectors.selectAuthUser);
   const sales = useTypedSelector(salesSelectors.selectAllSales);
   const { month, year } = useTypedSelector(salesSelectors.selectMonth);
   const [days, setDays] = useState(getDaysFormated(month, year).days);
 
-  if (!sales || !authUser) {
-    return <Preloader />;
-  }
+  if (!sales) return <Preloader />;
 
-  const calcFns = getCalcFns(+sales[sales.length - 1].day.split('.')[0], month);
+  const lastSales = sales[sales.length - 1];
+
+  const calcFns = getCalcFns(lastSales ? lastSales.day.split('.')[0] : 1, month);
 
   const mountSales = useMemo(() => calcFns.monthSalesNew(sales), [sales]);
   const salesSum = useMemo(() => calcFns.monthSalesNew(sales), [sales]);
@@ -116,7 +120,7 @@ export const MainAnalitics = (): JSX.Element => {
         />
       </DetailContainer>
 
-      <Calendar sales={sales} planes={planes} authUser={authUser} days={days} />
+      <Calendar sales={sales} planes={planes} authUser={props.authUser} days={days} />
     </Wrapper>
   );
 };
