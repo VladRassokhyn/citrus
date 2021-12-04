@@ -41,6 +41,8 @@ const Input = styled.input<FieldProps>`
 const H1 = styled.h1`
   font-size: 12pt;
   color: var(--color-stroke);
+  width: 25%;
+  min-width: 120px;
 `;
 
 export const InputField = (props: Props): JSX.Element => {

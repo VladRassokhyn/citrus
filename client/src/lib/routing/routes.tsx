@@ -10,6 +10,7 @@ import { Salesmans } from '../../pages/Analitics/Salesmans';
 import { DayDetail } from '../../pages/Analitics/DayDetail';
 import { paths } from '.';
 import { User as UserType } from '../slices/users';
+import { Shops } from '../../pages/Analitics/Shops';
 
 type Props = {
   authUser: UserType;
@@ -76,6 +77,14 @@ export const routes: RouteItem[] = [
       {
         path: paths.ANALYTICS.MAIN.BY_SALES_DATE(),
         component: DayDetail,
+        exact: false,
+        private: true,
+        roles: null,
+        routes: [],
+      },
+      {
+        path: paths.ANALYTICS.SHOPS.BASE(),
+        component: Shops,
         exact: false,
         private: true,
         roles: null,

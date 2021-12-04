@@ -68,7 +68,7 @@ export const Analitic = (props: Props): JSX.Element => {
       )}
       <PlanesPanel planes={planes} />
       <Container>
-        <Navigation />
+        <Navigation authUser={props.authUser} />
         <RouterController routes={props.routes} />
       </Container>
     </>

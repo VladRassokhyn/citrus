@@ -2,6 +2,12 @@ import styled, { keyframes } from 'styled-components';
 import { slideInLeft } from 'react-animations';
 import { NavItem } from './NavItem';
 import { paths } from '../../../lib/routing';
+import { User } from '../../../lib/slices/users';
+import { UserRoles } from '../../../lib/globalTypes';
+
+type Props = {
+  authUser: User;
+};
 
 const animationIn = keyframes`${slideInLeft}`;
 
@@ -22,7 +28,7 @@ const H1 = styled.h1`
   font-size: 12pt;
 `;
 
-export const Navigation = (): JSX.Element => {
+export const Navigation = (props: Props): JSX.Element => {
   return (
     <Wrapper>
       <NavItem path={paths.ANALYTICS.MAIN.BASE()}>
@@ -34,6 +40,13 @@ export const Navigation = (): JSX.Element => {
       <NavItem path={paths.ANALYTICS.EVENING_REPORT.BASE()}>
         <H1>Вечерний отчет</H1>
       </NavItem>
+      {props.authUser.role === UserRoles.ADMIN && (
+        <>
+          <NavItem path={paths.ANALYTICS.SHOPS.BASE()}>
+            <H1>Магазины</H1>
+          </NavItem>
+        </>
+      )}
     </Wrapper>
   );
 };

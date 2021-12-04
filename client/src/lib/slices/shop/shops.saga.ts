@@ -7,8 +7,8 @@ import { PostShopPayload, Shop } from './shop.type';
 
 function* getWorker(): SagaIterator {
   try {
-    const shops = yield call(shopApi.getShops);
-    yield put(shopActions.setShops(shops));
+    const res = yield call(shopApi.getShops);
+    yield put(shopActions.setShops(res.data));
   } catch (e) {
     console.log(e);
   }
@@ -18,6 +18,7 @@ function* postWorker(action: Action<PostShopPayload>): SagaIterator {
   try {
     yield call(shopApi.postShops, action.payload);
     yield put(shopActions.shopPosted());
+    yield put(shopActions.getShops());
   } catch (e) {
     console.log(e);
   }
@@ -27,6 +28,7 @@ function* updateWorker(action: Action<Shop>): SagaIterator {
   try {
     yield call(shopApi.updateShops, action.payload);
     yield put(shopActions.shopUpdated());
+    yield put(shopActions.getShops());
   } catch (e) {
     console.log(e);
   }
@@ -36,6 +38,7 @@ function* deleteWorker(action: Action<number>): SagaIterator {
   try {
     yield call(shopApi.deleteShops, action.payload);
     yield put(shopActions.shopDeleted());
+    yield put(shopActions.getShops());
   } catch (e) {
     console.log(e);
   }

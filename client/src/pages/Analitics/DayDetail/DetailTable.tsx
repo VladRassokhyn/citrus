@@ -157,24 +157,32 @@ export const DetailTable = (props: Props): JSX.Element => {
                     <H2>{getShortName(column.fn(salesman) as string)}</H2>
                   </NameCell>
                 );
-              } else if (i === 3 || i === 6) {
+              } else if (i === 3) {
+                const isZero = +salesman[1] === 0 && +salesman[8] === 0;
                 return (
                   <CellWithFill key={salesman[0]}>
                     <FilledCell
-                      width={
-                        i === 3
-                          ? (+column.fn(salesman) / planes.to_cm) * 100
-                          : (+column.fn(salesman) / planes.to_cz) * 100
-                      }
-                      color={'#b8f2c5'}
+                      width={(+column.fn(salesman) / planes.to_cm) * 100}
+                      color={isZero ? '#ffcccc' : '#b8f2c5'}
                     />
-                    <H3>{column.fn(salesman)}</H3>
+                    <H3>{isZero ? (0.001).toFixed(2) : column.fn(salesman)}</H3>
+                  </CellWithFill>
+                );
+              } else if (i === 6) {
+                const isZero = +salesman[1] === 0 && +salesman[10] === 0;
+                return (
+                  <CellWithFill key={salesman[0]}>
+                    <FilledCell
+                      width={(+column.fn(salesman) / planes.to_cz) * 100}
+                      color={isZero ? '#ffcccc' : '#b8f2c5'}
+                    />
+                    <H3>{isZero ? (0.001).toFixed(2) : column.fn(salesman)}</H3>
                   </CellWithFill>
                 );
               } else if (i === 4 || i === 7) {
                 return (
                   <Cell key={salesman[0]}>
-                    <H4>{column.fn(salesman) >= 0 ? 'В доле' : column.fn(salesman)}</H4>
+                    <H4>{column.fn(salesman) > 0 ? 'В доле' : column.fn(salesman)}</H4>
                   </Cell>
                 );
               } else {

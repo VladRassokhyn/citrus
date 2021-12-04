@@ -28,5 +28,8 @@ export const paths = {
     SALESMANS: {
       BASE: pathMaker('/analytics/salesmans'),
     },
+    SHOPS: {
+      BASE: pathMaker('/analytics/shops'),
+    },
   },
 };

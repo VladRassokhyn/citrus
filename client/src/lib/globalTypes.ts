@@ -11,6 +11,7 @@ export enum UserRoles {
   ADMIN = 'ADMIN',
   SALESMAN = 'SALESMAN',
   MANAGER = 'MANAGER',
+  PPC = 'PPC'
 }
 
 export enum TT {
