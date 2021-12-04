@@ -11,6 +11,7 @@ import { useHistory } from 'react-router';
 import { Planes } from '../../../lib/slices/planes/planes.type';
 import { Sales } from '../../../lib/slices/sales/sales.type';
 import { getCalcFns } from '../../../lib/common';
+import { Shop } from '../../../lib/slices/shop';
 
 type Props = {
   ttSales: (string | number)[] | undefined;
@@ -19,7 +20,7 @@ type Props = {
   monthSales: Sales;
   planes?: Planes;
   sales: Sales | undefined;
-  tt: { label: string; value: string };
+  tt: Shop;
   isWeekend?: boolean;
   isEmpty: boolean;
 };
@@ -146,7 +147,7 @@ export const CalendarDay = memo(
       dispatch(
         salesActions.postSales({
           sales: payload.sales,
-          tt: tt.value,
+          tt: tt.name,
           day: title,
           month: parseInt(title.split('.')[1]) - 1,
           year: title.split('.')[2],
@@ -162,14 +163,14 @@ export const CalendarDay = memo(
             year: title.split('.')[2],
             sales: payload.sales,
             id: sales.id,
-            tt: tt.value,
+            tt: tt.name,
             day: title,
           }),
         );
     };
 
     const handleDaleteDaySales = () => {
-      sales && dispatch(salesActions.deleteSales({ ...sales, tt: tt.value }));
+      sales && dispatch(salesActions.deleteSales({ ...sales, tt: tt.name }));
     };
 
     const handleInfo = () => {

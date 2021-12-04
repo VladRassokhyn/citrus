@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { Planes } from '../../../lib/slices/planes/planes.type';
-import { salesActions } from '../../../lib/slices/sales';
 import { Sales } from '../../../lib/slices/sales/sales.type';
 
 type Props = {

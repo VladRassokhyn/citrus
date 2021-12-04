@@ -16,12 +16,12 @@ router.route('/').get(async (req, res) => {
   const salesByTT = await salesRepo.find({ tt, month, year });
   let salesmansNames: string[] = [];
 
-  if (tt === 'KIEV_ALL') {
+  if (tt !== 'KIEV_ALL') {
     const salesmans = await salesmanRepo.find({ tt });
     salesmansNames = salesmans.map((salesman) => salesman.name);
   } else {
     const shops = await shopRepo.find();
-    salesmansNames = shops.map((shop) => shop.name);
+    salesmansNames = shops.map((shop) => shop.name_1c);
   }
 
   const parsedSales: any[] = [];

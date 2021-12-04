@@ -11,10 +11,13 @@ import { DayDetail } from '../../pages/Analitics/DayDetail';
 import { paths } from '.';
 import { User as UserType } from '../slices/users';
 import { Shops } from '../../pages/Analitics/Shops';
+import { Shop } from '../slices/shop';
 
 type Props = {
   authUser: UserType;
   routes: RouteItem[];
+  currentShop: Shop;
+  setCurrentShop: (shop: Shop) => void;
 };
 
 export type RouteItem = {

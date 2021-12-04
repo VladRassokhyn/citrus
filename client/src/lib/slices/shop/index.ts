@@ -1,6 +1,6 @@
 import { Shop } from './shop.type';
 import { shopWatcher } from './shops.saga';
-import { allShops, status } from './shop.selectors';
+import { allShops, status, byCodeName } from './shop.selectors';
 import {
   shopReducer,
   getShops,
@@ -16,6 +16,7 @@ import {
 export const shopSelectors = {
   allShops,
   status,
+  byCodeName,
 };
 export const shopActions = {
   getShops,

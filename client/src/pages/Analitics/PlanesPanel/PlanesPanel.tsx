@@ -9,10 +9,11 @@ import { Planes } from '../../../lib/slices/planes/planes.type';
 import edit from '../../../static/edit.svg';
 import { slideInDown } from 'react-animations';
 import { salesSelectors } from '../../../lib/slices/sales';
-import { authSelectors } from '../../../lib/slices/auth';
+import { Shop } from '../../../lib/slices/shop';
 
 type Props = {
   planes: Planes;
+  currentShop: Shop;
 };
 
 const animationIn = keyframes`${slideInDown}`;
@@ -129,7 +130,6 @@ export const PlanesPanel = (props: Props): JSX.Element => {
   const { planes } = props;
   const updateStatus = useTypedSelector(planesSelectors.selectUpdateStatus);
   const { month, year } = useTypedSelector(salesSelectors.selectMonth);
-  const authUser = useTypedSelector(authSelectors.selectAuthUser);
   const [isEditMode, setIsEditMode] = useState(false);
   const dispatch = useDispatch();
 
@@ -154,14 +154,14 @@ export const PlanesPanel = (props: Props): JSX.Element => {
       dispatch(
         planesActions.updatePlanes({
           planes: { id: planes.id, ...newPlanes },
-          tt: authUser!.tt.value,
+          tt: props.currentShop.name,
         }),
       );
     } else {
       dispatch(
         planesActions.postPlanes({
-          planes: { ...newPlanes, month, year, tt: authUser!.tt.value },
-          tt: authUser!.tt.value,
+          planes: { ...newPlanes, month, year, tt: props.currentShop.name },
+          tt: props.currentShop.name,
         }),
       );
     }

@@ -7,12 +7,14 @@ import { User } from '../../../lib/slices/users';
 import { WeekTitle } from './WeekTitle';
 import { useTypedSelector } from '../../../lib/hooks';
 import { salesSelectors } from '../../../lib/slices/sales';
+import { Shop } from '../../../lib/slices/shop';
 
 type Props = {
   sales: Sales[];
   authUser: User;
   planes: Planes;
   days: (string | null)[];
+  currentShop: Shop;
 };
 
 const Wrapper = styled.div`
@@ -81,7 +83,7 @@ const H1 = styled.h1<{ color: string }>`
 `;
 
 export const Calendar = (props: Props): JSX.Element => {
-  const { sales, authUser, planes, days } = props;
+  const { sales, planes, days } = props;
   const calcFns = getCalcFns();
   const weekSales: Sales[] = [];
   const { month } = useTypedSelector(salesSelectors.selectMonth);
@@ -105,7 +107,7 @@ export const Calendar = (props: Props): JSX.Element => {
         isWeekend={isWeekend}
         delay={i}
         monthSales={monthSales}
-        tt={authUser.tt}
+        tt={props.currentShop}
         planes={planes}
         title={day ? day.split(' ')[1] : ''}
         key={i}

@@ -4,9 +4,9 @@ import styled from 'styled-components';
 import { Preloader } from '../../../Components/Preloader';
 import { getCalcFns, getDaysFormated } from '../../../lib/common';
 import { useTypedSelector } from '../../../lib/hooks';
-import { authSelectors } from '../../../lib/slices/auth';
 import { planesSelectors } from '../../../lib/slices/planes';
 import { salesActions, salesSelectors } from '../../../lib/slices/sales';
+import { Shop } from '../../../lib/slices/shop';
 import { User } from '../../../lib/slices/users';
 import { Calendar } from '../Calendar';
 import { Circle } from '../Circle';
@@ -17,6 +17,7 @@ import { MonthHeader } from './MonthHeader';
 
 type Props = {
   authUser: User;
+  currentShop: Shop;
 };
 
 const Wrapper = styled.div``;
@@ -120,7 +121,13 @@ export const MainAnalitics = (props: Props): JSX.Element => {
         />
       </DetailContainer>
 
-      <Calendar sales={sales} planes={planes} authUser={props.authUser} days={days} />
+      <Calendar
+        sales={sales}
+        planes={planes}
+        authUser={props.authUser}
+        days={days}
+        currentShop={props.currentShop}
+      />
     </Wrapper>
   );
 };
