@@ -1,11 +1,12 @@
-import { reverse } from 'dns';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
+import { useTypedSelector } from '../../../lib/hooks';
 import { Planes } from '../../../lib/slices/planes/planes.type';
 import { Sales } from '../../../lib/slices/sales/sales.type';
+import { Shop, shopSelectors } from '../../../lib/slices/shop';
 
 type Props = {
+  currentShop?: Shop;
   columns: {
     label: string;
     fn: (sales: (string | number)[]) => string | number;
@@ -120,7 +121,7 @@ export const DetailTable = (props: Props): JSX.Element => {
   const { columns, thisDay, ttSales, planes } = props;
   const [sortReverse, setSortReverse] = useState(false);
   const [sales, setSales] = useState(thisDay);
-  const dispatch = useDispatch();
+  const shops = useTypedSelector(shopSelectors.allShops);
 
   const sortByFn = (fn: (arg: (string | number)[]) => string | number) => {
     if (thisDay) {
@@ -145,15 +146,13 @@ export const DetailTable = (props: Props): JSX.Element => {
             </Head>
 
             <TTHead>
-              <Cell>
-                <H2>{column.fn(ttSales)}</H2>
-              </Cell>
+              <Cell>{!props.currentShop && <H2>{column.fn(ttSales)}</H2>}</Cell>
             </TTHead>
             {sales.sales.map((salesman) => {
               if (i === 0) {
                 return (
                   <NameCell key={salesman[0]}>
-                    <H2>{getShortName(column.fn(salesman) as string)}</H2>
+                    <H2>{getShortName(column.fn(salesman) as string, shops, props.currentShop)}</H2>
                   </NameCell>
                 );
               } else if (i === 3) {
@@ -202,6 +201,10 @@ export const DetailTable = (props: Props): JSX.Element => {
   );
 };
 
-function getShortName(fullName: string) {
+function getShortName(fullName: string, shops: Shop[] | null, currentShop: Shop | undefined) {
+  if (shops && currentShop && currentShop.name === 'KIEV_ALL') {
+    const match = shops.find((shop) => shop.name_1c === fullName);
+    return match && (match.shortName as string);
+  }
   return `${fullName.split(' ')[0]} ${fullName.split(' ')[1]}`;
 }

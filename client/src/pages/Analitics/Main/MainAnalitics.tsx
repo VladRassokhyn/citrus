@@ -114,6 +114,7 @@ export const MainAnalitics = (props: Props): JSX.Element => {
 
       <DetailContainer>
         <DetailTable
+          currentShop={props.currentShop}
           thisDay={mountSales}
           columns={getColumns(planes)}
           planes={planes}
