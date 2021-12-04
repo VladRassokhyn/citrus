@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.salesRouter = void 0;
+const Shop_model_1 = require("./../../entities/Shop.model");
 const entities_1 = require("./../../entities");
 const typeorm_1 = require("typeorm");
 const express_1 = require("express");
@@ -11,9 +12,17 @@ router.route('/').get(async (req, res) => {
     const year = String(req.query['year']);
     const salesRepo = (0, typeorm_1.getRepository)(entities_1.Sales);
     const salesmanRepo = (0, typeorm_1.getRepository)(entities_1.Salesman);
+    const shopRepo = (0, typeorm_1.getRepository)(Shop_model_1.Shop);
     const salesByTT = await salesRepo.find({ tt, month, year });
-    const salesmans = await salesmanRepo.find({ tt });
-    const salesmansNames = salesmans.map((salesman) => salesman.name);
+    let salesmansNames = [];
+    if (tt === 'KIEV_ALL') {
+        const salesmans = await salesmanRepo.find({ tt });
+        salesmansNames = salesmans.map((salesman) => salesman.name);
+    }
+    else {
+        const shops = await shopRepo.find();
+        salesmansNames = shops.map((shop) => shop.name);
+    }
     const parsedSales = [];
     salesByTT.forEach((item) => {
         parsedSales.push({ ...item, sales: parse(String(item.sales)) });

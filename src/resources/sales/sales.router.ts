@@ -1,3 +1,4 @@
+import { Shop } from './../../entities/Shop.model';
 import { Sales, Salesman } from './../../entities';
 import { getRepository } from 'typeorm';
 import { Router } from 'express';
@@ -11,9 +12,17 @@ router.route('/').get(async (req, res) => {
 
   const salesRepo = getRepository(Sales);
   const salesmanRepo = getRepository(Salesman);
+  const shopRepo = getRepository(Shop);
   const salesByTT = await salesRepo.find({ tt, month, year });
-  const salesmans = await salesmanRepo.find({ tt });
-  const salesmansNames = salesmans.map((salesman: Salesman) => salesman.name);
+  let salesmansNames: string[] = [];
+
+  if (tt === 'KIEV_ALL') {
+    const salesmans = await salesmanRepo.find({ tt });
+    salesmansNames = salesmans.map((salesman) => salesman.name);
+  } else {
+    const shops = await shopRepo.find();
+    salesmansNames = shops.map((shop) => shop.name);
+  }
 
   const parsedSales: any[] = [];
   salesByTT.forEach((item: any) => {

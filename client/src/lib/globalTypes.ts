@@ -11,7 +11,7 @@ export enum UserRoles {
   ADMIN = 'ADMIN',
   SALESMAN = 'SALESMAN',
   MANAGER = 'MANAGER',
-  PPC = 'PPC'
+  PPC = 'PPC',
 }
 
 export enum TT {
@@ -82,6 +82,7 @@ export type Salesman = {
 };
 
 export const TTselectorOptions = [
+  { label: 'Киевский Регион', value: 'KIEV_ALL' },
   { label: TTlabel.KR29, value: TT.KR29 },
   { label: TTlabel.KR52, value: TT.KR52 },
   { label: TTlabel.BV23, value: TT.BV23 },
