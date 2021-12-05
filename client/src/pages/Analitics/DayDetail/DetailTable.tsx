@@ -20,6 +20,7 @@ type CellProps = {
   width?: number;
   color?: string;
   isZeroOrNegative?: boolean;
+  selected?: boolean;
 };
 
 const FilledCell = styled.div<CellProps>`
@@ -29,7 +30,8 @@ const FilledCell = styled.div<CellProps>`
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  border-bottom: 1px solid #dfdfdf;
+  transition: linear 0.1s;
+  height: ${(props) => (props.selected ? '30px' : '20px')};
 `;
 
 const Wrapper = styled.div`
@@ -51,20 +53,23 @@ const Cell = styled.div<CellProps>`
   align-items: center;
   justify-content: flex-end;
   padding-right: 10px;
-  height: 20px;
-  transition: linear 0.3s;
-  border-bottom: 1px solid #dfdfdf;
+
+  height: ${(props) => (props.selected ? '30px' : '20px')};
+  transition: linear 0.1s;
   background-color: ${(props) => props.isZeroOrNegative && '#ffcccc'} !important;
+  border-bottom: 1px solid ${(props) => (props.selected ? 'var(--color-button)' : '#dfdfdf')};
+  ${(props) => props.selected && 'border-top: 1px solid var(--color-button);'};
   &:nth-child(even) {
     background-color: #f2f2f2;
   }
 `;
 
-const CellWithFill = styled.div`
-  height: 20px;
-  transition: linear 0.3s;
-  border-bottom: 1px solid #dfdfdf;
+const CellWithFill = styled.div<CellProps>`
+  height: ${(props) => (props.selected ? '30px' : '20px')};
+  transition: linear 0.1s;
   border-right: 1px solid #dfdfdf;
+  border-bottom: 1px solid ${(props) => (props.selected ? 'var(--color-button)' : '#dfdfdf')};
+  ${(props) => props.selected && 'border-top: 1px solid var(--color-button);'};
   &:nth-child(even) {
     background-color: #f2f2f2;
   }
@@ -139,22 +144,28 @@ const H4 = styled.h1`
   color: var(--color-stroke);
 `;
 
-const NameCell = styled.div`
+const NameCell = styled.div<CellProps>`
   border-right: 1px solid #dfdfdf;
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  height: 20px;
+  height: ${(props) => (props.selected ? '30px' : '20px')};
   padding-left: 10px;
-  border-bottom: 1px solid #dfdfdf;
+  transition: linear 0.1s;
+  border-bottom: 1px solid ${(props) => (props.selected ? 'var(--color-button)' : '#dfdfdf')};
+  ${(props) => props.selected && 'border-top: 1px solid var(--color-button);'};
   &:nth-child(even) {
     background-color: #f2f2f2;
+  }
+  &:hover {
+    cursor: pointer;
   }
 `;
 
 export const DetailTable = (props: Props): JSX.Element => {
   const { columns, thisDay, ttSales, planes } = props;
   const [sortReverse, setSortReverse] = useState(false);
+  const [selectedRow, setSelectedRow] = useState(-1);
   const [sales, setSales] = useState(thisDay);
   const shops = useTypedSelector(shopSelectors.allShops);
 
@@ -166,6 +177,14 @@ export const DetailTable = (props: Props): JSX.Element => {
       }
       setSales({ ...sales, sales: sortedSales });
       setSortReverse((prev) => !prev);
+    }
+  };
+
+  const handleSelectRow = (j: number) => {
+    if (j === selectedRow) {
+      setSelectedRow(-1);
+    } else {
+      setSelectedRow(j);
     }
   };
 
@@ -207,18 +226,23 @@ export const DetailTable = (props: Props): JSX.Element => {
                 <H2>{i === 0 ? props.currentShop.shortName : column.fn(ttSales)}</H2>
               </Cell>
             </TTHead>
-            {sales.sales.map((salesman) => {
+            {sales.sales.map((salesman, j) => {
               if (i === 0) {
                 return (
-                  <NameCell key={salesman[0]}>
+                  <NameCell
+                    selected={j === selectedRow}
+                    key={salesman[0]}
+                    onClick={() => handleSelectRow(j)}
+                  >
                     <H2>{getShortName(shops!, column.fn(salesman) as string)}</H2>
                   </NameCell>
                 );
               } else if (i === 3) {
                 const isZero = +salesman[1] === 0 && +salesman[8] === 0;
                 return (
-                  <CellWithFill key={salesman[0]}>
+                  <CellWithFill selected={j === selectedRow} key={salesman[0]}>
                     <FilledCell
+                      selected={j === selectedRow}
                       width={(+column.fn(salesman) / planes.to_cm) * 100}
                       color={isZero ? '#ffcccc' : '#b8f2c5'}
                     />
@@ -228,8 +252,9 @@ export const DetailTable = (props: Props): JSX.Element => {
               } else if (i === 6) {
                 const isZero = +salesman[1] === 0 && +salesman[10] === 0;
                 return (
-                  <CellWithFill key={salesman[0]}>
+                  <CellWithFill selected={j === selectedRow} key={salesman[0]}>
                     <FilledCell
+                      selected={j === selectedRow}
                       width={(+column.fn(salesman) / planes.to_cz) * 100}
                       color={isZero ? '#ffcccc' : '#b8f2c5'}
                     />
@@ -238,7 +263,7 @@ export const DetailTable = (props: Props): JSX.Element => {
                 );
               } else if (i === 4 || i === 7) {
                 return (
-                  <Cell key={salesman[0]}>
+                  <Cell selected={j === selectedRow} key={salesman[0]}>
                     <H4>
                       {column.fn(salesman) > 0
                         ? 'В доле'
@@ -249,6 +274,7 @@ export const DetailTable = (props: Props): JSX.Element => {
               } else {
                 return (
                   <Cell
+                    selected={j === selectedRow}
                     key={salesman[0]}
                     isZeroOrNegative={column.fn(salesman) === 0 || column.fn(salesman) < 0}
                   >
