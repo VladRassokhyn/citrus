@@ -17,7 +17,6 @@ type Props = {
   authUser: UserType;
   routes: RouteItem[];
   currentShop: Shop;
-  setCurrentShop: (shop: Shop) => void;
 };
 
 export type RouteItem = {

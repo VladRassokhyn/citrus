@@ -5,9 +5,14 @@ import { getCalcFns } from '../../../lib/common';
 import { useTypedSelector } from '../../../lib/hooks';
 import { planesSelectors } from '../../../lib/slices/planes';
 import { salesSelectors } from '../../../lib/slices/sales';
+import { Shop } from '../../../lib/slices/shop';
 import { Circle } from '../Circle/Circle';
 import { DetailTable } from './DetailTable';
 import { getColumns } from './getColumns';
+
+type Props = {
+  currentShop: Shop;
+};
 
 const Wrapper = styled.div``;
 
@@ -53,7 +58,7 @@ const Circles = styled.div`
   justify-content: space-around;
 `;
 
-export const DayDetail = (): JSX.Element => {
+export const DayDetail = (props: Props): JSX.Element => {
   const salesDate = useParams<{ salesDate: string }>().salesDate.replace(/[^0-9]/g, '.');
   const thisDay = useTypedSelector(salesSelectors.selectSalesByDate(salesDate));
   const sales = useTypedSelector(salesSelectors.selectAllSales);
@@ -103,7 +108,13 @@ export const DayDetail = (): JSX.Element => {
         </CircleContent>
       </CirclesContainer>
 
-      <DetailTable planes={planes} thisDay={thisDay} columns={columns} ttSales={thisDay.ttSales} />
+      <DetailTable
+        currentShop={props.currentShop}
+        planes={planes}
+        thisDay={thisDay}
+        columns={columns}
+        ttSales={thisDay.ttSales}
+      />
     </Wrapper>
   );
 };

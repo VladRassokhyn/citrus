@@ -7,12 +7,12 @@ import { Redirect } from 'react-router';
 import { useTypedSelector } from '../../../lib/hooks';
 import { planesSelectors } from '../../../lib/slices/planes';
 import { paths } from '../../../lib/routing';
-import { User } from '../../../lib/slices/users';
+import { Shop } from '../../../lib/slices/shop';
 import { Sales } from '../../../lib/slices/sales';
 import { Planes } from '../../../lib/slices/planes/planes.type';
 
 type Props = {
-  authUser: User;
+  currentShop: Shop;
   sales: Sales[];
   day: number;
   month: number;
@@ -164,7 +164,7 @@ const Button = styled.button`
 `;
 
 export const EveningReportTable = (props: Props): JSX.Element => {
-  const { day, month, sales, authUser } = props;
+  const { day, month, sales, currentShop } = props;
   const [screenshot, setScreenshot] = useState<string | null>(null);
   const planes = useTypedSelector<Planes | null>(planesSelectors.selectPlanes);
 
@@ -262,7 +262,7 @@ export const EveningReportTable = (props: Props): JSX.Element => {
       <Button onClick={onScreenshot}>Сделать скрин</Button>
       <div id={'evening-report'}>
         <ScreenContainer>
-          <H3>{authUser.tt.label}</H3>
+          <H3>{currentShop.shortName}</H3>
           <Container>
             <H1>МЕСЯЦ</H1>
             <Row>

@@ -1,4 +1,4 @@
-import { Planes } from "../../../lib/slices/planes/planes.type";
+import { Planes } from '../../../lib/slices/planes/planes.type';
 
 type Column = {
   label: string;
@@ -16,11 +16,11 @@ export function getColumns(planes: Planes): Column[] {
       fn: (sale: (string | number)[]) => sale[1],
     },
     {
-      label: 'ЦМ',
+      label: 'Сумма',
       fn: (sale: (string | number)[]) => sale[8],
     },
     {
-      label: 'Доля ЦМ',
+      label: 'Доля',
       fn: (sale: (string | number)[]) => {
         if (+sale[1] === 0) {
           return 100;
@@ -35,11 +35,11 @@ export function getColumns(planes: Planes): Column[] {
         (+sale[8] - (parseFloat(planes.to_cm + '') / 100) * +sale[1]).toFixed(0),
     },
     {
-      label: 'ЦЗ',
+      label: 'Сумма',
       fn: (sale: (string | number)[]) => sale[10],
     },
     {
-      label: 'Доля ЦЗ',
+      label: 'Доля',
       fn: (sale: (string | number)[]) => {
         if (+sale[1] === 0) {
           return 100;
@@ -53,6 +53,11 @@ export function getColumns(planes: Planes): Column[] {
       fn: (sale: (string | number)[]) => {
         return (+sale[10] - (parseFloat(planes.to_cz + '') / 100) * +sale[1]).toFixed(0);
       },
+    },
+
+    {
+      label: 'Тотал',
+      fn: (sale: (string | number)[]) => +sale[12] + +sale[10] + +sale[8],
     },
     {
       label: 'ЦА',

@@ -8,9 +8,15 @@ import { Confirm } from '../../../Components/Confirm';
 import { useEffect } from 'react';
 import { useTypedSelector } from '../../../lib/hooks';
 import { Preloader } from '../../../Components/Preloader';
-import { authSelectors } from '../../../lib/slices/auth';
+import { Shop } from '../../../lib/slices/shop';
 
-const Wrapper = styled.div``;
+type Props = {
+  currentShop: Shop;
+};
+
+const Wrapper = styled.div`
+  min-width: 560px;
+`;
 
 const Container = styled.div`
   margin-top: 30px;
@@ -60,8 +66,7 @@ const Img = styled.img`
   width: 15px;
 `;
 
-export const Salesmans = (): JSX.Element => {
-  const authUser = useTypedSelector(authSelectors.selectAuthUser);
+export const Salesmans = (props: Props): JSX.Element => {
   const salesmans = useTypedSelector(salesmanSelectors.selectAllSalesmans);
   const { getStatus } = useTypedSelector(salesmanSelectors.selectSalesmanStatuses);
   const dispatch = useDispatch();
@@ -71,16 +76,16 @@ export const Salesmans = (): JSX.Element => {
   };
 
   useEffect(() => {
-    if (authUser) dispatch(salesmanActions.getSalesmans(authUser.tt.value));
+    dispatch(salesmanActions.getSalesmans(props.currentShop.name));
   }, []);
 
-  if (getStatus === LoadingStatuses.LOADING || !authUser) {
+  if (getStatus === LoadingStatuses.LOADING) {
     return <Preloader />;
   }
 
   return (
     <Wrapper>
-      <NewSalesman tt={authUser.tt} />
+      <NewSalesman currentShop={props.currentShop} />
       <Container>
         {salesmans?.map((salesman, i) => (
           <SalesmanContainer key={salesman.id}>

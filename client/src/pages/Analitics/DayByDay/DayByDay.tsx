@@ -24,7 +24,7 @@ const barAnimation = keyframes`
 
 const Bar = styled.div<StyleProps>`
   width: ${(props) => (props.salfe ? '100%' : '33%')};
-  height: ${(props) => props.barHeight}px;
+  height: ${(props) => props.barHeight}%;
   background-color: ${(props) => props.color};
   animation: ${barAnimation} linear 0.5s;
 `;

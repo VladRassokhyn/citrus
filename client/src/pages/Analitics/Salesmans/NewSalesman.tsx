@@ -3,9 +3,10 @@ import { useDispatch } from 'react-redux';
 import styled, { keyframes } from 'styled-components';
 import { InputField } from '../../../Components/InputField';
 import { salesmanActions } from '../../../lib/slices/salesman';
+import { Shop } from '../../../lib/slices/shop';
 
 type Props = {
-  tt: { label: string; value: string };
+  currentShop: Shop;
 };
 
 type StyleProps = {
@@ -64,7 +65,7 @@ export const NewSalesman = (props: Props): JSX.Element => {
     dispatch(
       salesmanActions.postSalesman({
         name: value,
-        tt: props.tt.value,
+        tt: props.currentShop.name,
       }),
     );
   }, [value]);

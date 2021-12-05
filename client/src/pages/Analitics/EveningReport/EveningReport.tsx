@@ -3,11 +3,13 @@ import styled from 'styled-components';
 import { DayRange } from '../../../Components/DayRange';
 import { useTypedSelector } from '../../../lib/hooks';
 import { salesSelectors } from '../../../lib/slices/sales';
+import { Shop } from '../../../lib/slices/shop';
 import { User } from '../../../lib/slices/users';
 import { EveningReportTable } from './EveningReportTable';
 
 type Props = {
   authUser: User;
+  currentShop: Shop;
 };
 
 const Wrapper = styled.div`
@@ -36,7 +38,7 @@ export const EveningReport = (props: Props): JSX.Element => {
       {sales && sales.length !== 0 ? (
         <EveningReportTable
           sales={sales}
-          authUser={props.authUser}
+          currentShop={props.currentShop}
           day={dayTo}
           month={parseInt(sales[0].day.split('.')[1])}
         />

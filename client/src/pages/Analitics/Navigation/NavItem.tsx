@@ -6,6 +6,7 @@ import styled from 'styled-components';
 type Props = {
   children: JSX.Element | JSX.Element[];
   path: string;
+  handleOpen: () => void;
 };
 
 type StyleProps = {
@@ -28,7 +29,7 @@ const Wrapper = styled.div<StyleProps>`
 `;
 
 export const NavItem = (props: Props): JSX.Element => {
-  const { children, path } = props;
+  const { children, path, handleOpen } = props;
   const [active, setActive] = useState(false);
   const location = useLocation();
 
@@ -42,7 +43,9 @@ export const NavItem = (props: Props): JSX.Element => {
 
   return (
     <Link to={path}>
-      <Wrapper active={active}>{children}</Wrapper>
+      <Wrapper active={active} onClick={handleOpen}>
+        {children}
+      </Wrapper>
     </Link>
   );
 };

@@ -5,6 +5,7 @@ import { PostShopPayload, Shop, ShopInitialState } from './shop.type';
 const initialState: ShopInitialState = {
   status: LoadingStatuses.IDLE,
   shops: null,
+  currentShop: null,
 };
 
 const shopSlice = createSlice({
@@ -16,6 +17,10 @@ const shopSlice = createSlice({
     },
     setShops(state, action: Action<Shop[]>) {
       state.shops = action.payload;
+      state.status = LoadingStatuses.SUCCESS;
+    },
+    setCurrentShop(state, action: Action<Shop>) {
+      state.currentShop = action.payload;
     },
     postShop(state, action: Action<PostShopPayload>) {
       state.status = LoadingStatuses.LOADING;
@@ -47,6 +52,7 @@ export const {
   shopUpdated,
   deleteShop,
   shopDeleted,
+  setCurrentShop,
 } = shopSlice.actions;
 
 export const shopReducer = shopSlice.reducer;

@@ -3,6 +3,7 @@ import { LoadingStatuses } from './../../globalTypes';
 export type ShopInitialState = {
   status: LoadingStatuses;
   shops: Shop[] | null;
+  currentShop: Shop | null;
 };
 
 export type Shop = {
