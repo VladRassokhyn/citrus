@@ -54,7 +54,7 @@ const Cell = styled.div<CellProps>`
   height: 20px;
   transition: linear 0.3s;
   border-bottom: 1px solid #dfdfdf;
-  background-color: ${(props) => props.isZeroOrNegative && '#ffcccc'};
+  background-color: ${(props) => props.isZeroOrNegative && '#ffcccc'} !important;
   &:nth-child(even) {
     background-color: #f2f2f2;
   }
