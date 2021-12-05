@@ -10,12 +10,13 @@ router.route('/').get(async (req, res) => {
     const tt = String(req.query['tt']);
     const month = String(req.query['month']);
     const year = String(req.query['year']);
+    const isPPC = tt === 'KIEV_ALL';
     const salesRepo = (0, typeorm_1.getRepository)(entities_1.Sales);
     const salesmanRepo = (0, typeorm_1.getRepository)(entities_1.Salesman);
     const shopRepo = (0, typeorm_1.getRepository)(Shop_model_1.Shop);
     const salesByTT = await salesRepo.find({ tt, month, year });
     let salesmansNames = [];
-    if (tt !== 'KIEV_ALL') {
+    if (!isPPC) {
         const salesmans = await salesmanRepo.find({ tt });
         salesmansNames = salesmans.map((salesman) => salesman.name);
     }
@@ -27,12 +28,34 @@ router.route('/').get(async (req, res) => {
     salesByTT.forEach((item) => {
         parsedSales.push({ ...item, sales: parse(String(item.sales)) });
     });
+    const regions = [
+        'Винницкий регион',
+        'Ивано-Франковский регион',
+        'Киевский регион',
+        'Львовский регион',
+        'Черниговский регион',
+    ];
     const sales = [];
     parsedSales.forEach((salesItem) => {
         const items = [];
         let ttSales = [];
         salesItem.sales.forEach((item, index) => {
-            if (index === 3) {
+            if (isPPC) {
+                if (regions.includes(item[0])) {
+                    if (ttSales.length === 0) {
+                        ttSales = item;
+                    }
+                    else {
+                        ttSales.forEach((sale, i) => {
+                            if (i !== 0) {
+                                ttSales[i] += item[i];
+                            }
+                        });
+                        ttSales[0] = 'Киевский регион';
+                    }
+                }
+            }
+            else if (index === 3) {
                 ttSales = item;
             }
             if (salesmansNames.includes(item[0])) {
