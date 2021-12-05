@@ -58,7 +58,7 @@ router.route('/').get(async (req, res) => {
             else if (index === 3) {
                 ttSales = item;
             }
-            if (salesmansNames.includes(item[0])) {
+            if (salesmansNames.includes(item[0]) && item[0] !== 'Киевский регион') {
                 items.push(item);
             }
         });

@@ -13,7 +13,7 @@ type Props = {
 const animationIn = keyframes`${slideInLeft}`;
 
 const Wrapper = styled.div`
-  width: 300px;
+  width: 100px;
   height: 40px;
   position: absolute;
   left: 15px;
@@ -22,7 +22,7 @@ const Wrapper = styled.div`
 
 const Container = styled.div`
   z-index: 900;
-  width: 100%;
+  width: 200px;
   background-color: white;
   box-shadow: 0 0 5px #dfdfdf;
   min-height: 421px;
@@ -44,7 +44,7 @@ const Menu = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 300px;
+  width: 100px;
   height: 40px;
   border-bottom: 1px solid #dfdfdf;
   transition: linear 0.3s;
