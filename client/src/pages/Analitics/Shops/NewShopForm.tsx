@@ -55,10 +55,11 @@ export const NewShopForm = (props: Props): JSX.Element => {
       name: shop?.name || '',
       shortName: shop?.shortName || '',
       name_1c: shop?.name_1c || '',
+      region: shop?.region || '',
     },
   });
 
-  const handleSave = (e: { name: string; shortName: string; name_1c: string }) => {
+  const handleSave = (e: { name: string; shortName: string; name_1c: string; region: string }) => {
     if (shop) {
       dispatch(shopActions.updateShop({ ...e, id: shop.id }));
     } else {
@@ -71,6 +72,7 @@ export const NewShopForm = (props: Props): JSX.Element => {
       <InputField label={'Кодовое имя'} register={{ ...register('name') }} />
       <InputField label={'Короткое имя'} register={{ ...register('shortName') }} />
       <InputField label={'Имя как в 1С'} register={{ ...register('name_1c') }} />
+      <InputField label={'Регион'} register={{ ...register('region') }} />
       <Btns>
         <NewFormBtn type="reset">Сброс</NewFormBtn>
         <NewFormBtn type="submit">Сохранить</NewFormBtn>

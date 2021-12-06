@@ -13,4 +13,7 @@ export class Shop {
 
   @Column()
   shortName: string;
+
+  @Column('text')
+  region: string;
 }

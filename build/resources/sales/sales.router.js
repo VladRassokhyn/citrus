@@ -10,7 +10,7 @@ router.route('/').get(async (req, res) => {
     const tt = String(req.query['tt']);
     const month = String(req.query['month']);
     const year = String(req.query['year']);
-    const isPPC = tt === 'KIEV_ALL';
+    const isPPC = tt === 'KIEV_ALL' || tt === 'KHARKOV_ALL';
     const salesRepo = (0, typeorm_1.getRepository)(entities_1.Sales);
     const salesmanRepo = (0, typeorm_1.getRepository)(entities_1.Salesman);
     const shopRepo = (0, typeorm_1.getRepository)(Shop_model_1.Shop);
@@ -21,19 +21,24 @@ router.route('/').get(async (req, res) => {
         salesmansNames = salesmans.map((salesman) => salesman.name);
     }
     else {
-        const shops = await shopRepo.find();
+        const shops = await shopRepo.find({ region: tt });
         salesmansNames = shops.map((shop) => shop.name_1c);
     }
     const parsedSales = [];
     salesByTT.forEach((item) => {
         parsedSales.push({ ...item, sales: parse(String(item.sales)) });
     });
-    const regions = [
+    const kievRegions = [
         'Винницкий регион',
         'Ивано-Франковский регион',
         'Киевский регион',
         'Львовский регион',
         'Черниговский регион',
+    ];
+    const kharkovRegions = [
+        'Полтавский регион',
+        'Харьковский регион',
+        'Краматорский регион',
     ];
     const sales = [];
     parsedSales.forEach((salesItem) => {
@@ -41,17 +46,34 @@ router.route('/').get(async (req, res) => {
         let ttSales = [];
         salesItem.sales.forEach((item, index) => {
             if (isPPC) {
-                if (regions.includes(item[0])) {
-                    if (ttSales.length === 0) {
-                        ttSales = item;
+                if (tt === 'KIEV_ALL') {
+                    if (kievRegions.includes(item[0])) {
+                        if (ttSales.length === 0) {
+                            ttSales = item;
+                        }
+                        else {
+                            ttSales.forEach((sale, i) => {
+                                if (i !== 0) {
+                                    ttSales[i] += item[i];
+                                }
+                            });
+                            ttSales[0] = 'Киевский регион';
+                        }
                     }
-                    else {
-                        ttSales.forEach((sale, i) => {
-                            if (i !== 0) {
-                                ttSales[i] += item[i];
-                            }
-                        });
-                        ttSales[0] = 'Киевский регион';
+                }
+                if (tt === 'KHARKOV_ALL') {
+                    if (kharkovRegions.includes(item[0])) {
+                        if (ttSales.length === 0) {
+                            ttSales = item;
+                        }
+                        else {
+                            ttSales.forEach((sale, i) => {
+                                if (i !== 0) {
+                                    ttSales[i] += item[i];
+                                }
+                            });
+                            ttSales[0] = 'Харьковский регион';
+                        }
                     }
                 }
             }

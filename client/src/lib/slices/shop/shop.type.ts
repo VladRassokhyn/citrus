@@ -11,10 +11,12 @@ export type Shop = {
   name: string;
   shortName: string;
   name_1c: string;
+  region: string;
 };
 
 export type PostShopPayload = {
   name: string;
   shortName: string;
   name_1c: string;
+  region: string;
 };

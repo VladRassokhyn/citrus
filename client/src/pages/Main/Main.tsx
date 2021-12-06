@@ -76,7 +76,7 @@ export const Main = (): JSX.Element => {
       </MenuItem>
       <MenuItem isClosing={isClosing} onClick={() => handleClose(paths.USERS.BASE())}>
         <Img src={employee} alt="salesmans image" />
-        <H1>Продавцы</H1>
+        <H1>Пользователи</H1>
       </MenuItem>
       <MenuItem isClosing={isClosing} onClick={() => handleClose(paths.CHECKLISTS.BASE())}>
         <Img src={checklist} alt="chacklist image" />

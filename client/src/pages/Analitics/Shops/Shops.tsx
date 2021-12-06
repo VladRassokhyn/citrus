@@ -11,7 +11,9 @@ type Props = {
   authUser: User;
 };
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  width: 100%;
+`;
 
 export const Shops = (props: Props): JSX.Element => {
   const shops = useTypedSelector(shopSelectors.allShops);

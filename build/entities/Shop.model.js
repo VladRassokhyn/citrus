@@ -29,6 +29,10 @@ __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
 ], Shop.prototype, "shortName", void 0);
+__decorate([
+    (0, typeorm_1.Column)('text'),
+    __metadata("design:type", String)
+], Shop.prototype, "region", void 0);
 Shop = __decorate([
     (0, typeorm_1.Entity)()
 ], Shop);

@@ -10,7 +10,7 @@ export const currentShop = (state: RootState): Shop | null => state.shops.curren
 
 export const byCodeName = (tt: string | undefined) => (state: RootState): Shop => {
   if (!tt) {
-    return { id: 0, name: '', shortName: '', name_1c: '' };
+    return { id: 0, name: '', shortName: '', name_1c: '', region: '' };
   }
   return state.shops.shops?.find((shop) => shop.name == tt) as Shop;
 };
