@@ -12,6 +12,10 @@ export function getColumns(planes: Planes): Column[] {
       fn: (sale: (string | number)[]) => sale[0],
     },
     {
+      label: 'ТО',
+      fn: (sale: (string | number)[]) => sale[14],
+    },
+    {
       label: 'Устройства',
       fn: (sale: (string | number)[]) => sale[1],
     },
@@ -56,12 +60,16 @@ export function getColumns(planes: Planes): Column[] {
     },
 
     {
-      label: 'Тотал',
-      fn: (sale: (string | number)[]) => +sale[12] + +sale[10] + +sale[8],
+      label: 'ЦМ + ЦЗ',
+      fn: (sale: (string | number)[]) => +sale[8] + +sale[10],
     },
     {
       label: 'ЦА',
       fn: (sale: (string | number)[]) => sale[12],
+    },
+    {
+      label: 'Тотал',
+      fn: (sale: (string | number)[]) => +sale[12] + +sale[10] + +sale[8],
     },
   ];
 }

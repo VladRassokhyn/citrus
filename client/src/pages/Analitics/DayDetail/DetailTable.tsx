@@ -36,7 +36,7 @@ const FilledCell = styled.div<CellProps>`
 
 const Wrapper = styled.div`
   display: grid;
-  grid-template-columns: 200px repeat(9, 1fr);
+  grid-template-columns: 200px repeat(11, 1fr);
 `;
 
 const Column = styled.div`
@@ -194,23 +194,23 @@ export const DetailTable = (props: Props): JSX.Element => {
         return (
           <Column key={i}>
             <Head>
-              {i === 2 && <SeparatedCellTop />}
-              {i === 3 && (
+              {i === 3 && <SeparatedCellTop />}
+              {i === 4 && (
                 <SeparatedCellTop>
                   <H1>ЦМ</H1>
                 </SeparatedCellTop>
               )}
-              {i === 4 && <SeparatedCellTop border />}
+              {i === 5 && <SeparatedCellTop border />}
 
-              {i === 5 && <SeparatedCellTop />}
-              {i === 6 && (
+              {i === 6 && <SeparatedCellTop />}
+              {i === 7 && (
                 <SeparatedCellTop>
                   <H1>ЦЗ</H1>
                 </SeparatedCellTop>
               )}
-              {i === 7 && <SeparatedCellTop border />}
+              {i === 8 && <SeparatedCellTop border />}
 
-              {i < 2 || i > 7 ? (
+              {i < 3 || i > 8 ? (
                 <Cell onClick={() => sortByFn(column.fn)}>
                   <H1>{column.label}</H1>
                 </Cell>
@@ -237,7 +237,7 @@ export const DetailTable = (props: Props): JSX.Element => {
                     <H2>{getShortName(shops!, column.fn(salesman) as string)}</H2>
                   </NameCell>
                 );
-              } else if (i === 3) {
+              } else if (i === 4) {
                 const isZero = +salesman[1] === 0 && +salesman[8] === 0;
                 return (
                   <CellWithFill selected={j === selectedRow} key={salesman[0]}>
@@ -246,10 +246,10 @@ export const DetailTable = (props: Props): JSX.Element => {
                       width={(+column.fn(salesman) / planes.to_cm) * 100}
                       color={isZero ? '#ffcccc' : '#b8f2c5'}
                     />
-                    <H3>{isZero ? (0.001).toFixed(2) : column.fn(salesman)}</H3>
+                    <H3>{isZero ? (0).toFixed(2) : column.fn(salesman)}</H3>
                   </CellWithFill>
                 );
-              } else if (i === 6) {
+              } else if (i === 7) {
                 const isZero = +salesman[1] === 0 && +salesman[10] === 0;
                 return (
                   <CellWithFill selected={j === selectedRow} key={salesman[0]}>
@@ -258,10 +258,10 @@ export const DetailTable = (props: Props): JSX.Element => {
                       width={(+column.fn(salesman) / planes.to_cz) * 100}
                       color={isZero ? '#ffcccc' : '#b8f2c5'}
                     />
-                    <H3>{isZero ? (0.001).toFixed(2) : column.fn(salesman)}</H3>
+                    <H3>{isZero ? (0).toFixed(2) : column.fn(salesman)}</H3>
                   </CellWithFill>
                 );
-              } else if (i === 4 || i === 7) {
+              } else if (i === 5 || i === 8) {
                 return (
                   <Cell selected={j === selectedRow} key={salesman[0]}>
                     <H4>

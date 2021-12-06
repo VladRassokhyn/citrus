@@ -14,7 +14,9 @@ type Props = {
   currentShop: Shop;
 };
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  width: 100%;
+`;
 
 const H1 = styled.h1`
   font-size: 20pt;
