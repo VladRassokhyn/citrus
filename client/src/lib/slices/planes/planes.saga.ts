@@ -1,4 +1,4 @@
-import { Action, FixLater, TT } from './../../globalTypes';
+import { Action } from './../../globalTypes';
 import { planesApi } from './planes.api';
 import { SagaIterator } from '@redux-saga/types';
 import { call, takeEvery, put } from 'redux-saga/effects';
@@ -31,7 +31,6 @@ function* updatePlanesWorker(action: Action<{ planes: Planes; tt: string }>): Sa
 }
 
 function* postPlanesWorker(action: Action<{ planes: Planes; tt: string }>): SagaIterator {
-  console.log(action.payload);
   try {
     yield call(planesApi.postPlanes, action.payload.planes);
     yield put(

@@ -8,12 +8,22 @@ import {
   GetSalesPayload,
   PostSalesPayload,
   PutSalesPayload,
+  Sales,
 } from './sales.type';
+import { shopApi } from '../shop/shop.api';
+import { Shop } from '../shop';
 
 function* getSalesWorker(action: Action<GetSalesPayload>): SagaIterator {
   try {
-    const res = yield call(salesApi.getSales, action.payload);
-    yield put(salesActions.setSales(res.data));
+    const salesRes = yield call(salesApi.getSales, action.payload);
+
+    const shopsRes = yield call(shopApi.getShops);
+    const tt = shopsRes.data.find((tt: Shop) => tt.name === action.payload.tt);
+    const sales = salesRes.data.map((item: Sales) => ({
+      ...item,
+      tt: { value: tt.name, label: tt.name_1c },
+    }));
+    yield put(salesActions.setSales(sales));
   } catch (err) {
     console.log(err);
   }

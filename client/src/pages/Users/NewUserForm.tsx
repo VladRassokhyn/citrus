@@ -3,10 +3,11 @@ import styled from 'styled-components';
 import Selector from 'react-select';
 import { useDispatch } from 'react-redux';
 import { Controller, useForm } from 'react-hook-form';
-import { FixLater, LoadingStatuses, UserRoles, TTselectorOptions } from '../../lib/globalTypes';
+import { FixLater, LoadingStatuses, UserRoles } from '../../lib/globalTypes';
 import { User, userActions, userSelectors } from '../../lib/slices/users';
 import { useTypedSelector } from '../../lib/hooks';
 import { InputField } from '../../Components/InputField';
+import { shopSelectors } from '../../lib/slices/shop';
 
 type Props = {
   user?: User;
@@ -42,11 +43,14 @@ const roleSelectorOptions = [
 export const NewUserForm = (props: Props): JSX.Element => {
   const { user } = props;
   const dispatch = useDispatch();
+  const shops = useTypedSelector(shopSelectors.allShops);
   const CRUDstatus = useTypedSelector(userSelectors.status);
   const [disabled, setDisabled] = useState(false);
   const { register, handleSubmit, control } = useForm({
     defaultValues: { ...user, password: '' },
   });
+
+  const TTselectorOptions = shops?.map((shop) => ({ label: shop.shortName, value: shop.name }));
 
   const handleSave = (e: FixLater) => {
     if (user) {

@@ -21,8 +21,8 @@ export const App = (): JSX.Element => {
     authStatus === LoadingStatuses.LOADING || authStatus === LoadingStatuses.IDLE;
 
   useEffect(() => {
-    dispatch(authActions.getAuth());
     dispatch(shopActions.getShops());
+    dispatch(authActions.getAuth());
   }, []);
 
   useEffect(() => {

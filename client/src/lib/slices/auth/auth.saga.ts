@@ -1,9 +1,11 @@
+import { shopApi } from './../shop/shop.api';
 import { usersApi } from '../users/users.api';
 import { authApi } from './auth.api';
 import { SagaIterator } from '@redux-saga/types';
 import { Action, LoadingErrors } from './../../globalTypes';
 import { takeEvery, call, put } from 'redux-saga/effects';
 import { authActions } from '../auth';
+import { Shop } from '../shop';
 
 function* loginWorker(action: Action<{ username: string; password: string }>): SagaIterator {
   try {
@@ -22,12 +24,15 @@ function* authWorker(): SagaIterator {
     if (res.status === 401) {
       yield put(authActions.setAuthError());
     } else {
-      const user = yield call(usersApi.getUserById, res.data.userId);
+      const userRes = yield call(usersApi.getUserById, res.data.userId);
 
-      if (!user) {
+      if (!userRes) {
         yield put(authActions.setAuthError());
       } else {
-        yield put(authActions.setAuthUser(user.data));
+        const shopsRes = yield call(shopApi.getShops);
+        const tt = shopsRes.data.find((tt: Shop) => tt.name === userRes.data.tt);
+        const user = { ...userRes.data, tt: { label: tt.name_1c, value: tt.name } };
+        yield put(authActions.setAuthUser(user));
         yield put(authActions.setAuth());
       }
     }
