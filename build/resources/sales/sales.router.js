@@ -80,7 +80,9 @@ router.route('/').get(async (req, res) => {
             else if (index === 3) {
                 ttSales = item;
             }
-            if (salesmansNames.includes(item[0]) && item[0] !== 'Киевский регион') {
+            if (salesmansNames.includes(item[0]) &&
+                item[0] !== 'Киевский регион' &&
+                item[0] !== 'Харьковский регион') {
                 items.push(item);
             }
         });
