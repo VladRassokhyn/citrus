@@ -1,12 +1,11 @@
 import {
-  selectAllUsers,
-  selectUsersCRUSstatus,
-  selectUsersStatus,
-  selectUserById,
-  selectOneUser,
-  selectOneUserStatus,
-  selectUserChecklists,
-  selectUserChecklistsStatus,
+  users,
+  status,
+  userById,
+  oneUser,
+  oneUserStatus,
+  userChecklists,
+  userChecklistsStatus,
 } from './users.selectors';
 import {
   usersReducer,
@@ -19,8 +18,6 @@ import {
   updateUser,
   userUpdated,
   statusesResets,
-  setError,
-  setCRUDError,
 } from './users.slice';
 import {
   oneUserReducer,
@@ -34,14 +31,13 @@ import { usersWatcher } from './users.saga';
 import { User } from './users.types';
 
 export const userSelectors = {
-  selectAllUsers,
-  selectUsersCRUSstatus,
-  selectUsersStatus,
-  selectUserById,
-  selectOneUser,
-  selectOneUserStatus,
-  selectUserChecklists,
-  selectUserChecklistsStatus,
+  users,
+  status,
+  userById,
+  oneUser,
+  oneUserStatus,
+  userChecklists,
+  userChecklistsStatus,
 };
 
 export const userActions = {
@@ -56,8 +52,6 @@ export const userActions = {
   updateUser,
   userUpdated,
   statusesResets,
-  setError,
-  setCRUDError,
   getOneUser,
   getUserChecklists,
   setUserChecklists,

@@ -14,7 +14,6 @@ export type Planes = {
 
 export type PlanesState = {
   status: LoadingStatuses;
-  updateStatus: LoadingStatuses;
   planes: Planes;
 };
 

@@ -40,14 +40,14 @@ const Filter = styled.div`
 export const Analitic = (props: Props): JSX.Element => {
   const dispatch = useDispatch();
 
-  const { month, year } = useTypedSelector(salesSelectors.selectMonth);
-  const planes = useTypedSelector(planesSelectors.selectPlanes);
+  const { month, year } = useTypedSelector(salesSelectors.monthAndYear);
+  const planes = useTypedSelector(planesSelectors.planes);
   const shops = useTypedSelector(shopSelectors.allShops);
 
-  const salesStatus = useTypedSelector(salesSelectors.selectSalesStatuses);
-  const planesStatus = useTypedSelector(planesSelectors.selectStatus);
+  const salesStatus = useTypedSelector(salesSelectors.status);
+  const planesStatus = useTypedSelector(planesSelectors.status);
 
-  const isSalesLoading = salesStatus.getStatus === LoadingStatuses.LOADING;
+  const isSalesLoading = salesStatus === LoadingStatuses.LOADING;
   const isPlanesLoading = planesStatus === LoadingStatuses.LOADING;
 
   useEffect(() => {

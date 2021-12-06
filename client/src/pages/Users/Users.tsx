@@ -10,7 +10,6 @@ import { Accordion } from '../../Components/Accordion';
 import { NewUserForm } from './NewUserForm';
 import { UserSubMenu } from './UserSubMenu';
 import { authSelectors } from '../../lib/slices/auth';
-import { selectAllUsers } from '../../lib/slices/users/users.selectors';
 
 const Wrapper = styled.div`
   display: flex;
@@ -23,15 +22,15 @@ const Wrapper = styled.div`
 `;
 
 export const Users = (): JSX.Element => {
-  const allusers = useTypedSelector(selectAllUsers);
-  const salesmansStatus = useTypedSelector(userSelectors.selectUsersStatus);
-  const authUser = useTypedSelector(authSelectors.selectAuthUser);
+  const allUsers = useTypedSelector(userSelectors.users);
+  const usersStatus = useTypedSelector(userSelectors.status);
+  const authUser = useTypedSelector(authSelectors.authUser);
   const dispatch = useDispatch();
 
   const users =
     authUser?.role === UserRoles.ADMIN
-      ? allusers
-      : allusers.filter((user) => user.role === UserRoles.SALESMAN);
+      ? allUsers
+      : allUsers.filter((user) => user.role === UserRoles.SALESMAN);
 
   const isAdminOrManager =
     authUser && (authUser.role === UserRoles.ADMIN || authUser.role === UserRoles.MANAGER);
@@ -40,7 +39,7 @@ export const Users = (): JSX.Element => {
     authUser && dispatch(userActions.getUsers(authUser.tt.value));
   }, []);
 
-  if (salesmansStatus === LoadingStatuses.LOADING || !users) {
+  if (usersStatus === LoadingStatuses.LOADING || !users) {
     return <Preloader />;
   }
 

@@ -11,7 +11,7 @@ type Props = {
 };
 
 export const RouterController = (props: Props): JSX.Element => {
-  const authUser = useTypedSelector(authSelectors.selectAuthUser);
+  const authUser = useTypedSelector(authSelectors.authUser);
   const currentShop = useTypedSelector(shopSelectors.currentShop);
 
   const getRouteAction = (route: RouteItem) => {

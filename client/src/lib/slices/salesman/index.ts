@@ -7,10 +7,11 @@ import {
   deleteSalesman,
   salesmanDeleted,
 } from './salesman.slice';
-import { selectAllSalesmans, selectSalesmanStatuses } from './salesman.selectors';
+import { salesmans, status } from './salesman.selectors';
 import { salesmanWatcher } from './salesman.saga';
+import { Salesman } from './salesman.type';
 
-export const salesmanSelectors = { selectAllSalesmans, selectSalesmanStatuses };
+export const salesmanSelectors = { salesmans, status };
 export const salesmanActions = {
   getSalesmans,
   setSalesmans,
@@ -20,3 +21,4 @@ export const salesmanActions = {
   salesmanDeleted,
 };
 export { salesmanReducer, salesmanWatcher };
+export type { Salesman };

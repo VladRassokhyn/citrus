@@ -166,7 +166,7 @@ const Button = styled.button`
 export const EveningReportTable = (props: Props): JSX.Element => {
   const { day, month, sales, currentShop } = props;
   const [screenshot, setScreenshot] = useState<string | null>(null);
-  const planes = useTypedSelector<Planes | null>(planesSelectors.selectPlanes);
+  const planes = useTypedSelector<Planes | null>(planesSelectors.planes);
 
   if (!planes) {
     return <Redirect to={paths.ANALYTICS.MAIN.BASE()} />;

@@ -51,10 +51,10 @@ const H2 = styled.h1`
 
 export const User = (): JSX.Element => {
   const { userId } = useParams<{ userId: string }>();
-  const user = useTypedSelector(userSelectors.selectOneUser);
-  const userStatus = useTypedSelector(userSelectors.selectOneUserStatus);
-  const userChecklists = useTypedSelector(userSelectors.selectUserChecklists);
-  const userChecklistStatus = useTypedSelector(userSelectors.selectUserChecklistsStatus);
+  const user = useTypedSelector(userSelectors.oneUser);
+  const userStatus = useTypedSelector(userSelectors.oneUserStatus);
+  const userChecklists = useTypedSelector(userSelectors.userChecklists);
+  const userChecklistStatus = useTypedSelector(userSelectors.userChecklistsStatus);
   const dispatch = useDispatch();
 
   useEffect(() => {

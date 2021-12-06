@@ -86,7 +86,7 @@ export const Calendar = (props: Props): JSX.Element => {
   const { sales, planes, days } = props;
   const calcFns = getCalcFns();
   const weekSales: Sales[] = [];
-  const { month } = useTypedSelector(salesSelectors.selectMonth);
+  const { month } = useTypedSelector(salesSelectors.monthAndYear);
 
   const calendarDays = days.map((day, i) => {
     const isWeekend = day?.split(' ')[0] === 'Saturday' || day?.split(' ')[0] === 'Sunday';

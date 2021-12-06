@@ -28,9 +28,6 @@ const initialState: ChecklistState = {
   checklists: null,
   status: LoadingStatuses.IDLE,
   singleChecklist: newChecklist,
-  singleChecklistStatus: LoadingStatuses.IDLE,
-  postChecklistStatus: LoadingStatuses.IDLE,
-  deleteStatus: LoadingStatuses.IDLE,
 };
 
 const checklistSlice = createSlice({
@@ -45,23 +42,23 @@ const checklistSlice = createSlice({
       state.status = LoadingStatuses.SUCCESS;
     },
     getSingleChecklist(state, action: Action<string>) {
-      state.singleChecklistStatus = LoadingStatuses.LOADING;
+      state.status = LoadingStatuses.LOADING;
     },
     setSingleChecklist(state, action: Action<Checklist>) {
       state.singleChecklist = action.payload;
-      state.singleChecklistStatus = LoadingStatuses.SUCCESS;
+      state.status = LoadingStatuses.SUCCESS;
     },
     postNewChecklist(state, action: Action<Checklist>) {
-      state.postChecklistStatus = LoadingStatuses.LOADING;
+      state.status = LoadingStatuses.LOADING;
     },
     newChecklistPosted(state) {
-      state.postChecklistStatus = LoadingStatuses.SUCCESS;
+      state.status = LoadingStatuses.SUCCESS;
     },
     deleteChecklist(state, action: Action<number>) {
-      state.deleteStatus = LoadingStatuses.LOADING;
+      state.status = LoadingStatuses.LOADING;
     },
     checklistDeleted(state) {
-      state.deleteStatus = LoadingStatuses.SUCCESS;
+      state.status = LoadingStatuses.SUCCESS;
     },
     setError(state) {
       state.status = LoadingStatuses.ERROR;
@@ -117,7 +114,7 @@ const checklistSlice = createSlice({
     },
     clearNewChecklist(state) {
       state.singleChecklist = newChecklist;
-      state.postChecklistStatus = LoadingStatuses.IDLE;
+      state.status = LoadingStatuses.IDLE;
     },
   },
 });

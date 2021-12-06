@@ -48,7 +48,7 @@ export const UserSubMenu = (props: Props): JSX.Element => {
   const dispatch = useDispatch();
   const [accesError, setAccesError] = useState(false);
   const [isEditForm, setIsEditForm] = useState(false);
-  const authUser = useTypedSelector(authSelectors.selectAuthUser);
+  const authUser = useTypedSelector(authSelectors.authUser);
 
   const isUserAuth = authUser && authUser.id === user.id;
   const isAdminAuth = authUser && authUser.role === UserRoles.ADMIN;

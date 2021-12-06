@@ -128,8 +128,8 @@ const Button = styled.button`
 
 export const PlanesPanel = (props: Props): JSX.Element => {
   const { planes } = props;
-  const updateStatus = useTypedSelector(planesSelectors.selectUpdateStatus);
-  const { month, year } = useTypedSelector(salesSelectors.selectMonth);
+  const planesStatus = useTypedSelector(planesSelectors.status);
+  const { month, year } = useTypedSelector(salesSelectors.monthAndYear);
   const [isEditMode, setIsEditMode] = useState(false);
   const dispatch = useDispatch();
 
@@ -137,7 +137,7 @@ export const PlanesPanel = (props: Props): JSX.Element => {
     defaultValues: planes,
   });
 
-  const isDisabled = updateStatus === LoadingStatuses.LOADING;
+  const isDisabled = planesStatus === LoadingStatuses.LOADING;
 
   const toggleEditMode = useCallback(() => {
     setIsEditMode((prev) => !prev);
@@ -149,6 +149,8 @@ export const PlanesPanel = (props: Props): JSX.Element => {
       cm: parseInt(String(e.cm).replace(/\s/g, '')),
       ca: parseInt(String(e.ca).replace(/\s/g, '')),
       cz: parseInt(String(e.cz).replace(/\s/g, '')),
+      to_cm: e.to_cm.split(',').join('.'),
+      to_cz: e.to_cz.split(',').join('.'),
     };
     if (!!planes.id) {
       dispatch(

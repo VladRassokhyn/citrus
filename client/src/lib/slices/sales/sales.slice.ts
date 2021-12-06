@@ -9,10 +9,7 @@ import {
 } from './sales.type';
 
 const initialState: SalesState = {
-  getStatus: LoadingStatuses.IDLE,
-  postStatus: LoadingStatuses.IDLE,
-  updateStatus: LoadingStatuses.IDLE,
-  deleteStatus: LoadingStatuses.IDLE,
+  status: LoadingStatuses.IDLE,
   month: new Date().getMonth(),
   year: new Date().getFullYear(),
   daySales: null,
@@ -23,7 +20,7 @@ export const salesSlice = createSlice({
   initialState,
   reducers: {
     getSales(state, action: Action<GetSalesPayload>) {
-      state.getStatus = LoadingStatuses.LOADING;
+      state.status = LoadingStatuses.LOADING;
     },
     setSales(state, action) {
       state.daySales = action.payload.map((sales: Sales) => {
@@ -31,25 +28,25 @@ export const salesSlice = createSlice({
         return { ...sales, tt };
       });
       state.daySales?.sort((a, b) => parseInt(a.day.split('.')[0]) - parseInt(b.day.split('.')[0]));
-      state.getStatus = LoadingStatuses.SUCCESS;
+      state.status = LoadingStatuses.SUCCESS;
     },
     postSales(state, action: Action<PostSalesPayload>) {
-      state.postStatus = LoadingStatuses.LOADING;
+      state.status = LoadingStatuses.LOADING;
     },
     salesPosted(state) {
-      state.postStatus = LoadingStatuses.SUCCESS;
+      state.status = LoadingStatuses.SUCCESS;
     },
     updateSales(state, action: Action<PutSalesPayload>) {
-      state.updateStatus = LoadingStatuses.LOADING;
+      state.status = LoadingStatuses.LOADING;
     },
     salesUpdated(state) {
-      state.updateStatus = LoadingStatuses.SUCCESS;
+      state.status = LoadingStatuses.SUCCESS;
     },
     deleteSales(state, action) {
-      state.deleteStatus = LoadingStatuses.LOADING;
+      state.status = LoadingStatuses.LOADING;
     },
     salesDeleted(state) {
-      state.deleteStatus = LoadingStatuses.SUCCESS;
+      state.status = LoadingStatuses.SUCCESS;
     },
     sortSales(state, action) {
       const id = action.payload.id;

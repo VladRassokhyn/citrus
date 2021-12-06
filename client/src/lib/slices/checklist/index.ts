@@ -20,22 +20,14 @@ import {
   deleteChecklist,
 } from './checklist.slice';
 import { Checklist, Category } from './checklist.types';
-import {
-  selectAllChecklists,
-  selectChecklistsStatus,
-  selectPostChecklistStatus,
-  selectSingleChecklist,
-  selectSingleChecklistStatus,
-} from './checklist.selectors';
+import { checklists, status, singleChecklist } from './checklist.selectors';
 import { checklistWatcher } from './checklist.saga';
 
 export type { Checklist, Category };
 export const checklistSelectors = {
-  selectAllChecklists,
-  selectChecklistsStatus,
-  selectPostChecklistStatus,
-  selectSingleChecklist,
-  selectSingleChecklistStatus,
+  checklists,
+  status,
+  singleChecklist,
 };
 export const checklistActions = {
   getChecklists,

@@ -1,11 +1,7 @@
-import { Salesman } from '../../globalTypes';
+import { LoadingStatuses } from '../../globalTypes';
 import { RootState } from '../../store';
-import { SalesmanStatuses } from './salesman.type';
+import { Salesman } from './salesman.type';
 
-export const selectAllSalesmans = (state: RootState): Salesman[] | null => state.salesman.salesmans;
+export const salesmans = (state: RootState): Salesman[] | null => state.salesman.salesmans;
 
-export const selectSalesmanStatuses = (state: RootState): SalesmanStatuses => ({
-  getStatus: state.salesman.getStatus,
-  postStatus: state.salesman.postStatus,
-  deleteStatus: state.salesman.deleteStatus,
-});
+export const status = (state: RootState): LoadingStatuses => state.salesman.status

@@ -42,7 +42,7 @@ const roleSelectorOptions = [
 export const NewUserForm = (props: Props): JSX.Element => {
   const { user } = props;
   const dispatch = useDispatch();
-  const CRUDstatus = useTypedSelector(userSelectors.selectUsersCRUSstatus);
+  const CRUDstatus = useTypedSelector(userSelectors.status);
   const [disabled, setDisabled] = useState(false);
   const { register, handleSubmit, control } = useForm({
     defaultValues: { ...user, password: '' },

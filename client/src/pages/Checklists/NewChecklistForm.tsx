@@ -94,20 +94,20 @@ const BottomBtns = styled.div`
 export const NewChecklistForm = (props: Props): JSX.Element => {
   const dispatch = useDispatch();
   const [disabled, setDisabled] = useState(false);
-  const checklist = useTypedSelector(checklistSelectors.selectSingleChecklist);
-  const postStatus = useTypedSelector(checklistSelectors.selectPostChecklistStatus);
+  const checklist = useTypedSelector(checklistSelectors.singleChecklist);
+  const checklistStatus = useTypedSelector(checklistSelectors.status);
 
   useEffect(() => {
-    if (postStatus === LoadingStatuses.LOADING) {
+    if (checklistStatus === LoadingStatuses.LOADING) {
       setDisabled(true);
     }
-    if (postStatus === LoadingStatuses.SUCCESS) {
+    if (checklistStatus === LoadingStatuses.SUCCESS) {
       setDisabled(false);
     }
     return () => {
       dispatch(checklistEditActions.clearNewChecklist());
     };
-  }, [postStatus]);
+  }, [checklistStatus]);
 
   const handleSubmit = useCallback(() => {
     dispatch(

@@ -60,9 +60,9 @@ const Circles = styled.div`
 
 export const DayDetail = (props: Props): JSX.Element => {
   const salesDate = useParams<{ salesDate: string }>().salesDate.replace(/[^0-9]/g, '.');
-  const thisDay = useTypedSelector(salesSelectors.selectSalesByDate(salesDate));
-  const sales = useTypedSelector(salesSelectors.selectAllSales);
-  const planes = useTypedSelector(planesSelectors.selectPlanes);
+  const thisDay = useTypedSelector(salesSelectors.salesByDate(salesDate));
+  const sales = useTypedSelector(salesSelectors.sales);
+  const planes = useTypedSelector(planesSelectors.planes);
   const columns = getColumns(planes);
 
   if (!thisDay) {

@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { LoadingStatuses, Salesman } from '../../../lib/globalTypes';
-import { salesmanActions, salesmanSelectors } from '../../../lib/slices/salesman';
+import { LoadingStatuses } from '../../../lib/globalTypes';
+import { salesmanActions, salesmanSelectors, Salesman } from '../../../lib/slices/salesman';
 import { NewSalesman } from './NewSalesman';
 import trash from '../../../static/trash.svg';
 import { Confirm } from '../../../Components/Confirm';
@@ -67,8 +67,8 @@ const Img = styled.img`
 `;
 
 export const Salesmans = (props: Props): JSX.Element => {
-  const salesmans = useTypedSelector(salesmanSelectors.selectAllSalesmans);
-  const { getStatus } = useTypedSelector(salesmanSelectors.selectSalesmanStatuses);
+  const salesmans = useTypedSelector(salesmanSelectors.salesmans);
+  const salesmanStatus = useTypedSelector(salesmanSelectors.status);
   const dispatch = useDispatch();
 
   const handleDeleteSalesman = (salesman: Salesman) => {
@@ -79,7 +79,7 @@ export const Salesmans = (props: Props): JSX.Element => {
     dispatch(salesmanActions.getSalesmans(props.currentShop.name));
   }, []);
 
-  if (getStatus === LoadingStatuses.LOADING) {
+  if (salesmanStatus === LoadingStatuses.LOADING) {
     return <Preloader />;
   }
 

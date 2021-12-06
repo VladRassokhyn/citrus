@@ -14,7 +14,6 @@ import {
   checklistEditActions,
 } from '../../lib/slices/checklist/';
 import { User, userActions, userSelectors } from '../../lib/slices/users';
-import { authSelectors } from '../../lib/slices/auth';
 
 type Props = {
   authUser: User;
@@ -91,20 +90,12 @@ export const Checklist = (props: Props): JSX.Element => {
   const [salesmanId, setSalesmanId] = useState<number>(0);
   const [managerId, setManagerId] = useState<number>(0);
   const [showChecklist, setShowChecklist] = useState(false);
-  const authUser = useTypedSelector(authSelectors.selectAuthUser);
-  const users = useTypedSelector(userSelectors.selectAllUsers);
-  const usersStatus = useTypedSelector(userSelectors.selectUsersStatus);
-  const checklist = useTypedSelector(checklistSelectors.selectSingleChecklist);
-  const checklistStatus = useTypedSelector(checklistSelectors.selectSingleChecklistStatus);
-  const postChecklistStatus = useTypedSelector(checklistSelectors.selectPostChecklistStatus);
+  const users = useTypedSelector(userSelectors.users);
+  const usersStatus = useTypedSelector(userSelectors.status);
+  const checklist = useTypedSelector(checklistSelectors.singleChecklist);
+  const checklistStatus = useTypedSelector(checklistSelectors.status);
   const history = useHistory();
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (postChecklistStatus === LoadingStatuses.SUCCESS) {
-      history.push('/checklist');
-    }
-  }, [postChecklistStatus]);
 
   useEffect(() => {
     dispatch(checklistActions.getSingleChecklist(checklistId));
@@ -166,6 +157,10 @@ export const Checklist = (props: Props): JSX.Element => {
       categories,
     };
     dispatch(checklistActions.postNewChecklist(newChecklist));
+
+    if (checklistStatus === LoadingStatuses.SUCCESS) {
+      history.push('/checklist');
+    }
   };
 
   const handleCheckedChange = (fieldIndex: number, categoryIndex: number) => {

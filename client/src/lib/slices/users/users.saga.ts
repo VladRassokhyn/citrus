@@ -9,7 +9,7 @@ function* getUsersWorker(action: Action<string>): SagaIterator {
     const { data } = yield call(usersApi.getUsers, action.payload);
     yield put(userActions.setUsers(data));
   } catch (error) {
-    yield put(userActions.setError());
+    console.log(error);
   }
 }
 
@@ -19,7 +19,7 @@ function* postUsersWorker(action: Action<User>): SagaIterator {
     yield put(userActions.newUserPosted());
     yield put(userActions.getUsers(action.payload.tt.value));
   } catch (error) {
-    yield put(userActions.setCRUDError());
+    console.log(error);
   }
 }
 
@@ -29,7 +29,7 @@ function* deleteUserWorker(action: Action<User>): SagaIterator {
     yield put(userActions.userDeleted());
     yield put(userActions.getUsers(action.payload.tt.value));
   } catch (error) {
-    yield put(userActions.setCRUDError());
+    console.log(error);
   }
 }
 
@@ -39,7 +39,7 @@ function* updateUserWorker(action: Action<User>): SagaIterator {
     yield put(userActions.userUpdated());
     yield put(userActions.getUsers(action.payload.tt.value));
   } catch (error) {
-    yield put(userActions.setCRUDError());
+    console.log(error);
   }
 }
 
@@ -47,8 +47,8 @@ function* getUserByIdWorker(action: Action<number>): SagaIterator {
   try {
     const res = yield call(usersApi.getUserById, action.payload);
     yield put(userActions.setOneUser(res.data));
-  } catch (err) {
-    yield put(userActions.setOneUserError());
+  } catch (error) {
+    console.log(error);
   }
 }
 
@@ -56,8 +56,8 @@ function* getUsersChecklistsWorker(action: Action<number>): SagaIterator {
   try {
     const res = yield call(usersApi.getUserChecklists, action.payload);
     yield put(userActions.setUserChecklists(res.data));
-  } catch (err) {
-    yield put(userActions.setOneUserError());
+  } catch (error) {
+    console.log(error);
   }
 }
 

@@ -63,9 +63,9 @@ const DetailContainer = styled.div`
 
 export const MainAnalitics = (props: Props): JSX.Element => {
   const dispatch = useDispatch();
-  const planes = useTypedSelector(planesSelectors.selectPlanes);
-  const sales = useTypedSelector(salesSelectors.selectAllSales);
-  const { month, year } = useTypedSelector(salesSelectors.selectMonth);
+  const planes = useTypedSelector(planesSelectors.planes);
+  const sales = useTypedSelector(salesSelectors.sales);
+  const { month, year } = useTypedSelector(salesSelectors.monthAndYear);
   const [days, setDays] = useState(getDaysFormated(month, year).days);
 
   if (!sales) return <Preloader />;

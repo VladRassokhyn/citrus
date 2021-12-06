@@ -13,22 +13,22 @@ import {
 } from './sales.slice';
 import { salesWatcher } from './sales.saga';
 import {
-  selectAllSales,
-  selectSalesLength,
-  selectSalesStatuses,
-  selectSalesByDate,
-  selectMonth,
-  selectSalsesByRange,
+  sales,
+  salesLength,
+  status,
+  salesByDate,
+  monthAndYear,
+  salsesByRange,
 } from './sales.selectors';
 import { Sales } from './sales.type';
 
 export const salesSelectors = {
-  selectAllSales,
-  selectSalesStatuses,
-  selectSalesByDate,
-  selectSalesLength,
-  selectMonth,
-  selectSalsesByRange,
+  sales,
+  salesLength,
+  status,
+  salesByDate,
+  monthAndYear,
+  salsesByRange,
 };
 export const salesActions = {
   getSales,

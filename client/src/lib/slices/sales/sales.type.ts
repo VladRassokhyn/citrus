@@ -9,10 +9,7 @@ export type Sales = {
 };
 
 export type SalesState = {
-  getStatus: LoadingStatuses;
-  postStatus: LoadingStatuses;
-  updateStatus: LoadingStatuses;
-  deleteStatus: LoadingStatuses;
+  status: LoadingStatuses;
   month: number;
   year: number;
   daySales: Sales[] | null;
@@ -24,12 +21,6 @@ export type SalesResponse = {
   sales: string;
   tt: string;
 }[];
-
-export type SalesStatuses = {
-  getStatus: LoadingStatuses;
-  postStatus: LoadingStatuses;
-  updateStatus: LoadingStatuses;
-};
 
 export type SalesPayload = {
   id?: number;

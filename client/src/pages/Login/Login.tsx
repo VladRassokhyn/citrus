@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { Redirect } from 'react-router';
 import styled from 'styled-components';
 import { InputField } from '../../Components/InputField';
-import { FixLater, LoadingStatuses } from '../../lib/globalTypes';
+import { FixLater, LoadingErrors, LoadingStatuses } from '../../lib/globalTypes';
 import { useTypedSelector } from '../../lib/hooks';
 import { paths } from '../../lib/routing';
 import { authSelectors, authActions } from '../../lib/slices/auth';
@@ -36,12 +36,13 @@ const Button = styled.button`
 
 export const Login = (): JSX.Element => {
   const { handleSubmit, register } = useForm();
-  const authUser = useTypedSelector(authSelectors.selectAuthUser);
-  const { loginStatus } = useTypedSelector(authSelectors.selectAuthStatuses);
+  const authUser = useTypedSelector(authSelectors.authUser);
+  const authStatus = useTypedSelector(authSelectors.status);
+  const authError = useTypedSelector(authSelectors.error);
   const dispatch = useDispatch();
 
-  const isDisabled = loginStatus === LoadingStatuses.LOADING;
-  const isError = loginStatus === LoadingStatuses.ERROR;
+  const isDisabled = authStatus === LoadingStatuses.LOADING;
+  const isError = authError === LoadingErrors.NOT_AUTORISED;
 
   if (authUser) {
     return <Redirect to={paths.BASE()} />;

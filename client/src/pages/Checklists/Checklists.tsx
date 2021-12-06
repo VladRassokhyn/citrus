@@ -39,9 +39,9 @@ const H1 = styled.h1`
 
 export const Checklists = (props: Props): JSX.Element => {
   const dispatch = useDispatch();
-  const usersStatus = useTypedSelector(userSelectors.selectUsersStatus);
-  const checklists = useTypedSelector(checklistSelectors.selectAllChecklists);
-  const checklistStatus = useTypedSelector(checklistSelectors.selectChecklistsStatus);
+  const usersStatus = useTypedSelector(userSelectors.status);
+  const checklists = useTypedSelector(checklistSelectors.checklists);
+  const checklistStatus = useTypedSelector(checklistSelectors.status);
 
   const isChecklistsLoading = checklistStatus === LoadingStatuses.LOADING;
   const isUsersLoading = usersStatus === LoadingStatuses.LOADING;

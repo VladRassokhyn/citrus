@@ -116,13 +116,12 @@ const Wrapper = styled.div<StyleProps>`
 export const CalendarDay = memo(
   (props: Props): JSX.Element => {
     const { title, delay, tt, isEmpty, isWeekend, sales, planes, monthSales, ttSales } = props;
-    const { postStatus, updateStatus } = useTypedSelector(salesSelectors.selectSalesStatuses);
+    const salesStatus = useTypedSelector(salesSelectors.status);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const dispatch = useDispatch();
     const history = useHistory();
 
-    const disabled =
-      postStatus === LoadingStatuses.LOADING || updateStatus === LoadingStatuses.LOADING;
+    const disabled = salesStatus === LoadingStatuses.LOADING;
 
     const cmSales = ttSales ? ttSales[8] : 0;
     const czSales = ttSales ? ttSales[10] : 0;

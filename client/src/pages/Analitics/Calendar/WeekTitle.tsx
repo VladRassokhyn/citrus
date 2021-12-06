@@ -32,7 +32,7 @@ const Title = styled.h1<StyleProps>`
 `;
 
 export const WeekTitle = (): JSX.Element => {
-  const { month, year } = useTypedSelector(salesSelectors.selectMonth);
+  const { month, year } = useTypedSelector(salesSelectors.monthAndYear);
   const { weekDays } = getDaysFormated(month, year);
 
   return (

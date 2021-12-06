@@ -4,7 +4,6 @@ import { GetPlanesPayload, Planes } from './planes.type';
 
 const initialState = {
   status: LoadingStatuses.IDLE,
-  updateStatus: LoadingStatuses.IDLE,
   planes: {
     tt: { label: '', value: '' },
     cm: 0,
@@ -29,16 +28,16 @@ const planesSlice = createSlice({
       state.status = LoadingStatuses.SUCCESS;
     },
     updatePlanes(state, action: Action<{ planes: Planes; tt: string }>) {
-      state.updateStatus = LoadingStatuses.LOADING;
+      state.status = LoadingStatuses.LOADING;
     },
     planesUpdated(state) {
-      state.updateStatus = LoadingStatuses.SUCCESS;
+      state.status = LoadingStatuses.SUCCESS;
     },
     postPlanes(state, action: Action<{ planes: Planes; tt: string }>) {
-      state.updateStatus = LoadingStatuses.LOADING;
+      state.status = LoadingStatuses.LOADING;
     },
     planesPosted(state) {
-      state.updateStatus = LoadingStatuses.SUCCESS;
+      state.status = LoadingStatuses.SUCCESS;
     },
     setError(state) {
       state.status = LoadingStatuses.ERROR;

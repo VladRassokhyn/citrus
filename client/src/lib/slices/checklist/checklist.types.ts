@@ -26,9 +26,6 @@ export type Field = {
 
 export type ChecklistState = {
   status: LoadingStatuses;
-  postChecklistStatus: LoadingStatuses;
   checklists: Checklist[] | null;
   singleChecklist: Checklist;
-  singleChecklistStatus: LoadingStatuses;
-  deleteStatus: LoadingStatuses;
 };

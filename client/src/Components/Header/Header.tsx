@@ -81,7 +81,7 @@ const Img = styled.img`
 `;
 
 export const Header = (): JSX.Element => {
-  const authUser = useTypedSelector(authSelectors.selectAuthUser);
+  const authUser = useTypedSelector(authSelectors.authUser);
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch();
   const history = useHistory();

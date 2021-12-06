@@ -4,8 +4,6 @@ import { Checklist } from '../checklist';
 export type UsersState = {
   items: User[];
   status: LoadingStatuses;
-  CRUDstatus: LoadingStatuses;
-  error: any;
 };
 
 export type OneUserState = {

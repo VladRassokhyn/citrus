@@ -10,9 +10,9 @@ import { authActions, authSelectors } from './lib/slices/auth';
 import { shopActions, shopSelectors } from './lib/slices/shop';
 
 export const App = (): JSX.Element => {
-  const { authStatus } = useTypedSelector(authSelectors.selectAuthStatuses);
+  const authStatus = useTypedSelector(authSelectors.status);
   const shopsStatus = useTypedSelector(shopSelectors.status);
-  const authUser = useTypedSelector(authSelectors.selectAuthUser);
+  const authUser = useTypedSelector(authSelectors.authUser);
   const shops = useTypedSelector(shopSelectors.allShops);
   const dispatch = useDispatch();
 

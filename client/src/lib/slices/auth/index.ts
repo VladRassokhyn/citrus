@@ -9,10 +9,10 @@ import {
   logout,
   authReducer,
 } from './auth.slice';
-import { selectAuthUser, selectAuthStatuses } from './auth.selectors';
+import { authUser, status, error } from './auth.selectors';
 import { authWather } from './auth.saga';
 
-export const authSelectors = { selectAuthUser, selectAuthStatuses };
+export const authSelectors = { authUser, status, error };
 export const authActions = {
   tryLogin,
   setLogin,

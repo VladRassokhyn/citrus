@@ -3,24 +3,22 @@ import { RootState } from '../../store';
 import { Checklist } from '../checklist';
 import { User } from './users.types';
 
-export const selectAllUsers = (state: RootState): User[] => state.users.items;
+export const users = (state: RootState): User[] => state.users.items;
 
-export const selectUsersStatus = (state: RootState): LoadingStatuses => state.users.status;
+export const status = (state: RootState): LoadingStatuses => state.users.status;
 
-export const selectUsersCRUSstatus = (state: RootState): LoadingStatuses => state.users.CRUDstatus;
+export const oneUser = (state: RootState): User | null => state.oneUser.user;
 
-export const selectOneUser = (state: RootState): User | null => state.oneUser.user;
+export const oneUserStatus = (state: RootState): LoadingStatuses => state.oneUser.status;
 
-export const selectOneUserStatus = (state: RootState): LoadingStatuses => state.oneUser.status;
-
-export const selectUserById = (id: string) => (state: RootState): User | null =>
+export const userById = (id: string) => (state: RootState): User | null =>
   state.users.items.find((user) => user.id === Number(id)) || null;
 
-export const selectUserChecklists = (state: RootState): Checklist[] | null =>
+export const userChecklists = (state: RootState): Checklist[] | null =>
   state.oneUser.passedChecklists;
 
-export const selectUserChecklistsStatus = (state: RootState): LoadingStatuses =>
+export const userChecklistsStatus = (state: RootState): LoadingStatuses =>
   state.oneUser.passedChecklistsStatus;
 
-export const selectSalesmans = (state: RootState): User[] =>
+export const salesmans = (state: RootState): User[] =>
   state.users.items.filter((user) => user.role === UserRoles.SALESMAN);

@@ -19,10 +19,10 @@ const Wrapper = styled.div`
 `;
 
 export const EveningReport = (props: Props): JSX.Element => {
-  const salesLength = useTypedSelector(salesSelectors.selectSalesLength);
+  const salesLength = useTypedSelector(salesSelectors.salesLength);
   const [dayFrom, setDayFrom] = useState(1);
   const [dayTo, setDayTo] = useState(salesLength);
-  const sales = useTypedSelector(salesSelectors.selectSalsesByRange(dayFrom, dayTo));
+  const sales = useTypedSelector(salesSelectors.salsesByRange(dayFrom, dayTo));
 
   const handleChangeFrom = (day: number) => {
     setDayFrom(day);

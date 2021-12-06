@@ -4,11 +4,9 @@ import { AuthInitial } from './auth.types';
 import { User } from '../users';
 
 const initialState: AuthInitial = {
-  loginStatus: LoadingStatuses.IDLE,
-  authStatus: LoadingStatuses.IDLE,
+  status: LoadingStatuses.IDLE,
   authUser: null,
-  loginError: LoadingErrors.IDLE,
-  authError: LoadingErrors.IDLE,
+  error: LoadingErrors.IDLE,
 };
 
 export const authSlice = createSlice({
@@ -16,21 +14,21 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     tryLogin(state, action: Action<{ username: string; password: string }>) {
-      state.loginStatus = LoadingStatuses.LOADING;
+      state.status = LoadingStatuses.LOADING;
     },
     setLogin(state, action: Action<string>) {
       localStorage.setItem('token', action.payload);
-      state.loginStatus = LoadingStatuses.SUCCESS;
+      state.status = LoadingStatuses.SUCCESS;
     },
     setLoginError(state, action: Action<LoadingErrors>) {
-      state.loginError = action.payload;
-      state.loginStatus = LoadingStatuses.ERROR;
+      state.error = action.payload;
+      state.status = LoadingStatuses.ERROR;
     },
     getAuth(state) {
-      state.authStatus = LoadingStatuses.LOADING;
+      state.status = LoadingStatuses.LOADING;
     },
     setAuth(state) {
-      state.authStatus = LoadingStatuses.SUCCESS;
+      state.status = LoadingStatuses.SUCCESS;
     },
     setAuthUser(state, action: Action<User>) {
       state.authUser = action.payload;
@@ -42,12 +40,11 @@ export const authSlice = createSlice({
     logout(state) {
       localStorage.setItem('token', '');
       state.authUser = null;
-      state.loginError = LoadingErrors.IDLE;
-      state.authError = LoadingErrors.IDLE;
+      state.error = LoadingErrors.IDLE;
       window.location.reload();
     },
     setAuthError(state) {
-      state.authStatus = LoadingStatuses.ERROR;
+      state.status = LoadingStatuses.ERROR;
     },
   },
 });

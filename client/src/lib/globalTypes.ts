@@ -75,12 +75,6 @@ export enum LoadingErrors {
   NOT_FOUND = 'NOT_FOUND',
 }
 
-export type Salesman = {
-  name: string;
-  id: number;
-  tt: string;
-};
-
 export const TTselectorOptions = [
   { label: 'Киевский Регион', value: 'KIEV_ALL' },
   { label: TTlabel.KR29, value: TT.KR29 },

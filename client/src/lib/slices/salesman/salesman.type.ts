@@ -1,14 +1,17 @@
-import { LoadingStatuses, Salesman } from '../../globalTypes';
+import { LoadingStatuses } from '../../globalTypes';
 
 export type SalesmanState = {
-  getStatus: LoadingStatuses;
-  postStatus: LoadingStatuses;
-  deleteStatus: LoadingStatuses;
+  status: LoadingStatuses;
   salesmans: Salesman[] | null;
 };
 
-export type SalesmanStatuses = {
-  getStatus: LoadingStatuses;
-  postStatus: LoadingStatuses;
-  deleteStatus: LoadingStatuses;
+export type Salesman = {
+  name: string;
+  id: number;
+  tt: string;
+};
+
+export type SalesmanPostPayload = {
+  name: string;
+  tt: string;
 };

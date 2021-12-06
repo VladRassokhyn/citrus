@@ -1,11 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { LoadingStatuses } from '../../globalTypes';
-import { SalesmanState } from './salesman.type';
+import { Action, LoadingStatuses } from '../../globalTypes';
+import { SalesmanState, SalesmanPostPayload, Salesman } from './salesman.type';
 
 const initialState: SalesmanState = {
-  getStatus: LoadingStatuses.IDLE,
-  postStatus: LoadingStatuses.IDLE,
-  deleteStatus: LoadingStatuses.IDLE,
+  status: LoadingStatuses.IDLE,
   salesmans: null,
 };
 
@@ -13,24 +11,24 @@ const salesmanSlice = createSlice({
   name: 'salesman',
   initialState,
   reducers: {
-    getSalesmans(state, action) {
-      state.getStatus = LoadingStatuses.LOADING;
+    getSalesmans(state, action: Action<string>) {
+      state.status = LoadingStatuses.LOADING;
     },
-    setSalesmans(state, action) {
+    setSalesmans(state, action: Action<Salesman[]>) {
       state.salesmans = action.payload;
-      state.getStatus = LoadingStatuses.SUCCESS;
+      state.status = LoadingStatuses.SUCCESS;
     },
-    postSalesman(state, action) {
-      state.postStatus = LoadingStatuses.LOADING;
+    postSalesman(state, action: Action<SalesmanPostPayload>) {
+      state.status = LoadingStatuses.LOADING;
     },
-    salesmanPosted(state, action) {
-      state.postStatus = LoadingStatuses.SUCCESS;
+    salesmanPosted(state) {
+      state.status = LoadingStatuses.SUCCESS;
     },
-    deleteSalesman(state, action) {
-      state.deleteStatus = LoadingStatuses.LOADING;
+    deleteSalesman(state, action: Action<Salesman>) {
+      state.status = LoadingStatuses.LOADING;
     },
-    salesmanDeleted(state, action) {
-      state.deleteStatus = LoadingStatuses.SUCCESS;
+    salesmanDeleted(state) {
+      state.status = LoadingStatuses.SUCCESS;
     },
   },
 });
