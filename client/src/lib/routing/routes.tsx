@@ -55,7 +55,7 @@ export const routes: RouteItem[] = [
       {
         path: paths.ANALYTICS.EVENING_REPORT.BASE(),
         component: EveningReport,
-        exact: false,
+        exact: true,
         private: true,
         roles: null,
         routes: [],
@@ -71,7 +71,7 @@ export const routes: RouteItem[] = [
       {
         path: paths.ANALYTICS.SALESMANS.BASE(),
         component: Salesmans,
-        exact: false,
+        exact: true,
         private: true,
         roles: null,
         routes: [],
@@ -79,7 +79,7 @@ export const routes: RouteItem[] = [
       {
         path: paths.ANALYTICS.MAIN.BY_SALES_DATE(),
         component: DayDetail,
-        exact: false,
+        exact: true,
         private: true,
         roles: null,
         routes: [],
@@ -87,7 +87,7 @@ export const routes: RouteItem[] = [
       {
         path: paths.ANALYTICS.SHOPS.BASE(),
         component: Shops,
-        exact: false,
+        exact: true,
         private: true,
         roles: null,
         routes: [],

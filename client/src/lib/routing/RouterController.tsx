@@ -37,9 +37,7 @@ export const RouterController = (props: Props): JSX.Element => {
   return (
     <Switch>
       {props.routes.map((route) => (
-        <Route {...route} key={route.path}>
-          {getRouteAction(route)}
-        </Route>
+        <Route {...route} key={route.path} component={() => getRouteAction(route)} />
       ))}
     </Switch>
   );

@@ -41,6 +41,10 @@ const Content = styled.div<{ top: number }>`
   gap: 20px;
   align-items: center;
   animation: ${bounceAnimation} 0.5s forwards;
+  @media (min-width: 560px) {
+    min-width: 560px;
+    left: 20%;
+  }
 `;
 
 export const Modal = (props: Props): JSX.Element => {

@@ -76,7 +76,9 @@ export const Salesmans = (props: Props): JSX.Element => {
   };
 
   useEffect(() => {
-    dispatch(salesmanActions.getSalesmans(props.currentShop.name));
+    if (!salesmans) {
+      dispatch(salesmanActions.getSalesmans(props.currentShop.name));
+    }
   }, []);
 
   if (salesmanStatus === LoadingStatuses.LOADING) {

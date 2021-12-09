@@ -18,6 +18,7 @@ const Wrapper = styled.form`
   align-items: center;
   flex-direction: column;
   width: 50%;
+  min-width: 560px;
   gap: 15px;
   padding: 15px;
   @media (max-width: 560px) {

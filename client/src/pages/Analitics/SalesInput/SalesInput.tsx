@@ -81,14 +81,6 @@ export const SalesInput = (props: Props): JSX.Element => {
     }
   }, [value]);
 
-  const takeFromBuffer = () => {
-    navigator.clipboard.readText().then((text) => {
-      if (text && text.length > 100) {
-        setValue(text);
-      }
-    });
-  };
-
   return (
     <Wrapper>
       <Input value={value} onChange={(e) => setValue(e.target.value)} />
@@ -104,8 +96,6 @@ export const SalesInput = (props: Props): JSX.Element => {
         <Button disabled={!parsedValue} onClick={() => parsedValue && submitFn({ sales: value })}>
           Сохранить
         </Button>
-
-        <Button onClick={takeFromBuffer}>Вставить</Button>
       </SubmitBlock>
     </Wrapper>
   );

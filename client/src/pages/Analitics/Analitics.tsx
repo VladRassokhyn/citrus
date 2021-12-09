@@ -39,7 +39,8 @@ const Filter = styled.div`
 
 export const Analitic = (props: Props): JSX.Element => {
   const dispatch = useDispatch();
-
+  //debugger;
+  console.log('render');
   const { month, year } = useTypedSelector(salesSelectors.monthAndYear);
   const planes = useTypedSelector(planesSelectors.planes);
   const shops = useTypedSelector(shopSelectors.allShops);
