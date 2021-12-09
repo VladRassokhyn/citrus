@@ -99,7 +99,7 @@ export const Checklist = (props: Props): JSX.Element => {
 
   useEffect(() => {
     dispatch(checklistActions.getSingleChecklist(checklistId));
-    dispatch(userActions.getUsers(props.authUser.tt.value));
+    dispatch(userActions.getUsers(props.authUser.shop.id));
 
     return () => {
       dispatch(checklistEditActions.clearNewChecklist());

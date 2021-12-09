@@ -36,7 +36,7 @@ export const Users = (): JSX.Element => {
     authUser && (authUser.role === UserRoles.ADMIN || authUser.role === UserRoles.MANAGER);
 
   useEffect(() => {
-    authUser && dispatch(userActions.getUsers(authUser.tt.value));
+    authUser && dispatch(userActions.getUsers(authUser.shop.id));
   }, []);
 
   if (usersStatus === LoadingStatuses.LOADING || !users) {

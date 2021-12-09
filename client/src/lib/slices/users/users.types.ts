@@ -1,5 +1,6 @@
 import { LoadingStatuses, UserRoles } from '../../globalTypes';
 import { Checklist } from '../checklist';
+import { Shop } from '../shop';
 
 export type UsersState = {
   items: User[];
@@ -19,5 +20,5 @@ export type User = {
   lastName: string;
   role: UserRoles;
   id: number;
-  tt: { label: string; value: string };
+  shop: Shop
 };

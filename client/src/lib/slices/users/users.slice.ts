@@ -11,7 +11,7 @@ const usersSlice = createSlice({
   name: 'users',
   initialState,
   reducers: {
-    getUsers(state, action: Action<string>) {
+    getUsers(state, action: Action<number>) {
       state.status = LoadingStatuses.LOADING;
     },
     setUsers(state, action: Action<User[]>) {

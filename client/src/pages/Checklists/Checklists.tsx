@@ -47,7 +47,7 @@ export const Checklists = (props: Props): JSX.Element => {
   const isUsersLoading = usersStatus === LoadingStatuses.LOADING;
 
   useEffect(() => {
-    dispatch(userActions.getUsers(props.authUser.tt.value));
+    dispatch(userActions.getUsers(props.authUser.shop.id));
     dispatch(checklistActions.getChecklists());
   }, []);
 

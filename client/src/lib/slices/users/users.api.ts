@@ -3,8 +3,8 @@ import { Checklist } from '../checklist';
 import { User } from './users.types';
 
 export const usersApi = {
-  async getUsers(tt: string): Promise<{ data: User[] }> {
-    return await axiosInstance.get(`/users?tt=${tt}`);
+  async getUsers(shopId: number): Promise<{ data: User[] }> {
+    return await axiosInstance.get(`/users?tt=${shopId}`);
   },
   async postNewUser(dto: User): Promise<{ data: User }> {
     return await axiosInstance.post('/users', dto);

@@ -4,7 +4,7 @@ import { takeEvery, call, put } from 'redux-saga/effects';
 import { User, userActions } from '../users';
 import { SagaIterator } from '@redux-saga/types';
 
-function* getUsersWorker(action: Action<string>): SagaIterator {
+function* getUsersWorker(action: Action<number>): SagaIterator {
   try {
     const { data } = yield call(usersApi.getUsers, action.payload);
     yield put(userActions.setUsers(data));
@@ -17,7 +17,7 @@ function* postUsersWorker(action: Action<User>): SagaIterator {
   try {
     yield call(usersApi.postNewUser, action.payload);
     yield put(userActions.newUserPosted());
-    yield put(userActions.getUsers(action.payload.tt.value));
+    yield put(userActions.getUsers(action.payload.shop.id));
   } catch (error) {
     console.log(error);
   }
@@ -27,7 +27,7 @@ function* deleteUserWorker(action: Action<User>): SagaIterator {
   try {
     yield call(usersApi.deleteUser, action.payload.id);
     yield put(userActions.userDeleted());
-    yield put(userActions.getUsers(action.payload.tt.value));
+    yield put(userActions.getUsers(action.payload.shop.id));
   } catch (error) {
     console.log(error);
   }
@@ -37,7 +37,7 @@ function* updateUserWorker(action: Action<User>): SagaIterator {
   try {
     yield call(usersApi.updateUser, action.payload);
     yield put(userActions.userUpdated());
-    yield put(userActions.getUsers(action.payload.tt.value));
+    yield put(userActions.getUsers(action.payload.shop.id));
   } catch (error) {
     console.log(error);
   }

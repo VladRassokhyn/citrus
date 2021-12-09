@@ -20,12 +20,9 @@ function* initializeWorker(): SagaIterator {
       if (!userRes) {
         yield put(authActions.setAuthError());
       } else {
-        const tt = shopsRes.data.find((tt: Shop) => tt.name === userRes.data.tt);
-        const user = { ...userRes.data, tt: { label: tt.name_1c, value: tt.name } };
-
         yield put(shopActions.setShops(shopsRes.data));
-        yield put(shopActions.setCurrentShop(tt));
-        yield put(authActions.setAuthUser(user));
+        yield put(shopActions.setCurrentShop(userRes.data.shop));
+        yield put(authActions.setAuthUser(userRes.data));
         yield put(authActions.setAuth());
       }
     }

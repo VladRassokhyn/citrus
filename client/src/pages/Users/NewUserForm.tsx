@@ -50,14 +50,18 @@ export const NewUserForm = (props: Props): JSX.Element => {
     defaultValues: { ...user, password: '' },
   });
 
-  const TTselectorOptions = shops?.map((shop) => ({ label: shop.shortName, value: shop.name }));
+  const TTselectorOptions = shops?.map((shop) => ({
+    id: shop.id,
+    label: shop.shortName,
+    value: shop.name,
+  }));
 
   const handleSave = (e: FixLater) => {
     if (user) {
-      const newUser = { ...user, ...e, tt: e.tt.value, role: e.role.value };
+      const newUser = { ...user, ...e, tt: e.shop.id, role: e.role.value };
       dispatch(userActions.updateUser(newUser));
     } else {
-      const newUser = { ...e, tt: e.tt.value, role: e.role.value };
+      const newUser = { ...e, tt: e.shop.id, role: e.role.value };
       dispatch(userActions.postNewUser(newUser));
     }
   };
@@ -90,7 +94,7 @@ export const NewUserForm = (props: Props): JSX.Element => {
       {!user && (
         <Controller
           control={control}
-          name="tt"
+          name="shop"
           render={({ field: { onChange } }) => (
             <Selector onChange={onChange} placeholder={'ТТ'} options={TTselectorOptions} />
           )}
