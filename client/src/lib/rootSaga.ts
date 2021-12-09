@@ -6,11 +6,9 @@ import { usersWatcher } from './slices/users';
 import { salesmanWatcher } from './slices/salesman';
 import { salesWatcher } from './slices/sales';
 import { shopWatcher } from './slices/shop';
-import { initializeWatcher } from './initialize.saga';
 
 export function* rootSaga(): Generator {
   yield all([
-    initializeWatcher(),
     usersWatcher(),
     authWather(),
     checklistWatcher(),
