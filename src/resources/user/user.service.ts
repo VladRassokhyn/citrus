@@ -5,7 +5,7 @@ const getAllUsers = async (isAdmin: boolean, tt: string) => {
   const users = await userRepo.getAllUsers();
 
   if (!isAdmin) {
-    return users.filter((user) => user.tt === tt);
+    return users.filter((user) => user.shop.name === tt);
   }
 
   return users;

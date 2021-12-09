@@ -42,11 +42,13 @@ router
         res.status(409).send(err);
     }
 });
-router.route('/:id').put([meddleware_1.checkJwt], async (req, res) => {
+router
+    .route('/:id')
+    .put([meddleware_1.checkJwt], (0, meddleware_1.checkRole)(['ADMIN']), async (req, res) => {
     const id = Number(req.params['id']);
     try {
         await user_service_1.userService.updateUser(req.body, id);
-        res.status(204);
+        res.status(201).send('updated');
     }
     catch (e) {
         res.status(500);

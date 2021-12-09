@@ -7,13 +7,15 @@ const entities_1 = require("../../entities");
 const getAllUsers = async () => {
     const userRepository = (0, typeorm_1.getRepository)(entities_1.User);
     return await userRepository.find({
-        select: ['id', 'username', 'role', 'name', 'lastName', 'tt'],
+        select: ['id', 'username', 'role', 'name', 'lastName', 'shop'],
+        relations: ['shop'],
     });
 };
 const getUserById = async (id) => {
     const userRepository = (0, typeorm_1.getRepository)(entities_1.User);
     return await userRepository.findOneOrFail(id, {
-        select: ['id', 'name', 'lastName', 'username', 'role', 'tt'],
+        select: ['id', 'name', 'lastName', 'username', 'role', 'shop'],
+        relations: ['shop'],
     });
 };
 const createNewUser = async (dto) => {
@@ -28,7 +30,12 @@ const createNewUser = async (dto) => {
 };
 const updateUser = async (dto, id) => {
     const userRepository = (0, typeorm_1.getRepository)(entities_1.User);
-    return await userRepository.update(id, dto);
+    try {
+        return await userRepository.update(id, dto);
+    }
+    catch (err) {
+        return err;
+    }
 };
 const deleteUser = async (id) => {
     const userRepository = (0, typeorm_1.getRepository)(entities_1.User);

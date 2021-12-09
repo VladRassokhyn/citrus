@@ -5,9 +5,12 @@ import {
   Unique,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToOne,
+  JoinTable,
 } from 'typeorm';
 import { Length, IsNotEmpty } from 'class-validator';
 import * as bcrypt from 'bcryptjs';
+import { Shop } from './Shop.model';
 
 @Entity()
 @Unique(['username'])
@@ -35,8 +38,9 @@ export class User {
   @IsNotEmpty()
   role: string;
 
-  @Column()
-  tt: string;
+  @ManyToOne(() => Shop, (shop) => shop.users)
+  @JoinTable()
+  shop: Shop;
 
   @Column()
   @CreateDateColumn()

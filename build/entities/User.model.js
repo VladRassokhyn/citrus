@@ -32,6 +32,7 @@ exports.User = void 0;
 const typeorm_1 = require("typeorm");
 const class_validator_1 = require("class-validator");
 const bcrypt = __importStar(require("bcryptjs"));
+const Shop_model_1 = require("./Shop.model");
 let User = class User {
     hashPassword() {
         this.password = bcrypt.hashSync(this.password, 8);
@@ -70,9 +71,10 @@ __decorate([
     __metadata("design:type", String)
 ], User.prototype, "role", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
-    __metadata("design:type", String)
-], User.prototype, "tt", void 0);
+    (0, typeorm_1.ManyToOne)(() => Shop_model_1.Shop, (shop) => shop.users),
+    (0, typeorm_1.JoinTable)(),
+    __metadata("design:type", Shop_model_1.Shop)
+], User.prototype, "shop", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
     (0, typeorm_1.CreateDateColumn)(),

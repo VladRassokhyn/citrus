@@ -5,7 +5,7 @@ const user_repository_1 = require("./user.repository");
 const getAllUsers = async (isAdmin, tt) => {
     const users = await user_repository_1.userRepo.getAllUsers();
     if (!isAdmin) {
-        return users.filter((user) => user.tt === tt);
+        return users.filter((user) => user.shop.name === tt);
     }
     return users;
 };

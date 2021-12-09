@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Shop = void 0;
 const typeorm_1 = require("typeorm");
+const User_model_1 = require("./User.model");
 let Shop = class Shop {
 };
 __decorate([
@@ -33,6 +34,11 @@ __decorate([
     (0, typeorm_1.Column)('text'),
     __metadata("design:type", String)
 ], Shop.prototype, "region", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => User_model_1.User, (user) => user.shop),
+    (0, typeorm_1.JoinTable)(),
+    __metadata("design:type", Array)
+], Shop.prototype, "users", void 0);
 Shop = __decorate([
     (0, typeorm_1.Entity)()
 ], Shop);

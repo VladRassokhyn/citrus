@@ -42,17 +42,23 @@ router
     },
   );
 
-router.route('/:id').put([checkJwt], async (req: Request, res: Response) => {
-  const id = Number(req.params['id']);
+router
+  .route('/:id')
+  .put(
+    [checkJwt],
+    checkRole(['ADMIN']),
+    async (req: Request, res: Response) => {
+      const id = Number(req.params['id']);
 
-  try {
-    await userService.updateUser(req.body, id);
-    res.status(204);
-  } catch (e) {
-    res.status(500);
-    return;
-  }
-});
+      try {
+        await userService.updateUser(req.body, id);
+        res.status(201).send('updated');
+      } catch (e) {
+        res.status(500);
+        return;
+      }
+    },
+  );
 
 router
   .route('/:id')

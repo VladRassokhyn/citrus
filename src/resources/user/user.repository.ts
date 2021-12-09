@@ -5,14 +5,16 @@ import { User } from '../../entities';
 const getAllUsers = async () => {
   const userRepository = getRepository(User);
   return await userRepository.find({
-    select: ['id', 'username', 'role', 'name', 'lastName', 'tt'],
+    select: ['id', 'username', 'role', 'name', 'lastName', 'shop'],
+    relations: ['shop'],
   });
 };
 
 const getUserById = async (id: number) => {
   const userRepository = getRepository(User);
   return await userRepository.findOneOrFail(id, {
-    select: ['id', 'name', 'lastName', 'username', 'role', 'tt'],
+    select: ['id', 'name', 'lastName', 'username', 'role', 'shop'],
+    relations: ['shop'],
   });
 };
 
@@ -32,7 +34,11 @@ const createNewUser = async (dto: User) => {
 
 const updateUser = async (dto: User, id: number) => {
   const userRepository = getRepository(User);
-  return await userRepository.update(id, dto);
+  try {
+    return await userRepository.update(id, dto);
+  } catch (err) {
+    return err;
+  }
 };
 
 const deleteUser = async (id: number) => {

@@ -1,4 +1,11 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { User } from './User.model';
 
 @Entity()
 export class Shop {
@@ -16,4 +23,8 @@ export class Shop {
 
   @Column('text')
   region: string;
+
+  @OneToMany(() => User, (user) => user.shop)
+  @JoinTable()
+  users: User[];
 }
