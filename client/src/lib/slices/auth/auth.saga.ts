@@ -12,11 +12,11 @@ function* authWorker(): SagaIterator {
     if (authRes.status === 401) {
       yield put(authActions.setAuthError());
     } else {
-      if (authRes.status === 200) {
+      if (authRes.status !== 200) {
         yield put(authActions.setAuthError());
       } else {
-        yield put(shopActions.setCurrentShop(authRes.data.shop));
         yield put(authActions.setAuthUser(authRes.data));
+        yield put(shopActions.setCurrentShop(authRes.data.shop));
         yield put(authActions.setAuth());
       }
     }

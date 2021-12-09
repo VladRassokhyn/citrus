@@ -21,7 +21,7 @@ router.route('/').get(async (req, res) => {
             select: ['id', 'username', 'role', 'name', 'lastName', 'shop'],
             relations: ['shop'],
         });
-        res.status(200).send(user);
+        res.status(200).send(user[0]);
     }
     catch (err) {
         res.status(401).send(err);
