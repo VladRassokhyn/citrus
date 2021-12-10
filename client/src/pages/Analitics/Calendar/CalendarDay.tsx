@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { memo, useCallback, useEffect, useMemo, useState } from 'react';
+import React, { memo, useCallback, useMemo, useState } from 'react';
 import { Modal } from '../../../Components/Modal';
 import { SalesInput } from '../SalesInput';
 import { useDispatch } from 'react-redux';

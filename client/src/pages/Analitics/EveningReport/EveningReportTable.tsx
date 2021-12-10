@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from 'styled-components';
 import html2canvas from 'html2canvas';
 import { getCalcFns } from '../../../lib/common';
@@ -174,7 +175,7 @@ export const EveningReportTable = (props: Props): JSX.Element => {
 
   const calcFns = getCalcFns(day, month);
 
-  const monthSales = useMemo(() => calcFns.monthSalesNew(sales), [sales]);
+  const monthSales = calcFns.monthSalesNew(sales);
   const daySales = sales[sales.length - 1];
 
   const onScreenshot = () => {
@@ -189,47 +190,40 @@ export const EveningReportTable = (props: Props): JSX.Element => {
     });
   };
 
-  const calcs = useMemo(
-    () => ({
-      cmDayRatio: calcFns.ratio(daySales.ttSales[8], daySales.ttSales[1]),
-      czDayRatio: calcFns.ratio(daySales.ttSales[10], daySales.ttSales[1]),
-      cmRatio: calcFns.ratio(monthSales.ttSales[8], monthSales.ttSales[1]),
-      czRatio: calcFns.ratio(monthSales.ttSales[10], monthSales.ttSales[1]),
-      cmForecast: calcFns.forecastPercent(monthSales.ttSales[8], planes.cm),
-      czForecast: calcFns.forecastPercent(monthSales.ttSales[10], planes.cz),
-      cmGrowthForecast: calcFns.growthForecast(
-        planes.cm,
-        daySales.ttSales[8],
-        monthSales.ttSales[8],
-      ),
-      czGrowthForecast: calcFns.growthForecast(
-        planes.cz,
-        daySales.ttSales[10],
-        monthSales.ttSales[10],
-      ),
-      cmDayRate: calcFns.ratio(
-        daySales.ttSales[8],
-        calcFns.dayPlane(monthSales.ttSales[8], planes.cm),
-      ),
-      czDayRate: calcFns.ratio(
-        daySales.ttSales[10],
-        calcFns.dayPlane(monthSales.ttSales[10], planes.cz),
-      ),
-      cmGrowthRatio: calcFns.growthRatio(
-        daySales.ttSales[8],
-        daySales.ttSales[1],
-        monthSales.ttSales[8],
-        monthSales.ttSales[1],
-      ),
-      czGrowthRatio: calcFns.growthRatio(
-        daySales.ttSales[10],
-        daySales.ttSales[1],
-        monthSales.ttSales[10],
-        monthSales.ttSales[1],
-      ),
-    }),
-    [sales, day],
-  );
+  const calcs = {
+    cmDayRatio: calcFns.ratio(daySales.ttSales[8], daySales.ttSales[1]),
+    czDayRatio: calcFns.ratio(daySales.ttSales[10], daySales.ttSales[1]),
+    cmRatio: calcFns.ratio(monthSales.ttSales[8], monthSales.ttSales[1]),
+    czRatio: calcFns.ratio(monthSales.ttSales[10], monthSales.ttSales[1]),
+    cmForecast: calcFns.forecastPercent(monthSales.ttSales[8], planes.cm),
+    czForecast: calcFns.forecastPercent(monthSales.ttSales[10], planes.cz),
+    cmGrowthForecast: calcFns.growthForecast(planes.cm, daySales.ttSales[8], monthSales.ttSales[8]),
+    czGrowthForecast: calcFns.growthForecast(
+      planes.cz,
+      daySales.ttSales[10],
+      monthSales.ttSales[10],
+    ),
+    cmDayRate: calcFns.ratio(
+      daySales.ttSales[8],
+      calcFns.dayPlane(monthSales.ttSales[8], planes.cm),
+    ),
+    czDayRate: calcFns.ratio(
+      daySales.ttSales[10],
+      calcFns.dayPlane(monthSales.ttSales[10], planes.cz),
+    ),
+    cmGrowthRatio: calcFns.growthRatio(
+      daySales.ttSales[8],
+      daySales.ttSales[1],
+      monthSales.ttSales[8],
+      monthSales.ttSales[1],
+    ),
+    czGrowthRatio: calcFns.growthRatio(
+      daySales.ttSales[10],
+      daySales.ttSales[1],
+      monthSales.ttSales[10],
+      monthSales.ttSales[1],
+    ),
+  };
 
   const cmForecastColor =
     calcs.cmForecast > 90

@@ -1,4 +1,4 @@
-import { memo, useCallback, useEffect } from 'react';
+import React, { memo, useCallback, useEffect } from 'react';
 import styled from 'styled-components';
 
 type Props = {

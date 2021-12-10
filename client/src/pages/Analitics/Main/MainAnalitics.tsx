@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { Preloader } from '../../../Components/Preloader';
@@ -68,18 +68,6 @@ export const MainAnalitics = (props: Props): JSX.Element => {
   const { month, year } = useTypedSelector(salesSelectors.monthAndYear);
   const [days, setDays] = useState(getDaysFormated(month, year).days);
 
-  if (!sales) return <Preloader />;
-
-  const lastSales = sales[sales.length - 1];
-
-  const calcFns = getCalcFns(lastSales ? lastSales.day.split('.')[0] : 1, month);
-
-  const mountSales = useMemo(() => calcFns.monthSalesNew(sales), [sales]);
-  const salesSum = useMemo(() => calcFns.monthSalesNew(sales), [sales]);
-  const cmForecast = useMemo(() => calcFns.forecastSumm(salesSum.ttSales[8]), [salesSum]);
-  const czForecast = useMemo(() => calcFns.forecastSumm(salesSum.ttSales[10]), [salesSum]);
-  const caForecast = useMemo(() => calcFns.forecastSumm(salesSum.ttSales[12]), [salesSum]);
-
   useEffect(() => {
     setDays(getDaysFormated(month, year).days);
   }, [month]);
@@ -87,6 +75,18 @@ export const MainAnalitics = (props: Props): JSX.Element => {
   const handleDateChange = useCallback((monthNumber: number, yearNumber: number) => {
     dispatch(salesActions.setmonth({ year: yearNumber, month: monthNumber }));
   }, []);
+
+  if (!sales) return <Preloader />;
+
+  const lastSales = sales[sales.length - 1];
+
+  const calcFns = getCalcFns(lastSales ? lastSales.day.split('.')[0] : 1, month);
+
+  const mountSales = calcFns.monthSalesNew(sales);
+  const salesSum = calcFns.monthSalesNew(sales);
+  const cmForecast = calcFns.forecastSumm(salesSum.ttSales[8]);
+  const czForecast = calcFns.forecastSumm(salesSum.ttSales[10]);
+  const caForecast = calcFns.forecastSumm(salesSum.ttSales[12]);
 
   return (
     <Wrapper>

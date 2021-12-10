@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { useTypedSelector } from '../../../lib/hooks';
 import { Planes } from '../../../lib/slices/planes/planes.type';
 import { Sales } from '../../../lib/slices/sales/sales.type';
-import { Shop, shopSelectors } from '../../../lib/slices/shop';
+import { Shop, shopActions, shopSelectors } from '../../../lib/slices/shop';
 
 type Props = {
   currentShop: Shop;
@@ -23,15 +24,26 @@ type CellProps = {
   selected?: boolean;
 };
 
-const FilledCell = styled.div<CellProps>`
+type FilledCellProps = {
+  width: number;
+  isZeroOrNegative?: boolean;
+  selected?: boolean;
+};
+
+const FilledCell = styled.div<FilledCellProps>`
   width: ${(props) => (props.width && props.width > 100 ? 100 : props.width)}%;
-  background-color: ${(props) => props.color};
+  background-color: ${(props) =>
+    props.width >= 100
+      ? '#ccffcc'
+      : props.width >= 85 && props.width <= 99
+      ? '#fff0b3'
+      : '#ffcccc'};
   height: 20px;
   display: flex;
   align-items: center;
   justify-content: flex-end;
   transition: linear 0.1s;
-  height: ${(props) => (props.selected ? '30px' : '20px')};
+  height: 20px;
 `;
 
 const Wrapper = styled.div`
@@ -48,28 +60,26 @@ const Column = styled.div`
 `;
 
 const Cell = styled.div<CellProps>`
+  background-color: ${(props) => props.selected && '#b3e6ff !important'};
   border-right: 1px solid #dfdfdf;
   display: flex;
   align-items: center;
   justify-content: flex-end;
   padding-right: 10px;
 
-  height: ${(props) => (props.selected ? '30px' : '20px')};
+  height: 20px;
   transition: linear 0.1s;
   background-color: ${(props) => props.isZeroOrNegative && '#ffcccc'} !important;
-  border-bottom: 1px solid ${(props) => (props.selected ? 'var(--color-button)' : '#dfdfdf')};
-  ${(props) => props.selected && 'border-top: 1px solid var(--color-button);'};
   &:nth-child(even) {
     background-color: #f2f2f2;
   }
 `;
 
 const CellWithFill = styled.div<CellProps>`
-  height: ${(props) => (props.selected ? '30px' : '20px')};
+  height: 20px;
   transition: linear 0.1s;
   border-right: 1px solid #dfdfdf;
-  border-bottom: 1px solid ${(props) => (props.selected ? 'var(--color-button)' : '#dfdfdf')};
-  ${(props) => props.selected && 'border-top: 1px solid var(--color-button);'};
+  background-color: ${(props) => props.selected && '#b3e6ff !important'};
   &:nth-child(even) {
     background-color: #f2f2f2;
   }
@@ -130,8 +140,8 @@ const H2 = styled.h1`
   color: var(--color-stroke);
 `;
 const H3 = styled.h1`
-  font-size: 8pt;
-  color: var(--color-stroke);
+  font-size: 10pt;
+  color: black;
   width: 90%;
   text-align: right;
   position: relative;
@@ -140,8 +150,9 @@ const H3 = styled.h1`
 `;
 
 const H4 = styled.h1`
-  font-size: 8pt;
-  color: var(--color-stroke);
+  font-size: 10pt;
+  color: black;
+  font-weight: 800;
 `;
 
 const NameCell = styled.div<CellProps>`
@@ -149,11 +160,10 @@ const NameCell = styled.div<CellProps>`
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  height: ${(props) => (props.selected ? '30px' : '20px')};
+  height: 20px;
   padding-left: 10px;
   transition: linear 0.1s;
-  border-bottom: 1px solid ${(props) => (props.selected ? 'var(--color-button)' : '#dfdfdf')};
-  ${(props) => props.selected && 'border-top: 1px solid var(--color-button);'};
+  background-color: ${(props) => props.selected && '#b3e6ff !important'};
   &:nth-child(even) {
     background-color: #f2f2f2;
   }
@@ -164,6 +174,8 @@ const NameCell = styled.div<CellProps>`
 
 export const DetailTable = (props: Props): JSX.Element => {
   const { columns, thisDay, ttSales, planes } = props;
+  const dispatch = useDispatch();
+  const currentShop = useTypedSelector(shopSelectors.currentShop);
   const [sortReverse, setSortReverse] = useState(false);
   const [selectedRow, setSelectedRow] = useState(-1);
   const [sales, setSales] = useState(thisDay);
@@ -188,6 +200,14 @@ export const DetailTable = (props: Props): JSX.Element => {
     }
   };
 
+  const handleClick = (name: string | number) => {
+    console.log(name);
+    if (currentShop?.name === 'KIEV_ALL' || currentShop?.name === 'KHARKOV_ALL') {
+      const shop = shops?.find((sh) => sh.name_1c === name);
+      shop && dispatch(shopActions.setCurrentShop(shop));
+    }
+  };
+
   return (
     <Wrapper>
       {columns.map((column, i) => {
@@ -197,7 +217,7 @@ export const DetailTable = (props: Props): JSX.Element => {
               {i === 3 && <SeparatedCellTop />}
               {i === 4 && (
                 <SeparatedCellTop>
-                  <H1>ЦМ</H1>
+                  <H1>ЦМ {' ' + planes.to_cm}</H1>
                 </SeparatedCellTop>
               )}
               {i === 5 && <SeparatedCellTop border />}
@@ -205,7 +225,7 @@ export const DetailTable = (props: Props): JSX.Element => {
               {i === 6 && <SeparatedCellTop />}
               {i === 7 && (
                 <SeparatedCellTop>
-                  <H1>ЦЗ</H1>
+                  <H1>ЦЗ {' ' + planes.to_cz}</H1>
                 </SeparatedCellTop>
               )}
               {i === 8 && <SeparatedCellTop border />}
@@ -223,7 +243,9 @@ export const DetailTable = (props: Props): JSX.Element => {
 
             <TTHead>
               <Cell>
-                <H2>{i === 0 ? props.currentShop.shortName : column.fn(ttSales)}</H2>
+                <H2>
+                  {i === 0 ? props.currentShop.shortName : column.fn(ttSales).toLocaleString('ru')}
+                </H2>
               </Cell>
             </TTHead>
             {sales.sales.map((salesman, j) => {
@@ -232,7 +254,8 @@ export const DetailTable = (props: Props): JSX.Element => {
                   <NameCell
                     selected={j === selectedRow}
                     key={salesman[0]}
-                    onClick={() => handleSelectRow(j)}
+                    onMouseEnter={() => handleSelectRow(j)}
+                    onClick={() => handleClick(salesman[0])}
                   >
                     <H2>{getShortName(shops!, column.fn(salesman) as string)}</H2>
                   </NameCell>
@@ -244,7 +267,6 @@ export const DetailTable = (props: Props): JSX.Element => {
                     <FilledCell
                       selected={j === selectedRow}
                       width={(+column.fn(salesman) / planes.to_cm) * 100}
-                      color={isZero ? '#ffcccc' : '#b8f2c5'}
                     />
                     <H3>{isZero ? (0).toFixed(2) : column.fn(salesman)}</H3>
                   </CellWithFill>

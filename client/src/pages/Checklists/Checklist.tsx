@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory, useParams } from 'react-router';
 import styled from 'styled-components';
@@ -110,7 +110,7 @@ export const Checklist = (props: Props): JSX.Element => {
     if (salesmanId && managerId) {
       setShowChecklist(true);
     }
-    () => {
+    return () => {
       setShowChecklist(false);
     };
   }, [salesmanId, managerId]);

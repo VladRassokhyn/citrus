@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from 'styled-components';
 import { CalendarDay } from './CalendarDay';
 import { Planes } from '../../../lib/slices/planes/planes.type';

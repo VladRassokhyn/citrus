@@ -4,7 +4,7 @@ import { NavItem } from './NavItem';
 import { paths } from '../../../lib/routing';
 import { User } from '../../../lib/slices/users';
 import { UserRoles } from '../../../lib/globalTypes';
-import { useCallback, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
 type Props = {
   authUser: User;

@@ -1,3 +1,4 @@
+import React from 'react';
 import { Redirect, Route, Switch } from 'react-router';
 import { paths } from '.';
 import { User } from '../slices/users';

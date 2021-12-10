@@ -1,7 +1,7 @@
 import ReactDOM from 'react-dom';
 import styled, { keyframes } from 'styled-components';
 import { slideInLeft, slideOutLeft } from 'react-animations';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 type Props = {
   image: string; //base64

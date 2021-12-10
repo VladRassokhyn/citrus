@@ -3,7 +3,7 @@ import { Confirm } from '../../../Components/Confirm';
 import { Shop } from '../../../lib/slices/shop';
 import trash from '../../../static/trash.svg';
 import edit from '../../../static/edit.svg';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { NewShopForm } from './NewShopForm';
 import { Modal } from '../../../Components/Modal';
 

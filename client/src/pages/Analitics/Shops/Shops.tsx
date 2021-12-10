@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from 'styled-components';
 import { Shop, shopSelectors } from '../../../lib/slices/shop';
 import { User } from '../../../lib/slices/users';
