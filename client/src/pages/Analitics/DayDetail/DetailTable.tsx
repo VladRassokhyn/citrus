@@ -32,12 +32,9 @@ type FilledCellProps = {
 
 const FilledCell = styled.div<FilledCellProps>`
   width: ${(props) => (props.width && props.width > 100 ? 100 : props.width)}%;
+  background-color: ${(props) => props.isZeroOrNegative && 'transparent !important'};
   background-color: ${(props) =>
-    props.width >= 100
-      ? '#ccffcc'
-      : props.width >= 85 && props.width <= 99
-      ? '#fff0b3'
-      : '#ffcccc'};
+    props.width > 100 ? '#ccffcc' : props.width >= 85 && props.width <= 99 ? '#fff0b3' : '#ffcccc'};
   height: 20px;
   display: flex;
   align-items: center;
@@ -79,7 +76,7 @@ const CellWithFill = styled.div<CellProps>`
   height: 20px;
   transition: linear 0.1s;
   border-right: 1px solid #dfdfdf;
-  background-color: ${(props) => props.isZeroOrNegative && '#ffcccc'} !important;
+  background-color: ${(props) => props.isZeroOrNegative && '#ffcccc !important'};
   background-color: ${(props) => props.selected && '#b3e6ff'};
   &:nth-child(even) {
     background-color: #f2f2f2;
@@ -266,6 +263,7 @@ export const DetailTable = (props: Props): JSX.Element => {
                 return (
                   <CellWithFill selected={j === selectedRow} key={salesman[0]}>
                     <FilledCell
+                      isZeroOrNegative={isZero}
                       selected={j === selectedRow}
                       width={(+column.fn(salesman) / planes.to_cm) * 100}
                     />
@@ -277,6 +275,7 @@ export const DetailTable = (props: Props): JSX.Element => {
                 return (
                   <CellWithFill selected={j === selectedRow} key={salesman[0]}>
                     <FilledCell
+                      isZeroOrNegative={isZero}
                       selected={j === selectedRow}
                       width={(+column.fn(salesman) / planes.to_cz) * 100}
                       color={isZero ? '#ffcccc' : '#b8f2c5'}
