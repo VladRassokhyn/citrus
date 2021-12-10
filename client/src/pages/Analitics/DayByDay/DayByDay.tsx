@@ -115,7 +115,10 @@ const Btn = styled.button<StyleProps>`
 export const DayByDay = (props: Props): JSX.Element => {
   const [activeBar, setActiveBar] = useState('ALL');
 
-  const maxVaue = props.sales.length > 0 ? getMaxValue(props.sales, activeBar) : 10000;
+  if (props.sales.length < 1) {
+    return <div></div>;
+  }
+  const maxVaue = getMaxValue(props.sales, activeBar);
 
   return (
     <Wrapper>
@@ -219,18 +222,18 @@ function getMaxValue(sales: Sales[], activeBar: string) {
   if (activeBar === 'CA') return +sortedByCa[0].ttSales[12];
 
   if (
-    sortedByCm[0].ttSales[8] > sortedByCz[0].ttSales[10] ||
+    sortedByCm[0].ttSales[8] > sortedByCz[0].ttSales[10] &&
     sortedByCm[0].ttSales[8] > sortedByCa[0].ttSales[12]
   ) {
     return +sortedByCm[0].ttSales[8];
   } else if (
-    sortedByCz[0].ttSales[10] > sortedByCz[0].ttSales[8] ||
+    sortedByCz[0].ttSales[10] > sortedByCm[0].ttSales[8] &&
     sortedByCz[0].ttSales[10] > sortedByCa[0].ttSales[12]
   ) {
     return +sortedByCz[0].ttSales[10];
   } else if (
-    sortedByCa[0].ttSales[12] > sortedByCz[0].ttSales[8] ||
-    sortedByCa[0].ttSales[12] > sortedByCa[0].ttSales[10]
+    sortedByCa[0].ttSales[12] > sortedByCz[0].ttSales[8] &&
+    sortedByCa[0].ttSales[12] > sortedByCm[0].ttSales[10]
   ) {
     return +sortedByCa[0].ttSales[12];
   } else {
