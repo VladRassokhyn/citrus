@@ -79,7 +79,8 @@ const CellWithFill = styled.div<CellProps>`
   height: 20px;
   transition: linear 0.1s;
   border-right: 1px solid #dfdfdf;
-  background-color: ${(props) => props.selected && '#b3e6ff !important'};
+  background-color: ${(props) => props.isZeroOrNegative && '#ffcccc'} !important;
+  background-color: ${(props) => props.selected && '#b3e6ff'};
   &:nth-child(even) {
     background-color: #f2f2f2;
   }
