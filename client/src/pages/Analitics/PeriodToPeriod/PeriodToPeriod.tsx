@@ -5,6 +5,7 @@ import { getCalcFns } from '../../../lib/common';
 import { useTypedSelector } from '../../../lib/hooks';
 import { planesSelectors } from '../../../lib/slices/planes';
 import { SalesIndexes, salesSelectors } from '../../../lib/slices/sales';
+import { Result } from './Results';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -13,73 +14,10 @@ const Wrapper = styled.div`
   justify-content: space-between;
 `;
 
-const Content = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-width: 150px;
-  padding: 0 15px;
-  box-shadow: 0 0 5px #dfdfdf;
-  border-radius: 10px;
-`;
-
 const Side = styled.div`
   display: flex;
   flex-direction: row;
   gap: 30px;
-`;
-
-const Title = styled.h1`
-  margin-top: 10px;
-  font-size: 12pt;
-  color: var(--color-button);
-`;
-
-const Value = styled.h1`
-  letter-spacing: 1pt;
-  font-size: 16pt;
-  color: var(--color-stroke);
-`;
-
-const HalfCircle = styled.div`
-  margin-top: 30px;
-  width: 130px;
-  height: 65px;
-  border-radius: 65px 65px 0 0;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  background: linear-gradient(
-    90deg,
-    rgba(180, 58, 58, 0.7469362745098039) 0%,
-    rgba(74, 252, 69, 0.6601015406162465) 100%
-  );
-`;
-
-const HR = styled.div<{ deg: number }>`
-  position: absolute;
-  width: 140px;
-  z-index: 200;
-  transform: rotate(${(props) => props.deg}deg);
-  transition: linear 0.3s;
-`;
-
-const HRLeft = styled.div`
-  height: 3px;
-  width: 30px;
-  background-color: var(--color-stroke);
-`;
-
-const InnerHalf = styled.div`
-  position: relative;
-  z-index: 100;
-  width: 90px;
-  height: 45px;
-  border-radius: 45px 45px 0 0;
-  background-color: white;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
 `;
 
 export const PeriodToPeriod = (): JSX.Element => {
@@ -106,6 +44,17 @@ export const PeriodToPeriod = (): JSX.Element => {
     firstSalesSumm.ttSales[SalesIndexes.DEVICES],
   );
 
+  const secondCmRatio = calcFns.ratio(
+    secondSalesSumm.ttSales[SalesIndexes.CM],
+    secondSalesSumm.ttSales[SalesIndexes.DEVICES],
+  );
+
+  const firstArrowDegre =
+    firstCmRatio / planes.to_cm > 1 ? 180 : 180 * (firstCmRatio / planes.to_cm);
+
+  const secondArrowDegre =
+    secondCmRatio / planes.to_cm > 1 ? 180 : 180 * (secondCmRatio / planes.to_cm);
+
   return (
     <Wrapper>
       <Side>
@@ -115,30 +64,35 @@ export const PeriodToPeriod = (): JSX.Element => {
           changeFrom={setFirstDayFrom}
           changeTo={setFirstDayTo}
         />
-        <Content>
-          <Title>ТО</Title>
-          <Value>{firstSalesSumm.ttSales[SalesIndexes.TO].toLocaleString('ru')}</Value>
-          <Title>Устройства</Title>
-          <Value>{firstSalesSumm.ttSales[SalesIndexes.DEVICES].toLocaleString('ru')}</Value>
-          <Title>ЦМ</Title>
-          <Value>{firstSalesSumm.ttSales[SalesIndexes.CM].toLocaleString('ru')}</Value>
-          <HalfCircle>
-            <HR deg={firstCmRatio / planes.to_cm > 1 ? 180 : 180 * (firstCmRatio / planes.to_cm)}>
-              <HRLeft />
-            </HR>
-            <InnerHalf>
-              <Value>{firstCmRatio}</Value>
-            </InnerHalf>
-          </HalfCircle>
-        </Content>
+        <Result
+          to={+firstSalesSumm.ttSales[SalesIndexes.TO]}
+          devices={+firstSalesSumm.ttSales[SalesIndexes.DEVICES]}
+          cm={+firstSalesSumm.ttSales[SalesIndexes.CM]}
+          cmRatio={firstCmRatio}
+          arrowDeg={firstArrowDegre}
+        />
       </Side>
       <Side>
-        <Content>
-          <h5>to</h5>
-          <h5>ЦМ: {secondSalesSumm.ttSales[SalesIndexes.CM].toLocaleString('ru')}</h5>
-          <h5>Устройства: {secondSalesSumm.ttSales[SalesIndexes.DEVICES].toLocaleString('ru')}</h5>
-          <h5>ТО: {secondSalesSumm.ttSales[SalesIndexes.TO].toLocaleString('ru')}</h5>
-        </Content>
+        <Result
+          isDifference
+          to={+secondSalesSumm.ttSales[SalesIndexes.TO] - +firstSalesSumm.ttSales[SalesIndexes.TO]}
+          devices={
+            +secondSalesSumm.ttSales[SalesIndexes.DEVICES] -
+            +firstSalesSumm.ttSales[SalesIndexes.DEVICES]
+          }
+          cm={+secondSalesSumm.ttSales[SalesIndexes.CM] - +firstSalesSumm.ttSales[SalesIndexes.CM]}
+          cmRatio={secondCmRatio - firstCmRatio}
+          arrowDeg={secondArrowDegre - firstArrowDegre}
+        />
+      </Side>
+      <Side>
+        <Result
+          to={+secondSalesSumm.ttSales[SalesIndexes.TO]}
+          devices={+secondSalesSumm.ttSales[SalesIndexes.DEVICES]}
+          cm={+secondSalesSumm.ttSales[SalesIndexes.CM]}
+          cmRatio={secondCmRatio}
+          arrowDeg={secondArrowDegre}
+        />
         <DayRange
           from={secondDayFrom}
           to={secondDayTo}
