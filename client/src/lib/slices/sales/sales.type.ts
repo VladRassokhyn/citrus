@@ -49,3 +49,12 @@ export interface PutSalesPayload extends GetSalesPayload {
 export interface DeleteSalesPayload extends GetSalesPayload {
   id: number;
 }
+
+export enum SalesIndexes {
+  NAME = 0,
+  DEVICES = 1,
+  CM = 8,
+  CZ = 10,
+  CA = 12,
+  TO = 14,
+}

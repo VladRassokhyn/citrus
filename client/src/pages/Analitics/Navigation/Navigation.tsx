@@ -77,6 +77,9 @@ export const Navigation = (props: Props): JSX.Element => {
           </NavItem>
           {props.authUser.role === UserRoles.ADMIN && (
             <>
+              <NavItem path={paths.ANALYTICS.PERIOD_TO_PERIOD.BASE()} handleOpen={handleOpen}>
+                <H1>Период к периоду</H1>
+              </NavItem>
               <NavItem path={paths.ANALYTICS.SHOPS.BASE()} handleOpen={handleOpen}>
                 <H1>Магазины</H1>
               </NavItem>

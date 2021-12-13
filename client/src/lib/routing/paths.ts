@@ -31,5 +31,8 @@ export const paths = {
     SHOPS: {
       BASE: pathMaker('/analytics/shops'),
     },
+    PERIOD_TO_PERIOD: {
+      BASE: pathMaker('/analytics/period-to-period'),
+    },
   },
 };

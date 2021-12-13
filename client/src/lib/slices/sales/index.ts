@@ -20,7 +20,6 @@ import {
   monthAndYear,
   salsesByRange,
 } from './sales.selectors';
-import { Sales } from './sales.type';
 
 export const salesSelectors = {
   sales,
@@ -43,4 +42,6 @@ export const salesActions = {
   setmonth,
 };
 export { salesReducer, salesWatcher };
-export type { Sales };
+
+export type { Sales } from './sales.type';
+export { SalesIndexes } from './sales.type';

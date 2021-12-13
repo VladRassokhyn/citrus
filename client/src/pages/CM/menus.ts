@@ -441,7 +441,7 @@ export const menus: Menus[] = [
             id: uuid(),
             name: 'platinumCardMacOS',
             displayName: 'Platinum Card',
-            price: 10000,
+            price: 11500,
             includes: [
               {
                 id: uuid(),
@@ -554,7 +554,7 @@ export const menus: Menus[] = [
             id: uuid(),
             name: 'goldCardWindows',
             displayName: 'Gold Card',
-            price: 7000,
+            price: 8000,
             includes: [
               {
                 id: uuid(),
@@ -584,7 +584,7 @@ export const menus: Menus[] = [
             id: uuid(),
             name: 'platinumCardWindows',
             displayName: 'Platinum Card',
-            price: 9000,
+            price: 10000,
             includes: [
               {
                 id: uuid(),
@@ -736,7 +736,7 @@ export const menus: Menus[] = [
           {
             id: uuid(),
             name: 'BundleHomeStudent',
-            price: 6000,
+            price: 7000,
             displayName: 'Bundle Home & Student',
             includes: [
               {
@@ -804,7 +804,7 @@ export const menus: Menus[] = [
           {
             id: uuid(),
             name: 'Bundle365Desktop',
-            price: 4200,
+            price: 4500,
             displayName: 'Bundle 365 Desktop',
             includes: [
               {
@@ -873,7 +873,7 @@ export const menus: Menus[] = [
           {
             id: uuid(),
             name: 'Bundle365Mobile',
-            price: 4200,
+            price: 4500,
             displayName: 'Bundle 365 Mobile',
             includes: [
               {

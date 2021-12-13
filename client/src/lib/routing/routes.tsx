@@ -12,6 +12,7 @@ import { paths } from '.';
 import { User as UserType } from '../slices/users';
 import { Shops } from '../../pages/Analitics/Shops';
 import { Shop } from '../slices/shop';
+import { PeriodToPeriod } from '../../pages/Analitics/PeriodToPeriod';
 
 type Props = {
   authUser: UserType;
@@ -87,6 +88,14 @@ export const routes: RouteItem[] = [
       {
         path: paths.ANALYTICS.SHOPS.BASE(),
         component: Shops,
+        exact: true,
+        private: true,
+        roles: null,
+        routes: [],
+      },
+      {
+        path: paths.ANALYTICS.PERIOD_TO_PERIOD.BASE(),
+        component: PeriodToPeriod,
         exact: true,
         private: true,
         roles: null,
