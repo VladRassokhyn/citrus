@@ -79,12 +79,8 @@ export const DayRange = (props: Props): JSX.Element => {
       changeFrom(day);
       changeTo(day);
     } else {
-      if (day < from) {
-        changeFrom(day);
-      } else {
-        changeTo(day);
-        setIsFromChanged(false);
-      }
+      changeTo(day);
+      setIsFromChanged(false);
     }
   };
 
