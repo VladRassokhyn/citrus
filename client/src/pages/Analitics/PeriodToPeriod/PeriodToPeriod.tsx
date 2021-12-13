@@ -5,13 +5,17 @@ import { getCalcFns } from '../../../lib/common';
 import { useTypedSelector } from '../../../lib/hooks';
 import { planesSelectors } from '../../../lib/slices/planes';
 import { SalesIndexes, salesSelectors } from '../../../lib/slices/sales';
+import { PerToPerTable } from './PerToPerTable';
 import { Result } from './Results';
 
-const Wrapper = styled.div`
+const Wrapper = styled.div``;
+
+const Header = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  gap: 30px;
 `;
 
 const Side = styled.div`
@@ -57,49 +61,61 @@ export const PeriodToPeriod = (): JSX.Element => {
 
   return (
     <Wrapper>
-      <Side>
-        <DayRange
-          from={firstDayFrom}
-          to={firstDayTo}
-          changeFrom={setFirstDayFrom}
-          changeTo={setFirstDayTo}
-        />
-        <Result
-          to={+firstSalesSumm.ttSales[SalesIndexes.TO]}
-          devices={+firstSalesSumm.ttSales[SalesIndexes.DEVICES]}
-          cm={+firstSalesSumm.ttSales[SalesIndexes.CM]}
-          cmRatio={firstCmRatio}
-          arrowDeg={firstArrowDegre}
-        />
-      </Side>
-      <Side>
-        <Result
-          isDifference
-          to={+secondSalesSumm.ttSales[SalesIndexes.TO] - +firstSalesSumm.ttSales[SalesIndexes.TO]}
-          devices={
-            +secondSalesSumm.ttSales[SalesIndexes.DEVICES] -
-            +firstSalesSumm.ttSales[SalesIndexes.DEVICES]
-          }
-          cm={+secondSalesSumm.ttSales[SalesIndexes.CM] - +firstSalesSumm.ttSales[SalesIndexes.CM]}
-          cmRatio={secondCmRatio - firstCmRatio}
-          arrowDeg={secondArrowDegre - firstArrowDegre}
-        />
-      </Side>
-      <Side>
-        <Result
-          to={+secondSalesSumm.ttSales[SalesIndexes.TO]}
-          devices={+secondSalesSumm.ttSales[SalesIndexes.DEVICES]}
-          cm={+secondSalesSumm.ttSales[SalesIndexes.CM]}
-          cmRatio={secondCmRatio}
-          arrowDeg={secondArrowDegre}
-        />
-        <DayRange
-          from={secondDayFrom}
-          to={secondDayTo}
-          changeFrom={setSecondDayFrom}
-          changeTo={setSecondDayTo}
-        />
-      </Side>
+      <Header>
+        <Side>
+          <DayRange
+            from={firstDayFrom}
+            to={firstDayTo}
+            changeFrom={setFirstDayFrom}
+            changeTo={setFirstDayTo}
+          />
+          <Result
+            to={+firstSalesSumm.ttSales[SalesIndexes.TO]}
+            devices={+firstSalesSumm.ttSales[SalesIndexes.DEVICES]}
+            cm={+firstSalesSumm.ttSales[SalesIndexes.CM]}
+            cmRatio={firstCmRatio}
+            arrowDeg={firstArrowDegre}
+          />
+        </Side>
+        <Side>
+          <Result
+            isDifference
+            to={
+              +secondSalesSumm.ttSales[SalesIndexes.TO] - +firstSalesSumm.ttSales[SalesIndexes.TO]
+            }
+            devices={
+              +secondSalesSumm.ttSales[SalesIndexes.DEVICES] -
+              +firstSalesSumm.ttSales[SalesIndexes.DEVICES]
+            }
+            cm={
+              +secondSalesSumm.ttSales[SalesIndexes.CM] - +firstSalesSumm.ttSales[SalesIndexes.CM]
+            }
+            cmRatio={secondCmRatio - firstCmRatio}
+            arrowDeg={secondArrowDegre - firstArrowDegre}
+          />
+        </Side>
+        <Side>
+          <Result
+            to={+secondSalesSumm.ttSales[SalesIndexes.TO]}
+            devices={+secondSalesSumm.ttSales[SalesIndexes.DEVICES]}
+            cm={+secondSalesSumm.ttSales[SalesIndexes.CM]}
+            cmRatio={secondCmRatio}
+            arrowDeg={secondArrowDegre}
+          />
+          <DayRange
+            from={secondDayFrom}
+            to={secondDayTo}
+            changeFrom={setSecondDayFrom}
+            changeTo={setSecondDayTo}
+          />
+        </Side>
+      </Header>
+      <PerToPerTable
+        sales1={firstSalesSumm}
+        sales2={secondSalesSumm}
+        per1={`${firstDayFrom}-${firstDayTo}`}
+        per2={`${secondDayFrom}-${secondDayTo}`}
+      />
     </Wrapper>
   );
 };
