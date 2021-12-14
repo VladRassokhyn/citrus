@@ -16,7 +16,7 @@ const Shop_1 = require("./resources/Shop");
 exports.app = (0, express_1.default)();
 exports.app.use((0, cors_1.default)());
 exports.app.use((0, cookie_parser_1.default)());
-exports.app.use(express_1.default.json());
+exports.app.use(express_1.default.json({ limit: '10mb' }));
 exports.app.use(express_1.default.static(path_1.default.join(__dirname, '../client/build')));
 const rootUrls = [
     '/',

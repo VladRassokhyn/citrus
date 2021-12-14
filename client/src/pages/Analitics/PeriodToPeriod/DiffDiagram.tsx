@@ -38,8 +38,7 @@ export const DiffDiagram = (props: Props): JSX.Element => {
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="label" />
           <Tooltip />
-
-          <Line connectNulls type="monotone" dataKey="value" stroke="#8884d8" fill="#8884d8">
+          <Line connectNulls type="monotone" dataKey="value" stroke="green" fill="green">
             <LabelList dataKey="value" position="top" />
           </Line>
         </LineChart>
