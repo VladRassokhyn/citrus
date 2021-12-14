@@ -4,7 +4,9 @@ import { DayRange } from '../../../Components/DayRange';
 import { getCalcFns } from '../../../lib/common';
 import { useTypedSelector } from '../../../lib/hooks';
 import { planesSelectors } from '../../../lib/slices/planes';
-import { SalesIndexes, salesSelectors } from '../../../lib/slices/sales';
+import { Sales, SalesIndexes, salesSelectors } from '../../../lib/slices/sales';
+import { sales } from '../../../lib/slices/sales/sales.selectors';
+import { DiffDiagram } from './DiffDiagram';
 import { PerToPerTable } from './PerToPerTable';
 import { Result } from './Results';
 
@@ -18,7 +20,27 @@ const Header = styled.div`
   gap: 30px;
 `;
 
+const Charts = styled.div`
+  margin-top: 30px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 30px;
+`;
+
+const H2 = styled.h1`
+  font-size: 14pt;
+  color: var(--color-stroke);
+`;
+
 const Side = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const HeaderContainer = styled.div`
   display: flex;
   flex-direction: row;
   gap: 30px;
@@ -60,24 +82,41 @@ export const PeriodToPeriod = (): JSX.Element => {
   const secondArrowDegre =
     secondCmRatio / planes.to_cm > 1 ? 180 : 180 * (secondCmRatio / planes.to_cm);
 
+  const parseRatioToOptions = (sale: Sales) => ({
+    label: `${sale.day.split('.')[0]}.${sale.day.split('.')[1]}`,
+    value: +((+sale.ttSales[SalesIndexes.CM] / +sale.ttSales[SalesIndexes.DEVICES]) * 100).toFixed(
+      2,
+    ),
+  });
+  const parseCMToOtions = (sale: Sales) => ({
+    label: `${sale.day.split('.')[0]}.${sale.day.split('.')[1]}`,
+    value: +sale.ttSales[SalesIndexes.CM],
+  });
+  const secondRatios = secondSales.map(parseRatioToOptions);
+  const firstRatios = firstSales.map(parseRatioToOptions);
+  const firstCM = firstSales.map(parseCMToOtions);
+  const secondCM = secondSales.map(parseCMToOtions);
+
   return (
     <Wrapper>
       <Header>
         <Side>
-          <DayRange
-            activeDays={salesLength}
-            from={firstDayFrom}
-            to={firstDayTo}
-            changeFrom={setFirstDayFrom}
-            changeTo={setFirstDayTo}
-          />
-          <Result
-            to={+firstSalesSumm.ttSales[SalesIndexes.TO]}
-            devices={+firstSalesSumm.ttSales[SalesIndexes.DEVICES]}
-            cm={+firstSalesSumm.ttSales[SalesIndexes.CM]}
-            cmRatio={firstCmRatio}
-            arrowDeg={firstArrowDegre}
-          />
+          <HeaderContainer>
+            <DayRange
+              activeDays={salesLength}
+              from={firstDayFrom}
+              to={firstDayTo}
+              changeFrom={setFirstDayFrom}
+              changeTo={setFirstDayTo}
+            />
+            <Result
+              to={+firstSalesSumm.ttSales[SalesIndexes.TO]}
+              devices={+firstSalesSumm.ttSales[SalesIndexes.DEVICES]}
+              cm={+firstSalesSumm.ttSales[SalesIndexes.CM]}
+              cmRatio={firstCmRatio}
+              arrowDeg={firstArrowDegre}
+            />
+          </HeaderContainer>
         </Side>
         <Side>
           <Result
@@ -97,22 +136,38 @@ export const PeriodToPeriod = (): JSX.Element => {
           />
         </Side>
         <Side>
-          <Result
-            to={+secondSalesSumm.ttSales[SalesIndexes.TO]}
-            devices={+secondSalesSumm.ttSales[SalesIndexes.DEVICES]}
-            cm={+secondSalesSumm.ttSales[SalesIndexes.CM]}
-            cmRatio={secondCmRatio}
-            arrowDeg={secondArrowDegre}
-          />
-          <DayRange
-            activeDays={salesLength}
-            from={secondDayFrom}
-            to={secondDayTo}
-            changeFrom={setSecondDayFrom}
-            changeTo={setSecondDayTo}
-          />
+          <HeaderContainer>
+            <Result
+              to={+secondSalesSumm.ttSales[SalesIndexes.TO]}
+              devices={+secondSalesSumm.ttSales[SalesIndexes.DEVICES]}
+              cm={+secondSalesSumm.ttSales[SalesIndexes.CM]}
+              cmRatio={secondCmRatio}
+              arrowDeg={secondArrowDegre}
+            />
+            <DayRange
+              activeDays={salesLength}
+              from={secondDayFrom}
+              to={secondDayTo}
+              changeFrom={setSecondDayFrom}
+              changeTo={setSecondDayTo}
+            />
+          </HeaderContainer>
         </Side>
       </Header>
+      <Charts>
+        <Side>
+          <H2>Доля</H2>
+          <DiffDiagram values={firstRatios} />
+          <H2>Сумма ЦМ</H2>
+          <DiffDiagram values={firstCM} />
+        </Side>
+        <Side>
+          <H2>Доля</H2>
+          <DiffDiagram values={secondRatios} />
+          <H2>Сумма ЦМ</H2>
+          <DiffDiagram values={secondCM} />
+        </Side>
+      </Charts>
       <PerToPerTable
         sales1={firstSalesSumm}
         sales2={secondSalesSumm}
