@@ -31,6 +31,7 @@ export const PeriodToPeriod = (): JSX.Element => {
   const [secondDayTo, setSecondDayTo] = useState(1);
   const firstSales = useTypedSelector(salesSelectors.salsesByRange(firstDayFrom, firstDayTo));
   const secondSales = useTypedSelector(salesSelectors.salsesByRange(secondDayFrom, secondDayTo));
+  const salesLength = useTypedSelector(salesSelectors.salesLength);
   const planes = useTypedSelector(planesSelectors.planes);
   const { month, year } = useTypedSelector(salesSelectors.monthAndYear);
 
@@ -64,6 +65,7 @@ export const PeriodToPeriod = (): JSX.Element => {
       <Header>
         <Side>
           <DayRange
+            activeDays={salesLength}
             from={firstDayFrom}
             to={firstDayTo}
             changeFrom={setFirstDayFrom}
@@ -103,6 +105,7 @@ export const PeriodToPeriod = (): JSX.Element => {
             arrowDeg={secondArrowDegre}
           />
           <DayRange
+            activeDays={salesLength}
             from={secondDayFrom}
             to={secondDayTo}
             changeFrom={setSecondDayFrom}

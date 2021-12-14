@@ -14,6 +14,7 @@ type CellProps = {
   isName?: boolean;
   isEmpty?: boolean;
   noBorder?: boolean;
+  isNegative?: boolean;
 };
 
 const Wrapper = styled.div`
@@ -21,8 +22,6 @@ const Wrapper = styled.div`
   display: grid;
   grid-template-columns: 150px repeat(12, 1fr);
 `;
-
-const Head = styled.div``;
 
 const HeadTitle = styled.h1`
   font-size: 10pt;
@@ -43,6 +42,7 @@ const Cell = styled.div<CellProps>`
   height: ${(props) => (props.isHead && props.isName ? '41px' : props.isEmpty ? '0' : '20px')};
   padding: 0 10px;
   background-color: ${(props) => props.isHead && 'var(--color-button)'};
+  background-color: ${(props) => props.isNegative && '#ffcccc'};
 `;
 
 export const PerToPerTable = (props: Props): JSX.Element => {
@@ -76,9 +76,10 @@ export const PerToPerTable = (props: Props): JSX.Element => {
             {names.map((name) => {
               const row1 = sales1.sales.find((s1) => s1[SalesIndexes.NAME] === name) || [];
               const row2 = sales2.sales.find((s1) => s1[SalesIndexes.NAME] === name) || [];
+              const result = column.fn(row1, row2);
               return (
-                <Cell key={name} isName={i === 0}>
-                  <h5>{column.fn(row1, row2).toLocaleString('ru')}</h5>
+                <Cell key={name} isName={i === 0} isNegative={result < 0}>
+                  <h5>{result.toLocaleString('ru')}</h5>
                 </Cell>
               );
             })}
@@ -154,19 +155,21 @@ function getColumns(args: { per1: string; per2: string }) {
     {
       title: `${per1}`,
       fn: (sales1: (string | number)[], sales2: (string | number)[]) =>
-        ((+sales1[SalesIndexes.CM] / +sales1[SalesIndexes.TO]) * 100).toFixed(2) || 0,
+        ((+sales1[SalesIndexes.CM] / +sales1[SalesIndexes.DEVICES]) * 100).toFixed(2),
     },
     {
       title: `${per2}`,
       fn: (sales1: (string | number)[], sales2: (string | number)[]) =>
-        ((+sales2[SalesIndexes.CM] / +sales2[SalesIndexes.TO]) * 100).toFixed(2) || 0,
+        ((+sales2[SalesIndexes.CM] / +sales2[SalesIndexes.DEVICES]) * 100).toFixed(2),
     },
     {
       title: 'Разница',
       fn: (sales1: (string | number)[], sales2: (string | number)[]) =>
-        +((+sales1[SalesIndexes.CM] / +sales1[SalesIndexes.TO]) * 100).toFixed(2) ||
-        0 - +((+sales2[SalesIndexes.CM] / +sales2[SalesIndexes.TO]) * 100).toFixed(2) ||
-        0,
+        (
+          (+sales2[SalesIndexes.CM] / +sales2[SalesIndexes.DEVICES] -
+            +sales1[SalesIndexes.CM] / +sales1[SalesIndexes.DEVICES]) *
+          100
+        ).toFixed(2),
     },
   ];
 }

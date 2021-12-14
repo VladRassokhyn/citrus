@@ -6,6 +6,7 @@ import { WeekTitle } from '../../pages/Analitics/Calendar/WeekTitle';
 type Props = {
   from: number;
   to: number;
+  activeDays?: number;
   changeFrom: (from: number) => void;
   changeTo: (to: number) => void;
 };
@@ -69,7 +70,7 @@ const Days = styled.div`
 `;
 
 export const DayRange = (props: Props): JSX.Element => {
-  const { from, to, changeFrom, changeTo } = props;
+  const { from, to, changeFrom, changeTo, activeDays } = props;
   const [isFromChanged, setIsFromChanged] = useState(false);
   const days = getDaysFormated(new Date().getMonth(), new Date().getFullYear());
 
@@ -104,6 +105,9 @@ export const DayRange = (props: Props): JSX.Element => {
             const dayNumber = day?.split(' ')[1].split('.')[0];
             const thisDay = dayNumber ? parseInt(dayNumber) : 0;
             const chosen = thisDay <= to && thisDay >= from;
+            if (activeDays && i > activeDays) {
+              return <Day key={i} chosen={false} />;
+            }
             return (
               <Day key={i} chosen={chosen} onClick={() => handleChange(thisDay)}>
                 <H1 chosen={chosen}>{dayNumber ? dayNumber : ' '}</H1>
