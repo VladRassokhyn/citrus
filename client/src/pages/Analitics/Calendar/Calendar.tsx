@@ -91,12 +91,13 @@ export const Calendar = (props: Props): JSX.Element => {
 
   const calendarDays = days.map((day, i) => {
     const isWeekend = day?.split(' ')[0] === 'Saturday' || day?.split(' ')[0] === 'Sunday';
-    const newSale = sales.find((salesItem) => salesItem.day === day?.split(' ')[1]);
+    const daySales = sales.find((salesItem) => salesItem.day === day?.split(' ')[1]);
     const salesByToday = sales.filter(
       (sale) => parseInt(sale.day) < (day ? parseInt(day.split(' ')[1]) : 0),
     );
 
     const monthSales = calcFns.monthSalesNew(salesByToday);
+
     if (i % 7 === 0 && i !== 0) {
       weekSales.push({ ...monthSales, day: String(i) });
     }
@@ -104,7 +105,7 @@ export const Calendar = (props: Props): JSX.Element => {
     return (
       <CalendarDay
         isEmpty={!day}
-        ttSales={newSale?.ttSales}
+        ttSales={daySales?.ttSales}
         isWeekend={isWeekend}
         delay={i}
         monthSales={monthSales}
@@ -112,7 +113,7 @@ export const Calendar = (props: Props): JSX.Element => {
         planes={planes}
         title={day ? day.split(' ')[1] : ''}
         key={i}
-        sales={newSale}
+        sales={daySales}
       />
     );
   });

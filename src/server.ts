@@ -11,6 +11,7 @@ import {
   planesRouter,
   salesmanRouter,
   salesRouter,
+  todoRouter,
 } from './resources';
 import { shopRouter } from './resources/Shop';
 
@@ -29,6 +30,7 @@ const rootUrls = [
   '/users',
   '/users/:userId',
   '/login',
+  '/todo',
   '/analytics',
   '/checklist',
   '/checklist/:checklistId',
@@ -47,8 +49,9 @@ app.use('/', (req: Request, res: Response, next: NextFunction) => {
   next();
 });
 
-app.use('/api/shops', shopRouter);
+app.use('/api/todo', todoRouter);
 app.use('/api/auth', authRouter);
+app.use('/api/shops', shopRouter);
 app.use('/api/users', userRouter);
 app.use('/api/sales', salesRouter);
 app.use('/api/planes', planesRouter);

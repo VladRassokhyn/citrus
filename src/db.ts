@@ -8,6 +8,8 @@ import {
   Sales,
   Salesman,
   Shop,
+  Todo,
+  TodoComment,
 } from './entities';
 
 export const connectToDb = async () => {
@@ -20,6 +22,8 @@ export const connectToDb = async () => {
       password: process.env['DB_PASSWORD'] as string,
       host: process.env['DB_HOSTNAME'] as string,
       entities: [
+        Todo,
+        TodoComment,
         User,
         Planes,
         Checklist,

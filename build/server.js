@@ -24,6 +24,7 @@ const rootUrls = [
     '/users',
     '/users/:userId',
     '/login',
+    '/todo',
     '/analytics',
     '/checklist',
     '/checklist/:checklistId',
@@ -40,8 +41,9 @@ exports.app.use('/', (req, res, next) => {
     }
     next();
 });
-exports.app.use('/api/shops', Shop_1.shopRouter);
+exports.app.use('/api/todo', resources_1.todoRouter);
 exports.app.use('/api/auth', resources_1.authRouter);
+exports.app.use('/api/shops', Shop_1.shopRouter);
 exports.app.use('/api/users', resources_1.userRouter);
 exports.app.use('/api/sales', resources_1.salesRouter);
 exports.app.use('/api/planes', resources_1.planesRouter);

@@ -13,6 +13,8 @@ const connectToDb = async () => {
             password: process.env['DB_PASSWORD'],
             host: process.env['DB_HOSTNAME'],
             entities: [
+                entities_1.Todo,
+                entities_1.TodoComment,
                 entities_1.User,
                 entities_1.Planes,
                 entities_1.Checklist,

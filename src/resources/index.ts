@@ -4,6 +4,7 @@ import { userRouter } from './user';
 import { planesRouter } from './planes';
 import { salesmanRouter } from './salesman';
 import { salesRouter } from './sales';
+import { todoRouter } from './todo';
 
 export {
   authRouter,
@@ -12,4 +13,5 @@ export {
   planesRouter,
   salesmanRouter,
   salesRouter,
+  todoRouter,
 };

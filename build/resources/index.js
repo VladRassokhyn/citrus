@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.salesRouter = exports.salesmanRouter = exports.planesRouter = exports.userRouter = exports.checklistRouter = exports.authRouter = void 0;
+exports.todoRouter = exports.salesRouter = exports.salesmanRouter = exports.planesRouter = exports.userRouter = exports.checklistRouter = exports.authRouter = void 0;
 const auth_1 = require("./auth");
 Object.defineProperty(exports, "authRouter", { enumerable: true, get: function () { return auth_1.authRouter; } });
 const checklist_1 = require("./checklist");
@@ -13,3 +13,5 @@ const salesman_1 = require("./salesman");
 Object.defineProperty(exports, "salesmanRouter", { enumerable: true, get: function () { return salesman_1.salesmanRouter; } });
 const sales_1 = require("./sales");
 Object.defineProperty(exports, "salesRouter", { enumerable: true, get: function () { return sales_1.salesRouter; } });
+const todo_1 = require("./todo");
+Object.defineProperty(exports, "todoRouter", { enumerable: true, get: function () { return todo_1.todoRouter; } });
