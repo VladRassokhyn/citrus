@@ -1,12 +1,8 @@
 import { User } from '../../entities';
 import { userRepo } from './user.repository';
 
-const getAllUsers = async (isAdmin: boolean, tt: string) => {
+const getAllUsers = async () => {
   const users = await userRepo.getAllUsers();
-
-  if (!isAdmin) {
-    return users.filter((user) => user.shop.name === tt);
-  }
 
   return users;
 };

@@ -54,7 +54,9 @@ __decorate([
     __metadata("design:type", String)
 ], Todo.prototype, "category", void 0);
 __decorate([
-    (0, typeorm_1.OneToMany)(() => TodoComment, (todoComment) => todoComment.todo),
+    (0, typeorm_1.OneToMany)(() => TodoComment, (todoComment) => todoComment.todo, {
+        onDelete: 'CASCADE',
+    }),
     (0, typeorm_1.JoinTable)(),
     __metadata("design:type", Array)
 ], Todo.prototype, "comments", void 0);
@@ -85,7 +87,9 @@ __decorate([
     __metadata("design:type", String)
 ], TodoComment.prototype, "createdAt", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => Todo, (todo) => todo.comments),
+    (0, typeorm_1.ManyToOne)(() => Todo, (todo) => todo.comments, {
+        onDelete: 'CASCADE',
+    }),
     (0, typeorm_1.JoinTable)(),
     __metadata("design:type", Todo)
 ], TodoComment.prototype, "todo", void 0);

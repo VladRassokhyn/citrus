@@ -11,10 +11,9 @@ const router = express_1.default.Router();
 router
     .route('/')
     .get([meddleware_1.checkJwt, meddleware_1.isAdminUser], async (req, res) => {
-    const tt = String(req.query['tt']);
     const isAdmin = res.locals['isAdminUser'];
     try {
-        const users = await user_service_1.userService.getAllUsers(isAdmin, tt);
+        const users = await user_service_1.userService.getAllUsers();
         res.status(200).send(users);
     }
     catch (err) {

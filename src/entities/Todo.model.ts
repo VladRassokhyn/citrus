@@ -39,7 +39,9 @@ export class Todo {
   @Column()
   category: string;
 
-  @OneToMany(() => TodoComment, (todoComment) => todoComment.todo)
+  @OneToMany(() => TodoComment, (todoComment) => todoComment.todo, {
+    onDelete: 'CASCADE',
+  })
   @JoinTable()
   comments: TodoComment[];
 }
@@ -61,7 +63,9 @@ export class TodoComment {
   @Column()
   createdAt: string;
 
-  @ManyToOne(() => Todo, (todo) => todo.comments)
+  @ManyToOne(() => Todo, (todo) => todo.comments, {
+    onDelete: 'CASCADE',
+  })
   @JoinTable()
   todo: Todo;
 }

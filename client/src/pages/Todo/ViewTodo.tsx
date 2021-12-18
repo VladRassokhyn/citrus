@@ -1,12 +1,18 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { slideInRight, slideOutRight } from 'react-animations';
+import { useDispatch } from 'react-redux';
 import styled, { keyframes } from 'styled-components';
+import { Confirm } from '../../Components/Confirm';
+import { Modal } from '../../Components/Modal';
+import { UserRoles } from '../../lib/globalTypes';
 import { useTypedSelector } from '../../lib/hooks';
-import { Todo } from '../../lib/slices/todo';
+import { authSelectors } from '../../lib/slices/auth';
+import { Todo, todoActions } from '../../lib/slices/todo';
 import { TodoPayload } from '../../lib/slices/todo/todo.type';
 import { userSelectors } from '../../lib/slices/users';
 import closeX from '../../static/closeX.svg';
 import { Comments } from './Comments/Comments';
+import { NewComment } from './Comments/NewComment';
 
 const openAnimation = keyframes`${slideInRight}`;
 const closeAnimation = keyframes`${slideOutRight}`;
@@ -25,9 +31,9 @@ type StyleProps = {
 const Wrapper = styled.div<StyleProps>`
   width: 440px;
   padding: 15px 30px;
-  height: 100%;
   background-color: #f0f0f0;
   box-shadow: 0 0 10px gray;
+  height: 100%;
   position: fixed;
   right: 0;
   top: 50px;
@@ -94,13 +100,75 @@ const Dot = styled.div<{ color: string }>`
   border-radius: 50%;
 `;
 
+const Buttons = styled.div`
+  width: 100%;
+  display: grid;
+  grid-template-columns: 35% 35%;
+  gap: 30%;
+  justify-content: space-around;
+`;
+
+const Button = styled.button`
+  background-color: var(--color-button);
+  color: white;
+  width: 150px;
+  height: 30px;
+  border: 0;
+  margin-top: 20px;
+  border-radius: 5px;
+  transition: linear 0.3s;
+  &:hover {
+    cursor: pointer;
+    background-color: #0780ff;
+  }
+`;
+
 export const ViewTodo = (props: Props): JSX.Element => {
   const { todo, onClose, isClosing } = props;
+  const dispatch = useDispatch();
   const creator = useTypedSelector(userSelectors.userById(todo.creatorId));
   const executor = useTypedSelector(userSelectors.userById(todo.executorId));
+  const authUser = useTypedSelector(authSelectors.authUser);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const execute = () => {
+    if (executor?.id === todo.executorId) {
+      dispatch(todoActions.updateTodo({ ...todo, finished: true }));
+    } else {
+      setErrorMessage('Только исполнитель может завершить заявку');
+    }
+  };
+
+  const deleteTodo = () => {
+    if (authUser?.role == UserRoles.ADMIN || authUser?.id === creator?.id) {
+      dispatch(todoActions.deleteTodo(todo.id));
+    } else {
+      setErrorMessage('Только создатель, или администратор может удалить заявку');
+    }
+  };
+
+  useEffect(() => {
+    return () => onClose();
+  }, []);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (!!errorMessage) {
+        setErrorMessage(null);
+      }
+    }, 3000);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [errorMessage]);
 
   return (
     <Wrapper isClosing={isClosing}>
+      {!!errorMessage && (
+        <Modal onClose={() => setErrorMessage(null)}>
+          <H1>{errorMessage}</H1>
+        </Modal>
+      )}
       <Header>
         <H1>{todo.title}</H1>
         <Img src={closeX} onClick={onClose} />
@@ -136,8 +204,18 @@ export const ViewTodo = (props: Props): JSX.Element => {
         <H3>Тема:</H3> <H3>{todo.category}</H3>
       </Span>
 
+      <Buttons>
+        <Confirm title={'Завершить заявку ?'} confirmFn={execute}>
+          <Button>Завершить</Button>
+        </Confirm>
+        <Confirm title={'Удалить заявку ?'} confirmFn={deleteTodo}>
+          <Button>Удалить</Button>
+        </Confirm>
+      </Buttons>
+
       <H1>Комментарии</H1>
-      <Comments comments={todo.comments} todo={todo} />
+      <Comments authUser={authUser!} todo={todo} />
+      <NewComment authUser={authUser!} todo={props.todo} />
     </Wrapper>
   );
 };

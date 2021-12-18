@@ -70,7 +70,8 @@ router.route('/:todoId').delete(async (req, res) => {
 
   try {
     const todoRepo = getRepository(Todo);
-    await todoRepo.delete(id);
+    const todo = await todoRepo.findOneOrFail({ id });
+    await todoRepo.delete(todo);
     res.status(200).send('deleted');
   } catch (err) {
     res.status(500).send(err);

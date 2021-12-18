@@ -7,10 +7,9 @@ const router = express.Router();
 router
   .route('/')
   .get([checkJwt, isAdminUser], async (req: Request, res: Response) => {
-    const tt = String(req.query['tt']);
     const isAdmin = res.locals['isAdminUser'];
     try {
-      const users = await userService.getAllUsers(isAdmin, tt);
+      const users = await userService.getAllUsers();
       res.status(200).send(users);
     } catch (err) {
       res.status(500);

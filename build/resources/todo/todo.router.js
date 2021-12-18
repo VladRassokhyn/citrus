@@ -64,7 +64,8 @@ router.route('/:todoId').delete(async (req, res) => {
     const id = +req.params['todoId'];
     try {
         const todoRepo = (0, typeorm_1.getRepository)(entities_1.Todo);
-        await todoRepo.delete(id);
+        const todo = await todoRepo.findOneOrFail({ id });
+        await todoRepo.delete(todo);
         res.status(200).send('deleted');
     }
     catch (err) {

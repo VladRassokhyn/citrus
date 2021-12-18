@@ -3,6 +3,7 @@ import cmImage from '../../static/cmImage.webp';
 import analitic from '../../static/analytic.png';
 import employee from '../../static/employee.png';
 import checklist from '../../static/checklist.png';
+import develop from '../../static/develop.png';
 import styled, { keyframes } from 'styled-components';
 import { bounceIn, bounceOutDown } from 'react-animations';
 import { useEffect, useState } from 'react';
@@ -83,8 +84,8 @@ export const Main = (): JSX.Element => {
         <H1>Чеклист</H1>
       </MenuItem>
       <MenuItem isClosing={isClosing} onClick={() => handleClose(paths.TODO.BASE())}>
-        <Img src={checklist} alt="todos image" />
-        <H1>//TODO..</H1>
+        <Img src={develop} alt="todos image" />
+        <H1>Разработка</H1>
       </MenuItem>
     </Wrapper>
   );

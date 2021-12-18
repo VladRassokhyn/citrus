@@ -17,6 +17,7 @@ function* getTodosWorker(): SagaIterator {
 function* postTodoWorker(action: Action<TodoPayload>): SagaIterator {
   try {
     yield call(todoApi.postTodo, action.payload);
+    yield put(todoActions.getTodos());
     yield put(todoActions.todoPosted());
   } catch (err) {
     yield put(todoActions.setError());
@@ -26,6 +27,7 @@ function* postTodoWorker(action: Action<TodoPayload>): SagaIterator {
 function* updateTodoWorker(action: Action<Todo>): SagaIterator {
   try {
     yield call(todoApi.updateTodo, action.payload);
+    yield put(todoActions.getTodos());
     yield put(todoActions.todoUpdated());
   } catch (err) {
     yield put(todoActions.setError());
@@ -35,6 +37,7 @@ function* updateTodoWorker(action: Action<Todo>): SagaIterator {
 function* deleteTodoWorker(action: Action<number>): SagaIterator {
   try {
     yield call(todoApi.deleteTodo, action.payload);
+    yield put(todoActions.getTodos());
     yield put(todoActions.todoDeleted());
   } catch (err) {
     yield put(todoActions.setError());
@@ -43,8 +46,8 @@ function* deleteTodoWorker(action: Action<number>): SagaIterator {
 
 function* postCommentWorker(action: Action<CommentPayload>): SagaIterator {
   try {
-    console.log(action.payload);
     yield call(todoApi.postComment, action.payload);
+    yield put(todoActions.getTodos());
     yield put(todoActions.commentPosted());
   } catch (err) {
     yield put(todoActions.setError());
@@ -54,6 +57,7 @@ function* postCommentWorker(action: Action<CommentPayload>): SagaIterator {
 function* updateCommentWorker(action: Action<TodoComment>): SagaIterator {
   try {
     yield call(todoApi.updateComment, action.payload);
+    yield put(todoActions.getTodos());
     yield put(todoActions.commentUpdated());
   } catch (err) {
     yield put(todoActions.setError());
@@ -63,6 +67,7 @@ function* updateCommentWorker(action: Action<TodoComment>): SagaIterator {
 function* deleteCommentWorker(action: Action<number>): SagaIterator {
   try {
     yield call(todoApi.deleteComment, action.payload);
+    yield put(todoActions.getTodos());
     yield put(todoActions.commentDeleted());
   } catch (err) {
     yield put(todoActions.setError());

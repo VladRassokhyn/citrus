@@ -15,7 +15,10 @@ const todoSlice = createSlice({
       state.status = LoadingStatuses.LOADING;
     },
     setTodos(state, action: Action<Todo[]>) {
-      state.todos = action.payload;
+      const todos = action.payload.sort(
+        (a, b) => +b.createdAt.split('.').join('') - +a.createdAt.split('.').join(''),
+      );
+      state.todos = todos;
       state.status = LoadingStatuses.SUCCESS;
     },
     postTodo(state, action: Action<TodoPayload>) {

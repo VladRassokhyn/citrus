@@ -9,6 +9,7 @@ import { importanceOptions, importanceStyles, categoryOptions } from './selectCo
 import { User } from '../../lib/slices/users';
 import { format } from 'date-fns';
 import { TodoPayload } from '../../lib/slices/todo/todo.type';
+import { useEffect } from 'react';
 
 const openAnimation = keyframes`${slideInRight}`;
 const closeAnimation = keyframes`${slideOutRight}`;
@@ -74,7 +75,6 @@ const Description = styled.textarea`
   padding: 10px;
 `;
 
-
 const H2 = styled.h1`
   font-size: 12pt;
   color: var(--color-stroke);
@@ -82,7 +82,6 @@ const H2 = styled.h1`
   text-align: center;
   margin-top: 20px;
 `;
-
 
 const Form = styled.form`
   margin-top: 15px;
@@ -148,6 +147,10 @@ export const NewTodoForm = (props: Props): JSX.Element => {
     };
     props.action(newTodo);
   };
+
+  useEffect(() => {
+    return () => props.onClose();
+  }, []);
 
   return (
     <Wrapper isClosing={props.isClosing}>
