@@ -20,7 +20,11 @@ const Wrapper = styled.div`
 
 export const Comments = (props: Props): JSX.Element => {
   const comments = props.todo.comments.map((comment) => (
-    <CommentItem key={comment.id} comment={comment} isAuthOwner={props.authUser?.id === 1} />
+    <CommentItem
+      key={comment.id}
+      comment={comment}
+      isAuthOwner={props.authUser?.id === comment.creatorId}
+    />
   ));
   return <Wrapper>{comments}</Wrapper>;
 };
