@@ -1,3 +1,4 @@
+import { todoReducer } from './slices/todo';
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import createSagaMiddleware from 'redux-saga';
 import { rootSaga } from './rootSaga';
@@ -22,6 +23,7 @@ export const store = configureStore({
     salesman: salesmanReducer,
     sales: salesReducer,
     shops: shopReducer,
+    todo: todoReducer,
   },
   middleware,
 });

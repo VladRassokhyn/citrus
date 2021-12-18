@@ -45,7 +45,11 @@ router.route('/comments').post(async (req, res) => {
   const dto: TodoComment = req.body;
   try {
     const commentRepo = getRepository(TodoComment);
+    const todoRepo = getRepository(Todo);
     const newComment = commentRepo.create(dto);
+    const todo = await todoRepo.findOne({ id: dto.todo.id }) as Todo;
+    todo.comments.push(newComment);
+    await todoRepo.update(todo.id, todo)
     await commentRepo.save(newComment);
     res.status(201).send('created');
   } catch (err) {

@@ -6,6 +6,7 @@ import {
   oneUserStatus,
   userChecklists,
   userChecklistsStatus,
+  usersByRole,
 } from './users.selectors';
 import {
   usersReducer,
@@ -38,6 +39,7 @@ export const userSelectors = {
   oneUserStatus,
   userChecklists,
   userChecklistsStatus,
+  usersByRole,
 };
 
 export const userActions = {

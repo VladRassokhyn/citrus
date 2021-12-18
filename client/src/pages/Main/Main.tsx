@@ -82,6 +82,10 @@ export const Main = (): JSX.Element => {
         <Img src={checklist} alt="chacklist image" />
         <H1>Чеклист</H1>
       </MenuItem>
+      <MenuItem isClosing={isClosing} onClick={() => handleClose(paths.TODO.BASE())}>
+        <Img src={checklist} alt="todos image" />
+        <H1>//TODO..</H1>
+      </MenuItem>
     </Wrapper>
   );
 };

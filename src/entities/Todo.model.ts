@@ -2,7 +2,7 @@ import {
   Column,
   Entity,
   JoinTable,
-  ManyToMany,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -61,7 +61,7 @@ export class TodoComment {
   @Column()
   createdAt: string;
 
-  @ManyToMany(() => Todo, (todo) => todo.comments)
+  @ManyToOne(() => Todo, (todo) => todo.comments)
   @JoinTable()
   todo: Todo;
 }

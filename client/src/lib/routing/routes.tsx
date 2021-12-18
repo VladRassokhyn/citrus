@@ -13,6 +13,7 @@ import { User as UserType } from '../slices/users';
 import { Shops } from '../../pages/Analitics/Shops';
 import { Shop } from '../slices/shop';
 import { PeriodToPeriod } from '../../pages/Analitics/PeriodToPeriod';
+import { Todo } from '../../pages/Todo';
 
 type Props = {
   authUser: UserType;
@@ -43,6 +44,14 @@ export const routes: RouteItem[] = [
     component: CmMenu,
     exact: true,
     private: false,
+    roles: null,
+    routes: [],
+  },
+  {
+    path: paths.TODO.BASE(),
+    component: Todo,
+    exact: true,
+    private: true,
     roles: null,
     routes: [],
   },

@@ -42,7 +42,11 @@ router.route('/comments').post(async (req, res) => {
     const dto = req.body;
     try {
         const commentRepo = (0, typeorm_1.getRepository)(entities_1.TodoComment);
+        const todoRepo = (0, typeorm_1.getRepository)(entities_1.Todo);
         const newComment = commentRepo.create(dto);
+        const todo = await todoRepo.findOne({ id: dto.todo.id });
+        todo.comments.push(newComment);
+        await todoRepo.update(todo.id, todo);
         await commentRepo.save(newComment);
         res.status(201).send('created');
     }

@@ -6,6 +6,7 @@ import { usersWatcher } from './slices/users';
 import { salesmanWatcher } from './slices/salesman';
 import { salesWatcher } from './slices/sales';
 import { shopWatcher } from './slices/shop';
+import { todoWatcher } from './slices/todo';
 
 export function* rootSaga(): Generator {
   yield all([
@@ -16,5 +17,6 @@ export function* rootSaga(): Generator {
     salesmanWatcher(),
     salesWatcher(),
     shopWatcher(),
+    todoWatcher(),
   ]);
 }

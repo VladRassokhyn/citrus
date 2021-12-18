@@ -16,6 +16,9 @@ export const paths = {
     BASE: pathMaker('/checklist'),
     BY_ID: pathMaker('/checklist/:checklistId'),
   },
+  TODO: {
+    BASE: pathMaker('/todo'),
+  },
   ANALYTICS: {
     BASE: pathMaker('/analytics'),
     MAIN: {
