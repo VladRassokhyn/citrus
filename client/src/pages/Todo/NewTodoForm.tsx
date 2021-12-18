@@ -148,10 +148,6 @@ export const NewTodoForm = (props: Props): JSX.Element => {
     props.action(newTodo);
   };
 
-  useEffect(() => {
-    return () => props.onClose();
-  }, []);
-
   return (
     <Wrapper isClosing={props.isClosing}>
       <Header>
