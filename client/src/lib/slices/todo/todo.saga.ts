@@ -43,6 +43,7 @@ function* deleteTodoWorker(action: Action<number>): SagaIterator {
 
 function* postCommentWorker(action: Action<CommentPayload>): SagaIterator {
   try {
+    console.log(action.payload);
     yield call(todoApi.postComment, action.payload);
     yield put(todoActions.commentPosted());
   } catch (err) {
