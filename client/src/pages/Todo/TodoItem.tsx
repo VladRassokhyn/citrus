@@ -18,7 +18,7 @@ type CellStyle = {
 const Wrapper = styled.div<CellStyle>`
   display: grid;
   grid-template-columns: 5% 10% 15% 35% 10% 10% 10% 5%;
-  height: 30px;
+  min-height: 30px;
   background-color: ${(props) => (props.even ? 'white' : '#f0f0f0')};
   gap: 1px;
   transition: linear 0.3s;
@@ -72,7 +72,7 @@ export const TodoItem = (props: Props): JSX.Element => {
         <H1>{todo.title}</H1>
       </Cell>
       <Cell>
-        <H1>{todo.description}</H1>
+        <H1>{todo.description.substr(0, 50)}...</H1>
       </Cell>
       <Cell>
         <H1>
