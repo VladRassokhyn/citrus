@@ -36,6 +36,7 @@ export const paths = {
     },
     PERIOD_TO_PERIOD: {
       BASE: pathMaker('/analytics/period-to-period'),
+      BY_SALESMAN: pathMaker('/analytics/period-to-period/:salesmanId'),
     },
   },
 };

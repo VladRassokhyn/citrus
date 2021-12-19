@@ -13,20 +13,8 @@ type Props = {
 
 type CellStyle = {
   even: boolean;
+  isFinished: boolean;
 };
-
-const Wrapper = styled.div<CellStyle>`
-  display: grid;
-  grid-template-columns: 5% 10% 15% 35% 10% 10% 10% 5%;
-  min-height: 30px;
-  background-color: ${(props) => (props.even ? 'white' : '#f0f0f0')};
-  gap: 1px;
-  transition: linear 0.3s;
-  &:hover {
-    background-color: #def0fc;
-    cursor: pointer;
-  }
-`;
 
 const Cell = styled.div`
   width: 100%;
@@ -54,12 +42,30 @@ const Dot = styled.div<{ color: string }>`
   border-radius: 50%;
 `;
 
+const Wrapper = styled.div<CellStyle>`
+  display: grid;
+  grid-template-columns: 5% 10% 15% 35% 10% 10% 10% 5%;
+  min-height: 30px;
+  background-color: ${(props) => (props.even ? 'white' : '#f0f0f0')};
+  gap: 1px;
+  transition: linear 0.3s;
+  &:hover {
+    background-color: #def0fc;
+    cursor: pointer;
+  }
+  ${(props) =>
+    props.isFinished &&
+    `& ${H1} {
+    color: lightgray !important;
+  }`}
+`;
+
 export const TodoItem = (props: Props): JSX.Element => {
   const { todo, setCurrentTodo } = props;
   const creator = useTypedSelector(userSelectors.userById(todo.creatorId));
   const executor = useTypedSelector(userSelectors.userById(todo.executorId));
   return (
-    <Wrapper even={props.even} onClick={() => setCurrentTodo(todo)}>
+    <Wrapper even={props.even} isFinished={todo.finished} onClick={() => setCurrentTodo(todo)}>
       <Cell>
         {todo.importance === 'Важно' && <Dot color={'red'} />}
         {todo.importance === 'Средне' && <Dot color={'orange'} />}

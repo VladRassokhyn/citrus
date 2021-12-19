@@ -1,6 +1,10 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { useTypedSelector } from '../../../lib/hooks';
+import { paths } from '../../../lib/routing';
 import { Sales, SalesIndexes } from '../../../lib/slices/sales';
+import { salesmanSelectors } from '../../../lib/slices/salesman';
 
 type Props = {
   sales1: Sales;
@@ -47,6 +51,7 @@ const Cell = styled.div<CellProps>`
 
 export const PerToPerTable = (props: Props): JSX.Element => {
   const { sales1, sales2, per1, per2 } = props;
+  const salesmans = useTypedSelector(salesmanSelectors.salesmans);
 
   const columns = getColumns({ per1, per2 });
 
@@ -63,7 +68,7 @@ export const PerToPerTable = (props: Props): JSX.Element => {
       {columns.map((column, i) => {
         const indexes = [1, 2, 4, 5, 7, 8, 10, 11];
         return (
-          <Column>
+          <Column key={i}>
             <Cell isEmpty={i === 0} isHead noBorder={indexes.includes(i)}>
               {i === 2 && <HeadTitle>TO</HeadTitle>}
               {i === 5 && <HeadTitle>Устройства</HeadTitle>}
@@ -76,11 +81,17 @@ export const PerToPerTable = (props: Props): JSX.Element => {
             {names.map((name) => {
               const row1 = sales1.sales.find((s1) => s1[SalesIndexes.NAME] === name) || [];
               const row2 = sales2.sales.find((s1) => s1[SalesIndexes.NAME] === name) || [];
+              const salesman = salesmans?.find((man) => man.name === name);
               const result = column.fn(row1, row2);
               return (
-                <Cell key={name} isName={i === 0} isNegative={result < 0}>
-                  <h5>{result.toLocaleString('ru')}</h5>
-                </Cell>
+                <Link
+                  key={name}
+                  to={paths.ANALYTICS.PERIOD_TO_PERIOD.BY_SALESMAN({ salesmanId: salesman!.id })}
+                >
+                  <Cell isName={i === 0} isNegative={result < 0}>
+                    <h5>{result.toLocaleString('ru')}</h5>
+                  </Cell>
+                </Link>
               );
             })}
           </Column>

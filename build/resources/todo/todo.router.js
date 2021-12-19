@@ -29,9 +29,11 @@ router.route('/').post(async (req, res) => {
 });
 router.route('/').put(async (req, res) => {
     const dto = req.body;
+    const { id, importance, title, description } = dto;
+    const toUpdate = { id, importance, title, description };
     try {
         const todoRepo = (0, typeorm_1.getRepository)(entities_1.Todo);
-        await todoRepo.update(dto.id, dto);
+        await todoRepo.update(id, toUpdate);
         res.status(201).send('updated');
     }
     catch (err) {
@@ -55,6 +57,7 @@ router.route('/comments').put(async (req, res) => {
     try {
         const commentRepo = (0, typeorm_1.getRepository)(entities_1.TodoComment);
         await commentRepo.update(dto.id, dto);
+        res.status(201).send('updated');
     }
     catch (err) {
         res.status(500).send('updated');

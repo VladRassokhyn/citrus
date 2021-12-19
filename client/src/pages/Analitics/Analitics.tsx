@@ -13,6 +13,7 @@ import { RouteItem } from '../../lib/routing/routes';
 import { User } from '../../lib/slices/users';
 import { salesActions, salesSelectors } from '../../lib/slices/sales';
 import { Shop, shopActions, shopSelectors } from '../../lib/slices/shop';
+import { salesmanActions } from '../../lib/slices/salesman';
 
 type Props = {
   routes: RouteItem[];
@@ -47,13 +48,16 @@ export const Analitic = (props: Props): JSX.Element => {
 
   const salesStatus = useTypedSelector(salesSelectors.status);
   const planesStatus = useTypedSelector(planesSelectors.status);
+  const salesmansStatus = useTypedSelector(salesSelectors.status);
 
   const isSalesLoading = salesStatus === LoadingStatuses.LOADING;
   const isPlanesLoading = planesStatus === LoadingStatuses.LOADING;
+  const isSalesmansLoading = salesmansStatus === LoadingStatuses.LOADING;
 
   useEffect(() => {
     dispatch(salesActions.getSales({ tt: props.currentShop.name, month, year }));
     dispatch(planesActions.getPlanes({ tt: props.currentShop.name, month, year }));
+    dispatch(salesmanActions.getSalesmans(props.currentShop.name));
   }, [props.currentShop, month, year]);
 
   const handleChangeTT = (e: FixLater) => {
@@ -66,7 +70,7 @@ export const Analitic = (props: Props): JSX.Element => {
     value: shop.name,
   }));
 
-  if (isSalesLoading || isPlanesLoading) {
+  if (isSalesLoading || isPlanesLoading || isSalesmansLoading) {
     return <Preloader />;
   }
 

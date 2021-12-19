@@ -110,6 +110,14 @@ export const routes: RouteItem[] = [
         roles: null,
         routes: [],
       },
+      {
+        path: paths.ANALYTICS.PERIOD_TO_PERIOD.BY_SALESMAN(),
+        component: PeriodToPeriod,
+        exact: true,
+        private: true,
+        roles: null,
+        routes: [],
+      },
     ],
   },
   {

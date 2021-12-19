@@ -108,8 +108,8 @@ const Buttons = styled.div`
   justify-content: space-around;
 `;
 
-const Button = styled.button`
-  background-color: var(--color-button);
+const Button = styled.button<{ disabled?: boolean }>`
+  background-color: ${(props) => (props.disabled ? 'lightgray' : 'var(--color-button)')};
   color: white;
   width: 150px;
   height: 30px;
@@ -119,7 +119,7 @@ const Button = styled.button`
   transition: linear 0.3s;
   &:hover {
     cursor: pointer;
-    background-color: #0780ff;
+    ${(props) => !props.disabled && 'background-color: #0780ff'};
   }
 `;
 
@@ -206,7 +206,7 @@ export const ViewTodo = (props: Props): JSX.Element => {
 
       <Buttons>
         <Confirm title={'Завершить заявку ?'} confirmFn={execute}>
-          <Button>Завершить</Button>
+          <Button disabled={todo.finished}>{todo.finished ? 'Завершена' : 'Завершить'}</Button>
         </Confirm>
         <Confirm title={'Удалить заявку ?'} confirmFn={deleteTodo}>
           <Button>Удалить</Button>
