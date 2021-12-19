@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { Todo } from '../../../lib/slices/todo/todo.type';
 import { User } from '../../../lib/slices/users';
 import { CommentItem } from './CommentItem';
+import { NewComment } from './NewComment';
 
 type Props = {
   todo: Todo;
@@ -26,5 +27,10 @@ export const Comments = (props: Props): JSX.Element => {
       isAuthOwner={props.authUser?.id === comment.creatorId}
     />
   ));
-  return <Wrapper>{comments}</Wrapper>;
+  return (
+    <Wrapper>
+      {comments}
+      <NewComment todo={props.todo} authUser={props.authUser} />
+    </Wrapper>
+  );
 };
