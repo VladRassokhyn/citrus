@@ -14,7 +14,7 @@ const Wrapper = styled.div`
   border-radius: 5px;
   margin-top: 10px;
   width: 100%;
-  max-height: 300px;
+  max-height: 250px;
   position: relative;
   overflow: scroll;
 `;
@@ -27,10 +27,5 @@ export const Comments = (props: Props): JSX.Element => {
       isAuthOwner={props.authUser?.id === comment.creatorId}
     />
   ));
-  return (
-    <Wrapper>
-      {comments}
-      <NewComment todo={props.todo} authUser={props.authUser} />
-    </Wrapper>
-  );
+  return <Wrapper>{comments}</Wrapper>;
 };
