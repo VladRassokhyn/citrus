@@ -1,10 +1,12 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { useTypedSelector } from '../../../lib/hooks';
 import { paths } from '../../../lib/routing';
 import { Sales, SalesIndexes } from '../../../lib/slices/sales';
 import { salesmanSelectors } from '../../../lib/slices/salesman';
+import { Shop, shopActions, shopSelectors } from '../../../lib/slices/shop';
 
 type Props = {
   sales1: Sales;
@@ -52,8 +54,14 @@ const Cell = styled.div<CellProps>`
 export const PerToPerTable = (props: Props): JSX.Element => {
   const { sales1, sales2, per1, per2 } = props;
   const salesmans = useTypedSelector(salesmanSelectors.salesmans);
+  const shops = useTypedSelector(shopSelectors.allShops);
+  const currentShop = useTypedSelector(shopSelectors.currentShop);
+  const history = useHistory();
+  const dispatch = useDispatch();
 
-  const columns = getColumns({ per1, per2 });
+  const isPPC = currentShop?.name === 'KIEV_ALL' || currentShop?.name === 'KHARKOV_ALL';
+
+  const columns = getColumns({ per1, per2, shops: isPPC ? shops : null });
 
   const names = sales1.sales.map((s1) => s1[SalesIndexes.NAME]);
 
@@ -62,6 +70,16 @@ export const PerToPerTable = (props: Props): JSX.Element => {
       names.push(s2[SalesIndexes.NAME]);
     }
   });
+
+  const handleLink = (name: string | number) => {
+    if (isPPC) {
+      const shop = shops?.find((sh) => sh.name_1c === name);
+      shop && dispatch(shopActions.setCurrentShop(shop));
+    } else {
+      const salesman = salesmans?.find((man) => man.name === name);
+      history.push(paths.ANALYTICS.PERIOD_TO_PERIOD.BY_SALESMAN({ salesmanId: salesman!.id }));
+    }
+  };
 
   return (
     <Wrapper>
@@ -81,17 +99,16 @@ export const PerToPerTable = (props: Props): JSX.Element => {
             {names.map((name) => {
               const row1 = sales1.sales.find((s1) => s1[SalesIndexes.NAME] === name) || [];
               const row2 = sales2.sales.find((s1) => s1[SalesIndexes.NAME] === name) || [];
-              const salesman = salesmans?.find((man) => man.name === name);
               const result = column.fn(row1, row2);
               return (
-                <Link
+                <Cell
                   key={name}
-                  to={paths.ANALYTICS.PERIOD_TO_PERIOD.BY_SALESMAN({ salesmanId: salesman!.id })}
+                  isName={i === 0}
+                  isNegative={result < 0}
+                  onClick={() => handleLink(name)}
                 >
-                  <Cell isName={i === 0} isNegative={result < 0}>
-                    <h5>{result.toLocaleString('ru')}</h5>
-                  </Cell>
-                </Link>
+                  <h5>{result.toLocaleString('ru')}</h5>
+                </Cell>
               );
             })}
           </Column>
@@ -101,16 +118,21 @@ export const PerToPerTable = (props: Props): JSX.Element => {
   );
 };
 
-function getColumns(args: { per1: string; per2: string }) {
-  const { per1, per2 } = args;
+function getColumns(args: { per1: string; per2: string; shops: Shop[] | null }) {
+  const { per1, per2, shops } = args;
   return [
     {
       title: 'ФИО',
       fn: (sales1: (string | number)[], sales2: (string | number)[]) => {
         if (sales1[SalesIndexes.NAME] && sales2[SalesIndexes.NAME]) {
-          return `${String(sales1[SalesIndexes.NAME]).split(' ')[0]} ${
-            String(sales1[SalesIndexes.NAME]).split(' ')[1][0]
-          }.`;
+          if (shops) {
+            const shop = shops.find((sh) => sh.name_1c === sales1[SalesIndexes.NAME]);
+            return shop?.shortName || '';
+          } else {
+            return `${String(sales1[SalesIndexes.NAME]).split(' ')[0]} ${
+              String(sales1[SalesIndexes.NAME]).split(' ')[1][0]
+            }.`;
+          }
         } else {
           return '';
         }
