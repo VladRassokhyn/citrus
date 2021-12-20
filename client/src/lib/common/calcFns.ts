@@ -14,6 +14,8 @@ export const getCalcFns = (argDay?: number | string, argMonth?: number | string)
         day: '',
         ttSales: [],
         sales: [],
+        createdAt: new Date(),
+        updatedAt: new Date(),
       };
       if (!sales) return newSales;
 

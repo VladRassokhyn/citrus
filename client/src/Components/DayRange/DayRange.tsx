@@ -105,7 +105,7 @@ export const DayRange = (props: Props): JSX.Element => {
             const dayNumber = day?.split(' ')[1].split('.')[0];
             const thisDay = dayNumber ? parseInt(dayNumber) : 0;
             const chosen = thisDay <= to && thisDay >= from;
-            if (activeDays && i > activeDays) {
+            if (activeDays && i > activeDays + 1) {
               return <Day key={i} chosen={false} />;
             }
             return (

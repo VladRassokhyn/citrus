@@ -12,6 +12,7 @@ import { Planes } from '../../../lib/slices/planes/planes.type';
 import { Sales } from '../../../lib/slices/sales/sales.type';
 import { getCalcFns } from '../../../lib/common';
 import { Shop } from '../../../lib/slices/shop';
+import { format } from 'date-fns';
 
 type Props = {
   ttSales: (string | number)[] | undefined;
@@ -142,10 +143,10 @@ export const CalendarDay = memo(
       setIsModalOpen((prev) => !prev);
     }, []);
 
-    const postDaySales = (payload: { sales: string }) => {
+    const postDaySales = (newSales: string) => {
       dispatch(
         salesActions.postSales({
-          sales: payload.sales,
+          sales: newSales,
           tt: tt.name,
           day: title,
           month: parseInt(title.split('.')[1]) - 1,
@@ -154,13 +155,13 @@ export const CalendarDay = memo(
       );
     };
 
-    const updateDaySales = (payload: { sales: string }) => {
+    const updateDaySales = (newSales: string) => {
       sales &&
         dispatch(
           salesActions.updateSales({
             month: parseInt(title.split('.')[1]) - 1,
             year: title.split('.')[2],
-            sales: payload.sales,
+            sales: newSales,
             id: sales.id,
             tt: tt.name,
             day: title,
@@ -179,11 +180,16 @@ export const CalendarDay = memo(
     if (isEmpty) {
       return <Wrapper withData={false} />;
     }
-
+    console.log(sales?.updatedAt);
     return (
       <Wrapper delay={delay} withData={!!sales}>
         <Title isWeekend={isWeekend}>{title.split('.')[0]}</Title>
         <Content>
+          {/* <ValueBlock>
+            <H1 color={'gray'}>
+              ТО: {sales ? format(new Date(sales.updatedAt), 'hh:mm, dd.MM') : 'no data'}
+            </H1>
+          </ValueBlock> */}
           <ValueBlock>
             <H1 color={'gray'}>ТО: {ttSales ? ttSales[1] : 'no data'}</H1>
           </ValueBlock>

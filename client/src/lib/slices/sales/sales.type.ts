@@ -6,6 +6,8 @@ export type Sales = {
   day: string;
   ttSales: (string | number)[];
   sales: (string | number)[][];
+  createdAt: Date;
+  updatedAt: Date;
 };
 
 export type SalesState = {
