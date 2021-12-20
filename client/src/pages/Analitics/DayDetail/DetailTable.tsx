@@ -242,7 +242,9 @@ export const DetailTable = (props: Props): JSX.Element => {
             <TTHead>
               <Cell>
                 <H2>
-                  {i === 0 ? props.currentShop.shortName : column.fn(ttSales).toLocaleString('ru')}
+                  {i === 0
+                    ? props.currentShop.shortName
+                    : !isNaN(+column.fn(ttSales)) && column.fn(ttSales).toLocaleString('ru')}
                 </H2>
               </Cell>
             </TTHead>
