@@ -129,9 +129,7 @@ function getColumns(args: { per1: string; per2: string; shops: Shop[] | null }) 
             const shop = shops.find((sh) => sh.name_1c === sales1[SalesIndexes.NAME]);
             return shop?.shortName || '';
           } else {
-            return `${String(sales1[SalesIndexes.NAME]).split(' ')[0]} ${
-              String(sales1[SalesIndexes.NAME]).split(' ')[1][0]
-            }.`;
+            return `${String(sales1[SalesIndexes.NAME]).split(' ')[0]}`;
           }
         } else {
           return '';
