@@ -95,6 +95,13 @@ const H1 = styled.h1`
   color: ${(props) => props.color};
 `;
 
+const H2 = styled.h1`
+  font-size: 8pt;
+  font-weight: 300;
+  width: 100%;
+  text-align: right;
+`;
+
 const Wrapper = styled.div<StyleProps>`
   background-color: ${(props) =>
     props.isEmpty ? '#dfdfdf' : props.withData ? '#ebffeb' : '#fff0f0'};
@@ -185,11 +192,8 @@ export const CalendarDay = memo(
       <Wrapper delay={delay} withData={!!sales}>
         <Title isWeekend={isWeekend}>{title.split('.')[0]}</Title>
         <Content>
-          {/* <ValueBlock>
-            <H1 color={'gray'}>
-              ТО: {sales ? format(new Date(sales.updatedAt), 'hh:mm, dd.MM') : 'no data'}
-            </H1>
-          </ValueBlock> */}
+          <H2>{sales ? format(new Date(sales.updatedAt), 'HH:mm, dd.MM') : 'no data'}</H2>
+
           <ValueBlock>
             <H1 color={'gray'}>ТО: {ttSales ? ttSales[1] : 'no data'}</H1>
           </ValueBlock>
