@@ -29,8 +29,8 @@ router.route('/').post(async (req, res) => {
 });
 router.route('/').put(async (req, res) => {
     const dto = req.body;
-    const { id, importance, title, description } = dto;
-    const toUpdate = { id, importance, title, description };
+    const { id, importance, title, description, finished } = dto;
+    const toUpdate = { id, importance, title, description, finished };
     try {
         const todoRepo = (0, typeorm_1.getRepository)(entities_1.Todo);
         await todoRepo.update(id, toUpdate);

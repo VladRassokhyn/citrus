@@ -30,8 +30,8 @@ router.route('/').post(async (req, res) => {
 
 router.route('/').put(async (req, res) => {
   const dto: Todo = req.body;
-  const { id, importance, title, description } = dto;
-  const toUpdate = { id, importance, title, description };
+  const { id, importance, title, description, finished } = dto;
+  const toUpdate = { id, importance, title, description, finished };
   try {
     const todoRepo = getRepository(Todo);
     await todoRepo.update(id, toUpdate);

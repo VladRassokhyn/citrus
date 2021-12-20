@@ -187,7 +187,7 @@ export const CalendarDay = memo(
     if (isEmpty) {
       return <Wrapper withData={false} />;
     }
-    console.log(sales?.updatedAt);
+  
     return (
       <Wrapper delay={delay} withData={!!sales}>
         <Title isWeekend={isWeekend}>{title.split('.')[0]}</Title>
