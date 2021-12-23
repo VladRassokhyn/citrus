@@ -29,7 +29,7 @@ function* loginWorker(action: Action<{ username: string; password: string }>): S
   try {
     const res = yield call(authApi.login, action.payload);
     yield put(authActions.setLogin(res.data.token));
-    window.location.reload();
+    yield put(authActions.getAuth());
   } catch (err) {
     yield put(authActions.setLoginError(LoadingErrors.NOT_AUTORISED));
   }

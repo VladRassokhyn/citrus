@@ -37,7 +37,7 @@ export const authSlice = createSlice({
       localStorage.setItem('token', '');
       state.authUser = null;
       state.error = LoadingErrors.IDLE;
-      window.location.reload();
+      getAuth();
     },
     setAuthError(state) {
       state.status = LoadingStatuses.ERROR;

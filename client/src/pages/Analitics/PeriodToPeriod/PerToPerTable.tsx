@@ -57,7 +57,7 @@ const Cell = styled.div<CellProps>`
   transition: linear 0.3s;
   &:hover {
     cursor: pointer;
-    background-color: ${(props) => props.isHead && !props.isEmpty && '#2b78ed'};
+    background-color: ${(props) => props.isHead && !props.isEmpty && !props.noBorder && '#2b78ed'};
   }
 `;
 
