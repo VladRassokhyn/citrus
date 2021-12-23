@@ -18,6 +18,7 @@ const Content = styled.div`
   min-width: 170px;
   box-shadow: 0 0 5px #dfdfdf;
   border-radius: 10px;
+  padding-bottom: 10px;
 `;
 
 const Title = styled.h1`

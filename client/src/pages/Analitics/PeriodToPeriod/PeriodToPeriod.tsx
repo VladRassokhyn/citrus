@@ -28,14 +28,28 @@ const Charts = styled.div`
   margin-top: 30px;
   width: 100%;
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  gap: 30px;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+`;
+
+const Chart = styled.div`
+  width: 94%;
+  padding: 10px 3%;
+  border-radius: 10px;
+  box-shadow: 0 0 5px #dfdfdf;
 `;
 
 const H2 = styled.h1`
-  font-size: 12pt;
+  font-size: 14pt;
   color: var(--color-stroke);
+`;
+
+const HR = styled.hr`
+  width: 100%;
+  background-color: var(--color-stroke);
+  height: 1px;
+  border: 0;
 `;
 
 const Side = styled.div`
@@ -172,18 +186,16 @@ export const PeriodToPeriod = (): JSX.Element => {
         </Side>
       </Header>
       <Charts>
-        <Side>
+        <Chart>
           <H2>Доля</H2>
-          <DiffDiagram values={calcValues.firstRatios} />
-          <H2>Сумма {serviceTitle}</H2>
-          <DiffDiagram values={calcValues.firstCM} />
-        </Side>
-        <Side>
-          <H2>Доля</H2>
-          <DiffDiagram values={calcValues.secondRatios} />
-          <H2>Сумма {serviceTitle}</H2>
-          <DiffDiagram values={calcValues.secondCM} />
-        </Side>
+          <HR />
+          <DiffDiagram values={calcValues.rotioOptions} />
+        </Chart>
+        <Chart>
+          <H2>Сумма </H2>
+          <HR />
+          <DiffDiagram values={calcValues.summOptions} />
+        </Chart>
       </Charts>
       {!params.salesmanId && (
         <PerToPerTable
@@ -191,6 +203,8 @@ export const PeriodToPeriod = (): JSX.Element => {
           sales2={calcValues.secondSalesSumm}
           per1={`${firstDayFrom}-${firstDayTo}`}
           per2={`${secondDayFrom}-${secondDayTo}`}
+          service={service}
+          serviceTitle={serviceTitle}
         />
       )}
     </Wrapper>
@@ -252,6 +266,22 @@ const getValues = (
   const firstCM = firstSales.map(parseSummToOtions(service));
   const secondCM = secondSales.map(parseSummToOtions(service));
 
+  const rotioOptions = firstRatios.map((ratio, i) => {
+    return {
+      ['Первый период']: ratio.value || 0,
+      ['Второй период']: secondRatios[i]?.value || 0,
+      label: (ratio.label || '-') + ' к ' + (secondRatios[i]?.label || '-'),
+    };
+  });
+
+  const summOptions = firstCM.map((summ, i) => {
+    return {
+      ['Первый период']: summ.value || 0,
+      ['Второй период']: secondCM[i]?.value || 0,
+      label: (summ.label || '-') + ' к ' + (secondCM[i]?.label || '-'),
+    };
+  });
+
   return {
     firstSalesSumm,
     secondSalesSumm,
@@ -259,9 +289,7 @@ const getValues = (
     secondRatio,
     firstArrowDegre,
     secondArrowDegre,
-    secondRatios,
-    firstRatios,
-    firstCM,
-    secondCM,
+    rotioOptions,
+    summOptions,
   };
 };

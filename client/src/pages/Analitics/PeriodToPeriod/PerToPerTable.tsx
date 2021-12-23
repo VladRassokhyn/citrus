@@ -1,4 +1,5 @@
-import React from 'react';
+import { reverse } from 'dns';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
@@ -13,6 +14,8 @@ type Props = {
   sales2: Sales;
   per1: string;
   per2: string;
+  service: number;
+  serviceTitle: string;
 };
 
 type CellProps = {
@@ -21,6 +24,7 @@ type CellProps = {
   isEmpty?: boolean;
   noBorder?: boolean;
   isNegative?: boolean;
+  isDiff?: boolean;
 };
 
 const Wrapper = styled.div`
@@ -49,19 +53,27 @@ const Cell = styled.div<CellProps>`
   padding: 0 10px;
   background-color: ${(props) => props.isHead && 'var(--color-button)'};
   background-color: ${(props) => props.isNegative && '#ffcccc'};
+  background-color: ${(props) => props.isDiff && '#c0ffa3'};
+  transition: linear 0.3s;
+  &:hover {
+    cursor: pointer;
+    background-color: ${(props) => props.isHead && !props.isEmpty && '#2b78ed'};
+  }
 `;
 
 export const PerToPerTable = (props: Props): JSX.Element => {
-  const { sales1, sales2, per1, per2 } = props;
+  const { sales1, sales2, per1, per2, service, serviceTitle } = props;
   const salesmans = useTypedSelector(salesmanSelectors.salesmans);
   const shops = useTypedSelector(shopSelectors.allShops);
   const currentShop = useTypedSelector(shopSelectors.currentShop);
-  const history = useHistory();
+  const [sortColumn, setSortColumn] = useState(1);
+  const [reverse, setReverse] = useState(false);
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const isPPC = currentShop?.name === 'KIEV_ALL' || currentShop?.name === 'KHARKOV_ALL';
 
-  const columns = getColumns({ per1, per2, shops: isPPC ? shops : null });
+  const columns = getColumns({ per1, per2, shops: isPPC ? shops : null, service });
 
   const names = sales1.sales.map((s1) => s1[SalesIndexes.NAME]);
 
@@ -71,6 +83,23 @@ export const PerToPerTable = (props: Props): JSX.Element => {
     }
   });
 
+  names.sort((name1, name2) => {
+    const row1name1 = sales1.sales.find((s1) => s1[SalesIndexes.NAME] === name1) || [];
+    const row2name1 = sales2.sales.find((s1) => s1[SalesIndexes.NAME] === name1) || [];
+    const row1name2 = sales1.sales.find((s1) => s1[SalesIndexes.NAME] === name2) || [];
+    const row2name2 = sales2.sales.find((s1) => s1[SalesIndexes.NAME] === name2) || [];
+    let diff =
+      +columns[sortColumn].fn(row1name2, row2name2) - +columns[sortColumn].fn(row1name1, row2name1);
+    if (isNaN(diff)) {
+      diff = -1;
+    }
+    return diff;
+  });
+
+  if (reverse) {
+    names.reverse();
+  }
+
   const handleLink = (name: string | number) => {
     if (isPPC) {
       const shop = shops?.find((sh) => sh.name_1c === name);
@@ -78,6 +107,14 @@ export const PerToPerTable = (props: Props): JSX.Element => {
     } else {
       const salesman = salesmans?.find((man) => man.name === name);
       history.push(paths.ANALYTICS.PERIOD_TO_PERIOD.BY_SALESMAN({ salesmanId: salesman!.id }));
+    }
+  };
+
+  const handleSort = (index: number) => {
+    if (index === sortColumn) {
+      setReverse((prev) => !prev);
+    } else {
+      setSortColumn(index);
     }
   };
 
@@ -90,21 +127,27 @@ export const PerToPerTable = (props: Props): JSX.Element => {
             <Cell isEmpty={i === 0} isHead noBorder={indexes.includes(i)}>
               {i === 2 && <HeadTitle>TO</HeadTitle>}
               {i === 5 && <HeadTitle>Устройства</HeadTitle>}
-              {i === 8 && <HeadTitle>ЦМ</HeadTitle>}
+              {i === 8 && <HeadTitle>{serviceTitle}</HeadTitle>}
               {i === 11 && <HeadTitle>Доля</HeadTitle>}
             </Cell>
-            <Cell isHead isName={i === 0}>
+            <Cell isHead isName={i === 0} onClick={() => handleSort(i)}>
               <HeadTitle>{column.title}</HeadTitle>
             </Cell>
             {names.map((name) => {
               const row1 = sales1.sales.find((s1) => s1[SalesIndexes.NAME] === name) || [];
               const row2 = sales2.sales.find((s1) => s1[SalesIndexes.NAME] === name) || [];
-              const result = column.fn(row1, row2);
+              const result =
+                i !== 0
+                  ? isNaN(+column.fn(row1, row2))
+                    ? (0).toFixed(2)
+                    : column.fn(row1, row2)
+                  : column.fn(row1, row2);
               return (
                 <Cell
                   key={name}
                   isName={i === 0}
                   isNegative={result < 0}
+                  isDiff={column.title === 'Разница' && result > 0}
                   onClick={() => handleLink(name)}
                 >
                   <h5>{result.toLocaleString('ru')}</h5>
@@ -118,8 +161,8 @@ export const PerToPerTable = (props: Props): JSX.Element => {
   );
 };
 
-function getColumns(args: { per1: string; per2: string; shops: Shop[] | null }) {
-  const { per1, per2, shops } = args;
+function getColumns(args: { per1: string; per2: string; shops: Shop[] | null; service: number }) {
+  const { per1, per2, shops, service } = args;
   return [
     {
       title: 'ФИО',
@@ -170,18 +213,16 @@ function getColumns(args: { per1: string; per2: string; shops: Shop[] | null }) 
 
     {
       title: `${per1}`,
-      fn: (sales1: (string | number)[], sales2: (string | number)[]) =>
-        sales1[SalesIndexes.CM] || 0,
+      fn: (sales1: (string | number)[], sales2: (string | number)[]) => sales1[service] || 0,
     },
     {
       title: `${per2}`,
-      fn: (sales1: (string | number)[], sales2: (string | number)[]) =>
-        sales2[SalesIndexes.CM] || 0,
+      fn: (sales1: (string | number)[], sales2: (string | number)[]) => sales2[service] || 0,
     },
     {
       title: 'Разница',
       fn: (sales1: (string | number)[], sales2: (string | number)[]) =>
-        (+sales2[SalesIndexes.CM] || 0) - +sales1[SalesIndexes.CM],
+        (+sales2[service] || 0) - +sales1[SalesIndexes.CM],
     },
     {
       title: `${per1}`,
@@ -191,14 +232,14 @@ function getColumns(args: { per1: string; per2: string; shops: Shop[] | null }) 
     {
       title: `${per2}`,
       fn: (sales1: (string | number)[], sales2: (string | number)[]) =>
-        ((+sales2[SalesIndexes.CM] / +sales2[SalesIndexes.DEVICES]) * 100).toFixed(2),
+        ((+sales2[service] / +sales2[SalesIndexes.DEVICES]) * 100).toFixed(2),
     },
     {
       title: 'Разница',
       fn: (sales1: (string | number)[], sales2: (string | number)[]) =>
         (
-          (+sales2[SalesIndexes.CM] / +sales2[SalesIndexes.DEVICES] -
-            +sales1[SalesIndexes.CM] / +sales1[SalesIndexes.DEVICES]) *
+          (+sales2[service] / +sales2[SalesIndexes.DEVICES] -
+            +sales1[service] / +sales1[SalesIndexes.DEVICES]) *
           100
         ).toFixed(2),
     },
