@@ -7,10 +7,12 @@ import { useTypedSelector } from '../../../lib/hooks';
 import { planesSelectors } from '../../../lib/slices/planes';
 import { Planes } from '../../../lib/slices/planes/planes.type';
 import { Sales, SalesIndexes, salesSelectors } from '../../../lib/slices/sales';
-import { salesmanActions, salesmanSelectors } from '../../../lib/slices/salesman';
+import { salesmanSelectors } from '../../../lib/slices/salesman';
 import { DiffDiagram } from './DiffDiagram';
 import { PerToPerTable } from './PerToPerTable';
 import { Result } from './Results';
+import Selector from 'react-select';
+import { FixLater } from '../../../lib/globalTypes';
 
 const Wrapper = styled.div``;
 
@@ -32,7 +34,7 @@ const Charts = styled.div`
 `;
 
 const H2 = styled.h1`
-  font-size: 14pt;
+  font-size: 12pt;
   color: var(--color-stroke);
 `;
 
@@ -40,6 +42,7 @@ const Side = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 5px;
 `;
 
 const HeaderContainer = styled.div`
@@ -54,6 +57,7 @@ export const PeriodToPeriod = (): JSX.Element => {
   const [firstDayTo, setFirstDayTo] = useState(1);
   const [secondDayFrom, setSecondDayFrom] = useState(1);
   const [secondDayTo, setSecondDayTo] = useState(1);
+  const [service, setService] = useState(SalesIndexes.CM);
   const firstSales = useTypedSelector(salesSelectors.salsesByRange(firstDayFrom, firstDayTo));
   const secondSales = useTypedSelector(salesSelectors.salsesByRange(secondDayFrom, secondDayTo));
   const salesLength = useTypedSelector(salesSelectors.salesLength);
@@ -70,14 +74,27 @@ export const PeriodToPeriod = (): JSX.Element => {
   if (!firstSales || !secondSales || firstSales.length < 1 || secondSales.length < 1) {
     return <h1>no sales in range</h1>;
   }
-  console.log(params.salesmanId, salesmanSales1);
+
   const calcFns = getCalcFns(month, year);
   let calcValues;
   if (params.salesmanId) {
-    calcValues = getValues(salesmanSales1, salesmanSales2, planes, calcFns);
+    calcValues = getValues(salesmanSales1, salesmanSales2, planes, calcFns, service);
   } else {
-    calcValues = getValues(firstSales, secondSales, planes, calcFns);
+    calcValues = getValues(firstSales, secondSales, planes, calcFns, service);
   }
+
+  const serviceTitle =
+    service === SalesIndexes.CM ? 'ЦМ' : service === SalesIndexes.CZ ? 'ЦЗ' : 'ЦА';
+
+  const serviceSelectorOptions = [
+    { label: 'ЦМ', value: SalesIndexes.CM },
+    { label: 'ЦЗ', value: SalesIndexes.CZ },
+    { label: 'ЦА', value: SalesIndexes.CA },
+  ];
+
+  const onChengeService = (e: FixLater) => {
+    setService(e.value);
+  };
 
   return (
     <Wrapper>
@@ -94,8 +111,9 @@ export const PeriodToPeriod = (): JSX.Element => {
             <Result
               to={+calcValues.firstSalesSumm.ttSales[SalesIndexes.TO]}
               devices={+calcValues.firstSalesSumm.ttSales[SalesIndexes.DEVICES]}
-              cm={+calcValues.firstSalesSumm.ttSales[SalesIndexes.CM]}
-              cmRatio={calcValues.firstCmRatio}
+              cm={+calcValues.firstSalesSumm.ttSales[service]}
+              serviceTitle={serviceTitle}
+              cmRatio={calcValues.firstRatio}
               arrowDeg={calcValues.firstArrowDegre}
             />
           </HeaderContainer>
@@ -106,6 +124,14 @@ export const PeriodToPeriod = (): JSX.Element => {
               {salesman.name.split(' ')[0]} {salesman.name.split(' ')[1][0]}.
             </H2>
           )}
+          <Selector
+            options={serviceSelectorOptions}
+            defaultValue={{ label: 'ЦМ', value: SalesIndexes.CM }}
+            onChange={onChengeService}
+            styles={{
+              control: (styles) => ({ ...styles, width: '170px' }),
+            }}
+          />
           <Result
             isDifference
             to={
@@ -117,10 +143,11 @@ export const PeriodToPeriod = (): JSX.Element => {
               +calcValues.firstSalesSumm.ttSales[SalesIndexes.DEVICES]
             }
             cm={
-              +calcValues.secondSalesSumm.ttSales[SalesIndexes.CM] -
-              +calcValues.firstSalesSumm.ttSales[SalesIndexes.CM]
+              +calcValues.secondSalesSumm.ttSales[service] -
+              +calcValues.firstSalesSumm.ttSales[service]
             }
-            cmRatio={calcValues.secondCmRatio - calcValues.firstCmRatio}
+            serviceTitle={serviceTitle}
+            cmRatio={calcValues.secondRatio - calcValues.firstRatio}
             arrowDeg={calcValues.secondArrowDegre - calcValues.firstArrowDegre}
           />
         </Side>
@@ -129,8 +156,9 @@ export const PeriodToPeriod = (): JSX.Element => {
             <Result
               to={+calcValues.secondSalesSumm.ttSales[SalesIndexes.TO]}
               devices={+calcValues.secondSalesSumm.ttSales[SalesIndexes.DEVICES]}
-              cm={+calcValues.secondSalesSumm.ttSales[SalesIndexes.CM]}
-              cmRatio={calcValues.secondCmRatio}
+              cm={+calcValues.secondSalesSumm.ttSales[service]}
+              cmRatio={calcValues.secondRatio}
+              serviceTitle={serviceTitle}
               arrowDeg={calcValues.secondArrowDegre}
             />
             <DayRange
@@ -147,13 +175,13 @@ export const PeriodToPeriod = (): JSX.Element => {
         <Side>
           <H2>Доля</H2>
           <DiffDiagram values={calcValues.firstRatios} />
-          <H2>Сумма ЦМ</H2>
+          <H2>Сумма {serviceTitle}</H2>
           <DiffDiagram values={calcValues.firstCM} />
         </Side>
         <Side>
           <H2>Доля</H2>
           <DiffDiagram values={calcValues.secondRatios} />
-          <H2>Сумма ЦМ</H2>
+          <H2>Сумма {serviceTitle}</H2>
           <DiffDiagram values={calcValues.secondCM} />
         </Side>
       </Charts>
@@ -169,51 +197,66 @@ export const PeriodToPeriod = (): JSX.Element => {
   );
 };
 
-const parseRatioToOptions = (sale: Sales) => {
-  const value = +(
-    (+sale.ttSales[SalesIndexes.CM] / +sale.ttSales[SalesIndexes.DEVICES]) *
-    100
-  ).toFixed(2);
+const parseRatioToOptions = (service: number) => (sale: Sales) => {
+  const value = +((+sale.ttSales[service] / +sale.ttSales[SalesIndexes.DEVICES]) * 100).toFixed(2);
   return {
     label: `${sale.day.split('.')[0]}.${sale.day.split('.')[1]}`,
     value: isNaN(value) ? 0 : value,
   };
 };
-const parseCMToOtions = (sale: Sales) => ({
+const parseSummToOtions = (service: number) => (sale: Sales) => ({
   label: `${sale.day.split('.')[0]}.${sale.day.split('.')[1]}`,
-  value: +sale.ttSales[SalesIndexes.CM],
+  value: +sale.ttSales[service],
 });
 
-const getValues = (firstSales: Sales[], secondSales: Sales[], planes: Planes, calcFns: any) => {
+const getValues = (
+  firstSales: Sales[],
+  secondSales: Sales[],
+  planes: Planes,
+  calcFns: any,
+  service: number,
+) => {
   const firstSalesSumm = calcFns.monthSalesNew(firstSales);
   const secondSalesSumm = calcFns.monthSalesNew(secondSales);
 
-  const firstCmRatio = calcFns.ratio(
-    firstSalesSumm.ttSales[SalesIndexes.CM],
+  const firstRatio = calcFns.ratio(
+    firstSalesSumm.ttSales[service],
     firstSalesSumm.ttSales[SalesIndexes.DEVICES],
   );
 
-  const secondCmRatio = calcFns.ratio(
-    secondSalesSumm.ttSales[SalesIndexes.CM],
+  const secondRatio = calcFns.ratio(
+    secondSalesSumm.ttSales[service],
     secondSalesSumm.ttSales[SalesIndexes.DEVICES],
   );
 
   const firstArrowDegre =
-    firstCmRatio / planes.to_cm > 1 ? 180 : 180 * (firstCmRatio / planes.to_cm);
+    service === SalesIndexes.CM
+      ? firstRatio / planes.to_cm > 1
+        ? 180
+        : 180 * (firstRatio / planes.to_cm)
+      : firstRatio / planes.to_cz > 1
+      ? 180
+      : 180 * (firstRatio / planes.to_cz);
 
   const secondArrowDegre =
-    secondCmRatio / planes.to_cm > 1 ? 180 : 180 * (secondCmRatio / planes.to_cm);
+    service === SalesIndexes.CM
+      ? secondRatio / planes.to_cm > 1
+        ? 180
+        : 180 * (secondRatio / planes.to_cm)
+      : secondRatio / planes.to_cz > 1
+      ? 180
+      : 180 * (secondRatio / planes.to_cz);
 
-  const secondRatios = secondSales.map(parseRatioToOptions);
-  const firstRatios = firstSales.map(parseRatioToOptions);
-  const firstCM = firstSales.map(parseCMToOtions);
-  const secondCM = secondSales.map(parseCMToOtions);
+  const secondRatios = secondSales.map(parseRatioToOptions(service));
+  const firstRatios = firstSales.map(parseRatioToOptions(service));
+  const firstCM = firstSales.map(parseSummToOtions(service));
+  const secondCM = secondSales.map(parseSummToOtions(service));
 
   return {
     firstSalesSumm,
     secondSalesSumm,
-    firstCmRatio,
-    secondCmRatio,
+    firstRatio,
+    secondRatio,
     firstArrowDegre,
     secondArrowDegre,
     secondRatios,

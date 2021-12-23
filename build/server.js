@@ -12,6 +12,7 @@ const cors_1 = __importDefault(require("cors"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const resources_1 = require("./resources");
 const Shop_1 = require("./resources/Shop");
+const meddleware_1 = require("./meddleware");
 (0, dotenv_1.config)();
 exports.app = (0, express_1.default)();
 exports.app.use((0, cors_1.default)());
@@ -41,14 +42,14 @@ exports.app.use('/', (req, res, next) => {
     }
     next();
 });
-exports.app.use('/api/todo', resources_1.todoRouter);
+exports.app.use('/api/todo', [meddleware_1.checkJwt], resources_1.todoRouter);
 exports.app.use('/api/auth', resources_1.authRouter);
-exports.app.use('/api/shops', Shop_1.shopRouter);
+exports.app.use('/api/shops', [meddleware_1.checkJwt], Shop_1.shopRouter);
 exports.app.use('/api/users', resources_1.userRouter);
-exports.app.use('/api/sales', resources_1.salesRouter);
-exports.app.use('/api/planes', resources_1.planesRouter);
-exports.app.use('/api/salesman', resources_1.salesmanRouter);
-exports.app.use('/api/checklist', resources_1.checklistRouter);
+exports.app.use('/api/sales', [meddleware_1.checkJwt], resources_1.salesRouter);
+exports.app.use('/api/planes', [meddleware_1.checkJwt], resources_1.planesRouter);
+exports.app.use('/api/salesman', [meddleware_1.checkJwt], resources_1.salesmanRouter);
+exports.app.use('/api/checklist', [meddleware_1.checkJwt], resources_1.checklistRouter);
 (async () => {
     await (0, db_1.TryDbConnect)(() => exports.app.listen(process.env['PORT'], () => console.log('running ' + process.env['PORT'])));
 })();

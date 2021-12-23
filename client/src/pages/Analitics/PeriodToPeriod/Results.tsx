@@ -8,6 +8,7 @@ type Props = {
   devices: number;
   cmRatio: number;
   arrowDeg: number;
+  serviceTitle: string;
 };
 
 const Content = styled.div`
@@ -21,13 +22,13 @@ const Content = styled.div`
 
 const Title = styled.h1`
   margin-top: 10px;
-  font-size: 12pt;
+  font-size: 10pt;
   color: var(--color-button);
 `;
 
 const Value = styled.h1`
   letter-spacing: 1pt;
-  font-size: 16pt;
+  font-size: 14pt;
   color: var(--color-stroke);
 `;
 
@@ -83,12 +84,12 @@ const DiffHeader = styled.div`
 `;
 
 const HeaderTitele = styled.h1`
-  font-size: 18pt;
+  font-size: 16pt;
   color: white;
 `;
 
 export const Result = (props: Props): JSX.Element => {
-  const { isDifference, cm, devices, to, arrowDeg, cmRatio } = props;
+  const { isDifference, cm, devices, to, arrowDeg, cmRatio, serviceTitle } = props;
   return (
     <Content>
       {isDifference && (
@@ -100,7 +101,7 @@ export const Result = (props: Props): JSX.Element => {
       <Value>{to.toLocaleString('ru')}</Value>
       <Title>Устройства</Title>
       <Value>{devices.toLocaleString('ru')}</Value>
-      <Title>ЦМ</Title>
+      <Title>{serviceTitle}</Title>
       <Value>{cm.toLocaleString('ru')}</Value>
       {isDifference && <Title>Доля</Title>}
       {isDifference && <Value>{cmRatio.toFixed(2)}</Value>}

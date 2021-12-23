@@ -14,6 +14,7 @@ import {
   todoRouter,
 } from './resources';
 import { shopRouter } from './resources/Shop';
+import { checkJwt } from './meddleware';
 
 envConfig();
 
@@ -49,14 +50,14 @@ app.use('/', (req: Request, res: Response, next: NextFunction) => {
   next();
 });
 
-app.use('/api/todo', todoRouter);
+app.use('/api/todo', [checkJwt], todoRouter);
 app.use('/api/auth', authRouter);
-app.use('/api/shops', shopRouter);
+app.use('/api/shops', [checkJwt], shopRouter);
 app.use('/api/users', userRouter);
-app.use('/api/sales', salesRouter);
-app.use('/api/planes', planesRouter);
-app.use('/api/salesman', salesmanRouter);
-app.use('/api/checklist', checklistRouter);
+app.use('/api/sales', [checkJwt], salesRouter);
+app.use('/api/planes', [checkJwt], planesRouter);
+app.use('/api/salesman', [checkJwt], salesmanRouter);
+app.use('/api/checklist', [checkJwt], checklistRouter);
 
 (async () => {
   await TryDbConnect(() =>
