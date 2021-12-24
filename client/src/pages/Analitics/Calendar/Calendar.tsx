@@ -37,13 +37,8 @@ const CalendarContainer = styled.div`
   display: grid;
   gap: 15px 7px;
   grid-template-columns: repeat(7, 1fr);
-  grid-template-rows: repeat(5, 150px);
   @media (max-width: 560px) {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
+    grid-template-rows: repeat(5, 60px);
   }
 `;
 
@@ -53,6 +48,9 @@ const WeekToWeek = styled.div`
   gap: 15px 7px;
   margin-top: 40px;
   align-items: center;
+  @media (max-width: 560px) {
+    display: none;
+  }
 `;
 
 const WeekToWeekItem = styled.div`

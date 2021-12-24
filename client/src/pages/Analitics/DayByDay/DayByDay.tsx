@@ -26,11 +26,12 @@ const Wrapper = styled.div`
   padding: 15px 3%;
   display: grid;
   grid-template-columns: 1fr 100px;
-
-  @media (max-width: 559px) {
-    display: none;
+  @media (max-width: 560px) {
+    overflow-x: scroll;
+    max-width: 100%;
   }
 `;
+
 const Buttons = styled.div`
   display: flex;
   height: 100%;
@@ -77,24 +78,22 @@ export const DayByDay = (props: Props): JSX.Element => {
   return (
     <Wrapper>
       <Chart>
-        <ResponsiveContainer width="100%" height={200}>
-          <BarChart height={250} data={data}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            {activeBar === 'ALL' && (
-              <>
-                <Bar barSize={10} dataKey="ЦМ" fill="green" />
-                <Bar barSize={10} dataKey="ЦЗ" fill="red" />
-                <Bar barSize={10} dataKey="ЦА" fill="#9018ad" />
-              </>
-            )}
-            {activeBar === 'CM' && <Bar barSize={30} dataKey="ЦМ" fill="green" />}
-            {activeBar === 'CZ' && <Bar barSize={30} dataKey="ЦЗ" fill="red" />}
-            {activeBar === 'CA' && <Bar barSize={30} dataKey="ЦА" fill="#9018ad" />}
-          </BarChart>
-        </ResponsiveContainer>
+        <BarChart width={1000} height={250} data={data}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name" />
+          <YAxis />
+          <Tooltip />
+          {activeBar === 'ALL' && (
+            <>
+              <Bar barSize={10} dataKey="ЦМ" fill="green" />
+              <Bar barSize={10} dataKey="ЦЗ" fill="red" />
+              <Bar barSize={10} dataKey="ЦА" fill="#9018ad" />
+            </>
+          )}
+          {activeBar === 'CM' && <Bar barSize={30} dataKey="ЦМ" fill="green" />}
+          {activeBar === 'CZ' && <Bar barSize={30} dataKey="ЦЗ" fill="red" />}
+          {activeBar === 'CA' && <Bar barSize={30} dataKey="ЦА" fill="#9018ad" />}
+        </BarChart>
       </Chart>
 
       <Buttons>

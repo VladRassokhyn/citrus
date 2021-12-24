@@ -39,6 +39,7 @@ const Button = styled.button<StyleProps>`
   background-color: ${(props) => (props.disabled ? '#aaa' : 'var(--color-button)')};
   color: white;
   width: 100%;
+  min-width: 80px;
   height: 30px;
   opacity: 0;
   border: 0;
@@ -52,6 +53,9 @@ const Button = styled.button<StyleProps>`
       cursor: pointer;
       background-color: #1890ff;
     }`}
+  @media (max-width: 560px) {
+    margin-left: -20px;
+  }
 `;
 
 const ValueBlock = styled.div`
@@ -88,6 +92,9 @@ const Content = styled.div`
   height: 70%;
   opacity: 1;
   transition: linear 0.1s;
+  @media (max-width: 560px) {
+    display: none;
+  }
 `;
 
 const H1 = styled.h1`
@@ -108,6 +115,12 @@ const Wrapper = styled.div<StyleProps>`
   box-shadow: 0 0 5px #909090;
   border-radius: 10px;
   min-width: 100px;
+  height: 150px;
+  @media (max-width: 560px) {
+    min-width: 40px;
+    width: 40px;
+    height: 30px;
+  }
   &:hover {
     cursor: pointer;
   }
@@ -187,7 +200,7 @@ export const CalendarDay = memo(
     if (isEmpty) {
       return <Wrapper withData={false} />;
     }
-  
+
     return (
       <Wrapper delay={delay} withData={!!sales}>
         <Title isWeekend={isWeekend}>{title.split('.')[0]}</Title>

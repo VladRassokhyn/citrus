@@ -9,7 +9,6 @@ import { importanceOptions, importanceStyles, categoryOptions } from './selectCo
 import { User } from '../../lib/slices/users';
 import { format } from 'date-fns';
 import { TodoPayload } from '../../lib/slices/todo/todo.type';
-import { useEffect } from 'react';
 
 const openAnimation = keyframes`${slideInRight}`;
 const closeAnimation = keyframes`${slideOutRight}`;

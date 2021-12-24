@@ -63,12 +63,14 @@ const Cell = styled.div<CellProps>`
   align-items: center;
   justify-content: flex-end;
   padding-right: 10px;
-
   height: 20px;
   transition: linear 0.1s;
   background-color: ${(props) => props.isZeroOrNegative && '#ffcccc'} !important;
   &:nth-child(even) {
     background-color: #f2f2f2;
+  }
+  @media (max-width: 560px) {
+    padding: 0 10px;
   }
 `;
 

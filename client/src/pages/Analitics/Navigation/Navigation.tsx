@@ -18,6 +18,11 @@ const Wrapper = styled.div`
   position: absolute;
   left: 15px;
   top: 50px;
+  @media (max-width: 559px) {
+    width: 100vw;
+    top: 45px;
+    left: 0;
+  }
 `;
 
 const Container = styled.div`
@@ -31,7 +36,7 @@ const Container = styled.div`
   top: 55px;
   animation: ${animationIn} 0.3s forwards;
   @media (max-width: 559px) {
-    display: none;
+    width: 100vw;
   }
 `;
 

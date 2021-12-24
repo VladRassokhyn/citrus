@@ -59,6 +59,9 @@ const DetailContainer = styled.div`
   box-shadow: 0 0 5px #dfdfdf;
   padding: 15px;
   margin: 15px 0;
+  @media (max-width: 560px) {
+    overflow-x: scroll;
+  }
 `;
 
 export const MainAnalitics = (props: Props): JSX.Element => {
@@ -82,7 +85,6 @@ export const MainAnalitics = (props: Props): JSX.Element => {
 
   const calcFns = getCalcFns(lastSales ? lastSales.day.split('.')[0] : 1, month);
 
-  const mountSales = calcFns.monthSalesNew(sales);
   const salesSum = calcFns.monthSalesNew(sales);
   const cmForecast = calcFns.forecastSumm(salesSum.ttSales[8]);
   const czForecast = calcFns.forecastSumm(salesSum.ttSales[10]);
@@ -117,10 +119,10 @@ export const MainAnalitics = (props: Props): JSX.Element => {
       <DetailContainer>
         <DetailTable
           currentShop={props.currentShop}
-          thisDay={mountSales}
+          thisDay={salesSum}
           columns={getColumns(planes)}
           planes={planes}
-          ttSales={mountSales.ttSales}
+          ttSales={salesSum.ttSales}
         />
       </DetailContainer>
 

@@ -42,6 +42,9 @@ const CirclesContainer = styled.div`
   display: grid;
   grid-template-columns: 63% 33%;
   gap: 3%;
+  @media (max-width: 560px) {
+    grid-template-columns: 50% 50%;
+  }
 `;
 
 const CircleContent = styled.div`
@@ -52,6 +55,19 @@ const CircleContent = styled.div`
   box-shadow: 0 0 5px #dfdfdf;
   width: 103%;
   margin-bottom: 15px;
+  @media (max-width: 560px) {
+    width: 94%;
+  }
+`;
+
+const DetailContainer = styled.div`
+  border-radius: 5px;
+  box-shadow: 0 0 5px #dfdfdf;
+  padding: 15px;
+  margin: 15px 0;
+  @media (max-width: 560px) {
+    overflow-x: scroll;
+  }
 `;
 
 const Circles = styled.div`
@@ -59,6 +75,9 @@ const Circles = styled.div`
   flex-direction: row;
   width: 100%;
   justify-content: space-around;
+  @media (max-width: 560px) {
+    flex-direction: column;
+  }
 `;
 
 export const DayDetail = (props: Props): JSX.Element => {
@@ -111,13 +130,15 @@ export const DayDetail = (props: Props): JSX.Element => {
         </CircleContent>
       </CirclesContainer>
 
-      <DetailTable
-        currentShop={props.currentShop}
-        planes={planes}
-        thisDay={thisDay}
-        columns={columns}
-        ttSales={thisDay.ttSales}
-      />
+      <DetailContainer>
+        <DetailTable
+          currentShop={props.currentShop}
+          planes={planes}
+          thisDay={thisDay}
+          columns={columns}
+          ttSales={thisDay.ttSales}
+        />
+      </DetailContainer>
     </Wrapper>
   );
 };
