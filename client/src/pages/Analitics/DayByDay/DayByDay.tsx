@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Sales, SalesIndexes } from '../../../lib/slices/sales';
 import { BarChart, CartesianGrid, XAxis, YAxis, Tooltip, Bar, ResponsiveContainer } from 'recharts';
+import { ActiveColors, ActiveOptions, DefoultColors } from './types';
 
 type Props = {
   days: string[];
@@ -9,13 +10,9 @@ type Props = {
 };
 
 type StyleProps = {
-  daysCount?: number;
-  barHeight?: number;
-  color?: string;
-  isHolyday?: boolean;
-  salfe?: boolean;
-  activeColor?: string;
-  active?: boolean;
+  color: string;
+  activeColor: string;
+  active: boolean;
 };
 
 const Wrapper = styled.div`
@@ -62,13 +59,9 @@ const Btn = styled.button<StyleProps>`
 
 export const DayByDay = (props: Props): JSX.Element => {
   const { days, sales } = props;
-  const [activeBar, setActiveBar] = useState('ALL');
+  const [activeBar, setActiveBar] = useState(ActiveOptions.ALL);
 
-  if (props.sales.length < 1) {
-    return <div></div>;
-  }
-
-  const data = days.map((day, i) => {
+  const data = days.map((_, i) => {
     return {
       name: i + 1,
       ['ЦМ']: sales[i]?.ttSales[SalesIndexes.CM] || 0,
@@ -86,50 +79,56 @@ export const DayByDay = (props: Props): JSX.Element => {
             <XAxis dataKey="name" />
             <YAxis />
             <Tooltip />
-            {activeBar === 'ALL' && (
+            {activeBar === ActiveOptions.ALL && (
               <>
-                <Bar barSize={10} dataKey="ЦМ" fill="green" />
-                <Bar barSize={10} dataKey="ЦЗ" fill="red" />
-                <Bar barSize={10} dataKey="ЦА" fill="#9018ad" />
+                <Bar barSize={10} dataKey="ЦМ" fill={ActiveColors.CM} />
+                <Bar barSize={10} dataKey="ЦЗ" fill={ActiveColors.CZ} />
+                <Bar barSize={10} dataKey="ЦА" fill={ActiveColors.CA} />
               </>
             )}
-            {activeBar === 'CM' && <Bar barSize={30} dataKey="ЦМ" fill="green" />}
-            {activeBar === 'CZ' && <Bar barSize={30} dataKey="ЦЗ" fill="red" />}
-            {activeBar === 'CA' && <Bar barSize={30} dataKey="ЦА" fill="#9018ad" />}
+            {activeBar === ActiveOptions.CM && (
+              <Bar barSize={30} dataKey="ЦМ" fill={ActiveColors.CM} />
+            )}
+            {activeBar === ActiveOptions.CZ && (
+              <Bar barSize={30} dataKey="ЦЗ" fill={ActiveColors.CZ} />
+            )}
+            {activeBar === ActiveOptions.CA && (
+              <Bar barSize={30} dataKey="ЦА" fill={ActiveColors.CA} />
+            )}
           </BarChart>
         </ResponsiveContainer>
       </Chart>
 
       <Buttons>
         <Btn
-          color={'#b8e1f2'}
-          activeColor={'#413eed'}
-          active={activeBar === 'ALL'}
-          onClick={() => setActiveBar('ALL')}
+          color={DefoultColors.ALL}
+          activeColor={ActiveColors.ALL}
+          active={activeBar === ActiveOptions.ALL}
+          onClick={() => setActiveBar(ActiveOptions.ALL)}
         >
           Все
         </Btn>
         <Btn
-          color={'#b8f2c5'}
-          activeColor={'#347f2d'}
-          active={activeBar === 'CM'}
-          onClick={() => setActiveBar('CM')}
+          color={DefoultColors.CM}
+          activeColor={ActiveColors.CM}
+          active={activeBar === ActiveOptions.CM}
+          onClick={() => setActiveBar(ActiveOptions.CM)}
         >
           ЦМ
         </Btn>
         <Btn
-          color={'#f2b8b8'}
-          activeColor={'#ab3744'}
-          active={activeBar === 'CZ'}
-          onClick={() => setActiveBar('CZ')}
+          color={DefoultColors.CZ}
+          activeColor={ActiveColors.CZ}
+          active={activeBar === ActiveOptions.CZ}
+          onClick={() => setActiveBar(ActiveOptions.CZ)}
         >
           ЦЗ
         </Btn>
         <Btn
-          color={'#f2b8e9'}
-          activeColor={'#a937ab'}
-          active={activeBar === 'CA'}
-          onClick={() => setActiveBar('CA')}
+          color={DefoultColors.CA}
+          activeColor={ActiveColors.CA}
+          active={activeBar === ActiveOptions.CA}
+          onClick={() => setActiveBar(ActiveOptions.CA)}
         >
           ЦА
         </Btn>
