@@ -4,9 +4,9 @@ import { Modal } from '../../../Components/Modal';
 import { SalesInput } from '../SalesInput';
 import { useDispatch } from 'react-redux';
 import { useTypedSelector } from '../../../lib/hooks';
-import { LoadingStatuses } from '../../../lib/globalTypes';
+import { LoadingStatuses, SevicesColors } from '../../../lib/globalTypes';
 import { Confirm } from '../../../Components/Confirm';
-import { salesActions, salesSelectors } from '../../../lib/slices/sales';
+import { salesActions, salesSelectors, SalesIndexes } from '../../../lib/slices/sales';
 import { useHistory } from 'react-router';
 import { Planes } from '../../../lib/slices/planes/planes.type';
 import { Sales } from '../../../lib/slices/sales/sales.type';
@@ -25,7 +25,6 @@ type Props = {
 };
 
 type StyleProps = {
-  delay?: number;
   withData?: boolean;
   disabled?: boolean;
   isEmpty?: boolean;
@@ -142,17 +141,17 @@ export const CalendarDay = memo(
 
     const disabled = salesStatus === LoadingStatuses.LOADING;
 
-    const cmSales = sales?.ttSales ? sales.ttSales[8] : 0;
-    const czSales = sales?.ttSales ? sales.ttSales[10] : 0;
-    const caSales = sales?.ttSales ? sales.ttSales[12] : 0;
+    const cmSales = sales?.ttSales ? sales.ttSales[SalesIndexes.CM] : 0;
+    const czSales = sales?.ttSales ? sales.ttSales[SalesIndexes.CZ] : 0;
+    const caSales = sales?.ttSales ? sales.ttSales[SalesIndexes.CA] : 0;
 
     const calcFns = getCalcFns(sales?.day.split('.')[0], sales?.day.split('.')[1]);
 
     const growths = useMemo(
       () => ({
-        cm: calcFns.growthForecast(planes?.cm, +cmSales, monthSales.ttSales[8]),
-        cz: calcFns.growthForecast(planes?.cz, +czSales, monthSales.ttSales[10]),
-        ca: calcFns.growthForecast(planes?.ca, +caSales, monthSales.ttSales[12]),
+        cm: calcFns.growthForecast(planes?.cm, cmSales, monthSales.ttSales[SalesIndexes.CM]),
+        cz: calcFns.growthForecast(planes?.cz, czSales, monthSales.ttSales[SalesIndexes.CZ]),
+        ca: calcFns.growthForecast(planes?.ca, caSales, monthSales.ttSales[SalesIndexes.CA]),
       }),
       [],
     );
@@ -206,18 +205,26 @@ export const CalendarDay = memo(
           <H2>{sales ? format(new Date(sales.updatedAt), 'HH:mm, dd.MM') : 'no data'}</H2>
 
           <ValueBlock>
-            <H1 color={'gray'}>ТО: {sales?.ttSales ? sales.ttSales[1] : 'no data'}</H1>
+            <H1 color={SevicesColors.ALL}>
+              ТО: {sales?.ttSales ? sales.ttSales[SalesIndexes.DEVICES] : 'no data'}
+            </H1>
           </ValueBlock>
           <ValueBlock>
-            <H1 color={'green'}>ЦМ: {sales?.ttSales ? sales.ttSales[8] : 'no data'}</H1>
+            <H1 color={SevicesColors.CM}>
+              ЦМ: {sales?.ttSales ? sales.ttSales[SalesIndexes.CM] : 'no data'}
+            </H1>
             <Grow isPositive={growths.cm > 0}>{growths.cm}</Grow>
           </ValueBlock>
           <ValueBlock>
-            <H1 color={'red'}>ЦЗ: {sales?.ttSales ? sales.ttSales[10] : 'no data'}</H1>
+            <H1 color={SevicesColors.CZ}>
+              ЦЗ: {sales?.ttSales ? sales.ttSales[SalesIndexes.CZ] : 'no data'}
+            </H1>
             <Grow isPositive={growths.cz > 0}>{growths.cz}</Grow>
           </ValueBlock>
           <ValueBlock>
-            <H1 color={'#9018ad'}>ЦА: {sales?.ttSales ? sales.ttSales[12] : 'no data'}</H1>
+            <H1 color={SevicesColors.CA}>
+              ЦА: {sales?.ttSales ? sales.ttSales[SalesIndexes.CA] : 'no data'}
+            </H1>
             <Grow isPositive={growths.ca > 0}>{growths.ca}</Grow>
           </ValueBlock>
         </Content>

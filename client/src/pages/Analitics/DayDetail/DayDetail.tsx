@@ -103,12 +103,12 @@ export const DayDetail = (props: Props): JSX.Element => {
 
   const monthSales = calcFns.monthSalesNew(sales);
   const to_cmFact = calcFns.ratio(
-    +thisDay.ttSales[SalesIndexes.CM],
-    +thisDay.ttSales[SalesIndexes.DEVICES],
+    thisDay.ttSales[SalesIndexes.CM],
+    thisDay.ttSales[SalesIndexes.DEVICES],
   );
   const to_czFact = calcFns.ratio(
-    +thisDay.ttSales[SalesIndexes.CZ],
-    +thisDay.ttSales[SalesIndexes.DEVICES],
+    thisDay.ttSales[SalesIndexes.CZ],
+    thisDay.ttSales[SalesIndexes.DEVICES],
   );
 
   const cmDayPlane = (planes.cm - +monthSales.ttSales[SalesIndexes.CM]) / (dayCount - day);

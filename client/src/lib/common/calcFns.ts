@@ -1,4 +1,4 @@
-import { Sales } from '../slices/sales/sales.type';
+import { Sales, SalesTuple } from '../slices/sales';
 
 type Arg = number | string | undefined | null;
 
@@ -12,6 +12,7 @@ export const getCalcFns = (argDay?: number | string, argMonth?: number | string)
         id: 0,
         tt: { value: '', label: '' },
         day: '',
+        //@ts-ignore
         ttSales: [],
         sales: [],
         createdAt: new Date(),
@@ -26,7 +27,7 @@ export const getCalcFns = (argDay?: number | string, argMonth?: number | string)
               ? parseInt(newSales.ttSales[i] as string) + parseInt(ttSales as string)
               : parseInt(ttSales as string);
           } else {
-            newSales.ttSales[i] = ttSales;
+            newSales.ttSales[i] = ttSales as string;
           }
         });
 
@@ -36,7 +37,7 @@ export const getCalcFns = (argDay?: number | string, argMonth?: number | string)
       });
 
       const namesBufer: string[] = [];
-      const salesBufer: (string | number)[][] = [];
+      const salesBufer: SalesTuple[] = [];
 
       newSales.sales.forEach((salesman) => {
         if (!namesBufer.includes(salesman[0] as string)) {
@@ -48,10 +49,11 @@ export const getCalcFns = (argDay?: number | string, argMonth?: number | string)
               const newItem = [buferItem[0]];
               buferItem.forEach((item, i) => {
                 if (i !== 0) {
+                  //@ts-ignore
                   newItem.push(+salesman[i] + +item);
                 }
               });
-              salesBufer[itemIndex] = newItem;
+              salesBufer[itemIndex] = newItem as SalesTuple;
             }
           });
         }

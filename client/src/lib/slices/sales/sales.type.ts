@@ -4,8 +4,8 @@ export type Sales = {
   id: number;
   tt: { label: string; value: string };
   day: string;
-  ttSales: (string | number)[];
-  sales: (string | number)[][];
+  ttSales: SalesTuple;
+  sales: SalesTuple[];
   createdAt: Date;
   updatedAt: Date;
 };
@@ -60,3 +60,22 @@ export enum SalesIndexes {
   CA = 12,
   TO = 14,
 }
+
+export type SalesTuple = [
+  string,
+  number,
+  number,
+  number,
+  number,
+  number,
+  number,
+  number,
+  number,
+  number,
+  number,
+  number,
+  number,
+  number,
+  number,
+  number,
+];

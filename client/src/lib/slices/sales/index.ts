@@ -43,5 +43,5 @@ export const salesActions = {
 };
 export { salesReducer, salesWatcher };
 
-export type { Sales } from './sales.type';
+export type { Sales, SalesTuple } from './sales.type';
 export { SalesIndexes } from './sales.type';
