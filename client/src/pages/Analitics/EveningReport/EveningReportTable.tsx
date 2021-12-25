@@ -4,13 +4,12 @@ import html2canvas from 'html2canvas';
 import { getCalcFns } from '../../../lib/common';
 import { useMemo, useState } from 'react';
 import { Screenshot } from '../../../Components/Screenshot';
-import { Redirect } from 'react-router';
 import { useTypedSelector } from '../../../lib/hooks';
 import { planesSelectors } from '../../../lib/slices/planes';
-import { paths } from '../../../lib/routing';
 import { Shop } from '../../../lib/slices/shop';
-import { Sales, SalesIndexes } from '../../../lib/slices/sales';
+import { Sales } from '../../../lib/slices/sales';
 import { Planes } from '../../../lib/slices/planes/planes.type';
+import { dayRowsConfig, getCalcs, monthRowsConfig } from './config';
 
 type Props = {
   currentShop: Shop;
@@ -23,13 +22,8 @@ type CellProps = {
   width?: number;
   color?: string;
   grow?: boolean;
+  transparent?: boolean;
 };
-
-enum FillColors {
-  RED = 'rgb(255, 0, 0, .3)',
-  YELLOW = 'rgb(255, 255, 0, .5)',
-  GREEN = 'rgb(0, 255, 0, .3)',
-}
 
 const Wrapper = styled.div`
   display: flex;
@@ -83,8 +77,9 @@ const DayCell = styled.div`
 `;
 
 const FilledCell = styled.div<CellProps>`
-  width: ${(props) => (props.width && props.width > 100 ? 100 : props.width)}%;
-  background-color: ${(props) => props.color};
+  width: ${(props) =>
+    (props.width && props.width > 100) || !props.transparent ? 100 : props.width}%;
+  background-color: ${(props) => (!props.transparent ? 'transparent' : props.color)};
   height: 30px;
   display: flex;
   align-items: center;
@@ -170,7 +165,7 @@ export const EveningReportTable = (props: Props): JSX.Element => {
   const planes = useTypedSelector<Planes | null>(planesSelectors.planes);
 
   if (!planes) {
-    return <Redirect to={paths.ANALYTICS.MAIN.BASE()} />;
+    return <h1>Update the Planes!</h1>;
   }
 
   const calcFns = getCalcFns(day, month);
@@ -190,84 +185,51 @@ export const EveningReportTable = (props: Props): JSX.Element => {
     });
   };
 
-  const calcs = useMemo(
-    () => ({
-      cmDayRatio: calcFns.ratio(
-        daySales.ttSales[SalesIndexes.CM],
-        daySales.ttSales[SalesIndexes.DEVICES],
-      ),
-      czDayRatio: calcFns.ratio(
-        daySales.ttSales[SalesIndexes.CZ],
-        daySales.ttSales[SalesIndexes.DEVICES],
-      ),
-      cmRatio: calcFns.ratio(
-        monthSales.ttSales[SalesIndexes.CM],
-        monthSales.ttSales[SalesIndexes.DEVICES],
-      ),
-      czRatio: calcFns.ratio(
-        monthSales.ttSales[SalesIndexes.CZ],
-        monthSales.ttSales[SalesIndexes.DEVICES],
-      ),
-      cmForecast: calcFns.forecastPercent(monthSales.ttSales[SalesIndexes.CM], planes.cm),
-      czForecast: calcFns.forecastPercent(monthSales.ttSales[SalesIndexes.CZ], planes.cz),
-      cmGrowthForecast: calcFns.growthForecast(
-        planes.cm,
-        daySales.ttSales[SalesIndexes.CM],
-        monthSales.ttSales[SalesIndexes.CM],
-      ),
-      czGrowthForecast: calcFns.growthForecast(
-        planes.cz,
-        daySales.ttSales[SalesIndexes.CZ],
-        monthSales.ttSales[SalesIndexes.CZ],
-      ),
-      cmDayRate: calcFns.ratio(
-        daySales.ttSales[SalesIndexes.CM],
-        calcFns.dayPlane(monthSales.ttSales[SalesIndexes.CM], planes.cm),
-      ),
-      czDayRate: calcFns.ratio(
-        daySales.ttSales[SalesIndexes.CZ],
-        calcFns.dayPlane(monthSales.ttSales[SalesIndexes.CZ], planes.cz),
-      ),
-      cmGrowthRatio: calcFns.growthRatio(
-        daySales.ttSales[SalesIndexes.CM],
-        daySales.ttSales[SalesIndexes.DEVICES],
-        monthSales.ttSales[SalesIndexes.CM],
-        monthSales.ttSales[SalesIndexes.DEVICES],
-      ),
-      czGrowthRatio: calcFns.growthRatio(
-        daySales.ttSales[SalesIndexes.CZ],
-        daySales.ttSales[SalesIndexes.DEVICES],
-        monthSales.ttSales[SalesIndexes.CZ],
-        monthSales.ttSales[SalesIndexes.DEVICES],
-      ),
-    }),
-    [daySales, monthSales, planes],
-  );
+  const calcs: any = useMemo(() => getCalcs(daySales, monthSales, calcFns, planes), [
+    daySales,
+    monthSales,
+    planes,
+  ]);
 
-  const cmForecastColor =
-    calcs.cmForecast > 90
-      ? FillColors.GREEN
-      : calcs.cmForecast > 70
-      ? FillColors.YELLOW
-      : FillColors.RED;
-  const czForecastColor =
-    calcs.czForecast > 90
-      ? FillColors.GREEN
-      : calcs.czForecast > 70
-      ? FillColors.YELLOW
-      : FillColors.RED;
-  const cmDayRateColor =
-    calcs.cmDayRate > 90 || calcs.cmDayRate < 0
-      ? FillColors.GREEN
-      : calcs.cmDayRate > 70
-      ? FillColors.YELLOW
-      : FillColors.RED;
-  const czDayRateColor =
-    calcs.czDayRate > 90 || calcs.czDayRate < 0
-      ? FillColors.GREEN
-      : calcs.czDayRate > 70
-      ? FillColors.YELLOW
-      : FillColors.RED;
+  const monthRows = monthRowsConfig.map((row) => (
+    <Row key={row.label}>
+      <DayCell>
+        <H2>{row.label}</H2>
+        <H4>
+          <Growth grow={calcs[row.growth] >= 0}>{calcs[row.growth]}</Growth>
+        </H4>
+      </DayCell>
+      <Cell>
+        <FilledCell
+          transparent={row.withFill}
+          width={calcs[row.value]}
+          color={row.color(calcs[row.value])}
+        >
+          <H2>{calcs[row.value]}%</H2>
+        </FilledCell>
+      </Cell>
+    </Row>
+  ));
+
+  const dayRows = dayRowsConfig.map((row) => (
+    <Row key={row.label}>
+      <Cell>
+        <H2>{row.label}</H2>
+      </Cell>
+      <Cell>
+        <FilledCell
+          transparent={row.withFill}
+          width={calcs[row.value] >= 0 ? calcs[row.value] : 100}
+          color={row.color(calcs[row.value])}
+        >
+          <H2>
+            {calcs[row.value]}
+            {row.withPercent && '%'}
+          </H2>
+        </FilledCell>
+      </Cell>
+    </Row>
+  ));
 
   return (
     <Wrapper>
@@ -286,141 +248,11 @@ export const EveningReportTable = (props: Props): JSX.Element => {
                 <H2>{props.day}</H2>
               </Cell>
             </Row>
-
-            <Row>
-              <DayCell>
-                <H2>Доля ЦМ</H2>
-                <H4>
-                  <Growth grow={calcs.cmGrowthRatio >= 0}>{calcs.cmGrowthRatio}</Growth>
-                </H4>
-              </DayCell>
-              <Cell>
-                <H2>{calcs.cmRatio}%</H2>
-              </Cell>
-            </Row>
-
-            <Row>
-              <DayCell>
-                <H2>Прогноз ЦМ</H2>
-                <H4>
-                  <Growth grow={calcs.cmGrowthForecast >= 0}>{calcs.cmGrowthForecast}</Growth>
-                </H4>
-              </DayCell>
-              <Cell>
-                <H2>
-                  <FilledCell width={calcs.cmForecast} color={cmForecastColor}>
-                    <H2>{calcs.cmForecast}%</H2>
-                  </FilledCell>
-                </H2>
-              </Cell>
-            </Row>
-
-            <Row>
-              <DayCell>
-                <H2>Доля ЦЗ</H2>
-                <H4>
-                  <Growth grow={calcs.czGrowthRatio >= 0}>{calcs.czGrowthRatio}</Growth>
-                </H4>
-              </DayCell>
-              <Cell>
-                <H2>{calcs.czRatio}%</H2>
-              </Cell>
-            </Row>
-
-            <Row>
-              <DayCell>
-                <H2>Прогноз ЦЗ</H2>
-                <H4>
-                  <Growth grow={calcs.czGrowthForecast >= 0}>{calcs.czGrowthForecast}</Growth>
-                </H4>
-              </DayCell>
-              <Cell>
-                <FilledCell width={calcs.czForecast} color={czForecastColor}>
-                  <H2>{calcs.czForecast}%</H2>
-                </FilledCell>
-              </Cell>
-            </Row>
+            {monthRows}
           </Container>
           <Container>
             <H1>ДЕНЬ</H1>
-
-            <Row>
-              <Cell>
-                <H2>Сумма Устройств</H2>
-              </Cell>
-              <Cell>
-                <H2>{daySales.ttSales[SalesIndexes.DEVICES]}</H2>
-              </Cell>
-            </Row>
-            <Row>
-              <Cell>
-                <H2>Сумма ЦМ</H2>
-              </Cell>
-              <Cell>
-                <H2>{daySales.ttSales[SalesIndexes.CM]}</H2>
-              </Cell>
-            </Row>
-            <Row>
-              <Cell>
-                <H2>Доля ЦМ</H2>
-              </Cell>
-              <Cell>
-                <H2>{calcs.cmDayRatio}%</H2>
-              </Cell>
-            </Row>
-
-            <Row>
-              <Cell>
-                <H2>Выполнение ЦМ</H2>
-              </Cell>
-              <Cell>
-                <FilledCell
-                  width={calcs.cmDayRate >= 0 ? calcs.cmDayRate : 100}
-                  color={cmDayRateColor}
-                >
-                  <H2>{calcs.cmDayRate >= 0 ? calcs.cmDayRate : 100}%</H2>
-                </FilledCell>
-              </Cell>
-            </Row>
-
-            <Row>
-              <Cell>
-                <H2>Сумма ЦЗ</H2>
-              </Cell>
-              <Cell>
-                <H2>{daySales.ttSales[SalesIndexes.CZ]}</H2>
-              </Cell>
-            </Row>
-            <Row>
-              <Cell>
-                <H2>Доля ЦЗ</H2>
-              </Cell>
-              <Cell>
-                <H2>{calcs.czDayRatio}%</H2>
-              </Cell>
-            </Row>
-
-            <Row>
-              <Cell>
-                <H2>Выполнение ЦЗ</H2>
-              </Cell>
-              <Cell>
-                <FilledCell
-                  width={calcs.czDayRate >= 0 ? calcs.czDayRate : 100}
-                  color={czDayRateColor}
-                >
-                  <H2>{calcs.czDayRate >= 0 ? calcs.czDayRate : 100}%</H2>
-                </FilledCell>
-              </Cell>
-            </Row>
-            <Row>
-              <Cell>
-                <H2>Сумма ЦА</H2>
-              </Cell>
-              <Cell>
-                <H2>{daySales.ttSales[SalesIndexes.CA]}</H2>
-              </Cell>
-            </Row>
+            {dayRows}
           </Container>
         </ScreenContainer>
       </div>
