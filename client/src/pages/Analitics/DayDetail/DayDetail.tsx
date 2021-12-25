@@ -3,9 +3,10 @@ import { useParams } from 'react-router';
 import styled from 'styled-components';
 import { Preloader } from '../../../Components/Preloader';
 import { getCalcFns } from '../../../lib/common';
+import { SevicesColors } from '../../../lib/globalTypes';
 import { useTypedSelector } from '../../../lib/hooks';
 import { planesSelectors } from '../../../lib/slices/planes';
-import { salesSelectors } from '../../../lib/slices/sales';
+import { SalesIndexes, salesSelectors } from '../../../lib/slices/sales';
 import { Shop } from '../../../lib/slices/shop';
 import { Circle } from '../Circle/Circle';
 import { DetailTable } from './DetailTable';
@@ -96,17 +97,23 @@ export const DayDetail = (props: Props): JSX.Element => {
 
   const calcFns = getCalcFns();
 
-  const cmDaySales = thisDay.ttSales[8] as number;
-  const czDaySales = thisDay.ttSales[10] as number;
-  const caDaySales = thisDay.ttSales[12] as number;
+  const cmDaySales = thisDay.ttSales[SalesIndexes.CM] as number;
+  const czDaySales = thisDay.ttSales[SalesIndexes.CZ] as number;
+  const caDaySales = thisDay.ttSales[SalesIndexes.CA] as number;
 
   const monthSales = calcFns.monthSalesNew(sales);
-  const to_cmFact = calcFns.ratio(+thisDay.ttSales[8], +thisDay.ttSales[1]);
-  const to_czFact = calcFns.ratio(+thisDay.ttSales[10], +thisDay.ttSales[1]);
+  const to_cmFact = calcFns.ratio(
+    +thisDay.ttSales[SalesIndexes.CM],
+    +thisDay.ttSales[SalesIndexes.DEVICES],
+  );
+  const to_czFact = calcFns.ratio(
+    +thisDay.ttSales[SalesIndexes.CZ],
+    +thisDay.ttSales[SalesIndexes.DEVICES],
+  );
 
-  const cmDayPlane = (planes.cm - +monthSales.ttSales[8]) / (dayCount - day);
-  const czDayPlane = (planes.cz - +monthSales.ttSales[10]) / (dayCount - day);
-  const caDayPlane = (planes.cz - +monthSales.ttSales[12]) / (dayCount - day);
+  const cmDayPlane = (planes.cm - +monthSales.ttSales[SalesIndexes.CM]) / (dayCount - day);
+  const czDayPlane = (planes.cz - +monthSales.ttSales[SalesIndexes.CZ]) / (dayCount - day);
+  const caDayPlane = (planes.cz - +monthSales.ttSales[SalesIndexes.CA]) / (dayCount - day);
 
   return (
     <Wrapper>
@@ -116,16 +123,16 @@ export const DayDetail = (props: Props): JSX.Element => {
         <CircleContent>
           <H2>Выполнение планов</H2>
           <Circles>
-            <Circle color={'green'} sale={cmDaySales} plane={cmDayPlane} title={'ЦМ'} />
-            <Circle color={'red'} sale={czDaySales} plane={czDayPlane} title={'ЦЗ'} />
-            <Circle color={'#9018ad'} sale={caDaySales} plane={caDayPlane} title={'ЦА'} />
+            <Circle color={SevicesColors.CM} sale={cmDaySales} plane={cmDayPlane} title={'ЦМ'} />
+            <Circle color={SevicesColors.CZ} sale={czDaySales} plane={czDayPlane} title={'ЦЗ'} />
+            <Circle color={SevicesColors.CA} sale={caDaySales} plane={caDayPlane} title={'ЦА'} />
           </Circles>
         </CircleContent>
         <CircleContent>
           <H2>Выполнение доли</H2>
           <Circles>
-            <Circle color={'green'} sale={to_cmFact} plane={planes.to_cm} title={'ЦМ%'} />
-            <Circle color={'red'} sale={to_czFact} plane={planes.to_cz} title={'ЦЗ%'} />
+            <Circle color={SevicesColors.CM} sale={to_cmFact} plane={planes.to_cm} title={'ЦМ%'} />
+            <Circle color={SevicesColors.CZ} sale={to_czFact} plane={planes.to_cz} title={'ЦЗ%'} />
           </Circles>
         </CircleContent>
       </CirclesContainer>

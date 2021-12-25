@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Sales, SalesIndexes } from '../../../lib/slices/sales';
 import { BarChart, CartesianGrid, XAxis, YAxis, Tooltip, Bar, ResponsiveContainer } from 'recharts';
-import { ActiveColors, ActiveOptions, DefoultColors } from './types';
+import { ActiveOptions, DefoultColors } from './types';
+import { SevicesColors } from '../../../lib/globalTypes';
 
 type Props = {
   days: string[];
@@ -81,19 +82,19 @@ export const DayByDay = (props: Props): JSX.Element => {
             <Tooltip />
             {activeBar === ActiveOptions.ALL && (
               <>
-                <Bar barSize={10} dataKey="ЦМ" fill={ActiveColors.CM} />
-                <Bar barSize={10} dataKey="ЦЗ" fill={ActiveColors.CZ} />
-                <Bar barSize={10} dataKey="ЦА" fill={ActiveColors.CA} />
+                <Bar barSize={10} dataKey="ЦМ" fill={SevicesColors.CM} />
+                <Bar barSize={10} dataKey="ЦЗ" fill={SevicesColors.CZ} />
+                <Bar barSize={10} dataKey="ЦА" fill={SevicesColors.CA} />
               </>
             )}
             {activeBar === ActiveOptions.CM && (
-              <Bar barSize={30} dataKey="ЦМ" fill={ActiveColors.CM} />
+              <Bar barSize={30} dataKey="ЦМ" fill={SevicesColors.CM} />
             )}
             {activeBar === ActiveOptions.CZ && (
-              <Bar barSize={30} dataKey="ЦЗ" fill={ActiveColors.CZ} />
+              <Bar barSize={30} dataKey="ЦЗ" fill={SevicesColors.CZ} />
             )}
             {activeBar === ActiveOptions.CA && (
-              <Bar barSize={30} dataKey="ЦА" fill={ActiveColors.CA} />
+              <Bar barSize={30} dataKey="ЦА" fill={SevicesColors.CA} />
             )}
           </BarChart>
         </ResponsiveContainer>
@@ -102,7 +103,7 @@ export const DayByDay = (props: Props): JSX.Element => {
       <Buttons>
         <Btn
           color={DefoultColors.ALL}
-          activeColor={ActiveColors.ALL}
+          activeColor={SevicesColors.ALL}
           active={activeBar === ActiveOptions.ALL}
           onClick={() => setActiveBar(ActiveOptions.ALL)}
         >
@@ -110,7 +111,7 @@ export const DayByDay = (props: Props): JSX.Element => {
         </Btn>
         <Btn
           color={DefoultColors.CM}
-          activeColor={ActiveColors.CM}
+          activeColor={SevicesColors.CM}
           active={activeBar === ActiveOptions.CM}
           onClick={() => setActiveBar(ActiveOptions.CM)}
         >
@@ -118,7 +119,7 @@ export const DayByDay = (props: Props): JSX.Element => {
         </Btn>
         <Btn
           color={DefoultColors.CZ}
-          activeColor={ActiveColors.CZ}
+          activeColor={SevicesColors.CZ}
           active={activeBar === ActiveOptions.CZ}
           onClick={() => setActiveBar(ActiveOptions.CZ)}
         >
@@ -126,7 +127,7 @@ export const DayByDay = (props: Props): JSX.Element => {
         </Btn>
         <Btn
           color={DefoultColors.CA}
-          activeColor={ActiveColors.CA}
+          activeColor={SevicesColors.CA}
           active={activeBar === ActiveOptions.CA}
           onClick={() => setActiveBar(ActiveOptions.CA)}
         >

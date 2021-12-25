@@ -11,17 +11,15 @@ import { useHistory } from 'react-router';
 import { Planes } from '../../../lib/slices/planes/planes.type';
 import { Sales } from '../../../lib/slices/sales/sales.type';
 import { getCalcFns } from '../../../lib/common';
-import { Shop } from '../../../lib/slices/shop';
 import { format } from 'date-fns';
+import { Shop } from '../../../lib/slices/shop';
 
 type Props = {
-  ttSales: (string | number)[] | undefined;
+  tt: Shop;
   title: string;
-  delay: number;
   monthSales: Sales;
   planes?: Planes;
   sales: Sales | undefined;
-  tt: Shop;
   isWeekend?: boolean;
   isEmpty: boolean;
 };
@@ -136,7 +134,7 @@ const Wrapper = styled.div<StyleProps>`
 
 export const CalendarDay = memo(
   (props: Props): JSX.Element => {
-    const { title, delay, tt, isEmpty, isWeekend, sales, planes, monthSales, ttSales } = props;
+    const { title, isEmpty, isWeekend, sales, planes, monthSales, tt } = props;
     const salesStatus = useTypedSelector(salesSelectors.status);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const dispatch = useDispatch();
@@ -144,9 +142,9 @@ export const CalendarDay = memo(
 
     const disabled = salesStatus === LoadingStatuses.LOADING;
 
-    const cmSales = ttSales ? ttSales[8] : 0;
-    const czSales = ttSales ? ttSales[10] : 0;
-    const caSales = ttSales ? ttSales[12] : 0;
+    const cmSales = sales?.ttSales ? sales.ttSales[8] : 0;
+    const czSales = sales?.ttSales ? sales.ttSales[10] : 0;
+    const caSales = sales?.ttSales ? sales.ttSales[12] : 0;
 
     const calcFns = getCalcFns(sales?.day.split('.')[0], sales?.day.split('.')[1]);
 
@@ -202,24 +200,24 @@ export const CalendarDay = memo(
     }
 
     return (
-      <Wrapper delay={delay} withData={!!sales}>
+      <Wrapper withData={!!sales}>
         <Title isWeekend={isWeekend}>{title.split('.')[0]}</Title>
         <Content>
           <H2>{sales ? format(new Date(sales.updatedAt), 'HH:mm, dd.MM') : 'no data'}</H2>
 
           <ValueBlock>
-            <H1 color={'gray'}>ТО: {ttSales ? ttSales[1] : 'no data'}</H1>
+            <H1 color={'gray'}>ТО: {sales?.ttSales ? sales.ttSales[1] : 'no data'}</H1>
           </ValueBlock>
           <ValueBlock>
-            <H1 color={'green'}>ЦМ: {ttSales ? ttSales[8] : 'no data'}</H1>
+            <H1 color={'green'}>ЦМ: {sales?.ttSales ? sales.ttSales[8] : 'no data'}</H1>
             <Grow isPositive={growths.cm > 0}>{growths.cm}</Grow>
           </ValueBlock>
           <ValueBlock>
-            <H1 color={'red'}>ЦЗ: {ttSales ? ttSales[10] : 'no data'}</H1>
+            <H1 color={'red'}>ЦЗ: {sales?.ttSales ? sales.ttSales[10] : 'no data'}</H1>
             <Grow isPositive={growths.cz > 0}>{growths.cz}</Grow>
           </ValueBlock>
           <ValueBlock>
-            <H1 color={'#9018ad'}>ЦА: {ttSales ? ttSales[12] : 'no data'}</H1>
+            <H1 color={'#9018ad'}>ЦА: {sales?.ttSales ? sales.ttSales[12] : 'no data'}</H1>
             <Grow isPositive={growths.ca > 0}>{growths.ca}</Grow>
           </ValueBlock>
         </Content>

@@ -14,6 +14,13 @@ export enum UserRoles {
   PPC = 'PPC',
 }
 
+export enum SevicesColors {
+  CM = 'green',
+  CZ = 'red',
+  CA = '#9018ad',
+  ALL = '#413eed',
+}
+
 export enum LoadingErrors {
   IDLE = 'EDLI',
   NOT_AUTORISED = 'NOT_AUTORISED',

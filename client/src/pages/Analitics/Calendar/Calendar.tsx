@@ -103,9 +103,7 @@ export const Calendar = (props: Props): JSX.Element => {
     return (
       <CalendarDay
         isEmpty={!day}
-        ttSales={daySales?.ttSales}
         isWeekend={isWeekend}
-        delay={i}
         monthSales={monthSales}
         tt={props.currentShop}
         planes={planes}
