@@ -28,7 +28,6 @@ const Wrapper = styled.div`
   grid-template-columns: 1fr 100px;
   @media (max-width: 560px) {
     overflow-x: scroll;
-    max-width: 100%;
   }
 `;
 
@@ -41,7 +40,10 @@ const Buttons = styled.div`
   gap: 5px;
 `;
 
-const Chart = styled.div``;
+const Chart = styled.div`
+  width: 100%;
+  min-width: 1000px;
+`;
 
 const Btn = styled.button<StyleProps>`
   color: ${(props) => (props.active ? 'white' : 'var(--color-stroke)')};
@@ -78,22 +80,24 @@ export const DayByDay = (props: Props): JSX.Element => {
   return (
     <Wrapper>
       <Chart>
-        <BarChart width={1000} height={250} data={data}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
-          <YAxis />
-          <Tooltip />
-          {activeBar === 'ALL' && (
-            <>
-              <Bar barSize={10} dataKey="ЦМ" fill="green" />
-              <Bar barSize={10} dataKey="ЦЗ" fill="red" />
-              <Bar barSize={10} dataKey="ЦА" fill="#9018ad" />
-            </>
-          )}
-          {activeBar === 'CM' && <Bar barSize={30} dataKey="ЦМ" fill="green" />}
-          {activeBar === 'CZ' && <Bar barSize={30} dataKey="ЦЗ" fill="red" />}
-          {activeBar === 'CA' && <Bar barSize={30} dataKey="ЦА" fill="#9018ad" />}
-        </BarChart>
+        <ResponsiveContainer width="100%" height={200}>
+          <BarChart width={1000} height={250} data={data}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Tooltip />
+            {activeBar === 'ALL' && (
+              <>
+                <Bar barSize={10} dataKey="ЦМ" fill="green" />
+                <Bar barSize={10} dataKey="ЦЗ" fill="red" />
+                <Bar barSize={10} dataKey="ЦА" fill="#9018ad" />
+              </>
+            )}
+            {activeBar === 'CM' && <Bar barSize={30} dataKey="ЦМ" fill="green" />}
+            {activeBar === 'CZ' && <Bar barSize={30} dataKey="ЦЗ" fill="red" />}
+            {activeBar === 'CA' && <Bar barSize={30} dataKey="ЦА" fill="#9018ad" />}
+          </BarChart>
+        </ResponsiveContainer>
       </Chart>
 
       <Buttons>
