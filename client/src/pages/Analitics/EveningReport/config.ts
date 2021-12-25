@@ -15,42 +15,19 @@ function getColor(value: number) {
     : FillColors.RED;
 }
 
-export const monthRowsConfig = [
+export const rowsConfig = [
   {
-    label: 'Доля ЦМ',
-    growth: 'cmGrowthRatio',
-    value: 'cmRatio',
+    isHeader: true,
+    value: 'Месяц',
+  },
+  {
+    label: 'День',
+    growth: null,
+    value: 'day',
     withFill: false,
-    isDayCell: true,
+    isDayCell: false,
     color: getColor,
   },
-  {
-    label: 'Прогноз ЦМ',
-    growth: 'cmGrowthForecast',
-    value: 'cmForecast',
-    withFill: true,
-    isDayCell: true,
-    color: getColor,
-  },
-  {
-    label: 'Доля ЦЗ',
-    growth: 'czGrowthRatio',
-    value: 'czRatio',
-    withFill: false,
-    isDayCell: true,
-    color: getColor,
-  },
-  {
-    label: 'Прогноз ЦЗ',
-    growth: 'czGrowthForecast',
-    value: 'czForecast',
-    isDayCell: true,
-    withFill: true,
-    color: getColor,
-  },
-];
-
-export const dayRowsConfig = [
   {
     label: 'Доля ЦМ',
     growth: 'cmGrowthRatio',
@@ -160,7 +137,13 @@ export const dayRowsConfig = [
   },
 ];
 
-export function getCalcs(daySales: Sales, monthSales: Sales, calcFns: any, planes: Planes) {
+export function getCalcs(
+  daySales: Sales,
+  monthSales: Sales,
+  calcFns: any,
+  planes: Planes,
+  day: number,
+) {
   return {
     cmDayRatio: calcFns.ratio(
       daySales.ttSales[SalesIndexes.CM],
@@ -214,5 +197,6 @@ export function getCalcs(daySales: Sales, monthSales: Sales, calcFns: any, plane
     cm: daySales.ttSales[SalesIndexes.CM],
     cz: daySales.ttSales[SalesIndexes.CZ],
     ca: daySales.ttSales[SalesIndexes.CA],
+    day,
   };
 }

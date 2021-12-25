@@ -9,7 +9,7 @@ import { planesSelectors } from '../../../lib/slices/planes';
 import { Shop } from '../../../lib/slices/shop';
 import { Sales } from '../../../lib/slices/sales';
 import { Planes } from '../../../lib/slices/planes/planes.type';
-import { dayRowsConfig, getCalcs, monthRowsConfig } from './config';
+import { rowsConfig, getCalcs } from './config';
 
 type Props = {
   currentShop: Shop;
@@ -29,6 +29,13 @@ type CellProps = {
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
+  gap: 30px;
+`;
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
 
 const H2 = styled.h2<{ isDayCell?: boolean }>`
@@ -44,6 +51,7 @@ const Cell = styled.div<CellProps>`
   display: ${(props) => (props.isDayCell ? 'grid' : 'flex')};
   ${(props) => props.isDayCell && 'grid-template-columns: 70% 30%;'};
   align-items: center;
+  ${(props) => props.isDayCell && 'padding: 10px 0;'};
   border-bottom: 1px solid gray;
   &:nth-child(2) {
     border-left: 1px solid gray;
@@ -114,7 +122,6 @@ const ScreenContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   padding: 30px 0;
   border: 1px solid #d7d7d7;
   border-radius: 10px;
@@ -162,15 +169,16 @@ export const EveningReportTable = (props: Props): JSX.Element => {
     });
   };
 
-  const calcs: any = useMemo(() => getCalcs(daySales, monthSales, calcFns, planes), [
+  const calcs: any = useMemo(() => getCalcs(daySales, monthSales, calcFns, planes, day), [
     daySales,
     monthSales,
     planes,
+    day,
   ]);
 
-  const dayRows = dayRowsConfig.map((row) => {
+  const rows = rowsConfig.map((row) => {
     if (row.isHeader) {
-      return <H1>{row.value}</H1>;
+      return <H1 key={row.label}>{row.value}</H1>;
     } else {
       return (
         <Row key={row.label}>
@@ -205,17 +213,10 @@ export const EveningReportTable = (props: Props): JSX.Element => {
       <Button onClick={onScreenshot}>Сделать скрин</Button>
       <div id={'evening-report'}>
         <ScreenContainer>
-          <H3>{currentShop.shortName}</H3>
-          <H1>МЕСЯЦ</H1>
-          <Row>
-            <Cell>
-              <H2 isDayCell>День</H2>
-            </Cell>
-            <Cell>
-              <H2>{props.day}</H2>
-            </Cell>
-          </Row>
-          {dayRows}
+          <Container>
+            <H3>{currentShop.shortName}</H3>
+            {rows}
+          </Container>
         </ScreenContainer>
       </div>
     </Wrapper>
