@@ -4,7 +4,7 @@ import { Modal } from '../../../Components/Modal';
 import { SalesInput } from '../SalesInput';
 import { useDispatch } from 'react-redux';
 import { useTypedSelector } from '../../../lib/hooks';
-import { LoadingStatuses, SevicesColors } from '../../../lib/globalTypes';
+import { LoadingStatuses, ServicesColors } from '../../../lib/globalTypes';
 import { Confirm } from '../../../Components/Confirm';
 import { salesActions, salesSelectors, SalesIndexes } from '../../../lib/slices/sales';
 import { useHistory } from 'react-router';
@@ -205,24 +205,24 @@ export const CalendarDay = memo(
           <H2>{sales ? format(new Date(sales.updatedAt), 'HH:mm, dd.MM') : 'no data'}</H2>
 
           <ValueBlock>
-            <H1 color={SevicesColors.ALL}>
+            <H1 color={ServicesColors.ALL}>
               ТО: {sales?.ttSales ? sales.ttSales[SalesIndexes.DEVICES] : 'no data'}
             </H1>
           </ValueBlock>
           <ValueBlock>
-            <H1 color={SevicesColors.CM}>
+            <H1 color={ServicesColors.CM}>
               ЦМ: {sales?.ttSales ? sales.ttSales[SalesIndexes.CM] : 'no data'}
             </H1>
             <Grow isPositive={growths.cm > 0}>{growths.cm}</Grow>
           </ValueBlock>
           <ValueBlock>
-            <H1 color={SevicesColors.CZ}>
+            <H1 color={ServicesColors.CZ}>
               ЦЗ: {sales?.ttSales ? sales.ttSales[SalesIndexes.CZ] : 'no data'}
             </H1>
             <Grow isPositive={growths.cz > 0}>{growths.cz}</Grow>
           </ValueBlock>
           <ValueBlock>
-            <H1 color={SevicesColors.CA}>
+            <H1 color={ServicesColors.CA}>
               ЦА: {sales?.ttSales ? sales.ttSales[SalesIndexes.CA] : 'no data'}
             </H1>
             <Grow isPositive={growths.ca > 0}>{growths.ca}</Grow>

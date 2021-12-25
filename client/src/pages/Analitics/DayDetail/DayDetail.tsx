@@ -3,7 +3,7 @@ import { useParams } from 'react-router';
 import styled from 'styled-components';
 import { Preloader } from '../../../Components/Preloader';
 import { getCalcFns } from '../../../lib/common';
-import { SevicesColors } from '../../../lib/globalTypes';
+import { ServicesColors } from '../../../lib/globalTypes';
 import { useTypedSelector } from '../../../lib/hooks';
 import { planesSelectors } from '../../../lib/slices/planes';
 import { SalesIndexes, salesSelectors } from '../../../lib/slices/sales';
@@ -83,37 +83,30 @@ const Circles = styled.div`
 
 export const DayDetail = (props: Props): JSX.Element => {
   const salesDate = useParams<{ salesDate: string }>().salesDate.replace(/[^0-9]/g, '.');
-  const thisDay = useTypedSelector(salesSelectors.salesByDate(salesDate));
+  const thisDaySales = useTypedSelector(salesSelectors.salesByDate(salesDate));
   const sales = useTypedSelector(salesSelectors.sales);
   const planes = useTypedSelector(planesSelectors.planes);
   const columns = getColumns(planes);
 
-  if (!thisDay) {
+  if (!thisDaySales) {
     return <Preloader />;
   }
 
-  const dayCount = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate();
-  const day = new Date().getDate();
-
   const calcFns = getCalcFns();
-
-  const cmDaySales = thisDay.ttSales[SalesIndexes.CM] as number;
-  const czDaySales = thisDay.ttSales[SalesIndexes.CZ] as number;
-  const caDaySales = thisDay.ttSales[SalesIndexes.CA] as number;
 
   const monthSales = calcFns.monthSalesNew(sales);
   const to_cmFact = calcFns.ratio(
-    thisDay.ttSales[SalesIndexes.CM],
-    thisDay.ttSales[SalesIndexes.DEVICES],
+    thisDaySales.ttSales[SalesIndexes.CM],
+    thisDaySales.ttSales[SalesIndexes.DEVICES],
   );
   const to_czFact = calcFns.ratio(
-    thisDay.ttSales[SalesIndexes.CZ],
-    thisDay.ttSales[SalesIndexes.DEVICES],
+    thisDaySales.ttSales[SalesIndexes.CZ],
+    thisDaySales.ttSales[SalesIndexes.DEVICES],
   );
 
-  const cmDayPlane = (planes.cm - +monthSales.ttSales[SalesIndexes.CM]) / (dayCount - day);
-  const czDayPlane = (planes.cz - +monthSales.ttSales[SalesIndexes.CZ]) / (dayCount - day);
-  const caDayPlane = (planes.cz - +monthSales.ttSales[SalesIndexes.CA]) / (dayCount - day);
+  const cmDayPlane = calcFns.dayPlane(monthSales.ttSales[SalesIndexes.CM], planes.cm);
+  const czDayPlane = calcFns.dayPlane(monthSales.ttSales[SalesIndexes.CZ], planes.cz);
+  const caDayPlane = calcFns.dayPlane(monthSales.ttSales[SalesIndexes.CA], planes.ca);
 
   return (
     <Wrapper>
@@ -123,16 +116,31 @@ export const DayDetail = (props: Props): JSX.Element => {
         <CircleContent>
           <H2>Выполнение планов</H2>
           <Circles>
-            <Circle color={SevicesColors.CM} sale={cmDaySales} plane={cmDayPlane} title={'ЦМ'} />
-            <Circle color={SevicesColors.CZ} sale={czDaySales} plane={czDayPlane} title={'ЦЗ'} />
-            <Circle color={SevicesColors.CA} sale={caDaySales} plane={caDayPlane} title={'ЦА'} />
+            <Circle
+              color={ServicesColors.CM}
+              sale={thisDaySales.ttSales[SalesIndexes.CM]}
+              plane={cmDayPlane}
+              title={'ЦМ'}
+            />
+            <Circle
+              color={ServicesColors.CZ}
+              sale={thisDaySales.ttSales[SalesIndexes.CZ]}
+              plane={czDayPlane}
+              title={'ЦЗ'}
+            />
+            <Circle
+              color={ServicesColors.CA}
+              sale={thisDaySales.ttSales[SalesIndexes.CA]}
+              plane={caDayPlane}
+              title={'ЦА'}
+            />
           </Circles>
         </CircleContent>
         <CircleContent>
           <H2>Выполнение доли</H2>
           <Circles>
-            <Circle color={SevicesColors.CM} sale={to_cmFact} plane={planes.to_cm} title={'ЦМ%'} />
-            <Circle color={SevicesColors.CZ} sale={to_czFact} plane={planes.to_cz} title={'ЦЗ%'} />
+            <Circle color={ServicesColors.CM} sale={to_cmFact} plane={planes.to_cm} title={'ЦМ%'} />
+            <Circle color={ServicesColors.CZ} sale={to_czFact} plane={planes.to_cz} title={'ЦЗ%'} />
           </Circles>
         </CircleContent>
       </CirclesContainer>
@@ -141,9 +149,8 @@ export const DayDetail = (props: Props): JSX.Element => {
         <DetailTable
           currentShop={props.currentShop}
           planes={planes}
-          thisDay={thisDay}
+          sales={thisDaySales}
           columns={columns}
-          ttSales={thisDay.ttSales}
         />
       </DetailContainer>
     </Wrapper>

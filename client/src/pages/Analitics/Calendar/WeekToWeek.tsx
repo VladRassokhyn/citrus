@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { getCalcFns } from '../../../lib/common';
-import { SevicesColors } from '../../../lib/globalTypes';
+import { ServicesColors } from '../../../lib/globalTypes';
 import { Planes } from '../../../lib/slices/planes/planes.type';
 import { Sales, SalesIndexes } from '../../../lib/slices/sales';
 
@@ -60,15 +60,15 @@ export const WeekToWeek = (props: Props): JSX.Element => {
       <WeekToWeekItem key={i}>
         <WeekToWeekArrow />
         <WeekToWeekValues>
-          <H1 color={SevicesColors.CM}>
+          <H1 color={ServicesColors.CM}>
             {diffs.cm.prefix}
             {diffs.cm.value.toFixed(2)}
           </H1>
-          <H1 color={SevicesColors.CZ}>
+          <H1 color={ServicesColors.CZ}>
             {diffs.cz.prefix}
             {diffs.cz.value.toFixed(2)}
           </H1>
-          <H1 color={SevicesColors.CA}>
+          <H1 color={ServicesColors.CA}>
             {diffs.ca.prefix}
             {diffs.ca.value.toFixed(2)}
           </H1>

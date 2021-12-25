@@ -3,17 +3,16 @@ import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { useTypedSelector } from '../../../lib/hooks';
 import { Planes } from '../../../lib/slices/planes/planes.type';
-import { Sales } from '../../../lib/slices/sales/sales.type';
+import { Sales, SalesTuple } from '../../../lib/slices/sales/sales.type';
 import { Shop, shopActions, shopSelectors } from '../../../lib/slices/shop';
 
 type Props = {
   currentShop: Shop;
   columns: {
     label: string;
-    fn: (sales: (string | number)[]) => string | number;
+    fn: (sales: SalesTuple) => string | number;
   }[];
-  thisDay: Sales;
-  ttSales: (string | number)[];
+  sales: Sales;
   planes: Planes;
 };
 
@@ -173,21 +172,21 @@ const NameCell = styled.div<CellProps>`
 `;
 
 export const DetailTable = (props: Props): JSX.Element => {
-  const { columns, thisDay, ttSales, planes } = props;
+  const { columns, sales, planes } = props;
   const dispatch = useDispatch();
   const currentShop = useTypedSelector(shopSelectors.currentShop);
   const [sortReverse, setSortReverse] = useState(false);
   const [selectedRow, setSelectedRow] = useState(-1);
-  const [sales, setSales] = useState(thisDay);
+  const [sale, setSale] = useState(sales);
   const shops = useTypedSelector(shopSelectors.allShops);
 
-  const sortByFn = (fn: (arg: (string | number)[]) => string | number) => {
-    if (thisDay) {
-      const sortedSales = [...thisDay.sales].sort((a, b) => +fn(b) - +fn(a));
+  const sortByFn = (fn: (arg: SalesTuple) => string | number) => {
+    if (sales) {
+      const sortedSales = [...sales.sales].sort((a, b) => +fn(b) - +fn(a));
       if (sortReverse) {
         sortedSales.reverse();
       }
-      setSales({ ...sales, sales: sortedSales });
+      setSale({ ...sales, sales: sortedSales });
       setSortReverse((prev) => !prev);
     }
   };
@@ -201,7 +200,6 @@ export const DetailTable = (props: Props): JSX.Element => {
   };
 
   const handleClick = (name: string | number) => {
-    console.log(name);
     if (currentShop?.name === 'KIEV_ALL' || currentShop?.name === 'KHARKOV_ALL') {
       const shop = shops?.find((sh) => sh.name_1c === name);
       shop && dispatch(shopActions.setCurrentShop(shop));
@@ -246,11 +244,12 @@ export const DetailTable = (props: Props): JSX.Element => {
                 <H2>
                   {i === 0
                     ? props.currentShop.shortName
-                    : !isNaN(+column.fn(ttSales)) && column.fn(ttSales).toLocaleString('ru')}
+                    : !isNaN(+column.fn(sales.ttSales)) &&
+                      column.fn(sales.ttSales).toLocaleString('ru')}
                 </H2>
               </Cell>
             </TTHead>
-            {sales.sales.map((salesman, j) => {
+            {sale.sales.map((salesman, j) => {
               if (i === 0) {
                 return (
                   <NameCell

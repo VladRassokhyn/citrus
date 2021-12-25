@@ -2,14 +2,13 @@ import React from 'react';
 import styled from 'styled-components';
 import { CalendarDay } from './CalendarDay';
 import { Planes } from '../../../lib/slices/planes/planes.type';
-import { Sales, SalesIndexes } from '../../../lib/slices/sales/sales.type';
+import { Sales } from '../../../lib/slices/sales/sales.type';
 import { getCalcFns } from '../../../lib/common';
 import { User } from '../../../lib/slices/users';
 import { WeekTitle } from './WeekTitle';
 import { useTypedSelector } from '../../../lib/hooks';
 import { salesSelectors } from '../../../lib/slices/sales';
 import { Shop } from '../../../lib/slices/shop';
-import { SevicesColors } from '../../../lib/globalTypes';
 import { WeekToWeek } from './WeekToWeek';
 
 type Props = {
@@ -53,8 +52,8 @@ export const Calendar = (props: Props): JSX.Element => {
   const calendarDays = days.map((day, i) => {
     const isWeekend = day?.split(' ')[0] === 'Saturday' || day?.split(' ')[0] === 'Sunday';
     const daySales = sales.find((salesItem) => salesItem.day === day?.split(' ')[1]);
-    const salesByToday = sales.filter((sale) => sale.day < (day?.split(' ')[1] || 0));
-    const monthSales = calcFns.monthSalesNew(salesByToday);
+    const salesFromStartToToday = sales.filter((sale) => sale.day < (day?.split(' ')[1] || 0));
+    const monthSales = calcFns.monthSalesNew(salesFromStartToToday);
     if (i % 7 === 0 && i !== 0) weekSales.push({ ...monthSales, day: String(i) });
 
     return (

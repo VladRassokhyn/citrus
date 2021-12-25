@@ -119,10 +119,9 @@ export const MainAnalitics = (props: Props): JSX.Element => {
       <DetailContainer>
         <DetailTable
           currentShop={props.currentShop}
-          thisDay={salesSum}
+          sales={salesSum}
           columns={getColumns(planes)}
           planes={planes}
-          ttSales={salesSum.ttSales}
         />
       </DetailContainer>
 

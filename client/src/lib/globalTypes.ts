@@ -14,7 +14,7 @@ export enum UserRoles {
   PPC = 'PPC',
 }
 
-export enum SevicesColors {
+export enum ServicesColors {
   CM = 'green',
   CZ = 'red',
   CA = '#9018ad',

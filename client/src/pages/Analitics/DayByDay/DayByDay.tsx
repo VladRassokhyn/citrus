@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Sales, SalesIndexes } from '../../../lib/slices/sales';
 import { BarChart, CartesianGrid, XAxis, YAxis, Tooltip, Bar, ResponsiveContainer } from 'recharts';
-import { ActiveOptions, DefoultColors } from './types';
-import { SevicesColors } from '../../../lib/globalTypes';
+import { ActiveOptions, Btns, DefoultColors } from './config';
+import { ServicesColors } from '../../../lib/globalTypes';
 
 type Props = {
   days: string[];
@@ -58,6 +58,19 @@ const Btn = styled.button<StyleProps>`
   }
 `;
 
+const bars = {
+  [ActiveOptions.CM]: <Bar barSize={30} dataKey="ЦМ" fill={ServicesColors.CM} />,
+  [ActiveOptions.CZ]: <Bar barSize={30} dataKey="ЦЗ" fill={ServicesColors.CZ} />,
+  [ActiveOptions.CA]: <Bar barSize={30} dataKey="ЦА" fill={ServicesColors.CA} />,
+  [ActiveOptions.ALL]: (
+    <>
+      <Bar barSize={10} dataKey="ЦМ" fill={ServicesColors.CM} />
+      <Bar barSize={10} dataKey="ЦЗ" fill={ServicesColors.CZ} />
+      <Bar barSize={10} dataKey="ЦА" fill={ServicesColors.CA} />
+    </>
+  ),
+};
+
 export const DayByDay = (props: Props): JSX.Element => {
   const { days, sales } = props;
   const [activeBar, setActiveBar] = useState(ActiveOptions.ALL);
@@ -71,6 +84,18 @@ export const DayByDay = (props: Props): JSX.Element => {
     };
   });
 
+  const btns = Btns.map((btn) => (
+    <Btn
+      key={btn.value}
+      color={btn.defoultColor}
+      activeColor={btn.activeColor}
+      active={activeBar === btn.value}
+      onClick={() => setActiveBar(btn.value)}
+    >
+      {btn.label}
+    </Btn>
+  ));
+
   return (
     <Wrapper>
       <Chart>
@@ -80,60 +105,12 @@ export const DayByDay = (props: Props): JSX.Element => {
             <XAxis dataKey="name" />
             <YAxis />
             <Tooltip />
-            {activeBar === ActiveOptions.ALL && (
-              <>
-                <Bar barSize={10} dataKey="ЦМ" fill={SevicesColors.CM} />
-                <Bar barSize={10} dataKey="ЦЗ" fill={SevicesColors.CZ} />
-                <Bar barSize={10} dataKey="ЦА" fill={SevicesColors.CA} />
-              </>
-            )}
-            {activeBar === ActiveOptions.CM && (
-              <Bar barSize={30} dataKey="ЦМ" fill={SevicesColors.CM} />
-            )}
-            {activeBar === ActiveOptions.CZ && (
-              <Bar barSize={30} dataKey="ЦЗ" fill={SevicesColors.CZ} />
-            )}
-            {activeBar === ActiveOptions.CA && (
-              <Bar barSize={30} dataKey="ЦА" fill={SevicesColors.CA} />
-            )}
+            {bars[activeBar]}
           </BarChart>
         </ResponsiveContainer>
       </Chart>
 
-      <Buttons>
-        <Btn
-          color={DefoultColors.ALL}
-          activeColor={SevicesColors.ALL}
-          active={activeBar === ActiveOptions.ALL}
-          onClick={() => setActiveBar(ActiveOptions.ALL)}
-        >
-          Все
-        </Btn>
-        <Btn
-          color={DefoultColors.CM}
-          activeColor={SevicesColors.CM}
-          active={activeBar === ActiveOptions.CM}
-          onClick={() => setActiveBar(ActiveOptions.CM)}
-        >
-          ЦМ
-        </Btn>
-        <Btn
-          color={DefoultColors.CZ}
-          activeColor={SevicesColors.CZ}
-          active={activeBar === ActiveOptions.CZ}
-          onClick={() => setActiveBar(ActiveOptions.CZ)}
-        >
-          ЦЗ
-        </Btn>
-        <Btn
-          color={DefoultColors.CA}
-          activeColor={SevicesColors.CA}
-          active={activeBar === ActiveOptions.CA}
-          onClick={() => setActiveBar(ActiveOptions.CA)}
-        >
-          ЦА
-        </Btn>
-      </Buttons>
+      <Buttons>{btns}</Buttons>
     </Wrapper>
   );
 };

@@ -9,7 +9,7 @@ import { useTypedSelector } from '../../../lib/hooks';
 import { planesSelectors } from '../../../lib/slices/planes';
 import { paths } from '../../../lib/routing';
 import { Shop } from '../../../lib/slices/shop';
-import { Sales } from '../../../lib/slices/sales';
+import { Sales, SalesIndexes } from '../../../lib/slices/sales';
 import { Planes } from '../../../lib/slices/planes/planes.type';
 
 type Props = {
@@ -190,40 +190,59 @@ export const EveningReportTable = (props: Props): JSX.Element => {
     });
   };
 
-  const calcs = {
-    cmDayRatio: calcFns.ratio(daySales.ttSales[8], daySales.ttSales[1]),
-    czDayRatio: calcFns.ratio(daySales.ttSales[10], daySales.ttSales[1]),
-    cmRatio: calcFns.ratio(monthSales.ttSales[8], monthSales.ttSales[1]),
-    czRatio: calcFns.ratio(monthSales.ttSales[10], monthSales.ttSales[1]),
-    cmForecast: calcFns.forecastPercent(monthSales.ttSales[8], planes.cm),
-    czForecast: calcFns.forecastPercent(monthSales.ttSales[10], planes.cz),
-    cmGrowthForecast: calcFns.growthForecast(planes.cm, daySales.ttSales[8], monthSales.ttSales[8]),
-    czGrowthForecast: calcFns.growthForecast(
-      planes.cz,
-      daySales.ttSales[10],
-      monthSales.ttSales[10],
-    ),
-    cmDayRate: calcFns.ratio(
-      daySales.ttSales[8],
-      calcFns.dayPlane(monthSales.ttSales[8], planes.cm),
-    ),
-    czDayRate: calcFns.ratio(
-      daySales.ttSales[10],
-      calcFns.dayPlane(monthSales.ttSales[10], planes.cz),
-    ),
-    cmGrowthRatio: calcFns.growthRatio(
-      daySales.ttSales[8],
-      daySales.ttSales[1],
-      monthSales.ttSales[8],
-      monthSales.ttSales[1],
-    ),
-    czGrowthRatio: calcFns.growthRatio(
-      daySales.ttSales[10],
-      daySales.ttSales[1],
-      monthSales.ttSales[10],
-      monthSales.ttSales[1],
-    ),
-  };
+  const calcs = useMemo(
+    () => ({
+      cmDayRatio: calcFns.ratio(
+        daySales.ttSales[SalesIndexes.CM],
+        daySales.ttSales[SalesIndexes.DEVICES],
+      ),
+      czDayRatio: calcFns.ratio(
+        daySales.ttSales[SalesIndexes.CZ],
+        daySales.ttSales[SalesIndexes.DEVICES],
+      ),
+      cmRatio: calcFns.ratio(
+        monthSales.ttSales[SalesIndexes.CM],
+        monthSales.ttSales[SalesIndexes.DEVICES],
+      ),
+      czRatio: calcFns.ratio(
+        monthSales.ttSales[SalesIndexes.CZ],
+        monthSales.ttSales[SalesIndexes.DEVICES],
+      ),
+      cmForecast: calcFns.forecastPercent(monthSales.ttSales[SalesIndexes.CM], planes.cm),
+      czForecast: calcFns.forecastPercent(monthSales.ttSales[SalesIndexes.CZ], planes.cz),
+      cmGrowthForecast: calcFns.growthForecast(
+        planes.cm,
+        daySales.ttSales[SalesIndexes.CM],
+        monthSales.ttSales[SalesIndexes.CM],
+      ),
+      czGrowthForecast: calcFns.growthForecast(
+        planes.cz,
+        daySales.ttSales[SalesIndexes.CZ],
+        monthSales.ttSales[SalesIndexes.CZ],
+      ),
+      cmDayRate: calcFns.ratio(
+        daySales.ttSales[SalesIndexes.CM],
+        calcFns.dayPlane(monthSales.ttSales[SalesIndexes.CM], planes.cm),
+      ),
+      czDayRate: calcFns.ratio(
+        daySales.ttSales[SalesIndexes.CZ],
+        calcFns.dayPlane(monthSales.ttSales[SalesIndexes.CZ], planes.cz),
+      ),
+      cmGrowthRatio: calcFns.growthRatio(
+        daySales.ttSales[SalesIndexes.CM],
+        daySales.ttSales[SalesIndexes.DEVICES],
+        monthSales.ttSales[SalesIndexes.CM],
+        monthSales.ttSales[SalesIndexes.DEVICES],
+      ),
+      czGrowthRatio: calcFns.growthRatio(
+        daySales.ttSales[SalesIndexes.CZ],
+        daySales.ttSales[SalesIndexes.DEVICES],
+        monthSales.ttSales[SalesIndexes.CZ],
+        monthSales.ttSales[SalesIndexes.DEVICES],
+      ),
+    }),
+    [daySales, monthSales, planes],
+  );
 
   const cmForecastColor =
     calcs.cmForecast > 90
@@ -330,7 +349,7 @@ export const EveningReportTable = (props: Props): JSX.Element => {
                 <H2>Сумма Устройств</H2>
               </Cell>
               <Cell>
-                <H2>{daySales.ttSales[1]}</H2>
+                <H2>{daySales.ttSales[SalesIndexes.DEVICES]}</H2>
               </Cell>
             </Row>
             <Row>
@@ -338,7 +357,7 @@ export const EveningReportTable = (props: Props): JSX.Element => {
                 <H2>Сумма ЦМ</H2>
               </Cell>
               <Cell>
-                <H2>{daySales.ttSales[8]}</H2>
+                <H2>{daySales.ttSales[SalesIndexes.CM]}</H2>
               </Cell>
             </Row>
             <Row>
@@ -369,7 +388,7 @@ export const EveningReportTable = (props: Props): JSX.Element => {
                 <H2>Сумма ЦЗ</H2>
               </Cell>
               <Cell>
-                <H2>{daySales.ttSales[10]}</H2>
+                <H2>{daySales.ttSales[SalesIndexes.CZ]}</H2>
               </Cell>
             </Row>
             <Row>
@@ -399,7 +418,7 @@ export const EveningReportTable = (props: Props): JSX.Element => {
                 <H2>Сумма ЦА</H2>
               </Cell>
               <Cell>
-                <H2>{daySales.ttSales[12]}</H2>
+                <H2>{daySales.ttSales[SalesIndexes.CA]}</H2>
               </Cell>
             </Row>
           </Container>
