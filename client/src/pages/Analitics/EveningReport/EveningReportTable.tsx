@@ -23,46 +23,26 @@ type CellProps = {
   color?: string;
   grow?: boolean;
   transparent?: boolean;
+  isDayCell?: boolean;
 };
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 15px;
 `;
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const Cell = styled.div`
-  width: 200px;
-  height: 30px;
-  display: flex;
-  align-items: center;
-  border-bottom: 1px solid gray;
-  &:nth-child(2) {
-    border-left: 1px solid gray;
-  }
-  @media (max-width: 559px) {
-    width: 45%;
-  }
-`;
-
-const H2 = styled.h2`
+const H2 = styled.h2<{ isDayCell?: boolean }>`
   width: 100%;
-  text-align: center;
+  text-align: ${(props) => (props.isDayCell ? 'right' : 'center')};
   font-size: 12pt;
   color: var(--color-stroke);
 `;
 
-const DayCell = styled.div`
+const Cell = styled.div<CellProps>`
   width: 200px;
   height: 30px;
-  display: grid;
-  grid-template-columns: 70% 30%;
+  display: ${(props) => (props.isDayCell ? 'grid' : 'flex')};
+  ${(props) => props.isDayCell && 'grid-template-columns: 70% 30%;'};
   align-items: center;
   border-bottom: 1px solid gray;
   &:nth-child(2) {
@@ -70,9 +50,6 @@ const DayCell = styled.div`
   }
   @media (max-width: 559px) {
     width: 45%;
-  }
-  & ${H2} {
-    text-align: right;
   }
 `;
 
@@ -112,6 +89,7 @@ const H1 = styled.h1`
   text-align: center;
   font-size: 14pt;
   color: white;
+  margin-top: 30px;
   background-color: var(--color-button);
   @media (max-width: 559px) {
     width: 90vw;
@@ -136,7 +114,6 @@ const ScreenContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
   justify-content: center;
   padding: 30px 0;
   border: 1px solid #d7d7d7;
@@ -191,45 +168,36 @@ export const EveningReportTable = (props: Props): JSX.Element => {
     planes,
   ]);
 
-  const monthRows = monthRowsConfig.map((row) => (
-    <Row key={row.label}>
-      <DayCell>
-        <H2>{row.label}</H2>
-        <H4>
-          <Growth grow={calcs[row.growth] >= 0}>{calcs[row.growth]}</Growth>
-        </H4>
-      </DayCell>
-      <Cell>
-        <FilledCell
-          transparent={row.withFill}
-          width={calcs[row.value]}
-          color={row.color(calcs[row.value])}
-        >
-          <H2>{calcs[row.value]}%</H2>
-        </FilledCell>
-      </Cell>
-    </Row>
-  ));
-
-  const dayRows = dayRowsConfig.map((row) => (
-    <Row key={row.label}>
-      <Cell>
-        <H2>{row.label}</H2>
-      </Cell>
-      <Cell>
-        <FilledCell
-          transparent={row.withFill}
-          width={calcs[row.value] >= 0 ? calcs[row.value] : 100}
-          color={row.color(calcs[row.value])}
-        >
-          <H2>
-            {calcs[row.value]}
-            {row.withPercent && '%'}
-          </H2>
-        </FilledCell>
-      </Cell>
-    </Row>
-  ));
+  const dayRows = dayRowsConfig.map((row) => {
+    if (row.isHeader) {
+      return <H1>{row.value}</H1>;
+    } else {
+      return (
+        <Row key={row.label}>
+          <Cell>
+            <H2 isDayCell={row.isDayCell}>{row.label}</H2>
+            {row.growth && (
+              <H4>
+                <Growth grow={calcs[row.growth] >= 0}>{calcs[row.growth]}</Growth>
+              </H4>
+            )}
+          </Cell>
+          <Cell>
+            <FilledCell
+              transparent={row.withFill}
+              width={calcs[row.value] >= 0 ? calcs[row.value] : 100}
+              color={row.color && row.color(calcs[row.value])}
+            >
+              <H2>
+                {calcs[row.value]}
+                {row.withPercent && '%'}
+              </H2>
+            </FilledCell>
+          </Cell>
+        </Row>
+      );
+    }
+  });
 
   return (
     <Wrapper>
@@ -238,22 +206,16 @@ export const EveningReportTable = (props: Props): JSX.Element => {
       <div id={'evening-report'}>
         <ScreenContainer>
           <H3>{currentShop.shortName}</H3>
-          <Container>
-            <H1>МЕСЯЦ</H1>
-            <Row>
-              <DayCell>
-                <H2>День</H2>
-              </DayCell>
-              <Cell>
-                <H2>{props.day}</H2>
-              </Cell>
-            </Row>
-            {monthRows}
-          </Container>
-          <Container>
-            <H1>ДЕНЬ</H1>
-            {dayRows}
-          </Container>
+          <H1>МЕСЯЦ</H1>
+          <Row>
+            <Cell>
+              <H2 isDayCell>День</H2>
+            </Cell>
+            <Cell>
+              <H2>{props.day}</H2>
+            </Cell>
+          </Row>
+          {dayRows}
         </ScreenContainer>
       </div>
     </Wrapper>
