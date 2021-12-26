@@ -176,12 +176,12 @@ export const EveningReportTable = (props: Props): JSX.Element => {
     day,
   ]);
 
-  const rows = rowsConfig.map((row) => {
+  const rows = rowsConfig.map((row, i) => {
     if (row.isHeader) {
-      return <H1 key={row.label}>{row.value}</H1>;
+      return <H1 key={`${row.label} ${i}`}>{row.value}</H1>;
     } else {
       return (
-        <Row key={row.label}>
+        <Row key={`${row.label} ${i}`}>
           <Cell>
             <H2 isDayCell={row.isDayCell}>{row.label}</H2>
             {row.growth && (

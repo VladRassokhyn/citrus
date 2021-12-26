@@ -108,13 +108,14 @@ router.route('/').post(async (req, res) => {
   }
 });
 
-router.route('/').put(async (req, res) => {
+router.route('/:id').put(async (req, res) => {
   const dto = req.body;
+  const id = +req.params['id'];
   const salesRepo = getRepository(Sales);
 
-  const sales = await salesRepo.find({ id: dto.id });
+  const sales = await salesRepo.find({ id });
   if (sales) {
-    await salesRepo.update(dto.id, dto);
+    await salesRepo.update(id, dto);
     res.status(201).send('updated');
   } else {
     res.status(404).send('Sales not found');
