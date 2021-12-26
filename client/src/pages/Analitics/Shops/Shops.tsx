@@ -8,15 +8,11 @@ import { Preloader } from '../../../Components/Preloader';
 import { ShopItem } from './ShopItem';
 import { NewShopForm } from './NewShopForm';
 
-type Props = {
-  authUser: User;
-};
-
 const Wrapper = styled.div`
   width: 100%;
 `;
 
-export const Shops = (props: Props): JSX.Element => {
+export const Shops = (): JSX.Element => {
   const shops = useTypedSelector(shopSelectors.allShops);
 
   if (!shops) {

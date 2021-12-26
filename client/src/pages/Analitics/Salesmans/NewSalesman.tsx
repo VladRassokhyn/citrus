@@ -1,6 +1,6 @@
 import React,  { ChangeEvent, useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 import { InputField } from '../../../Components/InputField';
 import { salesmanActions } from '../../../lib/slices/salesman';
 import { Shop } from '../../../lib/slices/shop';

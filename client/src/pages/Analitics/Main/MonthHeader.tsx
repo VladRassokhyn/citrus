@@ -42,8 +42,8 @@ export const MonthHeader = memo(
   (props: Props): JSX.Element => {
     const { dateChange, month, year } = props;
 
-    const handlemonthIncrement = useCallback(() => dateChange(month + 1, year), [month, year]);
-    const handlemonthDerement = useCallback(() => dateChange(month - 1, year), [month, year]);
+    const handleMonthIncrement = useCallback(() => dateChange(month + 1, year), [month, year]);
+    const handleMonthDerement = useCallback(() => dateChange(month - 1, year), [month, year]);
 
     useEffect(() => {
       if (month > 11) {
@@ -56,11 +56,11 @@ export const MonthHeader = memo(
 
     return (
       <Wrapper>
-        <GoBtn onClick={handlemonthDerement}>⟵</GoBtn>
+        <GoBtn onClick={handleMonthDerement}>⟵</GoBtn>
         <Month>
           {monthsRu[month]} {year}г.
         </Month>
-        <GoBtn onClick={handlemonthIncrement}>⟶</GoBtn>
+        <GoBtn onClick={handleMonthIncrement}>⟶</GoBtn>
       </Wrapper>
     );
   },

@@ -4,7 +4,7 @@ import { paths } from '.';
 import { User } from '../slices/users';
 import { useTypedSelector } from '../hooks';
 import { authSelectors } from '../slices/auth';
-import { RouteItem } from './routes';
+import { RouteItem } from './types';
 import { shopSelectors } from '../slices/shop';
 
 type Props = {

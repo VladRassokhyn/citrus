@@ -1,13 +1,14 @@
 import styled, { keyframes } from 'styled-components';
 import { slideInLeft } from 'react-animations';
 import { NavItem } from './NavItem';
-import { paths } from '../../../lib/routing';
+import { RouteItem } from '../../../lib/routing';
 import { User } from '../../../lib/slices/users';
-import { UserRoles } from '../../../lib/globalTypes';
 import React, { useCallback, useState } from 'react';
+import { analyticsRoutes } from '../../../lib/routing';
 
 type Props = {
   authUser: User;
+  routes: RouteItem[]
 };
 
 const animationIn = keyframes`${slideInLeft}`;
@@ -64,34 +65,23 @@ export const Navigation = (props: Props): JSX.Element => {
 
   const handleOpen = useCallback(() => setIsOpen((prev) => !prev), []);
 
+  const navItems = props.routes.map((route) => (
+    <NavItem
+      key={route.path}
+      route={route}
+      authUser={props.authUser}
+      handleOpen={handleOpen}
+    >
+      <H1>{route.label}</H1>
+    </NavItem>
+  ));
+
   return (
     <Wrapper>
       <Menu onClick={handleOpen}>
         <H1>Меню</H1>
       </Menu>
-      {isOpen && (
-        <Container>
-          <NavItem path={paths.ANALYTICS.MAIN.BASE()} handleOpen={handleOpen}>
-            <H1>Главная</H1>
-          </NavItem>
-          <NavItem path={paths.ANALYTICS.SALESMANS.BASE()} handleOpen={handleOpen}>
-            <H1>Продавцы</H1>
-          </NavItem>
-          <NavItem path={paths.ANALYTICS.EVENING_REPORT.BASE()} handleOpen={handleOpen}>
-            <H1>Вечерний отчет</H1>
-          </NavItem>
-          <NavItem path={paths.ANALYTICS.PERIOD_TO_PERIOD.BASE()} handleOpen={handleOpen}>
-            <H1>Период к периоду</H1>
-          </NavItem>
-          {props.authUser.role === UserRoles.ADMIN && (
-            <>
-              <NavItem path={paths.ANALYTICS.SHOPS.BASE()} handleOpen={handleOpen}>
-                <H1>Магазины</H1>
-              </NavItem>
-            </>
-          )}
-        </Container>
-      )}
+      {isOpen && <Container>{navItems}</Container>}
     </Wrapper>
   );
 };

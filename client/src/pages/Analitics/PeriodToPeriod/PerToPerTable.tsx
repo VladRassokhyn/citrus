@@ -1,7 +1,6 @@
-import { reverse } from 'dns';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { useTypedSelector } from '../../../lib/hooks';
 import { paths } from '../../../lib/routing';

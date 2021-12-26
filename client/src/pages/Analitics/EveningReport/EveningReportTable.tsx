@@ -155,7 +155,7 @@ export const EveningReportTable = (props: Props): JSX.Element => {
   const calcFns = getCalcFns(day, month);
 
   const monthSales = calcFns.monthSalesNew(sales);
-  const daySales = sales[sales.length - 1];
+  const lastDaySales = sales[sales.length - 1];
 
   const onScreenshot = () => {
     html2canvas(document.getElementById('evening-report') as HTMLElement).then((canvas) => {
@@ -169,8 +169,8 @@ export const EveningReportTable = (props: Props): JSX.Element => {
     });
   };
 
-  const calcs: any = useMemo(() => getCalcs(daySales, monthSales, calcFns, planes, day), [
-    daySales,
+  const calcs: any = useMemo(() => getCalcs(lastDaySales, monthSales, calcFns, planes, day), [
+    lastDaySales,
     monthSales,
     planes,
     day,

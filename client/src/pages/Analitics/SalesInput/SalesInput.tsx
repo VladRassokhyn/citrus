@@ -16,13 +16,6 @@ const Wrapper = styled.div`
   align-items: center;
 `;
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 20px;
-`;
-
 const Input = styled.textarea`
   height: 100px;
   width: 100%;
@@ -52,10 +45,6 @@ const Button = styled.button<StyleProps>`
       cursor: pointer;
       background-color: #1890ff;
     }`}
-`;
-
-const H1 = styled.h1`
-  font-size: 12pt;
 `;
 
 export const SalesInput = (props: Props): JSX.Element => {

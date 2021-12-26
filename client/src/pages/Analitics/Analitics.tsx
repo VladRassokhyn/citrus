@@ -2,14 +2,14 @@ import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { Preloader } from '../../Components/Preloader';
-import { FixLater, LoadingStatuses, UserRoles } from '../../lib/globalTypes';
+import { LoadingStatuses, UserRoles } from '../../lib/globalTypes';
 import { useTypedSelector } from '../../lib/hooks';
 import { planesActions, planesSelectors } from '../../lib/slices/planes';
 import { Navigation } from './Navigation';
 import { PlanesPanel } from './PlanesPanel';
-import Selector from 'react-select';
+import Selector, { SingleValue } from 'react-select';
 import { RouterController } from '../../lib/routing/RouterController';
-import { RouteItem } from '../../lib/routing/routes';
+import { RouteItem } from '../../lib/routing';
 import { User } from '../../lib/slices/users';
 import { salesActions, salesSelectors } from '../../lib/slices/sales';
 import { Shop, shopActions, shopSelectors } from '../../lib/slices/shop';
@@ -49,9 +49,12 @@ export const Analitic = (props: Props): JSX.Element => {
   const planesStatus = useTypedSelector(planesSelectors.status);
   const salesmansStatus = useTypedSelector(salesSelectors.status);
 
-  const isSalesLoading = salesStatus === LoadingStatuses.LOADING;
-  const isPlanesLoading = planesStatus === LoadingStatuses.LOADING;
-  const isSalesmansLoading = salesmansStatus === LoadingStatuses.LOADING;
+  const isSalesLoadingOrIdle =
+    salesStatus === LoadingStatuses.LOADING || salesStatus === LoadingStatuses.IDLE;
+  const isPlanesLoadingOrIdle =
+    planesStatus === LoadingStatuses.LOADING || planesStatus === LoadingStatuses.IDLE;
+  const isSalesmansLoadingOrIdle =
+    salesmansStatus === LoadingStatuses.LOADING || salesmansStatus === LoadingStatuses.IDLE;
 
   useEffect(() => {
     dispatch(salesActions.getSales({ tt: props.currentShop.name, month, year }));
@@ -59,8 +62,8 @@ export const Analitic = (props: Props): JSX.Element => {
     dispatch(salesmanActions.getSalesmans(props.currentShop.name));
   }, [props.currentShop, month, year]);
 
-  const handleChangeTT = (e: FixLater) => {
-    const newShop = shops?.find((shop) => shop.name === e.value);
+  const handleChangeTT = (e: SingleValue<{ label: string; value: string }>) => {
+    const newShop = shops?.find((shop) => shop.name === e?.value);
     newShop && dispatch(shopActions.setCurrentShop(newShop));
   };
 
@@ -69,7 +72,7 @@ export const Analitic = (props: Props): JSX.Element => {
     value: shop.name,
   }));
 
-  if (isSalesLoading || isPlanesLoading || isSalesmansLoading) {
+  if (isSalesLoadingOrIdle || isPlanesLoadingOrIdle || isSalesmansLoadingOrIdle) {
     return <Preloader />;
   }
 
@@ -86,7 +89,7 @@ export const Analitic = (props: Props): JSX.Element => {
       )}
       <PlanesPanel planes={planes} currentShop={props.currentShop} />
       <Container>
-        <Navigation authUser={props.authUser} />
+        <Navigation authUser={props.authUser} routes={props.routes} />
         <RouterController routes={props.routes} />
       </Container>
     </>

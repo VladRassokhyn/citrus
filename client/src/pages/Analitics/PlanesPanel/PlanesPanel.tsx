@@ -126,6 +126,19 @@ const Button = styled.button`
   }
 `;
 
+type PlaesConfig = {
+  label: string;
+  value: 'cm' | 'cz' | 'ca' | 'to_cm' | 'to_cz';
+}[];
+
+const planesConfig: PlaesConfig = [
+  { label: 'ЦМ:', value: 'cm' },
+  { label: 'ЦЗ:', value: 'cz' },
+  { label: 'ЦА:', value: 'ca' },
+  { label: '% ЦМ:', value: 'to_cm' },
+  { label: '% ЦМ:', value: 'to_cz' },
+];
+
 export const PlanesPanel = (props: Props): JSX.Element => {
   const { planes } = props;
   const planesStatus = useTypedSelector(planesSelectors.status);
@@ -152,6 +165,7 @@ export const PlanesPanel = (props: Props): JSX.Element => {
       to_cm: e.to_cm.split(',').join('.'),
       to_cz: e.to_cz.split(',').join('.'),
     };
+
     if (!!planes.id) {
       dispatch(
         planesActions.updatePlanes({
@@ -169,59 +183,39 @@ export const PlanesPanel = (props: Props): JSX.Element => {
     }
   };
 
+  const items = planesConfig.map((plane) =>
+    isEditMode ? (
+      <H1>
+        {plane.label} <Input disabled={isDisabled} {...register(plane.value)} />
+      </H1>
+    ) : (
+      <H1>
+        {plane.label} <H2>{planes[plane.value].toLocaleString('ru')}</H2>
+      </H1>
+    ),
+  );
+
   return (
     <Wrapper>
       <Title onClick={toggleEditMode}>
         <H3>Планы</H3>
         <Img src={edit} />
       </Title>
-      {!isEditMode ? (
-        <Container onClick={toggleEditMode}>
-          <H1>
-            ЦМ: <H2>{planes.cm}</H2>
-          </H1>
-          <H1>
-            ЦЗ: <H2>{planes.cz}</H2>
-          </H1>
-          <H1>
-            ЦА: <H2>{planes.ca}</H2>
-          </H1>
-          <H1>
-            % ЦМ: <H2>{planes.to_cm}%</H2>
-          </H1>
-          <H1>
-            % ЦЗ: <H2>{planes.to_cz}%</H2>
-          </H1>
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <Container>
+          {items}
+          {isEditMode && (
+            <Btns>
+              <Button disabled={isDisabled} type={'button'} onClick={() => reset(planes)}>
+                Сброс
+              </Button>
+              <Button disabled={isDisabled} type={'submit'}>
+                Сохранить
+              </Button>
+            </Btns>
+          )}
         </Container>
-      ) : (
-        <Form onSubmit={handleSubmit(onSubmit)}>
-          <Container>
-            <H1>
-              ЦМ: <Input disabled={isDisabled} {...register('cm')} />
-            </H1>
-            <H1>
-              ЦЗ: <Input disabled={isDisabled} {...register('cz')} />
-            </H1>
-            <H1>
-              ЦА: <Input disabled={isDisabled} {...register('ca')} />
-            </H1>
-            <H1>
-              % ЦМ: <Input disabled={isDisabled} {...register('to_cm')} />
-            </H1>
-            <H1>
-              % ЦЗ: <Input disabled={isDisabled} {...register('to_cz')} />
-            </H1>
-          </Container>
-          <Btns>
-            <Button disabled={isDisabled} type={'button'} onClick={() => reset(planes)}>
-              Сброс
-            </Button>
-            <Button disabled={isDisabled} type={'submit'}>
-              Сохранить
-            </Button>
-          </Btns>
-        </Form>
-      )}
+      </Form>
     </Wrapper>
   );
 };

@@ -2,10 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { UserRoles } from '../../../lib/globalTypes';
+import { RouteItem } from '../../../lib/routing';
+import { User } from '../../../lib/slices/users';
 
 type Props = {
   children: JSX.Element | JSX.Element[];
-  path: string;
+  route: RouteItem;
+  authUser: User;
   handleOpen: () => void;
 };
 
@@ -29,20 +33,24 @@ const Wrapper = styled.div<StyleProps>`
 `;
 
 export const NavItem = (props: Props): JSX.Element => {
-  const { children, path, handleOpen } = props;
+  const { children, authUser, handleOpen, route } = props;
   const [active, setActive] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
-    if (location.pathname === path) {
+    if (location.pathname === route.path) {
       setActive(true);
     } else {
       setActive(false);
     }
   }, [location.pathname]);
 
+  if ((route.private && authUser.role !== UserRoles.ADMIN) || !route.navigationVisible) {
+    return <div />;
+  }
+
   return (
-    <Link to={path}>
+    <Link to={route.path}>
       <Wrapper active={active} onClick={handleOpen}>
         {children}
       </Wrapper>

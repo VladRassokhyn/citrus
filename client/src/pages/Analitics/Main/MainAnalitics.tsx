@@ -5,7 +5,7 @@ import { Preloader } from '../../../Components/Preloader';
 import { getCalcFns, getDaysFormated } from '../../../lib/common';
 import { useTypedSelector } from '../../../lib/hooks';
 import { planesSelectors } from '../../../lib/slices/planes';
-import { salesActions, salesSelectors } from '../../../lib/slices/sales';
+import { salesActions, SalesIndexes, salesSelectors } from '../../../lib/slices/sales';
 import { Shop } from '../../../lib/slices/shop';
 import { User } from '../../../lib/slices/users';
 import { Calendar } from '../Calendar';
@@ -79,16 +79,13 @@ export const MainAnalitics = (props: Props): JSX.Element => {
     dispatch(salesActions.setmonth({ year: yearNumber, month: monthNumber }));
   }, []);
 
-  if (!sales) return <Preloader />;
-
-  const lastSales = sales[sales.length - 1];
-
+  const lastSales = sales && [...sales].pop();
   const calcFns = getCalcFns(lastSales ? lastSales.day.split('.')[0] : 1, month);
 
   const salesSum = calcFns.monthSalesNew(sales);
-  const cmForecast = calcFns.forecastSumm(salesSum.ttSales[8]);
-  const czForecast = calcFns.forecastSumm(salesSum.ttSales[10]);
-  const caForecast = calcFns.forecastSumm(salesSum.ttSales[12]);
+  const cmForecast = calcFns.forecastSumm(salesSum.ttSales[SalesIndexes.CM]);
+  const czForecast = calcFns.forecastSumm(salesSum.ttSales[SalesIndexes.CZ]);
+  const caForecast = calcFns.forecastSumm(salesSum.ttSales[SalesIndexes.CA]);
 
   return (
     <Wrapper>
@@ -98,9 +95,24 @@ export const MainAnalitics = (props: Props): JSX.Element => {
         <CircleContent>
           <CirclesTitle>Факт</CirclesTitle>
           <Circles>
-            <Circle color={'green'} sale={+salesSum.ttSales[8]} plane={planes.cm} title={'ЦМ'} />
-            <Circle color={'red'} sale={+salesSum.ttSales[10]} plane={planes.cz} title={'ЦЗ'} />
-            <Circle color={'#9018ad'} sale={+salesSum.ttSales[12]} plane={planes.ca} title={'ЦА'} />
+            <Circle
+              color={'green'}
+              sale={+salesSum.ttSales[SalesIndexes.CM]}
+              plane={planes.cm}
+              title={'ЦМ'}
+            />
+            <Circle
+              color={'red'}
+              sale={+salesSum.ttSales[SalesIndexes.CZ]}
+              plane={planes.cz}
+              title={'ЦЗ'}
+            />
+            <Circle
+              color={'#9018ad'}
+              sale={+salesSum.ttSales[SalesIndexes.CA]}
+              plane={planes.ca}
+              title={'ЦА'}
+            />
           </Circles>
         </CircleContent>
 
@@ -114,7 +126,7 @@ export const MainAnalitics = (props: Props): JSX.Element => {
         </CircleContent>
       </CirclesContainer>
 
-      <DayByDay sales={sales} days={days.filter((day) => !!day) as string[]} />
+      <DayByDay sales={sales || []} days={days.filter((day) => !!day) as string[]} />
 
       <DetailContainer>
         <DetailTable
@@ -126,7 +138,7 @@ export const MainAnalitics = (props: Props): JSX.Element => {
       </DetailContainer>
 
       <Calendar
-        sales={sales}
+        sales={sales || []}
         planes={planes}
         authUser={props.authUser}
         days={days}

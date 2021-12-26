@@ -43,7 +43,7 @@ const SalesmanContainer = styled.div`
   display: grid;
   border-radius: 5px;
   height: 30px;
-  min-width: 350px;
+  min-width: 560px;
   grid-template-columns: 1fr 50px;
   grid-gap: 1px 0;
   align-items: center;
@@ -93,7 +93,7 @@ export const Salesmans = (props: Props): JSX.Element => {
         {salesmans?.map((salesman, i) => (
           <SalesmanContainer key={salesman.id}>
             <H1>
-              {i + 1}. {salesman.name.split(' ')[0]} {salesman.name.split(' ')[1]}
+              {i + 1}. {salesman.name}
             </H1>
             <Confirm title={'Удалить продавца ?'} confirmFn={() => handleDeleteSalesman(salesman)}>
               <ImgContainer>
