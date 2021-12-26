@@ -53,7 +53,7 @@ app.use('/', (req: Request, res: Response, next: NextFunction) => {
 
 app.use('/api/todo', [checkJwt], todoRouter);
 app.use('/api/auth', authRouter);
-app.use('/api/shops', [checkJwt], shopRouter);
+app.use('/api/shops', shopRouter);
 app.use('/api/users', userRouter);
 app.use('/api/sales', [checkJwt], salesRouter);
 app.use('/api/planes', [checkJwt], planesRouter);

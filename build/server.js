@@ -45,7 +45,7 @@ exports.app.use('/', (req, res, next) => {
 });
 exports.app.use('/api/todo', [meddleware_1.checkJwt], resources_1.todoRouter);
 exports.app.use('/api/auth', resources_1.authRouter);
-exports.app.use('/api/shops', [meddleware_1.checkJwt], Shop_1.shopRouter);
+exports.app.use('/api/shops', Shop_1.shopRouter);
 exports.app.use('/api/users', resources_1.userRouter);
 exports.app.use('/api/sales', [meddleware_1.checkJwt], resources_1.salesRouter);
 exports.app.use('/api/planes', [meddleware_1.checkJwt], resources_1.planesRouter);
