@@ -259,6 +259,7 @@ export const DetailTable = (props: Props): JSX.Element => {
                     selected={j === selectedRow}
                     key={salesman[0]}
                     onMouseEnter={() => handleSelectRow(j)}
+                    onMouseLeave={() => handleSelectRow(-1)}
                     onClick={() => handleClick(salesman[0])}
                   >
                     <H2>{getShortName(shops!, column.fn(salesman) as string)}</H2>
