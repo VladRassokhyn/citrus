@@ -38,5 +38,8 @@ export const paths = {
       BASE: pathMaker('/analytics/period-to-period'),
       BY_SALESMAN: pathMaker('/analytics/period-to-period/:salesmanId'),
     },
+    SALES_BY_PERIOD: {
+      BASE: pathMaker('/analytics/sales-by-period'),
+    },
   },
 };

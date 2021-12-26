@@ -146,12 +146,7 @@ export const DayDetail = (props: Props): JSX.Element => {
       </CirclesContainer>
 
       <DetailContainer>
-        <DetailTable
-          currentShop={props.currentShop}
-          planes={planes}
-          sales={thisDaySales}
-          columns={columns}
-        />
+        <DetailTable planes={planes} sales={thisDaySales} columns={columns} />
       </DetailContainer>
     </Wrapper>
   );

@@ -12,6 +12,7 @@ import { Shops } from '../../pages/Analitics/Shops';
 import { PeriodToPeriod } from '../../pages/Analitics/PeriodToPeriod';
 import { Todo } from '../../pages/Todo';
 import { RouteItem } from './types';
+import { SalesByPeriod } from '../../pages/Analitics/SalesByPeriod';
 
 export const analyticsRoutes: RouteItem[] = [
   {
@@ -28,6 +29,26 @@ export const analyticsRoutes: RouteItem[] = [
     label: 'Вечерний отчет',
     path: paths.ANALYTICS.EVENING_REPORT.BASE(),
     component: EveningReport,
+    navigationVisible: true,
+    exact: true,
+    private: true,
+    roles: null,
+    routes: [],
+  },
+  {
+    label: 'Продажи за период',
+    path: paths.ANALYTICS.SALES_BY_PERIOD.BASE(),
+    component: SalesByPeriod,
+    navigationVisible: true,
+    exact: true,
+    private: true,
+    roles: null,
+    routes: [],
+  },
+  {
+    label: 'Период к периоду',
+    path: paths.ANALYTICS.PERIOD_TO_PERIOD.BASE(),
+    component: PeriodToPeriod,
     navigationVisible: true,
     exact: true,
     private: true,
@@ -58,16 +79,6 @@ export const analyticsRoutes: RouteItem[] = [
     label: 'Магазины',
     path: paths.ANALYTICS.SHOPS.BASE(),
     component: Shops,
-    navigationVisible: true,
-    exact: true,
-    private: true,
-    roles: null,
-    routes: [],
-  },
-  {
-    label: 'Период к периоду',
-    path: paths.ANALYTICS.PERIOD_TO_PERIOD.BASE(),
-    component: PeriodToPeriod,
     navigationVisible: true,
     exact: true,
     private: true,

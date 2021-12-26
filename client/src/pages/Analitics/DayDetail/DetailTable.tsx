@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { useTypedSelector } from '../../../lib/hooks';
@@ -7,7 +7,6 @@ import { Sales, SalesTuple } from '../../../lib/slices/sales/sales.type';
 import { Shop, shopActions, shopSelectors } from '../../../lib/slices/shop';
 
 type Props = {
-  currentShop: Shop;
   columns: {
     label: string;
     fn: (sales: SalesTuple) => string | number;
@@ -44,7 +43,7 @@ const FilledCell = styled.div<FilledCellProps>`
 
 const Wrapper = styled.div`
   display: grid;
-  grid-template-columns: 200px repeat(11, 1fr);
+  grid-template-columns: 200px 100px 100px repeat(9, 1fr);
 `;
 
 const Column = styled.div`
@@ -191,6 +190,10 @@ export const DetailTable = (props: Props): JSX.Element => {
     }
   };
 
+  useEffect(() => {
+    setSale(sales);
+  }, [sales]);
+
   const handleSelectRow = (j: number) => {
     if (j === selectedRow) {
       setSelectedRow(-1);
@@ -243,7 +246,7 @@ export const DetailTable = (props: Props): JSX.Element => {
               <Cell>
                 <H2>
                   {i === 0
-                    ? props.currentShop.shortName
+                    ? currentShop?.shortName
                     : !isNaN(+column.fn(sales.ttSales)) &&
                       column.fn(sales.ttSales).toLocaleString('ru')}
                 </H2>

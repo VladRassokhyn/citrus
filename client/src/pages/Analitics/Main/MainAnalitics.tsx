@@ -129,12 +129,7 @@ export const MainAnalitics = (props: Props): JSX.Element => {
       <DayByDay sales={sales || []} days={days.filter((day) => !!day) as string[]} />
 
       <DetailContainer>
-        <DetailTable
-          currentShop={props.currentShop}
-          sales={salesSum}
-          columns={getColumns(planes)}
-          planes={planes}
-        />
+        <DetailTable sales={salesSum} columns={getColumns(planes)} planes={planes} />
       </DetailContainer>
 
       <Calendar

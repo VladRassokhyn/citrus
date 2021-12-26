@@ -136,7 +136,7 @@ const planesConfig: PlaesConfig = [
   { label: 'ЦЗ:', value: 'cz' },
   { label: 'ЦА:', value: 'ca' },
   { label: '% ЦМ:', value: 'to_cm' },
-  { label: '% ЦМ:', value: 'to_cz' },
+  { label: '% ЦЗ:', value: 'to_cz' },
 ];
 
 export const PlanesPanel = (props: Props): JSX.Element => {
@@ -185,11 +185,11 @@ export const PlanesPanel = (props: Props): JSX.Element => {
 
   const items = planesConfig.map((plane) =>
     isEditMode ? (
-      <H1>
+      <H1 key={plane.label}>
         {plane.label} <Input disabled={isDisabled} {...register(plane.value)} />
       </H1>
     ) : (
-      <H1>
+      <H1 key={plane.label}>
         {plane.label} <H2>{planes[plane.value].toLocaleString('ru')}</H2>
       </H1>
     ),

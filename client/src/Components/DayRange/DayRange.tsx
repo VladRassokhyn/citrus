@@ -7,12 +7,14 @@ type Props = {
   from: number;
   to: number;
   activeDays?: number;
+  size?: string;
   changeFrom: (from: number) => void;
   changeTo: (to: number) => void;
 };
 
 type StyleProps = {
-  chosen: boolean;
+  chosen?: boolean;
+  size?: string;
 };
 
 const Wrapper = styled.div``;
@@ -23,8 +25,8 @@ const Day = styled.div<StyleProps>`
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 20px;
-  padding: 5px;
+  height: ${(props) => (props.size === 'small' ? '15px' : '20px')};
+  padding: ${(props) => (props.size === 'small' ? '2px' : '5px')};
   background-color: ${(props) => (props.chosen ? 'var(--color-button)' : '#f1f1f1')};
   transition: linear 0.1s;
   border-radius: 5px;
@@ -34,7 +36,7 @@ const Day = styled.div<StyleProps>`
 `;
 
 const H1 = styled.div<StyleProps>`
-  font-size: 12pt;
+  font-size: ${(props) => (props.size === 'small' ? '10pt' : '12pt')};
   color: ${(props) => (props.chosen ? 'white' : 'black')};
 `;
 
@@ -57,20 +59,20 @@ const RangeTitle = styled.div`
   background-color: var(--color-button);
 `;
 
-const H2 = styled.h1`
+const H2 = styled.h1<StyleProps>`
   color: white;
-  font-size: 14pt;
+  font-size: ${(props) => (props.size === 'small' ? '10pt' : '14pt')};
 `;
 
-const Days = styled.div`
-  padding: 0 15px 15px 15px;
+const Days = styled.div<StyleProps>`
+  padding: ${(props) => (props.size === 'small' ? ' 0 5px 5px 5px' : '0 15px 15px 15px')};
   display: grid;
-  grid-template-columns: repeat(7, 30px);
+  grid-template-columns: repeat(7, ${(props) => (props.size === 'small' ? '20px' : '30px')});
   gap: 2px;
 `;
 
 export const DayRange = (props: Props): JSX.Element => {
-  const { from, to, changeFrom, changeTo, activeDays } = props;
+  const { from, to, changeFrom, changeTo, activeDays, size } = props;
   const [isFromChanged, setIsFromChanged] = useState(false);
   const days = getDaysFormated(new Date().getMonth(), new Date().getFullYear());
 
@@ -94,10 +96,10 @@ export const DayRange = (props: Props): JSX.Element => {
     <Wrapper>
       <RangeWrapper>
         <RangeTitle>
-          <H2>Диапазон дат</H2>
+          <H2 size={size}>Диапазон дат</H2>
         </RangeTitle>
-        <WeekTitle />
-        <Days>
+        <WeekTitle size={size} />
+        <Days size={size}>
           {days.days.map((day, i) => {
             if (!day) {
               return <EmptyDay key={i} />;
@@ -106,11 +108,13 @@ export const DayRange = (props: Props): JSX.Element => {
             const thisDay = dayNumber ? parseInt(dayNumber) : 0;
             const chosen = thisDay <= to && thisDay >= from;
             if (activeDays && i > activeDays + 1) {
-              return <Day key={i} chosen={false} />;
+              return <Day size={size} key={i} chosen={false} />;
             }
             return (
-              <Day key={i} chosen={chosen} onClick={() => handleChange(thisDay)}>
-                <H1 chosen={chosen}>{dayNumber ? dayNumber : ' '}</H1>
+              <Day size={size} key={i} chosen={chosen} onClick={() => handleChange(thisDay)}>
+                <H1 size={size} chosen={chosen}>
+                  {dayNumber ? dayNumber : ' '}
+                </H1>
               </Day>
             );
           })}
