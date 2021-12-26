@@ -16,12 +16,12 @@ router.route('/').get(async (req, res) => {
     try {
         const jwtPayload = jsonwebtoken_1.default.verify(token, process.env['jwtSecret']);
         const usersRepo = (0, typeorm_1.getRepository)(entities_1.User);
-        const user = await usersRepo.find({
+        const user = await usersRepo.findOne({
             where: { id: jwtPayload.userId },
             select: ['id', 'username', 'role', 'name', 'lastName', 'shop'],
             relations: ['shop'],
         });
-        res.status(200).send(user[0]);
+        res.status(200).send(user);
     }
     catch (err) {
         res.status(401).send(err);

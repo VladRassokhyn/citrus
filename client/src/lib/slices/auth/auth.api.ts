@@ -4,7 +4,7 @@ export const authApi = {
   getAuth(): Promise<{ userId: number }> {
     return axiosInstance.get('/auth', {
       headers: {
-        auth: localStorage.getItem('token'),
+        auth: !!localStorage.getItem('token') ? localStorage.getItem('token') : '',
       },
     });
   },
