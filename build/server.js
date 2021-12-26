@@ -34,6 +34,7 @@ const rootUrls = [
     '/analytics/evening-report',
     '/analytics/salesmans',
     '/analytics/period-to-period',
+    '/analytics/sales-by-period',
 ];
 exports.app.use('/', (req, res, next) => {
     if (rootUrls.includes(req.url)) {
