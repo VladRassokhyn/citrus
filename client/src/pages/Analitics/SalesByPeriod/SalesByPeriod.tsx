@@ -7,8 +7,15 @@ import { planesSelectors } from '../../../lib/slices/planes';
 import { salesSelectors } from '../../../lib/slices/sales';
 import { getColumns } from '../DayDetail';
 import { DetailTable } from '../DayDetail/DetailTable';
+import { PeriodChart } from './PeriodChart';
 
 const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+`;
+
+const Table = styled.div`
   display: flex;
   flex-direction: row;
   gap: 20px;
@@ -23,13 +30,13 @@ export const SalesByPeriod = (): JSX.Element => {
   const { monthSalesNew } = getCalcFns();
   const salesSumm = monthSalesNew(sales);
 
-  console.log(sales);
-
-  console.log('render');
   return (
     <Wrapper>
-      <DayRange size={'small'} from={from} to={to} changeFrom={setDayFrom} changeTo={setDayTo} />
-      <DetailTable sales={salesSumm} planes={planes} columns={getColumns(planes)} />
+      <Table>
+        <DayRange size={'small'} from={from} to={to} changeFrom={setDayFrom} changeTo={setDayTo} />
+        <DetailTable sales={salesSumm} planes={planes} columns={getColumns(planes)} />
+      </Table>
+      <PeriodChart sales={sales} />
     </Wrapper>
   );
 };
