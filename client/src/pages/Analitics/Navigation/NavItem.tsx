@@ -45,7 +45,7 @@ export const NavItem = (props: Props): JSX.Element => {
     }
   }, [location.pathname]);
 
-  if ((route.private && authUser.role !== UserRoles.ADMIN) || !route.navigationVisible) {
+  if (!route.navigationVisible) {
     return <div />;
   }
 
