@@ -3,7 +3,7 @@ import { Sales, SalesTuple } from '../slices/sales';
 type Arg = number | string | undefined | null;
 
 export const getCalcFns = (argDay?: number | string, argMonth?: number | string) => {
-  const day = argDay ? +argDay : new Date().getDay();
+  const day = argDay ? +argDay : new Date().getDate();
   const month = argMonth ? +argMonth : new Date().getMonth();
   const dayCount = new Date(new Date().getFullYear(), +month + 1, 0).getDate();
   return {
