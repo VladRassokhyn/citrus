@@ -11,10 +11,89 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 import { Checkbox } from '../../../Components/Checkbox';
+import { useState } from 'react';
 
 type Props = {
   sales: Sales[];
 };
+
+type Checker = {
+  label: string;
+  color: string;
+  checked: boolean;
+  value: (sales: Sales) => number | string;
+};
+
+export const options: Checker[] = [
+  {
+    label: 'День',
+    value: (sale: Sales) => sale.day.split('.')[0] + '.' + sale.day.split('.')[1],
+    color: 'green',
+    checked: false,
+  },
+  {
+    label: 'ТО',
+    value: (sale: Sales) => sale.ttSales[SalesIndexes.TO],
+    color: 'black',
+    checked: false,
+  },
+  {
+    label: 'Устройства',
+    value: (sale: Sales) => sale.ttSales[SalesIndexes.DEVICES],
+    color: 'gray',
+    checked: false,
+  },
+  {
+    label: 'ЦМ',
+    value: (sale: Sales) => sale.ttSales[SalesIndexes.CM],
+    color: 'green',
+    checked: true,
+  },
+  {
+    label: 'ЦЗ',
+    value: (sale: Sales) => sale.ttSales[SalesIndexes.CZ],
+    color: 'red',
+    checked: true,
+  },
+  {
+    label: 'ЦА',
+    value: (sale: Sales) => sale.ttSales[SalesIndexes.CA],
+    color: 'violet',
+    checked: true,
+  },
+  {
+    label: 'Сервисы',
+    value: (sale: Sales) =>
+      sale.ttSales[SalesIndexes.CM] + sale.ttSales[SalesIndexes.CZ] + sale.ttSales[SalesIndexes.CA],
+    color: 'orange',
+    checked: true,
+  },
+  {
+    label: 'Доля ЦМ',
+    value: (sale: Sales) =>
+      ((sale.ttSales[SalesIndexes.CM] / sale.ttSales[SalesIndexes.DEVICES]) * 100).toFixed(2),
+    color: 'green',
+    checked: false,
+  },
+  {
+    label: 'Доля ЦЗ',
+    value: (sale: Sales) =>
+      ((sale.ttSales[SalesIndexes.CZ] / sale.ttSales[SalesIndexes.DEVICES]) * 100).toFixed(2),
+    color: 'red',
+    checked: false,
+  },
+  {
+    label: 'Доля Сервисы',
+    value: (sale: Sales) =>
+      (
+        ((sale.ttSales[SalesIndexes.CM] + sale.ttSales[SalesIndexes.CM]) /
+          sale.ttSales[SalesIndexes.DEVICES]) *
+        100
+      ).toFixed(2),
+    color: 'orange',
+    checked: false,
+  },
+];
 
 const Wrapper = styled.div``;
 
@@ -24,35 +103,51 @@ const Checkboxes = styled.div`
 `;
 
 export const PeriodChart = (props: Props): JSX.Element => {
-  const data = props.sales.map((sale) => ({
-    ['День']: sale.day.split('.')[0] + '.' + sale.day.split('.')[1],
-    ['ТО']: sale.ttSales[SalesIndexes.TO],
-    ['Устройства']: sale.ttSales[SalesIndexes.DEVICES],
-    ['ЦМ']: sale.ttSales[SalesIndexes.CM],
-    ['ЦЗ']: sale.ttSales[SalesIndexes.CZ],
-    ['ЦА']: sale.ttSales[SalesIndexes.CA],
-    ['Сервисы']:
-      sale.ttSales[SalesIndexes.CM] + sale.ttSales[SalesIndexes.CZ] + sale.ttSales[SalesIndexes.CA],
-    ['Доля_ЦМ']: sale.ttSales[SalesIndexes.CM] / sale.ttSales[SalesIndexes.TO],
-    ['Доля_ЦЗ']: sale.ttSales[SalesIndexes.CZ] / sale.ttSales[SalesIndexes.TO],
-    ['Доля_Сервисы']:
-      (sale.ttSales[SalesIndexes.CM] +
-        sale.ttSales[SalesIndexes.CZ] +
-        sale.ttSales[SalesIndexes.CA]) /
-      sale.ttSales[SalesIndexes.DEVICES],
-  }));
+  const [checkers, setCheckers] = useState(options);
 
-  const checkers = Object.keys(data[0]).map((line) => (
-    <Checkbox key={line} value={false} label={line} />
-  ));
+  const handleChange = (label: string) => {
+    const tmp = checkers.map((checker) => {
+      if (checker.label !== label) {
+        return checker;
+      } else {
+        return { ...checker, checked: !checker.checked };
+      }
+    });
+    setCheckers(tmp);
+  };
 
-  const lines = Object.keys(data[0]).map((line) => (
-    <Line type="monotone" dataKey={line} stroke="#8884d8" />
-  ));
+  const lines = checkers.map((option) => {
+    if (option.checked) {
+      return (
+        <Line key={option.label} type="monotone" dataKey={option.label} stroke={option.color} />
+      );
+    }
+  });
+
+  const checkboxes = checkers.map((checker) => {
+    if (checker.label !== 'День') {
+      return (
+        <Checkbox
+          key={checker.label}
+          value={checker.checked}
+          label={checker.label}
+          handleChange={() => handleChange(checker.label)}
+        />
+      );
+    }
+  });
+
+  const data = props.sales.map((sale) => {
+    const tmp = {};
+    checkers.forEach((checker) => {
+      Object.assign(tmp, { [checker.label]: checker.value(sale) });
+    });
+    return tmp;
+  });
 
   return (
     <Wrapper>
-      <Checkboxes>{checkers}</Checkboxes>
+      <Checkboxes>{checkboxes}</Checkboxes>
       <ResponsiveContainer width="100%" height={300}>
         <LineChart
           width={730}
