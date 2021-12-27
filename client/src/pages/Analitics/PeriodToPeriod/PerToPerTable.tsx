@@ -146,7 +146,7 @@ export const PerToPerTable = (props: Props): JSX.Element => {
                   key={name}
                   isName={i === 0}
                   isNegative={result < 0}
-                  isDiff={column.title === 'Разница' && result > 0}
+                  isDiff={column.title === 'Рост %' && result > 0}
                   onClick={() => handleLink(name)}
                 >
                   <h5>{result.toLocaleString('ru')}</h5>
@@ -189,9 +189,15 @@ function getColumns(args: { per1: string; per2: string; shops: Shop[] | null; se
         sales2[SalesIndexes.TO] || 0,
     },
     {
-      title: 'Разница',
-      fn: (sales1: (string | number)[], sales2: (string | number)[]) =>
-        (+sales2[SalesIndexes.TO] || 0) - (+sales1[SalesIndexes.TO] || 0),
+      title: 'Рост %',
+      fn: (sales1: (string | number)[], sales2: (string | number)[]) => {
+        let first = +sales1[SalesIndexes.TO];
+        let second = +sales2[SalesIndexes.TO];
+        if (first < 0) first = first * -1;
+        if (second < 0) second = second * -1;
+        const result = (second - first) / first *  100;
+        return result.toFixed(1);
+      },
     },
 
     {
@@ -205,9 +211,15 @@ function getColumns(args: { per1: string; per2: string; shops: Shop[] | null; se
         sales2[SalesIndexes.DEVICES] || 0,
     },
     {
-      title: 'Разница',
-      fn: (sales1: (string | number)[], sales2: (string | number)[]) =>
-        (+sales2[SalesIndexes.DEVICES] || 0) - (+sales1[SalesIndexes.DEVICES] || 0),
+      title: 'Рост %',
+      fn: (sales1: (string | number)[], sales2: (string | number)[]) => {
+        let first = +sales1[SalesIndexes.DEVICES];
+        let second = +sales2[SalesIndexes.DEVICES];
+        if (first < 0) first = first * -1;
+        if (second < 0) second = second * -1;
+        const result = ((second - first) / first) * 100;
+        return result.toFixed(1);
+      },
     },
 
     {
@@ -219,9 +231,15 @@ function getColumns(args: { per1: string; per2: string; shops: Shop[] | null; se
       fn: (sales1: (string | number)[], sales2: (string | number)[]) => sales2[service] || 0,
     },
     {
-      title: 'Разница',
-      fn: (sales1: (string | number)[], sales2: (string | number)[]) =>
-        (+sales2[service] || 0) - +sales1[SalesIndexes.CM],
+      title: 'Рост %',
+      fn: (sales1: (string | number)[], sales2: (string | number)[]) => {
+        let first = +sales1[SalesIndexes.CM];
+        let second = +sales2[service] || 0;
+        if (first < 0) first = first * -1;
+        if (second < 0) second = second * -1;
+        const result = ((second - first) / first) * 100;
+        return result.toFixed(1);
+      },
     },
     {
       title: `${per1}`,
@@ -234,13 +252,15 @@ function getColumns(args: { per1: string; per2: string; shops: Shop[] | null; se
         ((+sales2[service] / +sales2[SalesIndexes.DEVICES]) * 100).toFixed(2),
     },
     {
-      title: 'Разница',
-      fn: (sales1: (string | number)[], sales2: (string | number)[]) =>
-        (
-          (+sales2[service] / +sales2[SalesIndexes.DEVICES] -
-            +sales1[service] / +sales1[SalesIndexes.DEVICES]) *
-          100
-        ).toFixed(2),
+      title: 'Рост %',
+      fn: (sales1: (string | number)[], sales2: (string | number)[]) => {
+        let first = +sales1[service] / +sales1[SalesIndexes.DEVICES];
+        let second = +sales2[service] / +sales2[SalesIndexes.DEVICES];
+        if (first < 0) first = first * -1;
+        if (second < 0) second = second * -1;
+        const result = ((second - first) / first) * 100;
+        return result.toFixed(1);
+      },
     },
   ];
 }
