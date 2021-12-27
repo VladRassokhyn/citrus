@@ -24,6 +24,7 @@ type CellProps = {
   noBorder?: boolean;
   isNegative?: boolean;
   isDiff?: boolean;
+  isTT?: boolean;
 };
 
 const Wrapper = styled.div`
@@ -53,6 +54,7 @@ const Cell = styled.div<CellProps>`
   background-color: ${(props) => props.isHead && 'var(--color-button)'};
   background-color: ${(props) => props.isNegative && '#ffcccc'};
   background-color: ${(props) => props.isDiff && '#c0ffa3'};
+  background-color: ${(props) => props.isTT && '#dcdcdc'};
   transition: linear 0.3s;
   &:hover {
     cursor: pointer;
@@ -132,6 +134,15 @@ export const PerToPerTable = (props: Props): JSX.Element => {
             <Cell isHead isName={i === 0} onClick={() => handleSort(i)}>
               <HeadTitle>{column.title}</HeadTitle>
             </Cell>
+            <Cell
+              isTT
+              isName={i === 0}
+              isNegative={column.fn(sales1.ttSales, sales2.ttSales) < 0}
+              isDiff={column.title === 'Рост %' && column.fn(sales1.ttSales, sales2.ttSales) > 0}
+            >
+              <h5>{column.fn(sales1.ttSales, sales2.ttSales).toLocaleString('ru')}</h5>
+            </Cell>
+
             {names.map((name) => {
               const row1 = sales1.sales.find((s1) => s1[SalesIndexes.NAME] === name) || [];
               const row2 = sales2.sales.find((s1) => s1[SalesIndexes.NAME] === name) || [];
@@ -195,7 +206,7 @@ function getColumns(args: { per1: string; per2: string; shops: Shop[] | null; se
         let second = +sales2[SalesIndexes.TO];
         if (first < 0) first = first * -1;
         if (second < 0) second = second * -1;
-        const result = (second - first) / first *  100;
+        const result = ((second - first) / first) * 100;
         return result.toFixed(1);
       },
     },
