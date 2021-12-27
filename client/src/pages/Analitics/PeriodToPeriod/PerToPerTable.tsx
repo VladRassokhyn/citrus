@@ -206,7 +206,7 @@ function getColumns(args: { per1: string; per2: string; shops: Shop[] | null; se
         let second = +sales2[SalesIndexes.TO];
         if (first < 0) first = first * -1;
         if (second < 0) second = second * -1;
-        const result = ((second - first) / first) * 100;
+        const result = ((second - first) * 100) / first;
         return result.toFixed(1);
       },
     },
@@ -228,7 +228,7 @@ function getColumns(args: { per1: string; per2: string; shops: Shop[] | null; se
         let second = +sales2[SalesIndexes.DEVICES];
         if (first < 0) first = first * -1;
         if (second < 0) second = second * -1;
-        const result = ((second - first) / first) * 100;
+        const result = ((second - first) * 100) / first;
         return result.toFixed(1);
       },
     },
@@ -244,11 +244,11 @@ function getColumns(args: { per1: string; per2: string; shops: Shop[] | null; se
     {
       title: 'Рост %',
       fn: (sales1: (string | number)[], sales2: (string | number)[]) => {
-        let first = +sales1[SalesIndexes.CM];
+        let first = +sales1[service] || 0;
         let second = +sales2[service] || 0;
         if (first < 0) first = first * -1;
         if (second < 0) second = second * -1;
-        const result = ((second - first) / first) * 100;
+        const result = ((second - first) * 100) / first;
         return result.toFixed(1);
       },
     },
@@ -269,7 +269,7 @@ function getColumns(args: { per1: string; per2: string; shops: Shop[] | null; se
         let second = +sales2[service] / +sales2[SalesIndexes.DEVICES];
         if (first < 0) first = first * -1;
         if (second < 0) second = second * -1;
-        const result = ((second - first) / first) * 100;
+        const result = ((second - first) * 100) / first;
         return result.toFixed(1);
       },
     },
