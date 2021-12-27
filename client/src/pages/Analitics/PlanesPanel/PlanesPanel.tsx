@@ -190,7 +190,7 @@ export const PlanesPanel = (props: Props): JSX.Element => {
       </H1>
     ) : (
       <H1 key={plane.label}>
-        {plane.label} <H2>{planes[plane.value].toLocaleString('ru')}</H2>
+        {plane.label} <H2>{planes[plane.value]?.toLocaleString('ru') || 0}</H2>
       </H1>
     ),
   );

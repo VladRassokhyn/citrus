@@ -33,22 +33,26 @@ export const PeriodChart = (props: Props): JSX.Element => {
     ['ЦА']: sale.ttSales[SalesIndexes.CA],
     ['Сервисы']:
       sale.ttSales[SalesIndexes.CM] + sale.ttSales[SalesIndexes.CZ] + sale.ttSales[SalesIndexes.CA],
-    ['Доля ЦМ']: sale.ttSales[SalesIndexes.CM] / sale.ttSales[SalesIndexes.TO],
-    ['Доля ЦЗ']: sale.ttSales[SalesIndexes.CZ] / sale.ttSales[SalesIndexes.TO],
-    ['Доля Сервисы']:
+    ['Доля_ЦМ']: sale.ttSales[SalesIndexes.CM] / sale.ttSales[SalesIndexes.TO],
+    ['Доля_ЦЗ']: sale.ttSales[SalesIndexes.CZ] / sale.ttSales[SalesIndexes.TO],
+    ['Доля_Сервисы']:
       (sale.ttSales[SalesIndexes.CM] +
         sale.ttSales[SalesIndexes.CZ] +
         sale.ttSales[SalesIndexes.CA]) /
       sale.ttSales[SalesIndexes.DEVICES],
   }));
 
-  const lines = Object.keys(data[0]).map((line) => (
+  const checkers = Object.keys(data[0]).map((line) => (
     <Checkbox key={line} value={false} label={line} />
+  ));
+
+  const lines = Object.keys(data[0]).map((line) => (
+    <Line type="monotone" dataKey={line} stroke="#8884d8" />
   ));
 
   return (
     <Wrapper>
-      <Checkboxes>{lines}</Checkboxes>
+      <Checkboxes>{checkers}</Checkboxes>
       <ResponsiveContainer width="100%" height={300}>
         <LineChart
           width={730}
@@ -61,8 +65,7 @@ export const PeriodChart = (props: Props): JSX.Element => {
           <YAxis />
           <Tooltip />
           <Legend />
-          <Line type="monotone" dataKey="ЦМ" stroke="#8884d8" />
-          <Line type="monotone" dataKey="ЦЗ" stroke="#82ca9d" />
+          {lines}
         </LineChart>
       </ResponsiveContainer>
     </Wrapper>
