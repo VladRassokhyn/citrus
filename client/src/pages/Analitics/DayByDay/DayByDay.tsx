@@ -92,7 +92,7 @@ export const DayByDay = (props: Props): JSX.Element => {
         ).toFixed(2) || 0,
       ['Доля ЦЗ']:
         (
-          (sales[i]?.ttSales[SalesIndexes.CA] / sales[i]?.ttSales[SalesIndexes.DEVICES]) *
+          (sales[i]?.ttSales[SalesIndexes.CZ] / sales[i]?.ttSales[SalesIndexes.DEVICES]) *
           100
         ).toFixed(2) || 0,
     };
