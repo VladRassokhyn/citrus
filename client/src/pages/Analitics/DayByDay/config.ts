@@ -5,6 +5,8 @@ export enum ActiveOptions {
   CZ = 'CZ',
   CA = 'CA',
   ALL = 'ALL',
+  TO_CM = 'TO_CM',
+  TO_CZ = 'TO_CZ',
 }
 
 export enum DefoultColors {
@@ -38,5 +40,17 @@ export const Btns = [
     value: ActiveOptions.CA,
     defoultColor: DefoultColors.CA,
     activeColor: ServicesColors.CA,
+  },
+  {
+    label: 'Доля ЦМ',
+    value: ActiveOptions.TO_CM,
+    defoultColor: DefoultColors.CM,
+    activeColor: ServicesColors.CM,
+  },
+  {
+    label: 'Доля ЦЗ',
+    value: ActiveOptions.TO_CZ,
+    defoultColor: DefoultColors.CZ,
+    activeColor: ServicesColors.CZ,
   },
 ];

@@ -67,8 +67,12 @@ const bars = {
       <Bar barSize={10} dataKey="ЦМ" fill={ServicesColors.CM} />
       <Bar barSize={10} dataKey="ЦЗ" fill={ServicesColors.CZ} />
       <Bar barSize={10} dataKey="ЦА" fill={ServicesColors.CA} />
+      <Bar barSize={0} dataKey="Доля ЦМ" fill={ServicesColors.CM} />
+      <Bar barSize={0} dataKey="Доля ЦЗ" fill={ServicesColors.CZ} />
     </>
   ),
+  [ActiveOptions.TO_CM]: <Bar barSize={30} dataKey="Доля ЦМ" fill={ServicesColors.CM} />,
+  [ActiveOptions.TO_CZ]: <Bar barSize={30} dataKey="Доля ЦЗ" fill={ServicesColors.CZ} />,
 };
 
 export const DayByDay = (props: Props): JSX.Element => {
@@ -81,6 +85,16 @@ export const DayByDay = (props: Props): JSX.Element => {
       ['ЦМ']: sales[i]?.ttSales[SalesIndexes.CM] || 0,
       ['ЦЗ']: sales[i]?.ttSales[SalesIndexes.CZ] || 0,
       ['ЦА']: sales[i]?.ttSales[SalesIndexes.CA] || 0,
+      ['Доля ЦМ']:
+        (
+          (sales[i]?.ttSales[SalesIndexes.CM] / sales[i]?.ttSales[SalesIndexes.DEVICES]) *
+          100
+        ).toFixed(2) || 0,
+      ['Доля ЦЗ']:
+        (
+          (sales[i]?.ttSales[SalesIndexes.CA] / sales[i]?.ttSales[SalesIndexes.DEVICES]) *
+          100
+        ).toFixed(2) || 0,
     };
   });
 
