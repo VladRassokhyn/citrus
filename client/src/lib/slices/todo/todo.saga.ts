@@ -1,9 +1,14 @@
-import { Action } from './../../globalTypes';
-import { todoApi } from './todo.api';
-import { todoActions } from './index';
+import { Action } from '@lib/globalTypes';
 import { takeEvery, put, call } from 'redux-saga/effects';
 import { SagaIterator } from '@redux-saga/types';
-import { CommentPayload, Todo, TodoComment, TodoPayload } from './todo.type';
+import {
+  CommentPayload,
+  Todo,
+  TodoComment,
+  TodoPayload,
+  todoApi,
+  todoActions,
+} from '@lib/slices/todo';
 
 function* getTodosWorker(): SagaIterator {
   try {

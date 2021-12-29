@@ -1,17 +1,24 @@
-import { axiosInstance } from '../../axiosInstance';
-import { SalesResponse, SalesPayload, GetSalesPayload } from './sales.type';
+import { ENDPOINTS } from '@lib/apiEndpoints';
+import { axiosInstance } from '@lib/axiosInstance';
+import {
+  SalesResponse,
+  GetSalesPayload,
+  PostSalesPayload,
+  PutSalesPayload,
+} from '@lib/slices/sales';
 
 export const salesApi = {
   async getSales(dto: GetSalesPayload): Promise<{ data: SalesResponse }> {
-    return await axiosInstance.get(`/sales?tt=${dto.tt}&month=${dto.month}&year=${dto.year}`);
+    const query = `tt=${dto.tt}&month=${dto.month}&year=${dto.year}`;
+    return await axiosInstance.get(ENDPOINTS.SALES.BASE() + '?' + query);
   },
-  async postSales(dto: SalesPayload): Promise<string> {
-    return await axiosInstance.post('/sales', dto);
+  async postSales(dto: PostSalesPayload): Promise<string> {
+    return await axiosInstance.post(ENDPOINTS.SALES.BASE(), dto);
   },
-  async putSales(dto: SalesPayload): Promise<string> {
-    return await axiosInstance.put(`/sales/${dto.id}`, dto);
+  async putSales(dto: PutSalesPayload): Promise<string> {
+    return await axiosInstance.put(ENDPOINTS.SALES.BY_ID({ id: dto.id }), dto);
   },
   async deleteSales(id: number): Promise<string> {
-    return await axiosInstance.delete(`/sales/${id}`);
+    return await axiosInstance.delete(ENDPOINTS.SALES.BY_ID({ id }));
   },
 };

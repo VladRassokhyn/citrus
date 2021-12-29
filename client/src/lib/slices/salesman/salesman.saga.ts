@@ -1,9 +1,7 @@
 import { call, put, takeEvery } from '@redux-saga/core/effects';
 import { SagaIterator } from '@redux-saga/types';
-import { salesmanApi } from './salesman.api';
-import { Action } from '../../globalTypes';
-import { salesmanActions } from '../salesman';
-import { Salesman, SalesmanPostPayload } from './salesman.type';
+import { salesmanApi, salesmanActions, Salesman, SalesmanPostPayload } from '@lib/slices/salesman';
+import { Action } from '@lib/globalTypes';
 
 function* getSalesmansWorker(action: Action<string>): SagaIterator {
   try {

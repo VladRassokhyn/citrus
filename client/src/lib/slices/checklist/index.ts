@@ -1,3 +1,5 @@
+export { checklistsApi } from './checklist.api';
+import { checklists, status, singleChecklist } from './checklist.selectors';
 import {
   checklistReducer,
   setChecklists,
@@ -19,11 +21,7 @@ import {
   checklistDeleted,
   deleteChecklist,
 } from './checklist.slice';
-import { Checklist, Category } from './checklist.types';
-import { checklists, status, singleChecklist } from './checklist.selectors';
-import { checklistWatcher } from './checklist.saga';
 
-export type { Checklist, Category };
 export const checklistSelectors = {
   checklists,
   status,
@@ -52,4 +50,6 @@ export const checklistEditActions = {
   clearNewChecklist,
 };
 
-export { checklistWatcher, checklistReducer };
+export type { Checklist, Category, ChecklistState } from './checklist.types';
+export { checklistWatcher } from './checklist.saga';
+export { checklistReducer };

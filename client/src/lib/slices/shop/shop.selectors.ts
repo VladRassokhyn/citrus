@@ -1,6 +1,6 @@
-import { LoadingStatuses } from './../../globalTypes';
-import { RootState } from './../../store';
-import { Shop } from './shop.type';
+import { LoadingStatuses } from '@lib/globalTypes';
+import { RootState } from '@lib/store';
+import { Shop } from '@lib/slices/shop';
 
 export const allShops = (state: RootState): Shop[] | null => state.shops.shops;
 

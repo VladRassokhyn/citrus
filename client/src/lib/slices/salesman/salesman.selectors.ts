@@ -1,7 +1,7 @@
-import { Sales, salesSelectors } from './../sales/index';
-import { RootState } from './../../store';
-import { LoadingStatuses } from '../../globalTypes';
-import { Salesman } from './salesman.type';
+import { Sales, salesSelectors } from '@lib/slices/sales';
+import { RootState } from '@lib/store';
+import { LoadingStatuses } from '@lib/globalTypes';
+import { Salesman } from '@lib/slices/salesman';
 
 export const salesmans = (state: RootState): Salesman[] | null => state.salesman.salesmans;
 

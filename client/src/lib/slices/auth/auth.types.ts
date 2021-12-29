@@ -1,5 +1,5 @@
-import { User } from '../users';
-import { LoadingStatuses, LoadingErrors } from './../../globalTypes';
+import { User } from '@lib/slices/users';
+import { LoadingStatuses, LoadingErrors } from '@lib/globalTypes';
 
 export type AuthInitial = {
   status: LoadingStatuses;

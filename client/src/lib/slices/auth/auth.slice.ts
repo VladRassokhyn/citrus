@@ -1,7 +1,7 @@
-import { Action, LoadingErrors, LoadingStatuses } from './../../globalTypes';
+import { Action, LoadingErrors, LoadingStatuses } from '@lib/globalTypes';
 import { createSlice } from '@reduxjs/toolkit';
 import { AuthInitial } from './auth.types';
-import { User } from '../users';
+import { User } from '@lib/slices/users';
 
 const initialState: AuthInitial = {
   status: LoadingStatuses.IDLE,

@@ -9,7 +9,6 @@ import {
   usersByRole,
 } from './users.selectors';
 import {
-  usersReducer,
   getUsers,
   setUsers,
   postNewUser,
@@ -21,15 +20,12 @@ import {
   statusesResets,
 } from './users.slice';
 import {
-  oneUserReducer,
   getOneUser,
   getUserChecklists,
   setUserChecklists,
   setOneUserError,
   setOneUser,
 } from './oneUser.slice';
-import { usersWatcher } from './users.saga';
-import { User } from './users.types';
 
 export const userSelectors = {
   users,
@@ -58,5 +54,8 @@ export const userActions = {
   getUserChecklists,
   setUserChecklists,
 };
-export type { User };
-export { usersReducer, oneUserReducer, usersWatcher };
+export type { User, OneUserState, UsersState } from './users.types';
+export { usersApi } from './users.api';
+export { usersReducer } from './users.slice';
+export { oneUserReducer } from './oneUser.slice';
+export { usersWatcher } from './users.saga';

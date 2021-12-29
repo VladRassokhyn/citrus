@@ -1,4 +1,4 @@
-import { LoadingStatuses } from './../../globalTypes';
+import { LoadingStatuses } from '@lib/globalTypes';
 
 export type Sales = {
   id: number;
@@ -42,9 +42,7 @@ export interface PostSalesPayload extends GetSalesPayload {
   sales: string;
 }
 
-export interface PutSalesPayload extends GetSalesPayload {
-  day: string;
-  sales: string;
+export interface PutSalesPayload extends PostSalesPayload {
   id: number;
 }
 

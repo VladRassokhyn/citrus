@@ -1,6 +1,6 @@
-import { LoadingStatuses } from '../../globalTypes';
-import { RootState } from './../../store';
-import { Sales } from './sales.type';
+import { LoadingStatuses } from '@lib/globalTypes';
+import { RootState } from '@lib/store';
+import { Sales } from '@lib/slices/sales';
 
 export const sales = (state: RootState): Sales[] | null => state.sales.daySales;
 

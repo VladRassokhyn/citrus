@@ -1,6 +1,6 @@
-import { LoadingStatuses } from './../../globalTypes';
-import { Checklist } from './checklist.types';
-import { RootState } from './../../store';
+import { LoadingStatuses } from '@lib/globalTypes';
+import { Checklist } from '@lib/slices/checklist';
+import { RootState } from '@lib/store';
 
 export const checklists = (state: RootState): Checklist[] | null => state.checklist.checklists;
 

@@ -1,9 +1,7 @@
-import { shopApi } from './shop.api';
-import { shopActions } from './index';
+import { shopApi, shopActions, PostShopPayload, Shop } from '@lib/slices/shop';
 import { takeEvery, call, put } from 'redux-saga/effects';
 import { SagaIterator } from '@redux-saga/types';
-import { Action } from '../../globalTypes';
-import { PostShopPayload, Shop } from './shop.type';
+import { Action } from '@lib/globalTypes';
 
 function* getWorker(): SagaIterator {
   try {

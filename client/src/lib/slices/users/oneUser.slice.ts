@@ -1,7 +1,7 @@
-import { Action, LoadingStatuses } from './../../globalTypes';
+import { Action, LoadingStatuses } from '@lib/globalTypes';
 import { createSlice } from '@reduxjs/toolkit';
-import { OneUserState, User } from './users.types';
-import { Checklist } from '../checklist';
+import { OneUserState, User } from '@lib/slices/users';
+import { Checklist } from '@lib/slices/checklist';
 
 const initialState: OneUserState = {
   user: null,

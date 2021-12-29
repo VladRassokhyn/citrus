@@ -1,12 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { Action, LoadingStatuses } from '../../globalTypes';
-import {
-  GetSalesPayload,
-  Sales,
-  SalesState,
-  PostSalesPayload,
-  PutSalesPayload,
-} from './sales.type';
+import { Action, LoadingStatuses } from '@lib/globalTypes';
+import { GetSalesPayload, SalesState, PostSalesPayload, PutSalesPayload } from '@lib/slices/sales';
 
 const initialState: SalesState = {
   status: LoadingStatuses.IDLE,

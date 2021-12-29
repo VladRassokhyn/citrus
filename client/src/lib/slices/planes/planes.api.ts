@@ -1,14 +1,16 @@
-import { GetPlanesPayload, Planes } from './planes.type';
-import { axiosInstance } from '../../axiosInstance';
+import { ENDPOINTS } from '@lib/apiEndpoints';
+import { GetPlanesPayload, Planes } from '@lib/slices/planes';
+import { axiosInstance } from '@lib/axiosInstance';
 
 export const planesApi = {
   async getPlanes(dto: GetPlanesPayload): Promise<{ data: Planes }> {
-    return await axiosInstance.get(`/planes?tt=${dto.tt}&month=${dto.month}&year=${dto.year}`);
+    const query = `tt=${dto.tt}&month=${dto.month}&year=${dto.year}`;
+    return await axiosInstance.get(ENDPOINTS.PLANES.BASE() + '?' + query);
   },
   async updatePlanes(planes: Planes): Promise<string> {
-    return await axiosInstance.put(`/planes/${planes.id}`, planes);
+    return await axiosInstance.put(ENDPOINTS.PLANES.BY_ID({ id: planes.id! }), planes);
   },
   async postPlanes(planes: Planes): Promise<string> {
-    return await axiosInstance.post(`/planes`, planes);
+    return await axiosInstance.post(ENDPOINTS.PLANES.BASE(), planes);
   },
 };

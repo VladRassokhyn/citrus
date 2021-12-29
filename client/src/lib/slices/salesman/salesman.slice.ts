@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { Action, LoadingStatuses } from '../../globalTypes';
-import { SalesmanState, SalesmanPostPayload, Salesman } from './salesman.type';
+import { Action, LoadingStatuses } from '@lib/globalTypes';
+import { SalesmanState, SalesmanPostPayload, Salesman } from '@lib/slices/salesman';
 
 const initialState: SalesmanState = {
   status: LoadingStatuses.IDLE,

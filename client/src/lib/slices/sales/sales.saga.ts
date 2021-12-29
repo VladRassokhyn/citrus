@@ -1,17 +1,16 @@
-import { Action } from './../../globalTypes';
+import { Action } from '@lib/globalTypes';
 import { takeEvery, call, put } from 'redux-saga/effects';
 import { SagaIterator } from '@redux-saga/types';
-import { salesActions } from '../sales';
-import { salesApi } from './sales.api';
+import { shopApi, Shop } from '@lib/slices/shop';
 import {
+  salesActions,
+  salesApi,
   DeleteSalesPayload,
   GetSalesPayload,
   PostSalesPayload,
   PutSalesPayload,
   Sales,
-} from './sales.type';
-import { shopApi } from '../shop/shop.api';
-import { Shop } from '../shop';
+} from '@lib/slices/sales';
 
 function* getSalesWorker(action: Action<GetSalesPayload>): SagaIterator {
   try {

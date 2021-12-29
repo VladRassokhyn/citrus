@@ -1,9 +1,7 @@
-import { Action } from './../../globalTypes';
-import { planesApi } from './planes.api';
+import { Action } from '@lib/globalTypes';
+import { planesApi, GetPlanesPayload, Planes, planesActions } from '@lib/slices/planes';
 import { SagaIterator } from '@redux-saga/types';
 import { call, takeEvery, put } from 'redux-saga/effects';
-import { planesActions } from '../planes';
-import { GetPlanesPayload, Planes } from './planes.type';
 
 function* getPlanesWorker(action: Action<GetPlanesPayload>): SagaIterator {
   try {

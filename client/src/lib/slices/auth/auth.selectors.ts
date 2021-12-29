@@ -1,6 +1,6 @@
-import { LoadingStatuses, LoadingErrors } from './../../globalTypes';
-import { User } from '../users';
-import { RootState } from './../../store';
+import { LoadingStatuses, LoadingErrors } from '@lib/globalTypes';
+import { User } from '@lib/slices/users';
+import { RootState } from '@lib/store';
 
 export const authUser = (state: RootState): User | null => state.auth.authUser;
 

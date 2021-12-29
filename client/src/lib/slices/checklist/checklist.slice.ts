@@ -1,6 +1,6 @@
-import { Action, LoadingStatuses } from './../../globalTypes';
+import { Action, LoadingStatuses } from '@lib/globalTypes';
 import { createSlice } from '@reduxjs/toolkit';
-import { Checklist, ChecklistState } from './checklist.types';
+import { Checklist, ChecklistState } from '@lib/slices/checklist';
 
 const newChecklist: Checklist = {
   id: 0,

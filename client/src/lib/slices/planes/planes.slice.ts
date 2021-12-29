@@ -1,6 +1,6 @@
-import { Action, LoadingStatuses } from './../../globalTypes';
+import { Action, LoadingStatuses } from '@lib/globalTypes';
 import { createSlice } from '@reduxjs/toolkit';
-import { GetPlanesPayload, Planes } from './planes.type';
+import { GetPlanesPayload, Planes } from '@lib/slices/planes';
 
 const initialState = {
   status: LoadingStatuses.IDLE,

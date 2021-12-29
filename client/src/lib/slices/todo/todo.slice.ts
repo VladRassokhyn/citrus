@@ -1,6 +1,6 @@
-import { CommentPayload, Todo, TodoComment, TodoPayload, TodoState } from './todo.type';
+import { CommentPayload, Todo, TodoComment, TodoPayload, TodoState } from '@lib/slices/todo';
 import { createSlice } from '@reduxjs/toolkit';
-import { LoadingStatuses, Action } from './../../globalTypes';
+import { LoadingStatuses, Action } from '@lib/globalTypes';
 
 const initialState: TodoState = {
   status: LoadingStatuses.IDLE,

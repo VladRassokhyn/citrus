@@ -1,7 +1,7 @@
-import { RootState } from './../../store';
-import { LoadingStatuses, UserRoles } from '../../globalTypes';
-import { Checklist } from '../checklist';
-import { User } from './users.types';
+import { RootState } from '@lib/store';
+import { LoadingStatuses, UserRoles } from '@lib/globalTypes';
+import { Checklist } from '@lib/slices/checklist';
+import { User } from '@lib/slices/users';
 
 export const users = (state: RootState): User[] => state.users.items;
 

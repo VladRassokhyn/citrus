@@ -1,4 +1,4 @@
-import { LoadingStatuses } from './../../globalTypes';
+import { LoadingStatuses } from '@lib/globalTypes';
 
 export type Planes = {
   id?: number;

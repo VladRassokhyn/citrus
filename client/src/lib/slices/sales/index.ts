@@ -1,5 +1,4 @@
 import {
-  salesReducer,
   getSales,
   setSales,
   postSales,
@@ -11,7 +10,6 @@ import {
   sortSales,
   setmonth,
 } from './sales.slice';
-import { salesWatcher } from './sales.saga';
 import {
   sales,
   salesLength,
@@ -41,7 +39,18 @@ export const salesActions = {
   sortSales,
   setmonth,
 };
-export { salesReducer, salesWatcher };
-
-export type { Sales, SalesTuple } from './sales.type';
+export { salesReducer } from './sales.slice';
+export { salesWatcher } from './sales.saga';
+export { salesApi } from './sales.api';
 export { SalesIndexes } from './sales.type';
+export type {
+  Sales,
+  SalesState,
+  SalesTuple,
+  SalesResponse,
+  SalesPayload,
+  GetSalesPayload,
+  PutSalesPayload,
+  PostSalesPayload,
+  DeleteSalesPayload,
+} from './sales.type';

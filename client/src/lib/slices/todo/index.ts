@@ -35,6 +35,7 @@ export const todoActions = {
   updateComment,
   commentUpdated,
 };
+export { todoApi } from './todo.api';
 export { todoReducer } from './todo.slice';
 export { todoWatcher } from './todo.saga';
-export type { Todo } from './todo.type';
+export type { Todo, TodoPayload, CommentPayload, TodoComment, TodoState } from './todo.type';

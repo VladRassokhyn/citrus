@@ -1,6 +1,6 @@
-import { LoadingStatuses } from './../../globalTypes';
-import { RootState } from '../../store';
-import { Planes } from './planes.type';
+import { LoadingStatuses } from '@lib/globalTypes';
+import { RootState } from '@lib/store';
+import { Planes } from '@lib/slices/planes';
 
 export const planes = (state: RootState): Planes => state.planes.planes;
 

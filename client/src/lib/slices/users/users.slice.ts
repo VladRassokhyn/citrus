@@ -1,6 +1,6 @@
-import { User, UsersState } from './users.types';
+import { User, UsersState } from '@lib/slices/users';
 import { createSlice } from '@reduxjs/toolkit';
-import { Action, LoadingStatuses } from '../../globalTypes';
+import { Action, LoadingStatuses } from '@lib/globalTypes';
 
 const initialState: UsersState = {
   items: [],

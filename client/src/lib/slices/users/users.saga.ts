@@ -1,7 +1,6 @@
-import { Action, FixLater } from '../../globalTypes';
-import { usersApi } from './users.api';
+import { Action } from '@lib/globalTypes';
+import { usersApi, User, userActions } from '@lib/slices/users';
 import { takeEvery, call, put } from 'redux-saga/effects';
-import { User, userActions } from '../users';
 import { SagaIterator } from '@redux-saga/types';
 
 function* getUsersWorker(action: Action<number>): SagaIterator {

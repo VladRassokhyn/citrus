@@ -1,9 +1,8 @@
-import { authApi } from './auth.api';
 import { SagaIterator } from '@redux-saga/types';
-import { Action, LoadingErrors } from './../../globalTypes';
 import { takeEvery, call, put } from 'redux-saga/effects';
-import { authActions } from '../auth';
-import { shopActions } from '../shop';
+import { Action, LoadingErrors } from '@lib/globalTypes';
+import { authActions, authApi } from '@lib/slices/auth';
+import { shopActions } from '@lib/slices/shop';
 
 function* authWorker(): SagaIterator {
   try {

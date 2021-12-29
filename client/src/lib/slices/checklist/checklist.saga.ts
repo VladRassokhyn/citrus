@@ -1,9 +1,7 @@
-import { checklistsApi } from './checklist.api';
-import { Action } from './../../globalTypes';
+import { Action } from '@lib/globalTypes';
 import { takeEvery, call, put } from 'redux-saga/effects';
 import { SagaIterator } from '@redux-saga/types';
-import { checklistActions } from '../checklist';
-import { Checklist } from './checklist.types';
+import { checklistActions, Checklist, checklistsApi } from '@lib/slices/checklist';
 
 function* getChecklistsWorker(): SagaIterator {
   try {

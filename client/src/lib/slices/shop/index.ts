@@ -1,8 +1,5 @@
-import { Shop } from './shop.type';
-import { shopWatcher } from './shops.saga';
 import { allShops, status, byCodeName, currentShop } from './shop.selectors';
 import {
-  shopReducer,
   getShops,
   setShops,
   postShop,
@@ -31,5 +28,7 @@ export const shopActions = {
   shopDeleted,
   setCurrentShop,
 };
-export { shopReducer, shopWatcher };
-export type { Shop };
+export { shopReducer } from './shop.slice';
+export { shopWatcher } from './shops.saga';
+export type { Shop, PostShopPayload, ShopInitialState } from './shop.type';
+export { shopApi } from './shop.api';

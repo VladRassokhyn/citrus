@@ -1,6 +1,6 @@
-import { Action, LoadingStatuses } from './../../globalTypes';
+import { Action, LoadingStatuses } from '@lib/globalTypes';
 import { createSlice } from '@reduxjs/toolkit';
-import { PostShopPayload, Shop, ShopInitialState } from './shop.type';
+import { PostShopPayload, Shop, ShopInitialState } from '@lib/slices/shop';
 
 const initialState: ShopInitialState = {
   status: LoadingStatuses.IDLE,

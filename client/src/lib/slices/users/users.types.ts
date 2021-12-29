@@ -1,6 +1,6 @@
-import { LoadingStatuses, UserRoles } from '../../globalTypes';
-import { Checklist } from '../checklist';
-import { Shop } from '../shop';
+import { LoadingStatuses, UserRoles } from '@lib/globalTypes';
+import { Checklist } from '@lib/slices/checklist';
+import { Shop } from '@lib/slices/shop';
 
 export type UsersState = {
   items: User[];
@@ -20,5 +20,5 @@ export type User = {
   lastName: string;
   role: UserRoles;
   id: number;
-  shop: Shop
+  shop: Shop;
 };

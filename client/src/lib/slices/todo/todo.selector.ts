@@ -1,6 +1,6 @@
-import { LoadingStatuses } from './../../globalTypes';
-import { RootState } from './../../store';
-import { Todo, TodoComment, TodoPayload } from './todo.type';
+import { LoadingStatuses } from '@lib/globalTypes';
+import { RootState } from '@lib/store';
+import { Todo, TodoComment } from '@lib/slices/todo';
 
 export const todos = (state: RootState): Todo[] | null => state.todo.todos;
 
