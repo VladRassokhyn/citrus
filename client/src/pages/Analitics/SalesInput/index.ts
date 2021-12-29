@@ -1,3 +1,1 @@
-import { SalesInput } from './SalesInput';
-
-export { SalesInput };
+export { SalesInput } from './SalesInput';

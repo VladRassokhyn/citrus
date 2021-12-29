@@ -1,5 +1,5 @@
-import { Planes } from '../../../lib/slices/planes/planes.type';
-import { Sales, SalesIndexes } from '../../../lib/slices/sales';
+import { Planes } from '@lib/slices/planes';
+import { Sales, SalesIndexes } from '@lib/slices/sales';
 
 enum FillColors {
   RED = 'rgb(255, 0, 0, .3)',

@@ -1,16 +1,12 @@
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { InputField } from '../../Components/InputField';
-import { useTypedSelector } from '../../lib/hooks';
-import {
-  checklistActions,
-  checklistSelectors,
-  checklistEditActions,
-} from '../../lib/slices/checklist';
-import trash from '../../static/trash.svg';
-import { LoadingStatuses } from '../../lib/globalTypes';
-import { Confirm } from '../../Components/Confirm';
+import { InputField } from '@components/InputField';
+import { useTypedSelector } from '@lib/hooks';
+import { checklistActions, checklistSelectors, checklistEditActions } from '@lib/slices/checklist';
+import trash from '@static/trash.svg';
+import { LoadingStatuses } from '@lib/globalTypes';
+import { Confirm } from '@components/Confirm';
 
 type Props = {
   authUserId: number;

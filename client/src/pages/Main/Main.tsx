@@ -1,14 +1,14 @@
 import React from 'react';
-import cmImage from '../../static/cmImage.webp';
-import analitic from '../../static/analytic.png';
-import employee from '../../static/employee.png';
-import checklist from '../../static/checklist.png';
-import develop from '../../static/develop.png';
+import cmImage from '@static/cmImage.webp';
+import analitic from '@static/analytic.png';
+import employee from '@static/employee.png';
+import checklist from '@static/checklist.png';
+import develop from '@static/develop.png';
 import styled, { keyframes } from 'styled-components';
 import { bounceIn, bounceOutDown } from 'react-animations';
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
-import { paths } from '../../lib/routing';
+import { paths } from '@lib/routing';
 
 type ClosingProps = {
   isClosing: boolean;

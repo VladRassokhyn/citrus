@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import { getCalcFns } from '../../../lib/common';
-import { ServicesColors } from '../../../lib/globalTypes';
-import { Planes } from '../../../lib/slices/planes/planes.type';
-import { Sales, SalesIndexes } from '../../../lib/slices/sales';
+import { getCalcFns } from '@lib/common';
+import { ServicesColors } from '@lib/globalTypes';
+import { Planes } from '@lib/slices/planes';
+import { Sales, SalesIndexes } from '@lib/slices/sales';
 
 type Props = {
   weekSales: Sales[];

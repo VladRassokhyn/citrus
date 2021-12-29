@@ -1,19 +1,19 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { Preloader } from '../../Components/Preloader';
-import { LoadingStatuses, UserRoles } from '../../lib/globalTypes';
-import { useTypedSelector } from '../../lib/hooks';
-import { planesActions, planesSelectors } from '../../lib/slices/planes';
+import { Preloader } from '@components/Preloader';
+import { LoadingStatuses, UserRoles } from '@lib/globalTypes';
+import { useTypedSelector } from '@lib/hooks';
+import { planesActions, planesSelectors } from '@lib/slices/planes';
 import { Navigation } from './Navigation';
 import { PlanesPanel } from './PlanesPanel';
 import Selector, { SingleValue } from 'react-select';
-import { RouterController } from '../../lib/routing/RouterController';
-import { RouteItem } from '../../lib/routing';
-import { User } from '../../lib/slices/users';
-import { salesActions, salesSelectors } from '../../lib/slices/sales';
-import { Shop, shopActions, shopSelectors } from '../../lib/slices/shop';
-import { salesmanActions } from '../../lib/slices/salesman';
+import { RouterController } from '@lib/routing/RouterController';
+import { RouteItem } from '@lib/routing';
+import { User } from '@lib/slices/users';
+import { salesActions, salesSelectors } from '@lib/slices/sales';
+import { Shop, shopActions, shopSelectors } from '@lib/slices/shop';
+import { salesmanActions } from '@lib/slices/salesman';
 
 type Props = {
   routes: RouteItem[];

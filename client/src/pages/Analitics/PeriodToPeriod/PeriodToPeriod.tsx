@@ -1,18 +1,17 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router';
 import styled from 'styled-components';
-import { DayRange } from '../../../Components/DayRange';
-import { getCalcFns } from '../../../lib/common';
-import { useTypedSelector } from '../../../lib/hooks';
-import { planesSelectors } from '../../../lib/slices/planes';
-import { Planes } from '../../../lib/slices/planes/planes.type';
-import { Sales, SalesIndexes, salesSelectors } from '../../../lib/slices/sales';
-import { salesmanSelectors } from '../../../lib/slices/salesman';
+import { DayRange } from '@components/DayRange';
+import { getCalcFns } from '@lib/common';
+import { useTypedSelector } from '@lib/hooks';
+import { planesSelectors, Planes } from '@lib/slices/planes';
+import { Sales, SalesIndexes, salesSelectors } from '@lib/slices/sales';
+import { salesmanSelectors } from '@lib/slices/salesman';
 import { DiffDiagram } from './DiffDiagram';
 import { PerToPerTable } from './PerToPerTable';
 import { Result } from './Results';
 import Selector from 'react-select';
-import { FixLater } from '../../../lib/globalTypes';
+import { FixLater } from '@lib/globalTypes';
 
 const Wrapper = styled.div``;
 

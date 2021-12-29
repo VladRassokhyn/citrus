@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Sales, SalesIndexes } from '../../../lib/slices/sales';
+import { Sales, SalesIndexes } from '@lib/slices/sales';
 import {
   LineChart,
   CartesianGrid,
@@ -10,7 +10,7 @@ import {
   Line,
   ResponsiveContainer,
 } from 'recharts';
-import { Checkbox } from '../../../Components/Checkbox';
+import { Checkbox } from '@components/Checkbox';
 import { useState } from 'react';
 
 type Props = {

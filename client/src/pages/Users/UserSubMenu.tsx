@@ -1,19 +1,19 @@
 import React from 'react';
 import styled from 'styled-components';
-import trash from '../../static/trash.svg';
-import edit from '../../static/edit.svg';
-import viewList from '../../static/viewList.svg';
+import trash from '@static/trash.svg';
+import edit from '@static/edit.svg';
+import viewList from '@static/viewList.svg';
 import { useDispatch } from 'react-redux';
-import { Modal } from '../../Components/Modal';
-import { useTypedSelector } from '../../lib/hooks';
-import { User, userActions } from '../../lib/slices/users';
-import { UserRoles } from '../../lib/globalTypes';
+import { Modal } from '@components/Modal';
+import { useTypedSelector } from '@lib/hooks';
+import { User, userActions } from '@lib/slices/users';
+import { UserRoles } from '@lib/globalTypes';
 import { useState } from 'react';
 import { NewUserForm } from './NewUserForm';
 import { Link } from 'react-router-dom';
-import { authSelectors } from '../../lib/slices/auth';
-import { Confirm } from '../../Components/Confirm';
-import { paths } from '../../lib/routing';
+import { authSelectors } from '@lib/slices/auth';
+import { Confirm } from '@components/Confirm';
+import { paths } from '@lib/routing';
 
 type Props = {
   user: User;

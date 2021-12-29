@@ -1,4 +1,4 @@
-import { ServicesColors } from '../../../lib/globalTypes';
+import { ServicesColors } from '@lib/globalTypes';
 
 export enum ActiveOptions {
   CM = 'CM',

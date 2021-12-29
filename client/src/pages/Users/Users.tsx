@@ -2,14 +2,14 @@ import React from 'react';
 import { useEffect } from 'react';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
-import { useTypedSelector } from '../../lib/hooks';
-import { userActions, userSelectors } from '../../lib/slices/users';
-import { LoadingStatuses, UserRoles } from '../../lib/globalTypes';
-import { Preloader } from '../../Components/Preloader';
-import { Accordion } from '../../Components/Accordion';
+import { useTypedSelector } from '@lib/hooks';
+import { userActions, userSelectors } from '@lib/slices/users';
+import { LoadingStatuses, UserRoles } from '@lib/globalTypes';
+import { Preloader } from '@components/Preloader';
+import { Accordion } from '@components/Accordion';
 import { NewUserForm } from './NewUserForm';
 import { UserSubMenu } from './UserSubMenu';
-import { authSelectors } from '../../lib/slices/auth';
+import { authSelectors } from '@lib/slices/auth';
 
 const Wrapper = styled.div`
   display: flex;

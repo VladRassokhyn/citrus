@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { DayRange } from '../../../Components/DayRange';
-import { useTypedSelector } from '../../../lib/hooks';
-import { salesSelectors } from '../../../lib/slices/sales';
-import { Shop } from '../../../lib/slices/shop';
-import { User } from '../../../lib/slices/users';
+import { DayRange } from '@components/DayRange';
+import { useTypedSelector } from '@lib/hooks';
+import { salesSelectors } from '@lib/slices/sales';
+import { Shop } from '@lib/slices/shop';
+import { User } from '@lib/slices/users';
 import { EveningReportTable } from './EveningReportTable';
 
 type Props = {

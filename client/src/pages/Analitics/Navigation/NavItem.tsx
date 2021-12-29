@@ -2,9 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { UserRoles } from '../../../lib/globalTypes';
-import { RouteItem } from '../../../lib/routing';
-import { User } from '../../../lib/slices/users';
+import { RouteItem } from '@lib/routing';
+import { User } from '@lib/slices/users';
 
 type Props = {
   children: JSX.Element | JSX.Element[];

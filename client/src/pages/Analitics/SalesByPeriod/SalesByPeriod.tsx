@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { DayRange } from '../../../Components/DayRange';
-import { getCalcFns } from '../../../lib/common';
-import { useTypedSelector } from '../../../lib/hooks';
-import { planesSelectors } from '../../../lib/slices/planes';
-import { salesSelectors } from '../../../lib/slices/sales';
-import { getColumns } from '../DayDetail';
-import { DetailTable } from '../DayDetail/DetailTable';
+import { DayRange } from '@components/DayRange';
+import { getCalcFns } from '@lib/common';
+import { useTypedSelector } from '@lib/hooks';
+import { planesSelectors } from '@lib/slices/planes';
+import { salesSelectors } from '@lib/slices/sales';
+import { getColumns } from '@analitics/DayDetail';
+import { DetailTable } from '@analitics/DayDetail';
 import { PeriodChart } from './PeriodChart';
 
 const Wrapper = styled.div`

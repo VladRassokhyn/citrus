@@ -1,14 +1,13 @@
 import styled, { keyframes } from 'styled-components';
 import { slideInLeft } from 'react-animations';
 import { NavItem } from './NavItem';
-import { RouteItem } from '../../../lib/routing';
-import { User } from '../../../lib/slices/users';
+import { RouteItem } from '@lib/routing';
+import { User } from '@lib/slices/users';
 import React, { useCallback, useState } from 'react';
-import { analyticsRoutes } from '../../../lib/routing';
 
 type Props = {
   authUser: User;
-  routes: RouteItem[]
+  routes: RouteItem[];
 };
 
 const animationIn = keyframes`${slideInLeft}`;
@@ -66,12 +65,7 @@ export const Navigation = (props: Props): JSX.Element => {
   const handleOpen = useCallback(() => setIsOpen((prev) => !prev), []);
 
   const navItems = props.routes.map((route) => (
-    <NavItem
-      key={route.path}
-      route={route}
-      authUser={props.authUser}
-      handleOpen={handleOpen}
-    >
+    <NavItem key={route.path} route={route} authUser={props.authUser} handleOpen={handleOpen}>
       <H1>{route.label}</H1>
     </NavItem>
   ));

@@ -1,15 +1,15 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { LoadingStatuses } from '../../../lib/globalTypes';
-import { salesmanActions, salesmanSelectors, Salesman } from '../../../lib/slices/salesman';
+import { LoadingStatuses } from '@lib/globalTypes';
+import { salesmanActions, salesmanSelectors, Salesman } from '@lib/slices/salesman';
 import { NewSalesman } from './NewSalesman';
-import trash from '../../../static/trash.svg';
-import { Confirm } from '../../../Components/Confirm';
+import trash from '@static/trash.svg';
+import { Confirm } from '@components/Confirm';
 import { useEffect } from 'react';
-import { useTypedSelector } from '../../../lib/hooks';
-import { Preloader } from '../../../Components/Preloader';
-import { Shop } from '../../../lib/slices/shop';
+import { useTypedSelector } from '@lib/hooks';
+import { Preloader } from '@components/Preloader';
+import { Shop } from '@lib/slices/shop';
 
 type Props = {
   currentShop: Shop;

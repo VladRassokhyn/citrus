@@ -1,10 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Shop, shopSelectors } from '../../../lib/slices/shop';
-import { User } from '../../../lib/slices/users';
-import { useTypedSelector } from '../../../lib/hooks';
-import { useDispatch } from 'react-redux';
-import { Preloader } from '../../../Components/Preloader';
+import { shopSelectors } from '@lib/slices/shop';
+import { useTypedSelector } from '@lib/hooks';
+import { Preloader } from '@components/Preloader';
 import { ShopItem } from './ShopItem';
 import { NewShopForm } from './NewShopForm';
 

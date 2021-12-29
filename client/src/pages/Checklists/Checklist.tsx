@@ -3,17 +3,17 @@ import { useDispatch } from 'react-redux';
 import { useHistory, useParams } from 'react-router';
 import styled from 'styled-components';
 import Select from 'react-select';
-import { Checkbox } from '../../Components/Checkbox';
-import { Preloader } from '../../Components/Preloader';
-import { FixLater, LoadingStatuses, UserRoles } from '../../lib/globalTypes';
-import { useTypedSelector } from '../../lib/hooks';
+import { Checkbox } from '@components/Checkbox';
+import { Preloader } from '@components/Preloader';
+import { FixLater, LoadingStatuses, UserRoles } from '@lib/globalTypes';
+import { useTypedSelector } from '@lib/hooks';
 import {
   Category,
   checklistActions,
   checklistSelectors,
   checklistEditActions,
-} from '../../lib/slices/checklist/';
-import { User, userActions, userSelectors } from '../../lib/slices/users';
+} from '@lib/slices/checklist/';
+import { User, userActions, userSelectors } from '@lib/slices/users';
 
 type Props = {
   authUser: User;

@@ -1,4 +1,4 @@
-import { Planes } from '../../../lib/slices/planes/planes.type';
+import { Planes } from '@lib/slices/planes';
 
 type Column = {
   label: string;

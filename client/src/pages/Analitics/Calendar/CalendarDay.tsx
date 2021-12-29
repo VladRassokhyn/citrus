@@ -1,18 +1,17 @@
 import styled from 'styled-components';
 import React, { memo, useCallback, useMemo, useState } from 'react';
-import { Modal } from '../../../Components/Modal';
-import { SalesInput } from '../SalesInput';
+import { Modal } from '@components/Modal';
+import { SalesInput } from '@analitics/SalesInput';
 import { useDispatch } from 'react-redux';
-import { useTypedSelector } from '../../../lib/hooks';
-import { LoadingStatuses, ServicesColors } from '../../../lib/globalTypes';
-import { Confirm } from '../../../Components/Confirm';
-import { salesActions, salesSelectors, SalesIndexes } from '../../../lib/slices/sales';
+import { useTypedSelector } from '@lib/hooks';
+import { LoadingStatuses, ServicesColors } from '@lib/globalTypes';
+import { Confirm } from '@components/Confirm';
+import { salesActions, salesSelectors, SalesIndexes, Sales } from '@lib/slices/sales';
 import { useHistory } from 'react-router';
-import { Planes } from '../../../lib/slices/planes/planes.type';
-import { Sales } from '../../../lib/slices/sales/sales.type';
-import { getCalcFns } from '../../../lib/common';
+import { Planes } from '@lib/slices/planes';
+import { getCalcFns } from '@lib/common';
 import { format } from 'date-fns';
-import { Shop } from '../../../lib/slices/shop';
+import { Shop } from '@lib/slices/shop';
 
 type Props = {
   tt: Shop;

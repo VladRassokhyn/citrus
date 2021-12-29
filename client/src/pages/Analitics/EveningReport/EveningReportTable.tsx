@@ -1,14 +1,13 @@
-import React from 'react';
 import styled from 'styled-components';
 import html2canvas from 'html2canvas';
-import { getCalcFns } from '../../../lib/common';
-import { useMemo, useState } from 'react';
-import { Screenshot } from '../../../Components/Screenshot';
-import { useTypedSelector } from '../../../lib/hooks';
-import { planesSelectors } from '../../../lib/slices/planes';
-import { Shop } from '../../../lib/slices/shop';
-import { Sales } from '../../../lib/slices/sales';
-import { Planes } from '../../../lib/slices/planes/planes.type';
+import { getCalcFns } from '@lib/common';
+import React, { useMemo, useState } from 'react';
+import { Screenshot } from '@components/Screenshot';
+import { useTypedSelector } from '@lib/hooks';
+import { planesSelectors } from '@lib/slices/planes';
+import { Shop } from '@lib/slices/shop';
+import { Sales } from '@lib/slices/sales';
+import { Planes } from '@lib/slices/planes/planes.type';
 import { rowsConfig, getCalcs } from './config';
 
 type Props = {

@@ -1,18 +1,16 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { Preloader } from '../../../Components/Preloader';
-import { getCalcFns, getDaysFormated } from '../../../lib/common';
-import { useTypedSelector } from '../../../lib/hooks';
-import { planesSelectors } from '../../../lib/slices/planes';
-import { salesActions, SalesIndexes, salesSelectors } from '../../../lib/slices/sales';
-import { Shop } from '../../../lib/slices/shop';
-import { User } from '../../../lib/slices/users';
-import { Calendar } from '../Calendar';
-import { Circle } from '../Circle';
-import { DayByDay } from '../DayByDay';
-import { getColumns } from '../DayDetail';
-import { DetailTable } from '../DayDetail/DetailTable';
+import { getCalcFns, getDaysFormated } from '@lib/common';
+import { useTypedSelector } from '@lib/hooks';
+import { planesSelectors } from '@lib/slices/planes';
+import { salesActions, SalesIndexes, salesSelectors } from '@lib/slices/sales';
+import { Shop } from '@lib/slices/shop';
+import { User } from '@lib/slices/users';
+import { Calendar } from '@analitics/Calendar';
+import { Circle } from '@analitics/Circle';
+import { DayByDay } from '@analitics/DayByDay';
+import { getColumns, DetailTable } from '@analitics/DayDetail';
 import { MonthHeader } from './MonthHeader';
 
 type Props = {

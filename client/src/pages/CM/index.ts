@@ -1,3 +1,1 @@
-import { CmMenu } from './CmMenu';
-
-export { CmMenu };
+export { CmMenu } from './CmMenu';

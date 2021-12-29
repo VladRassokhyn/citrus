@@ -1,4 +1,2 @@
-import { Users } from './Users';
-import { User } from './User';
-
-export { Users, User };
+export { Users } from './Users';
+export { User } from './User';

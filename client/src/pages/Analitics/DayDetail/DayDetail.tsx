@@ -8,7 +8,7 @@ import { useTypedSelector } from '@lib/hooks';
 import { planesSelectors } from '@lib/slices/planes';
 import { SalesIndexes, salesSelectors } from '@lib/slices/sales';
 import { Shop } from '@lib/slices/shop';
-import { Circle } from '../Circle/Circle';
+import { Circle } from '@analitics/Circle';
 import { DetailTable } from './DetailTable';
 import { getColumns } from './getColumns';
 

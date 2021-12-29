@@ -1,8 +1,7 @@
 import styled from 'styled-components';
-import { Todo } from '../../../lib/slices/todo/todo.type';
-import { User } from '../../../lib/slices/users';
+import { Todo } from '@lib/slices/todo/todo.type';
+import { User } from '@lib/slices/users';
 import { CommentItem } from './CommentItem';
-import { NewComment } from './NewComment';
 
 type Props = {
   todo: Todo;

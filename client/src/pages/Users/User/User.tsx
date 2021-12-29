@@ -2,12 +2,12 @@ import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
 import styled from 'styled-components';
-import { Accordion } from '../../../Components/Accordion';
-import { Checkbox } from '../../../Components/Checkbox';
-import { Preloader } from '../../../Components/Preloader';
-import { LoadingStatuses } from '../../../lib/globalTypes';
-import { useTypedSelector } from '../../../lib/hooks';
-import { userActions, userSelectors } from '../../../lib/slices/users';
+import { Accordion } from '@components/Accordion';
+import { Checkbox } from '@components/Checkbox';
+import { Preloader } from '@components/Preloader';
+import { LoadingStatuses } from '@lib/globalTypes';
+import { useTypedSelector } from '@lib/hooks';
+import { userActions, userSelectors } from '@lib/slices/users';
 
 const Wrapper = styled.div`
   display: flex;

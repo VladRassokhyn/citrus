@@ -1,3 +1,1 @@
-import { MainAnalitics } from './MainAnalitics';
-
-export { MainAnalitics };
+export { MainAnalitics } from './MainAnalitics';

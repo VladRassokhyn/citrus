@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { useTypedSelector } from '../../../lib/hooks';
-import { Planes } from '../../../lib/slices/planes/planes.type';
-import { Sales, SalesTuple } from '../../../lib/slices/sales/sales.type';
-import { Shop, shopActions, shopSelectors } from '../../../lib/slices/shop';
+import { useTypedSelector } from '@lib/hooks';
+import { Planes } from '@lib/slices/planes/planes.type';
+import { Sales, SalesTuple } from '@lib/slices/sales/sales.type';
+import { Shop, shopActions, shopSelectors } from '@lib/slices/shop';
 
 type Props = {
   columns: {

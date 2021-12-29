@@ -1,3 +1,1 @@
-import { DayByDay } from './DayByDay';
-
-export { DayByDay };
+export { DayByDay } from './DayByDay';

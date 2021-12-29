@@ -1,3 +1,2 @@
-import { Shops } from './Shops';
+export { Shops } from './Shops';
 
-export { Shops };

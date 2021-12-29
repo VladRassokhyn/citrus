@@ -1,4 +1,3 @@
-import { DayDetail } from './DayDetail';
-import { getColumns } from './getColumns';
-
-export { DayDetail, getColumns };
+export { DayDetail } from './DayDetail';
+export { getColumns } from './getColumns';
+export { DetailTable } from './DetailTable';

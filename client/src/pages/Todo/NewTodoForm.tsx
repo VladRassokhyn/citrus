@@ -1,21 +1,19 @@
 import styled, { keyframes } from 'styled-components';
-import { FormTypes } from './types';
 import { slideInRight, slideOutRight } from 'react-animations';
 import { useForm, Controller } from 'react-hook-form';
-import { InputField } from '../../Components/InputField';
-import closeX from '../../static/closeX.svg';
+import { InputField } from '@components/InputField';
+import closeX from '@static/closeX.svg';
 import Select from 'react-select';
 import { importanceOptions, importanceStyles, categoryOptions } from './selectConfig';
-import { User } from '../../lib/slices/users';
+import { User } from '@lib/slices/users';
 import { format } from 'date-fns';
-import { TodoPayload } from '../../lib/slices/todo/todo.type';
+import { TodoPayload } from '@lib/slices/todo/todo.type';
 
 const openAnimation = keyframes`${slideInRight}`;
 const closeAnimation = keyframes`${slideOutRight}`;
 
 type Props = {
   authUser: User;
-  type: FormTypes;
   isClosing: boolean;
   executors: User[];
   onClose: () => void;

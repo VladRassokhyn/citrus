@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import { useTypedSelector } from '../../../lib/hooks';
-import { TodoComment } from '../../../lib/slices/todo/todo.type';
-import { User, userSelectors } from '../../../lib/slices/users';
+import { useTypedSelector } from '@lib/hooks';
+import { TodoComment } from '@lib/slices/todo/todo.type';
+import { userSelectors } from '@lib/slices/users';
 
 type Props = {
   comment: TodoComment;

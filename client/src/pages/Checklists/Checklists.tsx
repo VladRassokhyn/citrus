@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
-import { Accordion } from '../../Components/Accordion';
+import { Accordion } from '@components/Accordion';
 import { NewChecklistForm } from './NewChecklistForm';
-import { User, userActions, userSelectors } from '../../lib/slices/users';
-import { useTypedSelector } from '../../lib/hooks';
-import { LoadingStatuses } from '../../lib/globalTypes';
-import { Preloader } from '../../Components/Preloader';
-import { checklistSelectors, checklistActions } from '../../lib/slices/checklist';
+import { User, userActions, userSelectors } from '@lib/slices/users';
+import { useTypedSelector } from '@lib/hooks';
+import { LoadingStatuses } from '@lib/globalTypes';
+import { Preloader } from '@components/Preloader';
+import { checklistSelectors, checklistActions } from '@lib/slices/checklist';
 import { ChecklistSubMenu } from './ChecklistSubMenu';
 
 type Props = {

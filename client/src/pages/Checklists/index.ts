@@ -1,4 +1,2 @@
-import { Checklists } from './Checklists';
-import { Checklist } from './Checklist';
-
-export { Checklists, Checklist };
+export { Checklists } from './Checklists';
+export { Checklist } from './Checklist';

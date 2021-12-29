@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import { useTypedSelector } from '../../../lib/hooks';
-import { paths } from '../../../lib/routing';
-import { Sales, SalesIndexes } from '../../../lib/slices/sales';
-import { salesmanSelectors } from '../../../lib/slices/salesman';
-import { Shop, shopActions, shopSelectors } from '../../../lib/slices/shop';
+import { useTypedSelector } from '@lib/hooks';
+import { paths } from '@lib/routing';
+import { Sales, SalesIndexes } from '@lib/slices/sales';
+import { salesmanSelectors } from '@lib/slices/salesman';
+import { Shop, shopActions, shopSelectors } from '@lib/slices/shop';
 
 type Props = {
   sales1: Sales;
@@ -272,8 +272,8 @@ function getColumns(args: { per1: string; per2: string; shops: Shop[] | null; se
         let second = +sales2[service] / +sales2[SalesIndexes.DEVICES];
         if (first < 0) first = first * -1;
         if (second < 0) second = second * -1;
-        const result =  
-          //если         //добавить - 
+        const result =
+          //если         //добавить -
           first > second ? -((first / second) * 100 - 100) : (second / first) * 100 - 100;
         return result.toFixed(2);
       },

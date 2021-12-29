@@ -3,11 +3,11 @@ import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { Redirect } from 'react-router';
 import styled from 'styled-components';
-import { InputField } from '../../Components/InputField';
-import { FixLater, LoadingErrors, LoadingStatuses } from '../../lib/globalTypes';
-import { useTypedSelector } from '../../lib/hooks';
-import { paths } from '../../lib/routing';
-import { authSelectors, authActions } from '../../lib/slices/auth';
+import { InputField } from '@components/InputField';
+import { FixLater, LoadingErrors, LoadingStatuses } from '@lib/globalTypes';
+import { useTypedSelector } from '@lib/hooks';
+import { paths } from '@lib/routing';
+import { authSelectors, authActions } from '@lib/slices/auth';
 
 const Wrapper = styled.form`
   padding: 20px 5vw;

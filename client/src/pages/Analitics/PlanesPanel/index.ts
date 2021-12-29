@@ -1,3 +1,1 @@
-import { PlanesPanel } from './PlanesPanel';
-
-export { PlanesPanel };
+export { PlanesPanel } from './PlanesPanel';

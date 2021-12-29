@@ -1,12 +1,12 @@
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
 import { bounceInUp } from 'react-animations';
-import { CollapsedItem } from '../../Components/CollapsedItem';
+import { CollapsedItem } from '@components/CollapsedItem';
 import { licPO, menus } from './menus';
 import { useCallback, useState } from 'react';
-import { Accordion } from '../../Components/Accordion/Accordion';
-import { Slider } from '../../Components/Slider/Slider';
-import { Space } from './Space/Space';
+import { Accordion } from '@components/Accordion/Accordion';
+import { Slider } from '@components/Slider/Slider';
+import { Space } from './Space';
 
 const bounceShow = keyframes`${bounceInUp}`;
 

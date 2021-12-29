@@ -2,8 +2,8 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { InputField } from '../../../Components/InputField';
-import { Shop, shopActions } from '../../../lib/slices/shop';
+import { InputField } from '@components/InputField';
+import { Shop, shopActions } from '@lib/slices/shop';
 
 type Props = {
   shop?: Shop;

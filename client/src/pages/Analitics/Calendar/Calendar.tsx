@@ -1,14 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 import { CalendarDay } from './CalendarDay';
-import { Planes } from '../../../lib/slices/planes/planes.type';
-import { Sales } from '../../../lib/slices/sales/sales.type';
-import { getCalcFns } from '../../../lib/common';
-import { User } from '../../../lib/slices/users';
+import { Planes } from '@lib/slices/planes';
+import { Sales, salesSelectors } from '@lib/slices/sales';
+import { getCalcFns } from '@lib/common';
+import { User } from '@lib/slices/users';
 import { WeekTitle } from './WeekTitle';
-import { useTypedSelector } from '../../../lib/hooks';
-import { salesSelectors } from '../../../lib/slices/sales';
-import { Shop } from '../../../lib/slices/shop';
+import { useTypedSelector } from '@lib/hooks';
+import { Shop } from '@lib/slices/shop';
 import { WeekToWeek } from './WeekToWeek';
 
 type Props = {

@@ -1,3 +1,1 @@
-import { Salesmans } from './Salesmans';
-
-export { Salesmans };
+export { Salesmans } from './Salesmans';

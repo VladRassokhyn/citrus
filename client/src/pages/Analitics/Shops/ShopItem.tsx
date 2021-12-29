@@ -1,11 +1,11 @@
 import styled from 'styled-components';
-import { Confirm } from '../../../Components/Confirm';
-import { Shop } from '../../../lib/slices/shop';
-import trash from '../../../static/trash.svg';
-import edit from '../../../static/edit.svg';
+import { Confirm } from '@components/Confirm';
+import { Shop } from '@lib/slices/shop';
+import trash from '@static/trash.svg';
+import edit from '@static/edit.svg';
 import React, { useState } from 'react';
 import { NewShopForm } from './NewShopForm';
-import { Modal } from '../../../Components/Modal';
+import { Modal } from '@components/Modal';
 
 type Props = {
   shop: Shop;

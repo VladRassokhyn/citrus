@@ -1,13 +1,13 @@
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
-import { Checklist } from '../../lib/slices/checklist';
-import viewList from '../../static/viewList.svg';
-import trash from '../../static/trash.svg';
+import { Checklist } from '@lib/slices/checklist';
+import viewList from '@static/viewList.svg';
+import trash from '@static/trash.svg';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { checklistActions } from '../../lib/slices/checklist';
-import { Confirm } from '../../Components/Confirm';
-import { paths } from '../../lib/routing';
+import { checklistActions } from '@lib/slices/checklist';
+import { Confirm } from '@components/Confirm';
+import { paths } from '@lib/routing';
 
 type Props = {
   checklist: Checklist;

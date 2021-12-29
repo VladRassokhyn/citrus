@@ -2,8 +2,8 @@ import { format } from 'date-fns';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { Todo, todoActions } from '../../../lib/slices/todo';
-import { User } from '../../../lib/slices/users';
+import { Todo, todoActions } from '@lib/slices/todo';
+import { User } from '@lib/slices/users';
 
 type Props = {
   authUser: User;

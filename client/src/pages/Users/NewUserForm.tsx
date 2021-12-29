@@ -3,11 +3,11 @@ import styled from 'styled-components';
 import Selector from 'react-select';
 import { useDispatch } from 'react-redux';
 import { Controller, useForm } from 'react-hook-form';
-import { FixLater, LoadingStatuses, UserRoles } from '../../lib/globalTypes';
-import { User, userActions, userSelectors } from '../../lib/slices/users';
-import { useTypedSelector } from '../../lib/hooks';
-import { InputField } from '../../Components/InputField';
-import { shopSelectors } from '../../lib/slices/shop';
+import { FixLater, LoadingStatuses, UserRoles } from '@lib/globalTypes';
+import { User, userActions, userSelectors } from '@lib/slices/users';
+import { useTypedSelector } from '@lib/hooks';
+import { InputField } from '@components/InputField';
+import { shopSelectors } from '@lib/slices/shop';
 
 type Props = {
   user?: User;

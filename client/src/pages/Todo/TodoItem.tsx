@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useTypedSelector } from '../../lib/hooks';
-import { Todo } from '../../lib/slices/todo';
-import { userSelectors } from '../../lib/slices/users';
-import comment from '../../static/comment.svg';
+import { useTypedSelector } from '@lib/hooks';
+import { Todo } from '@lib/slices/todo';
+import { userSelectors } from '@lib/slices/users';
+import comment from '@static/comment.svg';
 
 type Props = {
   todo: Todo;

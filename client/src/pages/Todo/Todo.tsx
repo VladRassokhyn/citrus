@@ -1,15 +1,13 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { Preloader } from '../../Components/Preloader';
-import { LoadingStatuses, UserRoles } from '../../lib/globalTypes';
-import { useTypedSelector } from '../../lib/hooks';
-import { todoActions, todoSelectors } from '../../lib/slices/todo';
-import { TodoPayload, Todo as TodoType } from '../../lib/slices/todo/todo.type';
-import { User, userActions, userSelectors } from '../../lib/slices/users';
+import { Preloader } from '@components/Preloader';
+import { LoadingStatuses, UserRoles } from '@lib/globalTypes';
+import { useTypedSelector } from '@lib/hooks';
+import { todoActions, todoSelectors, TodoPayload, Todo as TodoType } from '@lib/slices/todo';
+import { User, userActions, userSelectors } from '@lib/slices/users';
 import { NewTodoForm } from './NewTodoForm';
 import { TodoItem } from './TodoItem';
-import { FormTypes } from './types';
 import { ViewTodo } from './ViewTodo';
 
 type Props = {
@@ -136,7 +134,6 @@ export const Todo = (props: Props): JSX.Element => {
 
       {isCreateMode && (
         <NewTodoForm
-          type={FormTypes.CREATE}
           onClose={closeSide}
           isClosing={isClosing}
           authUser={props.authUser}

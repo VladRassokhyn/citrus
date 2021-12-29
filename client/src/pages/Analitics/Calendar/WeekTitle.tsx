@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import { getDaysFormated } from '../../../lib/common';
-import { useTypedSelector } from '../../../lib/hooks';
-import { salesSelectors } from '../../../lib/slices/sales';
+import { getDaysFormated } from '@lib/common';
+import { useTypedSelector } from '@lib/hooks';
+import { salesSelectors } from '@lib/slices/sales';
 
 type Props = {
   size?: string;
