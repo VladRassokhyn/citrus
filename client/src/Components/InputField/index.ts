@@ -1,3 +1,2 @@
-import { InputField } from './InputField';
+export { InputField } from './InputField';
 
-export { InputField };

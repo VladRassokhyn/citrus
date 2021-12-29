@@ -1,8 +1,7 @@
-import React, { TouchEvent } from 'react';
-import { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, TouchEvent, useEffect, useState } from 'react';
 import styled, { keyframes, Keyframes } from 'styled-components';
-import arrowLeft from '../../static/arrowLeft.svg';
-import arrowRight from '../../static/arrowRight.svg';
+import arrowLeft from '@static/arrowLeft.svg';
+import arrowRight from '@static/arrowRight.svg';
 
 type Props = {
   children: JSX.Element[];

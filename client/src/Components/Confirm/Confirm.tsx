@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
-import { Modal } from '../Modal';
+import { Modal } from '@components/Modal';
 
 type Props = {
   confirmFn: () => void;

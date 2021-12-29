@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { FixLater } from '../../lib/globalTypes';
+import { FixLater } from '@lib/globalTypes';
 
 type Props = {
   handleChange?: () => void;

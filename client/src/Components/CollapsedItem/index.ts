@@ -1,3 +1,1 @@
-import { CollapsedItem } from './CollapsedItem';
-
-export { CollapsedItem };
+export { CollapsedItem } from './CollapsedItem';

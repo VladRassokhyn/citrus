@@ -1,3 +1,1 @@
-import { DayRange } from './DayRange';
-
-export { DayRange };
+export { DayRange } from './DayRange';

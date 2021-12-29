@@ -1,3 +1,1 @@
-import { Screenshot } from './Screenshot';
-
-export { Screenshot };
+export { Screenshot } from './Screenshot';

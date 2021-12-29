@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import Select from 'react-select';
-import { FixLater } from '../../lib/globalTypes';
+import { FixLater } from '@lib/globalTypes';
 
 type Props = {
   options: { value: string | number; label: string }[];

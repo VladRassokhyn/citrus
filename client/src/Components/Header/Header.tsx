@@ -1,12 +1,12 @@
 import React, { useCallback, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
-import { useTypedSelector } from '../../lib/hooks';
-import { authActions, authSelectors } from '../../lib/slices/auth';
+import { useTypedSelector } from '@lib/hooks';
+import { authActions, authSelectors } from '@lib/slices/auth';
 import { slideInRight } from 'react-animations';
 import { useDispatch } from 'react-redux';
-import home from '../../static/home.svg';
-import { paths } from '../../lib/routing';
+import home from '@static/home.svg';
+import { paths } from '@lib/routing';
 
 type H1Props = {
   goLeft?: boolean;
