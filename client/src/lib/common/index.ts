@@ -1,5 +1,2 @@
-import { getCalcFns } from './calcFns';
-import { getDaysFormated } from './getDaysFormated';
-
-export { getCalcFns };
-export { getDaysFormated };
+export { getCalcFns } from './calcFns';
+export { getDaysFormated } from './getDaysFormated';

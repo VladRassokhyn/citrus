@@ -1,11 +1,11 @@
 import React from 'react';
 import { Redirect, Route, Switch } from 'react-router';
-import { paths } from '.';
-import { User } from '../slices/users';
-import { useTypedSelector } from '../hooks';
-import { authSelectors } from '../slices/auth';
+import { paths } from './paths';
+import { User } from '@lib/slices/users';
+import { useTypedSelector } from '@lib/hooks';
+import { authSelectors } from '@lib/slices/auth';
 import { RouteItem } from './types';
-import { shopSelectors } from '../slices/shop';
+import { shopSelectors } from '@lib/slices/shop';
 
 type Props = {
   routes: RouteItem[];

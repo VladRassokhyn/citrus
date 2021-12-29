@@ -1,18 +1,19 @@
-import { Login } from '../../pages/Login/Login';
-import { CmMenu } from '../../pages/CM';
-import { Main } from '../../pages/Main';
-import { Analitic, EveningReport } from '../../pages/Analitics';
-import { User, Users } from '../../pages/Users';
-import { Checklist, Checklists } from '../../pages/Checklists';
-import { MainAnalitics } from '../../pages/Analitics/Main';
-import { Salesmans } from '../../pages/Analitics/Salesmans';
-import { DayDetail } from '../../pages/Analitics/DayDetail';
+import { Login } from '@pages/Login';
+import { CmMenu } from '@pages/CM';
+import { Main } from '@pages/Main';
+import { Analitic } from '@pages/Analitics';
+import { EveningReport } from '@pages/Analitics/EveningReport';
+import { User, Users } from '@pages/Users';
+import { Checklist, Checklists } from '@pages/Checklists';
+import { MainAnalitics } from '@pages/Analitics/Main';
+import { Salesmans } from '@pages/Analitics/Salesmans';
+import { DayDetail } from '@pages/Analitics/DayDetail';
 import { paths } from './paths';
-import { Shops } from '../../pages/Analitics/Shops';
-import { PeriodToPeriod } from '../../pages/Analitics/PeriodToPeriod';
-import { Todo } from '../../pages/Todo';
+import { Shops } from '@pages/Analitics/Shops';
+import { PeriodToPeriod } from '@pages/Analitics/PeriodToPeriod';
+import { Todo } from '@pages/Todo';
 import { RouteItem } from './types';
-import { SalesByPeriod } from '../../pages/Analitics/SalesByPeriod';
+import { SalesByPeriod } from '@pages/Analitics/SalesByPeriod';
 
 export const analyticsRoutes: RouteItem[] = [
   {

@@ -1,6 +1,4 @@
 export { routes, analyticsRoutes } from './routes';
-import { paths } from './paths';
-import { RouterController } from './RouterController';
-
-export { paths, RouterController };
+export { paths } from './paths';
+export { RouterController } from './RouterController';
 export type { RouteItem } from './types';

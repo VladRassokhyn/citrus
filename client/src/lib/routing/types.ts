@@ -1,6 +1,6 @@
-import { UserRoles } from '../globalTypes';
-import { Shop } from '../slices/shop';
-import { User } from '../slices/users';
+import { UserRoles } from '@lib/globalTypes';
+import { Shop } from '@lib/slices/shop';
+import { User } from '@lib/slices/users';
 
 type Props = {
   authUser: User;

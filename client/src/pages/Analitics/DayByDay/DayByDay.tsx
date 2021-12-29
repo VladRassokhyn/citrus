@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Sales, SalesIndexes } from '../../../lib/slices/sales';
+import { Sales, SalesIndexes } from '@lib/slices/sales';
+import { ServicesColors } from '@lib/globalTypes';
 import { BarChart, CartesianGrid, XAxis, YAxis, Tooltip, Bar, ResponsiveContainer } from 'recharts';
-import { ActiveOptions, Btns, DefoultColors } from './config';
-import { ServicesColors } from '../../../lib/globalTypes';
+import { ActiveOptions, Btns } from './config';
 
 type Props = {
   days: string[];
@@ -85,14 +85,15 @@ export const DayByDay = (props: Props): JSX.Element => {
       ['ЦМ']: sales[i]?.ttSales[SalesIndexes.CM] || 0,
       ['ЦЗ']: sales[i]?.ttSales[SalesIndexes.CZ] || 0,
       ['ЦА']: sales[i]?.ttSales[SalesIndexes.CA] || 0,
-      ['Доля ЦМ']:
-        (
-          (sales[i]?.ttSales[SalesIndexes.CM] / sales[i]?.ttSales[SalesIndexes.DEVICES]) *
-          100
-        ).toFixed(2) || 0,
+      ['Доля ЦМ']: (
+        ((sales[i]?.ttSales[SalesIndexes.CM] || 0) /
+          (sales[i]?.ttSales[SalesIndexes.DEVICES] || 1)) *
+        100
+      ).toFixed(2),
       ['Доля ЦЗ']:
         (
-          (sales[i]?.ttSales[SalesIndexes.CZ] / sales[i]?.ttSales[SalesIndexes.DEVICES]) *
+          ((sales[i]?.ttSales[SalesIndexes.CZ] || 0) /
+            (sales[i]?.ttSales[SalesIndexes.DEVICES] || 1)) *
           100
         ).toFixed(2) || 0,
     };

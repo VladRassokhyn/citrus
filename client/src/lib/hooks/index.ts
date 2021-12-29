@@ -1,3 +1,1 @@
-import { useTypedSelector } from './useTypedSelector';
-
-export { useTypedSelector };
+export { useTypedSelector } from './useTypedSelector';

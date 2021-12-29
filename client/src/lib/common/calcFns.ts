@@ -1,4 +1,4 @@
-import { Sales, SalesTuple } from '../slices/sales';
+import { Sales, SalesTuple } from '@lib/slices/sales';
 
 type Arg = number | string | undefined | null;
 

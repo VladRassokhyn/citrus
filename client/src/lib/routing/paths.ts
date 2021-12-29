@@ -1,4 +1,4 @@
-import { pathMaker } from './pathMaker';
+import { pathMaker } from '../common/pathMaker';
 
 export const paths = {
   BASE: pathMaker('/'),
