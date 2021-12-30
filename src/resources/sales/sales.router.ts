@@ -135,7 +135,7 @@ router.route('/:id').delete(async (req, res) => {
 
 export const salesRouter = router;
 
-function parse(input: string) {
+export function parse(input: string) {
   const inputToArray = input.split('+');
   let result: (string | number)[][] = [];
   let tmp: string[] = [];

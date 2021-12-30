@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.salesRouter = void 0;
+exports.parse = exports.salesRouter = void 0;
 const Shop_model_1 = require("./../../entities/Shop.model");
 const entities_1 = require("./../../entities");
 const typeorm_1 = require("typeorm");
@@ -157,3 +157,4 @@ function parse(input) {
     });
     return result;
 }
+exports.parse = parse;

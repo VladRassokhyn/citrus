@@ -15,6 +15,7 @@ import {
 } from './resources';
 import { shopRouter } from './resources/Shop';
 import { checkJwt } from './meddleware';
+import { ratingRouter } from './resources/rating/rating.router';
 
 envConfig();
 
@@ -55,6 +56,7 @@ app.use('/api/todo', [checkJwt], todoRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/shops', shopRouter);
 app.use('/api/users', userRouter);
+app.use('/api/raiting', ratingRouter);
 app.use('/api/sales', [checkJwt], salesRouter);
 app.use('/api/planes', [checkJwt], planesRouter);
 app.use('/api/salesman', [checkJwt], salesmanRouter);
