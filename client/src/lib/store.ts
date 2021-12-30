@@ -9,6 +9,7 @@ import { salesReducer } from '@lib/slices/sales';
 import { salesmanReducer } from '@lib/slices/salesman';
 import { usersReducer, oneUserReducer } from '@lib/slices/users';
 import { shopReducer } from '@lib/slices/shop';
+import { raitingReducer } from './slices/raiting';
 
 const sagaMiddleware = createSagaMiddleware();
 const middleware = [...getDefaultMiddleware({ thunk: false }), sagaMiddleware];
@@ -24,6 +25,7 @@ export const store = configureStore({
     sales: salesReducer,
     shops: shopReducer,
     todo: todoReducer,
+    raiting: raitingReducer,
   },
   middleware,
 });

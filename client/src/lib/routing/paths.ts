@@ -41,5 +41,8 @@ export const paths = {
     SALES_BY_PERIOD: {
       BASE: pathMaker('/analytics/sales-by-period'),
     },
+    RAITING: {
+      BASE: pathMaker('/analytics/raiting'),
+    },
   },
 };

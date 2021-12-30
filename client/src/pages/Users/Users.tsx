@@ -27,11 +27,6 @@ export const Users = (): JSX.Element => {
   const authUser = useTypedSelector(authSelectors.authUser);
   const dispatch = useDispatch();
 
-  const users =
-    authUser?.role === UserRoles.ADMIN
-      ? allUsers
-      : allUsers.filter((user) => user.role === UserRoles.SALESMAN);
-
   const isAdminOrManager =
     authUser && (authUser.role === UserRoles.ADMIN || authUser.role === UserRoles.MANAGER);
 
@@ -39,7 +34,7 @@ export const Users = (): JSX.Element => {
     authUser && dispatch(userActions.getUsers(authUser.shop.id));
   }, []);
 
-  if (usersStatus === LoadingStatuses.LOADING || !users) {
+  if (usersStatus === LoadingStatuses.LOADING || !allUsers) {
     return <Preloader />;
   }
 
@@ -55,7 +50,7 @@ export const Users = (): JSX.Element => {
         </Accordion>
       )}
       <div>
-        {users.map((user, index) => (
+        {allUsers.map((user, index) => (
           <Accordion
             titleBgColor={'#f1f1f1'}
             key={user.id}

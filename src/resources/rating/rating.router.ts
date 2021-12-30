@@ -12,7 +12,7 @@ router.route('/').get(async (req, res) => {
   const salesmanRepo = getRepository(Salesman);
 
   const salesmans = await salesmanRepo.find();
-  const allsales = await salesRepo.find({ month, year });
+  const allsales = await salesRepo.find({ month, year, tt: 'KIEV_ALL' });
 
   const salesmansNames = salesmans.map((salesman) => salesman.name);
 
@@ -48,7 +48,6 @@ router.route('/').get(async (req, res) => {
       });
       return acc;
     }, salesByName[0]);
-    console.log(res);
     result.push(res);
   });
 

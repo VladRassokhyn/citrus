@@ -12,7 +12,7 @@ router.route('/').get(async (req, res) => {
     const salesRepo = (0, typeorm_1.getRepository)(entities_1.Sales);
     const salesmanRepo = (0, typeorm_1.getRepository)(entities_1.Salesman);
     const salesmans = await salesmanRepo.find();
-    const allsales = await salesRepo.find({ month, year });
+    const allsales = await salesRepo.find({ month, year, tt: 'KIEV_ALL' });
     const salesmansNames = salesmans.map((salesman) => salesman.name);
     const sales1 = [];
     allsales.forEach((item) => {
@@ -45,7 +45,6 @@ router.route('/').get(async (req, res) => {
             });
             return acc;
         }, salesByName[0]);
-        console.log(res);
         result.push(res);
     });
     res.send(result);

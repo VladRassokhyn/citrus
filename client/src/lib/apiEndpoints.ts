@@ -37,4 +37,7 @@ export const ENDPOINTS = {
     BASE: pathMaker('/users'),
     BY_ID: pathMaker('/users/:id'),
   },
+  RAITING: {
+    BASE: pathMaker('/raiting'),
+  },
 };
