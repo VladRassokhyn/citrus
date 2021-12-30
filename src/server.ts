@@ -42,6 +42,7 @@ const rootUrls = [
   '/analytics/salesmans',
   '/analytics/period-to-period',
   '/analytics/sales-by-period',
+  '/analytics/raiting',
 ];
 
 app.use('/', (req: Request, res: Response, next: NextFunction) => {
