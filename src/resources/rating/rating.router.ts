@@ -30,7 +30,7 @@ router.route('/').get(async (req, res) => {
     });
   });
 
-  let result: any = [];
+  const result: any = [];
   salesmansNames.forEach((name) => {
     const salesByName: any = [];
     sales.forEach((sale) => {
@@ -38,18 +38,23 @@ router.route('/').get(async (req, res) => {
         salesByName.push(sale);
       }
     });
-    const res = salesByName.reduce((acc: any, curr: any) => {
-      acc.forEach((cell: any, index: number) => {
-        if (index !== 0) {
-          acc[index] += curr[index];
-        } else {
-          acc[index] = curr[index];
-        }
-      });
-      return acc;
-    }, salesByName[0]);
+    const res = salesByName.reduce(
+      (acc: any, curr: any) => {
+        acc.forEach((cell: any, index: number) => {
+          if (index !== 0) {
+            acc[index] = parseInt(acc[index]) + parseInt(curr[index]);
+          } else {
+            acc[index] = curr[index];
+          }
+        });
+        return acc;
+      },
+      ['', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    );
     result.push(res);
   });
+
+  result.sort((a: any, b: any) => b[8] - a[8]);
 
   res.send(result);
 });
