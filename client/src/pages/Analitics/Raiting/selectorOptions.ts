@@ -18,7 +18,7 @@ export const selectorOptions = [
     value: SalesIndexes.CZ,
   },
   {
-    label: 'ЦЗ',
+    label: 'ЦА',
     value: SalesIndexes.CA,
   },
 ];

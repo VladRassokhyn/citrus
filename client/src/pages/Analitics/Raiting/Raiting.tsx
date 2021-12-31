@@ -14,21 +14,47 @@ type Props = {
   authUser: User;
 };
 
-const Wrapper = styled.div``;
+type StyleProps = {
+  isHead?: boolean;
+};
 
-const Row = styled.div`
-  display: flex;
-  flex-direction: row;
+const Wrapper = styled.div`
+  width: 500px;
+  padding: 15px 3%;
+  @media (max-width: 560px) {
+    width: 90%;
+  }
 `;
 
-const H2 = styled.h1`
-  font-size: 10pt;
-  width: 100px;
+const Row = styled.div<StyleProps>`
+  display: grid;
+  height: 30px;
+  grid-template-columns: ${(props) => (props.isHead ? '70% 30%' : '10% 65% 25%')};
+  align-items: center;
+  margin-bottom: ${(props) => props.isHead && '20px'};
+  &:nth-child(even) {
+    background-color: #e1e1e1;
+  }
 `;
 
-const H1 = styled.h1`
+const HeadTitle = styled.h1`
+  font-size: 14pt;
+  color: var(--color-button);
+`;
+
+const Name = styled.h1`
   font-size: 10pt;
-  width: 400px;
+  color: var(--color-stroke);
+`;
+
+const Value = styled.h1`
+  font-size: 12pt;
+  text-align: center;
+`;
+
+const Place = styled.h1`
+  font-size: 12pt;
+  text-align: center;
 `;
 
 export const Raiting = (props: Props): JSX.Element => {
@@ -56,22 +82,25 @@ export const Raiting = (props: Props): JSX.Element => {
 
   return (
     <Wrapper>
-      <Row>
-        <h4>service: </h4>
+      <Row isHead>
+        <HeadTitle>Рейтинг по категории :</HeadTitle>
         <Selector
           options={selectorOptions}
           onChange={onChange}
           defaultValue={{ label: 'ЦМ', value: SalesIndexes.CM }}
         />
       </Row>
-      {sales?.map((sale: any, i: number) => {
-        return (
-          <Row key={sale[0]}>
-            <h5>{i + 1}. </h5>
-            <H1>{sale[0]}</H1>
-            <H2>{sale[category]}</H2>
-          </Row>
-        );
+      {sales?.map((sale: any[], i: number) => {
+        if (i < 30)
+          return (
+            <Row key={sale[0]}>
+              <Place>{i + 1}.</Place>
+              <Name>
+                {sale[0].split(' ')[0]} {sale[0].split(' ')[1]}
+              </Name>
+              <Value>{sale[category].toLocaleString('ru')}</Value>
+            </Row>
+          );
       })}
     </Wrapper>
   );
