@@ -28,7 +28,21 @@ const raitingSlice = createSlice({
     },
     sortBy(state, action: Action<number>) {
       if (state.sales) {
-        state.sales = state.sales.sort((a: any, b: any) => b[action.payload] - a[action.payload]);
+        if (action.payload === 9) {
+          state.sales = state.sales.sort(
+            (a: any, b: any) => (b[8] / b[1]) * 100 - (a[8] / a[1]) * 100,
+          );
+        } else if (action.payload === 11) {
+          state.sales = state.sales.sort(
+            (a: any, b: any) => (b[10] / b[1]) * 100 - (a[10] / a[1]) * 100,
+          );
+        } else if (action.payload === 18) {
+          state.sales = state.sales.sort(
+            (a: any, b: any) => b[8] + b[10] + b[12] - (a[8] + a[10] + a[12]),
+          );
+        } else {
+          state.sales = state.sales.sort((a: any, b: any) => b[action.payload] - a[action.payload]);
+        }
       }
     },
   },

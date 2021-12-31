@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import Selector from 'react-select';
-import { selectorOptions } from './selectorOptions';
+import { selectorOptions, getRaitingItems } from './config';
 
 type Props = {
   authUser: User;
@@ -80,6 +80,8 @@ export const Raiting = (props: Props): JSX.Element => {
     setCategory(e.value);
   };
 
+  const raitingItems = getRaitingItems(sales, category);
+
   return (
     <Wrapper>
       <Row isHead>
@@ -90,15 +92,13 @@ export const Raiting = (props: Props): JSX.Element => {
           defaultValue={{ label: 'ЦМ', value: SalesIndexes.CM }}
         />
       </Row>
-      {sales?.map((sale: any[], i: number) => {
+      {raitingItems.map((sale, i) => {
         if (i < 30)
           return (
-            <Row key={sale[0]}>
+            <Row key={sale.name}>
               <Place>{i + 1}.</Place>
-              <Name>
-                {sale[0].split(' ')[0]} {sale[0].split(' ')[1]}
-              </Name>
-              <Value>{sale[category].toLocaleString('ru')}</Value>
+              <Name>{sale.name}</Name>
+              <Value>{sale.value.toLocaleString('ru')}</Value>
             </Row>
           );
       })}
