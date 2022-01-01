@@ -8,7 +8,7 @@ type Props = {
   register?: FixLater;
   label?: string;
   password?: boolean;
-  value?: string;
+  value?: string | number;
   isError?: boolean;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   vertical?: boolean;

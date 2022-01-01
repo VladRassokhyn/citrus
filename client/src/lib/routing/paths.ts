@@ -44,5 +44,8 @@ export const paths = {
     RAITING: {
       BASE: pathMaker('/analytics/raiting'),
     },
+    RATIOS: {
+      BASE: pathMaker('/analytics/ratios'),
+    },
   },
 };

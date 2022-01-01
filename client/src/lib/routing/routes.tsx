@@ -15,6 +15,7 @@ import { Todo } from '@pages/Todo';
 import { RouteItem } from './types';
 import { SalesByPeriod } from '@pages/Analitics/SalesByPeriod';
 import { Raiting } from '@pages/Analitics/Raiting';
+import { Ratios } from '@pages/Analitics/Ratios';
 
 export const analyticsRoutes: RouteItem[] = [
   {
@@ -51,6 +52,16 @@ export const analyticsRoutes: RouteItem[] = [
     label: 'Период к периоду',
     path: paths.ANALYTICS.PERIOD_TO_PERIOD.BASE(),
     component: PeriodToPeriod,
+    navigationVisible: true,
+    exact: true,
+    private: true,
+    roles: null,
+    routes: [],
+  },
+  {
+    label: 'Соотношения',
+    path: paths.ANALYTICS.RATIOS.BASE(),
+    component: Ratios,
     navigationVisible: true,
     exact: true,
     private: true,

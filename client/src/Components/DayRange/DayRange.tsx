@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { getDaysFormated } from '@lib/common';
 import { WeekTitle } from '@pages/Analitics/Calendar/WeekTitle';
+import { useTypedSelector } from '@lib/hooks';
+import { salesSelectors } from '@lib/slices/sales';
 
 type Props = {
   from: number;
@@ -72,9 +74,10 @@ const Days = styled.div<StyleProps>`
 `;
 
 export const DayRange = (props: Props): JSX.Element => {
+  const { month, year } = useTypedSelector(salesSelectors.monthAndYear);
   const { from, to, changeFrom, changeTo, activeDays, size } = props;
   const [isFromChanged, setIsFromChanged] = useState(false);
-  const days = getDaysFormated(new Date().getMonth(), new Date().getFullYear());
+  const days = getDaysFormated(month, year);
 
   const handleChange = (day: number) => {
     if (!isFromChanged) {

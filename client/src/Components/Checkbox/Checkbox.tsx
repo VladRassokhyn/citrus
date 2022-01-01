@@ -27,12 +27,18 @@ const H1 = styled.h1<WrapperProps>`
 `;
 
 const Wrapper = styled.div<WrapperProps>`
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  padding: 3px 7px;
   display: flex;
   flex-direction: row;
   align-items: center;
   background-color: ${(props) => props.value && 'var(--color-button)'};
   width: ${(props) => props.fullSize && '100%'};
   height: 30px;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const Input = styled.input`

@@ -4,10 +4,11 @@ import { FixLater } from '@lib/globalTypes';
 
 type Props = {
   options: { value: string | number; label: string }[];
-  name: string;
+  name?: string;
   handleChange?: (...args: FixLater) => void;
   directionColumn?: boolean;
   label: string;
+  defaultValue?: { value: string | number; label: string };
 };
 
 type StyleProps = {
@@ -16,6 +17,7 @@ type StyleProps = {
 
 const Wrapper = styled.div<StyleProps>`
   padding: 10px 5%;
+  width: 100%;
   display: flex;
   flex-direction: ${(props) => (props.directionColumn ? 'column' : 'row')};
   justify-content: space-between;
@@ -32,13 +34,19 @@ const Label = styled.h1`
 `;
 
 export const SelectField = (props: Props): JSX.Element => {
-  const { directionColumn, options, name, handleChange, label } = props;
+  const { directionColumn, options, name, handleChange, label, defaultValue } = props;
 
   return (
     <Wrapper directionColumn={directionColumn}>
       <Label>{label}</Label>
       <div style={{ width: '100%' }}>
-        <Select placeholder={'Выбор'} name={name} options={options} onChange={handleChange} />
+        <Select
+          placeholder={'Выбор'}
+          defaultValue={defaultValue}
+          name={name}
+          options={options}
+          onChange={handleChange}
+        />
       </div>
     </Wrapper>
   );
