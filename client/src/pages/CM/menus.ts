@@ -102,8 +102,8 @@ export const menus: Menus[] = [
               },
               {
                 id: uuid(),
-                title: 'Родительский контроль',
-                description: 'Лицензия Kroha 12мес.',
+                title: 'Навигация',
+                description: 'Лицензия Navlux 12мес.',
               },
               {
                 id: uuid(),
@@ -1171,6 +1171,19 @@ export const licPO: LicPo = [
       },
     ],
     link: 'https://drive.google.com/file/d/1TqmKpnFc5YRHtZVJXLIgokW54URvhRZ0/view',
+  },
+  {
+    id: uuid(),
+    title: 'NavLux',
+    types: [
+      {
+        id: uuid(),
+        title: 'NavLux',
+        price: 299,
+        period: '1 год',
+      },
+    ],
+    link: '',
   },
   {
     id: uuid(),

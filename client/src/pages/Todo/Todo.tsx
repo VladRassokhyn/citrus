@@ -9,9 +9,14 @@ import { User, userActions, userSelectors } from '@lib/slices/users';
 import { NewTodoForm } from './NewTodoForm';
 import { TodoItem } from './TodoItem';
 import { ViewTodo } from './ViewTodo';
+import { TodoFilters } from './TodoFilters';
 
 type Props = {
   authUser: User;
+};
+
+type StyleProps = {
+  active?: boolean;
 };
 
 const Wrapper = styled.div`
@@ -42,9 +47,15 @@ const H1 = styled.h1`
   color: white;
 `;
 
-const Button = styled.button`
-  background-color: var(--color-button);
-  color: white;
+const Buttons = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`;
+
+const Button = styled.button<StyleProps>`
+  background-color: ${(props) => (props.active ? 'var(--color-button)' : '#f1f1f1')};
+  color: ${(props) => (props.active ? 'white' : 'black')};
   width: 200px;
   height: 30px;
   border: 0;
@@ -66,6 +77,7 @@ export const Todo = (props: Props): JSX.Element => {
   const [isCreateMode, setIsCreateMode] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const [currentTodo, setCurrentTodo] = useState<TodoType | null>(null);
+  const [showFilters, setShowFilters] = useState(false);
 
   const isTodoLoading = todoStatus === LoadingStatuses.LOADING;
   const isUsersLoading = usersStatus === LoadingStatuses.LOADING;
@@ -97,13 +109,23 @@ export const Todo = (props: Props): JSX.Element => {
     return <Preloader />;
   }
 
+  const showFiltersToggle = () => setShowFilters((prev) => !prev);
+
   const todosToRender = todos?.map((todo, i) => (
     <TodoItem even={i % 2 !== 0} key={todo.id} todo={todo} setCurrentTodo={setCurrentTodo} />
   ));
 
   return (
     <Wrapper>
-      <Button onClick={openSide}>Добавить заявку</Button>
+      <Buttons>
+        <Button onClick={showFiltersToggle} active={!showFilters}>
+          {!showFilters ? 'Показать фильтры' : 'Скрыть фильтры'}
+        </Button>
+        <Button onClick={openSide} active>
+          Добавить заявку
+        </Button>
+      </Buttons>
+      <TodoFilters isOpen={showFilters} />
       <Todos>
         <TodosHeader>
           <HeaderItem>

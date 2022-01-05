@@ -103,7 +103,7 @@ const Settings = styled.div<StyleProps>`
   transition: height 0.3s;
 `;
 
-const SettingsContent = styled.div`
+const SettingsContent = styled.div<StyleProps>`
   padding: 1% 5%;
   width: 90%;
   height: 85%;
@@ -111,6 +111,7 @@ const SettingsContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+  display: ${(props) => (props.isOpen ? 'flex' : 'none')};
 `;
 
 const SettingRow = styled.div`
@@ -170,7 +171,7 @@ export const Ratios = (props: Props): JSX.Element => {
           <Img src={settings} onClick={settingsToggle} />
         </Selectors>
         <Settings isOpen={settingsOpen}>
-          <SettingsContent>
+          <SettingsContent isOpen={settingsOpen}>
             <SettingRow>
               <Checkbox
                 value={withLag}

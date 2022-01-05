@@ -74,6 +74,7 @@ export const PeriodToPeriod = (): JSX.Element => {
   const firstSales = useTypedSelector(salesSelectors.salsesByRange(firstDayFrom, firstDayTo));
   const secondSales = useTypedSelector(salesSelectors.salsesByRange(secondDayFrom, secondDayTo));
   const salesLength = useTypedSelector(salesSelectors.salesLength);
+  console.log(salesLength);
   const planes = useTypedSelector(planesSelectors.planes);
   const { month, year } = useTypedSelector(salesSelectors.monthAndYear);
   const salesman = useTypedSelector(salesmanSelectors.salesmanById(params.salesmanId));

@@ -60,6 +60,10 @@ const todoSlice = createSlice({
     setError(state) {
       state.status = LoadingStatuses.ERROR;
     },
+
+    sortByDate(state, action: Action<string>) {
+      state.todos;
+    },
   },
 });
 
