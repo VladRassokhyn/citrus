@@ -75,7 +75,7 @@ export const getCalcFns = (argDay?: number | string, argMonth?: number | string)
       if (!sales || !plane || typeof plane === 'string') {
         return 0;
       }
-      return +((this.forecastSumm(sales, d ? d : day) / plane) * 100).toFixed(2);
+      return +((((+sales / (d ? d : day)) * dayCount) / plane) * 100).toFixed(2);
     },
 
     growthForecast: function (plane: Arg, salesByDay: Arg, salesBymonth: Arg, d?: number): number {

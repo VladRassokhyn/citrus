@@ -40,7 +40,7 @@ export const EveningReport = (props: Props): JSX.Element => {
           sales={sales}
           currentShop={props.currentShop}
           day={dayTo}
-          month={parseInt(sales[0].day.split('.')[1])}
+          month={parseInt(sales[0].day.split('.')[1]) - 1}
         />
       ) : (
         <h1>no sales for this range</h1>
