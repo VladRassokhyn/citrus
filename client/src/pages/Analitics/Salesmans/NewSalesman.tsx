@@ -40,7 +40,7 @@ export const NewSalesman = (props: Props): JSX.Element => {
   const handleSave = useCallback(() => {
     dispatch(
       salesmanActions.postSalesman({
-        name: value,
+        name: value.trim(),
         tt: props.currentShop.name,
       }),
     );
