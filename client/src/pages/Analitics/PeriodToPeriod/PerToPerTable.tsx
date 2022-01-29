@@ -77,12 +77,8 @@ export const PerToPerTable = (props: Props): JSX.Element => {
   const columns = getColumns({ per1, per2, shops: isPPC ? shops : null, service });
 
   const names = sales1.sales.map((s1) => s1[SalesIndexes.NAME]);
-
-  sales2.sales.forEach((s2) => {
-    if (!names.includes(s2[SalesIndexes.NAME])) {
-      names.push(s2[SalesIndexes.NAME]);
-    }
-  });
+  const names2 = sales2.sales.map((s2) => s2[SalesIndexes.NAME]);
+  names.concat(names2);
 
   names.sort((name1, name2) => {
     const row1name1 = sales1.sales.find((s1) => s1[SalesIndexes.NAME] === name1) || [];
@@ -143,7 +139,7 @@ export const PerToPerTable = (props: Props): JSX.Element => {
               <h5>{column.fn(sales1.ttSales, sales2.ttSales).toLocaleString('ru')}</h5>
             </Cell>
 
-            {names.map((name) => {
+            {names.map((name, n) => {
               const row1 = sales1.sales.find((s1) => s1[SalesIndexes.NAME] === name) || [];
               const row2 = sales2.sales.find((s1) => s1[SalesIndexes.NAME] === name) || [];
               const result =
@@ -177,15 +173,15 @@ function getColumns(args: { per1: string; per2: string; shops: Shop[] | null; se
     {
       title: 'ФИО',
       fn: (sales1: (string | number)[], sales2: (string | number)[]) => {
-        if (sales1[SalesIndexes.NAME] && sales2[SalesIndexes.NAME]) {
-          if (shops) {
-            const shop = shops.find((sh) => sh.name_1c === sales1[SalesIndexes.NAME]);
-            return shop?.shortName || '';
+        if (shops) {
+          const shop = shops.find((sh) => sh.name_1c === sales1[SalesIndexes.NAME]);
+          return shop?.shortName || '';
+        } else {
+          if (sales1[SalesIndexes.NAME]) {
+            return `${String(sales1[SalesIndexes.NAME]).split(' ')[0]}`;
           } else {
             return `${String(sales1[SalesIndexes.NAME]).split(' ')[0]}`;
           }
-        } else {
-          return '';
         }
       },
     },
@@ -202,6 +198,9 @@ function getColumns(args: { per1: string; per2: string; shops: Shop[] | null; se
     {
       title: 'Рост %',
       fn: (sales1: (string | number)[], sales2: (string | number)[]) => {
+        if (sales2[SalesIndexes.TO] === 0) {
+          return 0;
+        }
         let first = +sales1[SalesIndexes.TO];
         let second = +sales2[SalesIndexes.TO];
         if (first < 0) first = first * -1;
@@ -225,6 +224,9 @@ function getColumns(args: { per1: string; per2: string; shops: Shop[] | null; se
     {
       title: 'Рост %',
       fn: (sales1: (string | number)[], sales2: (string | number)[]) => {
+        if (sales2[SalesIndexes.DEVICES] === 0) {
+          return 0;
+        }
         let first = +sales1[SalesIndexes.DEVICES];
         let second = +sales2[SalesIndexes.DEVICES];
         if (first < 0) first = first * -1;
@@ -246,6 +248,9 @@ function getColumns(args: { per1: string; per2: string; shops: Shop[] | null; se
     {
       title: 'Рост %',
       fn: (sales1: (string | number)[], sales2: (string | number)[]) => {
+        if (sales2[service] === 0) {
+          return 0;
+        }
         let first = +sales1[service] || 0;
         let second = +sales2[service] || 0;
         if (first < 0) first = first * -1;
@@ -268,12 +273,14 @@ function getColumns(args: { per1: string; per2: string; shops: Shop[] | null; se
     {
       title: 'Рост %',
       fn: (sales1: (string | number)[], sales2: (string | number)[]) => {
+        if (sales2[service] === 0) {
+          return -100;
+        }
         let first = +sales1[service] / +sales1[SalesIndexes.DEVICES];
         let second = +sales2[service] / +sales2[SalesIndexes.DEVICES];
         if (first < 0) first = first * -1;
         if (second < 0) second = second * -1;
         const result =
-          //если         //добавить -
           first > second ? -((first / second) * 100 - 100) : (second / first) * 100 - 100;
         return result.toFixed(2);
       },

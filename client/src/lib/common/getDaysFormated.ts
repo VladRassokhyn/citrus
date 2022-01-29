@@ -11,7 +11,7 @@ const weekDays = [
 ];
 
 export function getDaysFormated(month: number, year: number) {
-  const daysCount = new Date(year, month - 1, 0).getDate();
+  const daysCount = new Date(year, month + 1, 0).getDate();
   const days = [];
 
   for (let i = 1; i <= daysCount; i++) {
